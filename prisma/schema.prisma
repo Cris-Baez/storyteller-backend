@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model email_tokens {
+  id        Int            @id @default(autoincrement())
+  userId    Int
+  token     String         @unique
+  type      EmailTokenType
+  expiresAt DateTime
+  createdAt DateTime       @default(now())
+  users     users          @relation(fields: [userId], references: [id])
+}
+
+model referral {
+  id         Int      @id @default(autoincrement())
+  referrer   String
+  signup     Boolean  @default(false)
+  created_at DateTime @default(now()) @db.Timestamp(6)
+}
+
+model refresh_tokens {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  token     String    @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+  users     users     @relation(fields: [userId], references: [id])
+}
+
+model subscriptions {
+  id           Int       @id @default(autoincrement())
+  user_id      Int
+  paddle_id    String    @unique
+  plan_id      String
+  status       String
+  next_bill_at DateTime? @db.Timestamp(6)
+}
+
+model users {
+  id             Int              @id @default(autoincrement())
+  email          String           @unique
+  password       String
+  status         String           @default("PENDING")
+  verify_token   String?
+  created_at     DateTime         @default(now()) @db.Timestamp(6)
+  verify_expires DateTime?        @db.Timestamp(6)
+  credits        Int              @default(0)
+  plan           String           @default("free")
+  email_tokens   email_tokens[]
+  refresh_tokens refresh_tokens[]
+}
+
+model webhook_logs {
+  id         Int      @id @default(autoincrement())
+  webhook_id String   @unique
+  created_at DateTime @default(now()) @db.Timestamp(6)
+}
+
+enum EmailTokenType {
+  VERIFY
+  RESET
+}

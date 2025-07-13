@@ -1,0 +1,10 @@
+.vercel
+node_modules
+.vercel
+.git
+.next
+dist
+.vscode
+.env
+
+/generated/prisma
