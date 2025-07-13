@@ -21,3 +21,137 @@
 2025-07-13T19:28:14.571Z [warn] LLM gpt-4-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
 2025-07-13T19:28:18.054Z [warn] LLM gpt-3.5-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
 2025-07-13T19:35:21.757Z [info] Storyteller AI backend running on 3000
+2025-07-13T19:39:42.385Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-13T19:39:47.122Z [warn] LLM openai/gpt-4.1 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:39:50.537Z [warn] LLM anthropic/claude-sonnet-4 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:39:54.183Z [warn] LLM google/gemini-2.5-pro falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:39:59.715Z [warn] LLM openai/gpt-4.1 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:40:03.401Z [warn] LLM anthropic/claude-sonnet-4 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:40:07.190Z [warn] LLM google/gemini-2.5-pro falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:40:12.205Z [warn] LLM openai/gpt-4.1 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:40:15.633Z [warn] LLM anthropic/claude-sonnet-4 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:40:19.271Z [warn] LLM google/gemini-2.5-pro falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:40:20.775Z [error] ❌ Error en runRenderPipeline: Todos los modelos LLM fallaron
+2025-07-13T19:43:32.430Z [info] Storyteller AI backend running on 3000
+2025-07-13T19:43:50.541Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-13T19:43:55.027Z [warn] LLM openai/gpt-4.1 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:43:58.709Z [warn] LLM anthropic/claude-sonnet-4 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:44:02.409Z [warn] LLM google/gemini-2.5-pro falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:44:07.527Z [warn] LLM openai/gpt-4.1 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:44:11.125Z [warn] LLM anthropic/claude-sonnet-4 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:44:15.194Z [warn] LLM google/gemini-2.5-pro falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:44:20.225Z [warn] LLM openai/gpt-4.1 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:44:23.675Z [warn] LLM anthropic/claude-sonnet-4 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:44:27.089Z [warn] LLM google/gemini-2.5-pro falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:44:28.607Z [error] ❌ Error en runRenderPipeline: Todos los modelos LLM fallaron
+2025-07-13T19:45:49.517Z [info] Storyteller AI backend running on 3000
+2025-07-13T19:46:06.497Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-13T19:46:10.918Z [warn] LLM openai/gpt-4-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:46:14.601Z [warn] LLM anthropic/claude-2 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:46:18.237Z [warn] LLM google/gemini-1.5 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:46:23.306Z [warn] LLM openai/gpt-4-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:46:26.785Z [warn] LLM anthropic/claude-2 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:46:30.273Z [warn] LLM google/gemini-1.5 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:46:35.503Z [warn] LLM openai/gpt-4-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:46:38.968Z [warn] LLM anthropic/claude-2 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:46:42.454Z [warn] LLM google/gemini-1.5 falló: 401 Incorrect API key provided: sk-or-v1*************************************************************8ac0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:46:43.964Z [error] ❌ Error en runRenderPipeline: Todos los modelos LLM fallaron
+2025-07-13T19:47:59.239Z [info] Storyteller AI backend running on 3000
+2025-07-13T19:48:07.185Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-13T19:48:08.169Z [warn] LLM openai/gpt-4-turbo falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:48:08.469Z [warn] LLM anthropic/claude-2 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:48:08.830Z [warn] LLM google/gemini-1.5 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:48:10.641Z [warn] LLM openai/gpt-4-turbo falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:48:10.915Z [warn] LLM anthropic/claude-2 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:48:11.174Z [warn] LLM google/gemini-1.5 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:48:13.007Z [warn] LLM openai/gpt-4-turbo falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:48:13.267Z [warn] LLM anthropic/claude-2 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:48:13.622Z [warn] LLM google/gemini-1.5 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:48:15.126Z [error] ❌ Error en runRenderPipeline: Todos los modelos LLM fallaron
+2025-07-13T19:49:19.152Z [info] Storyteller AI backend running on 3000
+2025-07-13T19:49:26.275Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-13T19:49:27.038Z [warn] LLM openai/gpt-4-turbo falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:49:27.301Z [warn] LLM anthropic/claude-2 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:49:27.560Z [warn] LLM google/gemini-1.5 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:49:29.454Z [warn] LLM openai/gpt-4-turbo falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:49:29.812Z [warn] LLM anthropic/claude-2 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:49:30.107Z [warn] LLM google/gemini-1.5 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:49:31.933Z [warn] LLM openai/gpt-4-turbo falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:49:32.229Z [warn] LLM anthropic/claude-2 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:49:32.521Z [warn] LLM google/gemini-1.5 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:49:34.024Z [error] ❌ Error en runRenderPipeline: Todos los modelos LLM fallaron
+2025-07-13T19:51:30.806Z [info] Storyteller AI backend running on 3000
+2025-07-13T19:51:37.486Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-13T19:51:38.166Z [warn] LLM openai/gpt-4-turbo falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:51:38.478Z [warn] LLM anthropic/claude-2 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:51:38.841Z [warn] LLM google/gemini-1.5 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:51:40.642Z [warn] LLM openai/gpt-4-turbo falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:51:40.900Z [warn] LLM anthropic/claude-2 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:51:41.341Z [warn] LLM google/gemini-1.5 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:51:43.110Z [warn] LLM openai/gpt-4-turbo falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:51:43.375Z [warn] LLM anthropic/claude-2 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:51:43.669Z [warn] LLM google/gemini-1.5 falló: Cannot read properties of undefined (reading '0')
+2025-07-13T19:51:45.173Z [error] ❌ Error en runRenderPipeline: Todos los modelos LLM fallaron
+2025-07-13T19:55:15.939Z [info] Storyteller AI backend running on 3000
+2025-07-13T19:55:25.425Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-13T19:55:25.428Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-13T19:55:36.915Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-13T19:55:36.916Z [info] 📝 Contenido raw: Lo siento, parece que ha habido un error. Por favor, proporciona la información o el contexto que deseas que incluya en el guion, y comenzaré a trabajar en ello....
+2025-07-13T19:55:37.832Z [warn] ❌ LLM openai/gpt-4o falló: Unexpected token 'L', "Lo siento,"... is not valid JSON
+2025-07-13T19:55:37.833Z [warn] ❌ Stack trace: SyntaxError: Unexpected token 'L', "Lo siento,"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/services/llmService.ts:163:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/utils/retry.ts:5:20)
+    at async runRenderPipeline (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/pipelines/renderPipeline.ts:37:22)
+    at async Immediate.<anonymous> (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/jobs/jobQueue.ts:10:28)
+2025-07-13T19:55:37.834Z [info] 🤖 Intentando modelo: openai/gpt-4-turbo
+2025-07-13T19:56:18.793Z [info] ✅ Respuesta recibida de openai/gpt-4-turbo
+2025-07-13T19:56:18.794Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "A serene, snow-covered forest, snowflakes gently falling.",
+      "camera": {"shot": "wide", "movement": "dolly-in"},
+      "emotion": "wonder",
+...
+2025-07-13T19:56:18.795Z [warn] ❌ LLM openai/gpt-4-turbo falló: La longitud de "timeline" (21) no coincide con la duración (30)
+2025-07-13T19:56:18.795Z [warn] ❌ Stack trace: Error: La longitud de "timeline" (21) no coincide con la duración (30)
+    at validateResponse (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/services/llmService.ts:137:19)
+    at createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/services/llmService.ts:165:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/utils/retry.ts:5:20)
+    at async runRenderPipeline (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/pipelines/renderPipeline.ts:37:22)
+    at async Immediate.<anonymous> (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/jobs/jobQueue.ts:10:28)
+2025-07-13T19:56:18.796Z [info] 🤖 Intentando modelo: anthropic/claude-3-sonnet
+2025-07-13T19:56:25.445Z [error] ❌ Error en runRenderPipeline: timeout
+2025-07-13T19:56:30.254Z [info] ✅ Respuesta recibida de anthropic/claude-3-sonnet
+2025-07-13T19:56:30.255Z [info] 📝 Contenido raw: ```json
+{
+ "timeline":[
+   {
+     "t":0,
+     "visual":"Una vasta llanura desértica se extiende hasta el horizonte",
+     "camera":{"shot":"wide","movement":"static"},
+     "emotion":"calma",
+     "di...
+2025-07-13T19:56:40.502Z [warn] ❌ LLM anthropic/claude-3-sonnet falló: Unexpected token '`', "```json
+{
+"... is not valid JSON
+2025-07-13T19:56:40.503Z [warn] ❌ Stack trace: SyntaxError: Unexpected token '`', "```json
+{
+"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/services/llmService.ts:163:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/utils/retry.ts:5:20)
+2025-07-13T19:56:42.019Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-13T19:56:43.622Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-13T19:56:43.623Z [info] 📝 Contenido raw: Lo siento, parece que hubo un error. Por favor, proporciona las instrucciones o el contexto que deseas para que pueda asistirte adecuadamente....
+2025-07-13T19:56:44.496Z [warn] ❌ LLM openai/gpt-4o falló: Unexpected token 'L', "Lo siento,"... is not valid JSON
+2025-07-13T19:56:44.498Z [warn] ❌ Stack trace: SyntaxError: Unexpected token 'L', "Lo siento,"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/services/llmService.ts:163:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/utils/retry.ts:5:20)
+2025-07-13T19:56:44.499Z [info] 🤖 Intentando modelo: openai/gpt-4-turbo
