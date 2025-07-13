@@ -25,7 +25,7 @@ import { uploadToCDN }  from './cdnService.js';
 
 /* ─── Config ─────────────────────────────────────────────── */
 const SDXL_MODEL   = 'stability-ai/sdxl';
-const SDXL_VERSION = 'e5930a4d94d9f2ba216e6985cce437e6328088b8e4766ca00eeaa7bb27d6a1df';
+const SDXL_VERSION = '39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b';
 const TMP_DIR      = 'C:\\tmp\\storyboards_v6';
 const TIMEOUT_IMG  = 60_000;  // 60 s por imagen
 
@@ -61,15 +61,23 @@ function buildPrompt(sec: TimelineSecond, style: VideoPlan['metadata']['visualSt
 
 /* ---- Providers ---- */
 async function genWithSDXL(prompt: string) {
-  const out = await withTimeout(
-    retry(() =>
-      replicate.run(`${SDXL_MODEL}:${SDXL_VERSION}`, {
-        input: { prompt, width: 1024, height: 1024, num_inference_steps: 30 }
-      }),
-      2
-    )
-  );
-  return (out as string[])[0] as string;
+  try {
+    const out = await withTimeout(
+      retry(() =>
+        replicate.run(`${SDXL_MODEL}:${SDXL_VERSION}`, {
+          input: { prompt, width: 1024, height: 1024, num_inference_steps: 30 }
+        }),
+        2
+      )
+    );
+    return (out as string[])[0] as string;
+  } catch (e: any) {
+    logger.error(`SDXL error: ${e.message}`);
+    if (e.response) {
+      logger.error(`SDXL response: ${JSON.stringify(e.response.data)}`);
+    }
+    throw new Error('SDXL generation failed');
+  }
 }
 
 async function genWithDalle(prompt: string) {

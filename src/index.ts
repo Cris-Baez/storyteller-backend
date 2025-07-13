@@ -23,7 +23,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
-app.use('/render', renderRouter);
+app.use('/api/render', renderRouter);
 
 // Manejo de errores del servidor
 app.use((error: any, req: any, res: any, next: any) => {

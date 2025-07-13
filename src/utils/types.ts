@@ -93,3 +93,10 @@ export interface CharacterVoiceSpec {
 export interface Metadata {
   characters?: CharacterVoiceSpec[]; // Lista de personajes con especificaciones de voz
 }
+
+/* → Clip - segmento de video */
+export type Clip = {
+  id: string;
+  url: string;
+  duration: number;
+};

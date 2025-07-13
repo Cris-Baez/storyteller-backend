@@ -10,3 +10,739 @@
 2025-07-13T20:05:08.916Z [error] ❌ Error en runRenderPipeline: Invalid reference to model version: video-lcm/video-ldr/latest. Expected format: owner/name or owner/name:version
 2025-07-13T20:05:12.160Z [error] ❌ Error en generateStoryboards: 405 status code (no body)
 2025-07-13T20:05:53.393Z [error] ❌ Error en createVoiceOver: timeout
+2025-07-13T20:31:14.639Z [error] ❌ Error en generateClips: Formato de modelo inválido: undefined
+2025-07-13T20:31:14.641Z [error] ❌ Error en runRenderPipeline: Formato de modelo inválido: undefined
+2025-07-13T20:31:27.302Z [error] ❌ Error en generateStoryboards: 400 Billing hard limit has been reached
+2025-07-13T20:31:33.388Z [error] ❌ Error en createVoiceOver: concat fail
+2025-07-13T20:36:24.934Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:36:24.939Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:36:24.945Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:36:25.221Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:25.223Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:26.481Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:26.482Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:26.624Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:36:26.628Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:36:26.631Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:36:26.644Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:26.646Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:26.779Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:26.780Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:26.914Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:26.933Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:27.171Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:27.172Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:27.362Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:27.362Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:27.566Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:27.567Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:27.771Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:27.772Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:27.978Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:27.978Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:28.144Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:28.144Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:28.161Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.161Z [error] SDXL response: undefined
+2025-07-13T20:36:28.194Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.195Z [error] SDXL response: undefined
+2025-07-13T20:36:28.199Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.199Z [error] SDXL response: undefined
+2025-07-13T20:36:28.203Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.203Z [error] SDXL response: undefined
+2025-07-13T20:36:28.208Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.209Z [error] SDXL response: undefined
+2025-07-13T20:36:28.219Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.220Z [error] SDXL response: undefined
+2025-07-13T20:36:28.244Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.245Z [error] SDXL response: undefined
+2025-07-13T20:36:28.250Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.250Z [error] SDXL response: undefined
+2025-07-13T20:36:28.263Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.263Z [error] SDXL response: undefined
+2025-07-13T20:36:28.267Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.268Z [error] SDXL response: undefined
+2025-07-13T20:36:28.275Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.278Z [error] SDXL response: undefined
+2025-07-13T20:36:28.284Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.284Z [error] SDXL response: undefined
+2025-07-13T20:36:28.292Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.293Z [error] SDXL response: undefined
+2025-07-13T20:36:28.301Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.302Z [error] SDXL response: undefined
+2025-07-13T20:36:28.314Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:36:28.318Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:36:28.320Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:36:28.326Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:28.327Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:28.333Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.333Z [error] SDXL response: undefined
+2025-07-13T20:36:28.339Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.341Z [error] SDXL response: undefined
+2025-07-13T20:36:28.349Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.350Z [error] SDXL response: undefined
+2025-07-13T20:36:28.354Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.357Z [error] SDXL response: undefined
+2025-07-13T20:36:28.409Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.410Z [error] SDXL response: undefined
+2025-07-13T20:36:28.435Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.436Z [error] SDXL response: undefined
+2025-07-13T20:36:28.563Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:28.564Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:28.656Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:28.657Z [error] SDXL response: undefined
+2025-07-13T20:36:28.794Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:28.795Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:28.927Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:28.927Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:29.060Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:29.061Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:29.255Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:29.257Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:29.409Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:29.410Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:29.614Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:29.615Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:29.692Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:29.692Z [error] SDXL response: undefined
+2025-07-13T20:36:29.695Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:29.695Z [error] SDXL response: undefined
+2025-07-13T20:36:29.733Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:29.734Z [error] SDXL response: undefined
+2025-07-13T20:36:29.738Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:29.738Z [error] SDXL response: undefined
+2025-07-13T20:36:29.743Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:29.744Z [error] SDXL response: undefined
+2025-07-13T20:36:29.747Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:29.748Z [error] SDXL response: undefined
+2025-07-13T20:36:29.750Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:29.751Z [error] SDXL response: undefined
+2025-07-13T20:36:29.755Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:29.756Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:29.816Z [error] ❌ Error en generateClips: Formato de modelo inválido: video-lcm/film
+2025-07-13T20:36:29.817Z [error] ❌ Error en runRenderPipeline: Formato de modelo inválido: video-lcm/film
+2025-07-13T20:36:29.831Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:29.832Z [error] SDXL response: undefined
+2025-07-13T20:36:29.834Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:29.834Z [error] SDXL response: undefined
+2025-07-13T20:36:29.921Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:29.922Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:30.092Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:30.093Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:30.240Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:30.241Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:30.426Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:30.427Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:30.598Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:30.599Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:30.850Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:30.851Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:30.979Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:30.980Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:31.150Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:31.150Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:31.369Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:31.370Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:31.543Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:31.544Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:31.615Z [error] VoiceService error: concat fail
+2025-07-13T20:36:33.305Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:33.307Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:33.441Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:33.442Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:33.607Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:33.608Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:33.796Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.797Z [error] SDXL response: undefined
+2025-07-13T20:36:33.804Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.808Z [error] SDXL response: undefined
+2025-07-13T20:36:33.812Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.812Z [error] SDXL response: undefined
+2025-07-13T20:36:33.816Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.827Z [error] SDXL response: undefined
+2025-07-13T20:36:33.833Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.834Z [error] SDXL response: undefined
+2025-07-13T20:36:33.846Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.850Z [error] SDXL response: undefined
+2025-07-13T20:36:33.862Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.862Z [error] SDXL response: undefined
+2025-07-13T20:36:33.868Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.868Z [error] SDXL response: undefined
+2025-07-13T20:36:33.877Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.879Z [error] SDXL response: undefined
+2025-07-13T20:36:33.884Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.884Z [error] SDXL response: undefined
+2025-07-13T20:36:33.890Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.891Z [error] SDXL response: undefined
+2025-07-13T20:36:33.896Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.897Z [error] SDXL response: undefined
+2025-07-13T20:36:33.901Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.901Z [error] SDXL response: undefined
+2025-07-13T20:36:33.905Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.906Z [error] SDXL response: undefined
+2025-07-13T20:36:33.911Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.912Z [error] SDXL response: undefined
+2025-07-13T20:36:33.919Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.919Z [error] SDXL response: undefined
+2025-07-13T20:36:33.927Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.928Z [error] SDXL response: undefined
+2025-07-13T20:36:33.932Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.932Z [error] SDXL response: undefined
+2025-07-13T20:36:33.936Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.937Z [error] SDXL response: undefined
+2025-07-13T20:36:33.943Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.944Z [error] SDXL response: undefined
+2025-07-13T20:36:33.948Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.948Z [error] SDXL response: undefined
+2025-07-13T20:36:33.953Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.953Z [error] SDXL response: undefined
+2025-07-13T20:36:33.960Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:33.961Z [error] SDXL response: undefined
+2025-07-13T20:36:33.971Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:33.972Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:34.069Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:34.070Z [error] SDXL response: undefined
+2025-07-13T20:36:34.074Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:34.074Z [error] SDXL response: undefined
+2025-07-13T20:36:34.079Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:34.081Z [error] SDXL response: undefined
+2025-07-13T20:36:34.086Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:34.093Z [error] SDXL response: undefined
+2025-07-13T20:36:34.110Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:34.110Z [error] SDXL response: undefined
+2025-07-13T20:36:34.115Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:34.115Z [error] SDXL response: undefined
+2025-07-13T20:36:34.129Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:34.130Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:34.170Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:34.170Z [error] SDXL response: undefined
+2025-07-13T20:36:34.308Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:34.309Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:34.489Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:34.490Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:34.640Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:34.641Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:34.840Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:34.842Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:35.049Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:35.050Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:35.246Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:35.246Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:35.465Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:35.466Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:35.666Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:35.667Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:35.861Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:35.861Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:36.127Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:36.128Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:36.272Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:36.273Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:36.475Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:36.475Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:36.695Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:36.697Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:36.886Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:36.887Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:37.091Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:37.092Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:37.297Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:37.298Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:37.456Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:37.457Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:37.646Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:37.647Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:37.777Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:37.778Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:37.915Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:37.916Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:38.064Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:38.064Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:38.219Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:38.221Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:38.420Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:38.422Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:38.579Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:38.581Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:38.729Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:38.730Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:38.812Z [error] VoiceService error: concat fail
+2025-07-13T20:36:39.166Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.167Z [error] SDXL response: undefined
+2025-07-13T20:36:39.172Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.173Z [error] SDXL response: undefined
+2025-07-13T20:36:39.180Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.181Z [error] SDXL response: undefined
+2025-07-13T20:36:39.188Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.189Z [error] SDXL response: undefined
+2025-07-13T20:36:39.198Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.198Z [error] SDXL response: undefined
+2025-07-13T20:36:39.208Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.213Z [error] SDXL response: undefined
+2025-07-13T20:36:39.220Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.226Z [error] SDXL response: undefined
+2025-07-13T20:36:39.232Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.233Z [error] SDXL response: undefined
+2025-07-13T20:36:39.243Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.244Z [error] SDXL response: undefined
+2025-07-13T20:36:39.251Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.251Z [error] SDXL response: undefined
+2025-07-13T20:36:39.259Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.260Z [error] SDXL response: undefined
+2025-07-13T20:36:39.265Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.265Z [error] SDXL response: undefined
+2025-07-13T20:36:39.271Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.271Z [error] SDXL response: undefined
+2025-07-13T20:36:39.279Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.280Z [error] SDXL response: undefined
+2025-07-13T20:36:39.284Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.285Z [error] SDXL response: undefined
+2025-07-13T20:36:39.296Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.297Z [error] SDXL response: undefined
+2025-07-13T20:36:39.301Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.301Z [error] SDXL response: undefined
+2025-07-13T20:36:39.310Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.311Z [error] SDXL response: undefined
+2025-07-13T20:36:39.317Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.318Z [error] SDXL response: undefined
+2025-07-13T20:36:39.323Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.327Z [error] SDXL response: undefined
+2025-07-13T20:36:39.333Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.333Z [error] SDXL response: undefined
+2025-07-13T20:36:39.343Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.344Z [error] SDXL response: undefined
+2025-07-13T20:36:39.349Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.349Z [error] SDXL response: undefined
+2025-07-13T20:36:39.418Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.419Z [error] SDXL response: undefined
+2025-07-13T20:36:39.426Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.426Z [error] SDXL response: undefined
+2025-07-13T20:36:39.431Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.432Z [error] SDXL response: undefined
+2025-07-13T20:36:39.439Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.441Z [error] SDXL response: undefined
+2025-07-13T20:36:39.447Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.447Z [error] SDXL response: undefined
+2025-07-13T20:36:39.483Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.484Z [error] SDXL response: undefined
+2025-07-13T20:36:39.493Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 422 Unprocessable Entity: {"title":"Invalid version or not permitted","detail":"The specified version does not exist (or perhaps you don't have permission to use it?)","status":422}
+.
+2025-07-13T20:36:39.494Z [error] SDXL response: undefined
+2025-07-13T20:36:40.510Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:40.512Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:40.678Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:40.681Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:40.879Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:40.880Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:41.089Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:41.090Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:41.292Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:41.293Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:41.496Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:41.496Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:41.572Z [error] ❌ Error en generateStoryboards: 400 Billing hard limit has been reached
+2025-07-13T20:36:41.630Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:41.631Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:41.804Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:41.804Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:42.022Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:42.023Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:42.213Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:42.216Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:42.418Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:42.419Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:42.623Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:42.626Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:42.759Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:42.761Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:42.929Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:42.929Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:43.149Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:43.149Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:43.341Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:43.344Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:43.545Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:43.546Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:43.748Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:43.749Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:43.953Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:43.954Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:44.152Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:44.153Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:44.366Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:44.366Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:44.569Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:44.570Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:44.777Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:44.778Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:44.932Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:44.933Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:45.081Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:45.082Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:45.284Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:45.285Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:45.492Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:45.493Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:36:45.697Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:45.702Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:45.873Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:45.877Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:46.104Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:36:46.104Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:36:46.160Z [error] VoiceService error: concat fail
+2025-07-13T20:41:31.506Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:41:31.507Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:41:31.529Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:41:31.862Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:41:31.864Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:41:32.008Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:41:32.013Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:41:32.014Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:41:32.015Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:41:32.212Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:41:32.213Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:41:32.420Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:41:32.422Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:41:33.144Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:41:33.149Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:41:33.154Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:41:34.774Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:41:34.783Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:41:34.805Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:41:36.282Z [error] ❌ Error en generateClips: Formato de modelo inválido: video-lcm/film
+2025-07-13T20:41:36.282Z [error] ❌ Error en runRenderPipeline: Formato de modelo inválido: video-lcm/film
+2025-07-13T20:46:30.449Z [error] ❌ Error en createVoiceOver: timeout
+2025-07-13T20:49:26.760Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:49:26.767Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:49:26.799Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:49:26.951Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:49:26.952Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:49:27.151Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:49:27.157Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:49:29.787Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:49:29.792Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:49:30.024Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:49:30.027Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:49:30.029Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:49:30.033Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:49:30.033Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:49:30.230Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:49:30.233Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:49:30.425Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:49:30.426Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:49:30.630Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:49:30.631Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:49:30.754Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:49:30.754Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:49:30.937Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:49:30.938Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:49:31.902Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:49:31.942Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:49:31.945Z [error] Runway API error: 400 Bad Request
+2025-07-13T20:49:33.432Z [error] ❌ Error en generateClips: Formato de modelo inválido: video-lcm/film
+2025-07-13T20:49:33.432Z [error] ❌ Error en runRenderPipeline: Formato de modelo inválido: video-lcm/film
+2025-07-13T20:55:33.530Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:33.531Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:33.674Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:33.675Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:33.847Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:33.849Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:34.052Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:34.053Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:34.189Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:34.189Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:34.359Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:34.361Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:34.564Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:34.566Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:34.700Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:34.702Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:34.864Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:34.865Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:35.076Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:35.076Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:35.281Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:35.282Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:35.485Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:35.485Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:35.689Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:35.690Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:35.895Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:35.895Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:36.079Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:36.079Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:36.306Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:36.307Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:36.521Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:36.521Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:36.713Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:36.714Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:36.922Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:36.928Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:37.122Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:37.122Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:37.329Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:37.330Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:37.534Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:37.535Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:37.726Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:37.727Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:37.943Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:37.943Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:38.162Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:38.163Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:38.343Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:38.344Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:38.556Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:38.557Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:38.689Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:38.690Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:38.864Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:38.865Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:39.071Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:39.071Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:39.133Z [error] VoiceService error: concat fail
+2025-07-13T20:55:40.809Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:40.810Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:41.029Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:41.030Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:41.219Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:41.221Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:41.424Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:41.424Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:41.630Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:41.631Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:41.841Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:41.842Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:42.038Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:42.038Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:42.244Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:42.244Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:42.449Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:42.450Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:42.653Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:42.654Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:42.858Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:42.859Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:43.062Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:43.063Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:43.191Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:43.193Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:43.370Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:43.370Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:43.575Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:43.576Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:43.780Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:43.781Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:43.985Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:43.986Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:44.191Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:44.192Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:44.394Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:44.394Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:44.598Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:44.599Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:44.809Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:44.811Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:45.011Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:45.012Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:45.146Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:45.147Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:45.322Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:45.323Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:45.520Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:45.522Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:45.732Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:45.734Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:45.872Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:45.872Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:46.042Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:46.043Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:46.227Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:46.227Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:46.418Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:46.418Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:46.491Z [error] VoiceService error: concat fail
+2025-07-13T20:55:48.183Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:48.188Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:48.381Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:48.384Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:48.592Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:48.594Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:48.800Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:48.801Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:49.002Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:49.003Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:49.208Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:49.208Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:49.412Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:49.412Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:49.619Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:49.620Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:49.820Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:49.821Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:50.025Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:50.025Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:50.199Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:50.199Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:50.333Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:50.333Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:50.537Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:50.538Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:50.742Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:50.742Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:51.359Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:51.360Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:51.563Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:51.563Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:51.699Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:51.700Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:51.854Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:51.855Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:51.983Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:51.983Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:52.183Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:52.183Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:52.384Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:52.389Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:52.585Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:52.586Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:52.791Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:52.791Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:52.995Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:52.996Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:53.183Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:53.184Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:53.312Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:53.312Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:53.507Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:53.507Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,44,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,125]}
+2025-07-13T20:55:53.716Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:53.717Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:53.921Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:53.931Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:54.138Z [error] Murf API error: Request failed with status code 400
+2025-07-13T20:55:54.140Z [error] Murf response: {"type":"Buffer","data":[123,34,101,114,114,111,114,77,101,115,115,97,103,101,34,58,34,77,105,115,115,105,110,103,32,39,97,112,105,45,107,101,121,39,32,111,114,32,39,116,111,107,101,110,39,32,104,101,97,100,101,114,34,44,34,101,114,114,111,114,67,111,100,101,34,58,52,48,48,125]}
+2025-07-13T20:55:54.211Z [error] VoiceService error: concat fail
+2025-07-13T20:55:55.709Z [error] ❌ Error en createVoiceOver: VoiceService failed
+2025-07-13T20:55:55.710Z [error] ❌ Error en runRenderPipeline: VoiceService failed
+2025-07-13T20:56:32.334Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.344Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.351Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.355Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.363Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.370Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.374Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.378Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.384Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.388Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.393Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.397Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.400Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.405Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.410Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.415Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.418Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.424Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.427Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.430Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.433Z [error] SDXL error: img timeout
+2025-07-13T20:56:32.440Z [error] SDXL error: img timeout
+2025-07-13T21:00:36.920Z [error] Murf API error: Request failed with status code 400
+2025-07-13T21:01:35.850Z [error] SDXL error: img timeout
+2025-07-13T21:01:35.858Z [error] SDXL error: img timeout
+2025-07-13T21:01:35.864Z [error] SDXL error: img timeout
+2025-07-13T21:01:35.875Z [error] SDXL error: img timeout
+2025-07-13T21:01:35.882Z [error] SDXL error: img timeout
+2025-07-13T21:05:35.847Z [error] ❌ Error en generateClips: timeout
+2025-07-13T21:05:35.848Z [error] ❌ Error en runRenderPipeline: timeout
+2025-07-13T21:05:35.864Z [error] ❌ Error en createVoiceOver: timeout
