@@ -155,3 +155,65 @@
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
     at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/utils/retry.ts:5:20)
 2025-07-13T19:56:44.499Z [info] 🤖 Intentando modelo: openai/gpt-4-turbo
+2025-07-13T19:59:17.462Z [info] Storyteller AI backend running on 3000
+2025-07-13T19:59:23.128Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-13T19:59:23.130Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-13T19:59:24.966Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-13T19:59:24.967Z [info] 📝 Contenido raw: Lo siento, parece que hubo un error. Por favor, proporciona un prompt claro para que pueda ayudarte mejor....
+2025-07-13T19:59:26.291Z [warn] ❌ LLM openai/gpt-4o falló: Unexpected token 'P', "Parece que"... is not valid JSON
+2025-07-13T19:59:26.293Z [warn] ❌ Stack trace: SyntaxError: Unexpected token 'P', "Parece que"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/services/llmService.ts:163:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/utils/retry.ts:5:20)
+    at async runRenderPipeline (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/pipelines/renderPipeline.ts:37:22)
+    at async Immediate.<anonymous> (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/jobs/jobQueue.ts:10:28)
+2025-07-13T19:59:26.294Z [info] 🤖 Intentando modelo: openai/gpt-4-turbo
+2025-07-13T19:59:54.081Z [info] ✅ Respuesta recibida de openai/gpt-4-turbo
+2025-07-13T19:59:54.083Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A dark, misty forest with towering trees.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"",
+     "soun...
+2025-07-13T19:59:54.085Z [warn] ❌ LLM openai/gpt-4-turbo falló: La longitud de "timeline" (16) no coincide con la duración (30)
+2025-07-13T19:59:54.087Z [warn] ❌ Stack trace: Error: La longitud de "timeline" (16) no coincide con la duración (30)
+    at validateResponse (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/services/llmService.ts:137:19)
+    at createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/services/llmService.ts:165:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/utils/retry.ts:5:20)
+    at async runRenderPipeline (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/pipelines/renderPipeline.ts:37:22)
+    at async Immediate.<anonymous> (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/jobs/jobQueue.ts:10:28)
+2025-07-13T19:59:54.089Z [info] 🤖 Intentando modelo: anthropic/claude-3-sonnet
+2025-07-13T20:00:19.847Z [info] ✅ Respuesta recibida de anthropic/claude-3-sonnet
+2025-07-13T20:00:19.849Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"Una vasta llanura cubierta de hierba dorada ondulante",
+     "camera":{"shot":"wide","movement":"static"},
+     "emotion":"calm",
+     "dialogue":"",
+  ...
+2025-07-13T20:00:19.851Z [warn] ❌ LLM anthropic/claude-3-sonnet falló: La longitud de "timeline" (13) no coincide con la duración (30)
+2025-07-13T20:00:19.853Z [warn] ❌ Stack trace: Error: La longitud de "timeline" (13) no coincide con la duración (30)
+    at validateResponse (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/services/llmService.ts:137:19)
+    at createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/services/llmService.ts:165:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/utils/retry.ts:5:20)
+    at async runRenderPipeline (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/pipelines/renderPipeline.ts:37:22)
+    at async Immediate.<anonymous> (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/jobs/jobQueue.ts:10:28)
+2025-07-13T20:00:21.362Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-13T20:00:22.509Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-13T20:00:22.510Z [info] 📝 Contenido raw: Lo siento, parece que ha habido un error. Por favor, proporciona un nuevo prompt o pregunta específica para que pueda ayudarte adecuadamente....
+2025-07-13T20:00:23.146Z [error] ❌ Error en runRenderPipeline: timeout
+2025-07-13T20:00:23.582Z [warn] ❌ LLM openai/gpt-4o falló: Unexpected token 'L', "Lo siento,"... is not valid JSON
+2025-07-13T20:00:23.583Z [warn] ❌ Stack trace: SyntaxError: Unexpected token 'L', "Lo siento,"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/services/llmService.ts:163:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/utils/retry.ts:5:20)
+2025-07-13T20:00:23.584Z [info] 🤖 Intentando modelo: openai/gpt-4-turbo

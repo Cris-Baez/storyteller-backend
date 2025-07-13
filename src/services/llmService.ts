@@ -57,12 +57,28 @@ async function fixJson(raw: string, model: string): Promise<string> {
     JSON.parse(raw);
     return raw;
   } catch {
+    // Si no es JSON, intentar extraer JSON del texto
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      try {
+        JSON.parse(jsonMatch[0]);
+        return jsonMatch[0];
+      } catch {
+        // Si el JSON extraído también falla, intentar repararlo
+      }
+    }
+    
+    // Si el texto contiene respuestas en español, rechazarlo directamente
+    if (raw.includes('Lo siento') || raw.includes('Parece que') || raw.includes('error')) {
+      throw new Error('La respuesta contiene texto explicativo en lugar de JSON');
+    }
+    
     try {
       const { choices } = await client.chat.completions.create({
         model,
         temperature: 0,
         messages: [
-          { role: 'system', content: 'Corrige el JSON para que sea sintácticamente válido. Devuelve solo JSON.' },
+          { role: 'system', content: 'Fix this JSON to be syntactically valid. Return ONLY valid JSON, no explanations.' },
           { role: 'user',   content: raw.slice(0, 7000) }
         ]
       });
@@ -113,28 +129,63 @@ export async function createVideoPlan(req: RenderRequest): Promise<VideoPlan> {
   const { prompt, mode, visualStyle, duration, audio } = req;
   const temp = temperatureByDur(duration);
 
-  // Mejorar la validación del prompt
+  // Validación del prompt y limpieza
   if (!prompt || typeof prompt !== 'string' || prompt.trim().length < 10) {
     throw new Error('El prompt está vacío, no es válido o es demasiado corto');
   }
 
-  const SYSTEM = `
-Eres un *showrunner* de cine/TV de clase mundial. Debes producir un guion
-ULTRA detallado a razón de 1 segundo = 1 objeto en array "timeline".
+  // Limpiar el prompt de caracteres problemáticos
+  const cleanPrompt = prompt.trim().replace(/[^\x00-\x7F]/g, "");
+  logger.info(`🎬 Prompt limpio: ${cleanPrompt.substring(0, 100)}...`);
 
-Formato JSON ESTRICTO:
+  // Función para completar timeline si faltan segundos
+  function completeTimeline(timeline: any[], targetDuration: number): any[] {
+    if (timeline.length >= targetDuration) {
+      return timeline.slice(0, targetDuration);
+    }
+    
+    const completed = [...timeline];
+    const lastItem = timeline[timeline.length - 1] || {
+      visual: "Continuing scene",
+      camera: { shot: "medium", movement: "none" },
+      emotion: "neutral",
+      soundCue: "quiet"
+    };
+    
+    for (let i = timeline.length; i < targetDuration; i++) {
+      completed.push({
+        ...lastItem,
+        t: i,
+        visual: `${lastItem.visual} (continued)`
+      });
+    }
+    
+    return completed;
+  }
+
+  const SYSTEM = `
+You are a world-class film/TV showrunner. You must produce an ULTRA detailed script at 1 second = 1 object in "timeline" array.
+
+CRITICAL REQUIREMENTS:
+- You MUST generate EXACTLY ${duration} timeline objects (one for each second)
+- Each object represents 1 second of the video
+- Timeline must start at t:0 and end at t:${duration-1}
+- You MUST respond ONLY with valid JSON, no other text
+- Do not include any explanations or text outside the JSON
+
+STRICT JSON FORMAT:
 
 {
  "timeline":[
    {
      "t":0,
-     "visual":"descripción exacta…",
+     "visual":"exact description...",
      "camera":{"shot":"wide","movement":"dolly-in"},
      "emotion":"wonder",
-     "dialogue":"Texto ≤15 palabras",
-     "voiceLine":"(opcional) Narración VO",
+     "dialogue":"Text ≤15 words",
+     "voiceLine":"(optional) VO narration",
      "soundCue":"quiet|rise|climax|fade",
-     "effects":"(opcional) partículas/luz",
+     "effects":"(optional) particles/light",
      "assets":["prop1","prop2"],
      "highlight":false,
      "sceneMood":"epic",
@@ -148,16 +199,21 @@ Formato JSON ESTRICTO:
  }
 }
 
-• timeline.length DEBE = duration. Prohíbe texto extra, sin Markdown.`;
+REMEMBER: timeline.length MUST equal ${duration}. No extra text, no markdown.`;
 
   // Validar la estructura de la respuesta antes de procesarla
-  function validateResponse(parsed: any, duration: AllowedDuration): void {
+  function validateAndFixResponse(parsed: any, duration: AllowedDuration): any {
     if (!Array.isArray(parsed.timeline)) {
       throw new Error('La respuesta no contiene un array "timeline" válido');
     }
+    
+    // En lugar de fallar, completar el timeline automáticamente
     if (parsed.timeline.length !== duration) {
-      throw new Error(`La longitud de "timeline" (${parsed.timeline.length}) no coincide con la duración (${duration})`);
+      logger.warn(`⚠️  Timeline incompleto (${parsed.timeline.length}/${duration}), completando automáticamente...`);
+      parsed.timeline = completeTimeline(parsed.timeline, duration);
     }
+    
+    return parsed;
   }
 
   for (const model of MODELS) {
@@ -171,7 +227,7 @@ Formato JSON ESTRICTO:
             temperature: temp,
             messages: [
               { role: 'system', content: SYSTEM },
-              { role: 'user',   content: prompt }
+              { role: 'user',   content: cleanPrompt }
             ]
           }),
           RETRIES
@@ -196,10 +252,10 @@ Formato JSON ESTRICTO:
       raw = await fixJson(raw, model);
       const parsed = JSON.parse(raw);
 
-      // Validar la respuesta antes de procesarla
-      validateResponse(parsed, duration);
+      // Validar y arreglar la respuesta antes de procesarla
+      const fixedParsed = validateAndFixResponse(parsed, duration);
 
-      const timeline: TimelineSecond[] = parsed.timeline.map((s: any, t: number) => sanitizeSecond(s, t));
+      const timeline: TimelineSecond[] = fixedParsed.timeline.map((s: any, t: number) => sanitizeSecond(s, t));
 
       const plan: VideoPlan = {
         timeline,

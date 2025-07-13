@@ -16,6 +16,9 @@ const renderRequestSchema = z.object({
 renderRouter.post('/', async (req, res) => {
   try {
     console.log('Datos recibidos:', req.body);
+    console.log('Prompt recibido (raw):', JSON.stringify(req.body.prompt));
+    console.log('Prompt recibido (bytes):', Buffer.from(req.body.prompt || '', 'utf8'));
+    
     const validatedBody = renderRequestSchema.parse(req.body);
 
     const jobId = await startJob(validatedBody);
