@@ -20,3 +20,4 @@
 2025-07-13T19:28:11.202Z [warn] LLM gpt-4o falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
 2025-07-13T19:28:14.571Z [warn] LLM gpt-4-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
 2025-07-13T19:28:18.054Z [warn] LLM gpt-3.5-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:35:21.757Z [info] Storyteller AI backend running on 3000
