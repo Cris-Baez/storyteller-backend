@@ -39,33 +39,53 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
   logger.info('🚀 Pipeline v6 — inicio render');
   const t0 = Date.now();
 
-  /* 1️⃣  Plan milimétrico */
-  const plan: VideoPlan = await withTimeout(retry(()=>createVideoPlan(req)), TIMEOUT);
-  logger.info(`📜 Plan OK (${plan.timeline.length}s)`);
+  try {
+    /* 1️⃣  Plan milimétrico */
+    const plan: VideoPlan = await withTimeout(retry(()=>createVideoPlan(req)), TIMEOUT);
+    logger.info(`📜 Plan OK (${plan.timeline.length}s)`);
 
-  /* 2️⃣  Storyboards · Clips · VO · Música (paralelo) */
-  const [
-    storyboardUrls,
-    clips,
-    voiceOver,
-    music
-  ] = await Promise.all([
-    withTimeout(retry(()=>generateStoryboards(plan))),
-    withTimeout(retry(()=>generateClips(plan))),
-    withTimeout(retry(()=>createVoiceOver(plan))),
-    withTimeout(retry(()=>getBackgroundMusic(plan.metadata.music?.mood ?? req.mode)))
-  ]);
+    /* 2️⃣  Storyboards · Clips · VO · Música (paralelo) */
+    const [
+      storyboardUrls,
+      clips,
+      voiceOver,
+      music
+    ] = await Promise.all([
+      withTimeout(retry(()=>generateStoryboards(plan))).catch(err => {
+        logger.error(`❌ Error en generateStoryboards: ${err.message}`);
+        throw err;
+      }),
+      withTimeout(retry(()=>generateClips(plan))).catch(err => {
+        logger.error(`❌ Error en generateClips: ${err.message}`);
+        throw err;
+      }),
+      withTimeout(retry(()=>createVoiceOver(plan))).catch(err => {
+        logger.error(`❌ Error en createVoiceOver: ${err.message}`);
+        throw err;
+      }),
+      withTimeout(retry(()=>getBackgroundMusic(plan.metadata.music?.mood ?? req.mode))).catch(err => {
+        logger.error(`❌ Error en getBackgroundMusic: ${err.message}`);
+        throw err;
+      })
+    ]);
 
-  logger.info(`Assets → SB:${storyboardUrls.length}  Clips:${clips.length}  VO:${voiceOver.length}B  BGM:${music.length}B`);
+    logger.info(`Assets → SB:${storyboardUrls.length}  Clips:${clips.length}  VO:${voiceOver.length}B  BGM:${music.length}B`);
 
-  /* 3️⃣  Ensamblado final */
-  const url = await withTimeout(
-    retry(()=>assembleVideo({ plan, clips, voiceOver, music })),
-    TIMEOUT * 2   // FFmpeg puede requerir más tiempo
-  );
+    /* 3️⃣  Ensamblado final */
+    const url = await withTimeout(
+      retry(()=>assembleVideo({ plan, clips, voiceOver, music })),
+      TIMEOUT * 2   // FFmpeg puede requerir más tiempo
+    ).catch(err => {
+      logger.error(`❌ Error en assembleVideo: ${err.message}`);
+      throw err;
+    });
 
-  const elapsed = ((Date.now()-t0)/1000).toFixed(1);
-  logger.info(`✅ Render completo en ${elapsed}s → ${url}`);
+    const elapsed = ((Date.now()-t0)/1000).toFixed(1);
+    logger.info(`✅ Render completo en ${elapsed}s → ${url}`);
 
-  return { url, storyboardUrls };
+    return { url, storyboardUrls };
+  } catch (error) {
+    logger.error(`❌ Error en runRenderPipeline: ${error.message}`);
+    throw error;
+  }
 }
