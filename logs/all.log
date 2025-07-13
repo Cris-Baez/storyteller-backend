@@ -1,1 +1,22 @@
 2025-07-13T19:23:13.293Z [info] Storyteller AI backend running on 3000
+2025-07-13T19:27:04.121Z [info] Storyteller AI backend running on 3000
+2025-07-13T19:27:13.142Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-13T19:27:17.528Z [warn] LLM gpt-4o falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:21.322Z [warn] LLM gpt-4-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:25.114Z [warn] LLM gpt-3.5-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:30.151Z [warn] LLM gpt-4o falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:33.547Z [warn] LLM gpt-4-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:37.096Z [warn] LLM gpt-3.5-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:41.994Z [warn] LLM gpt-4o falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:44.187Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-13T19:27:45.494Z [warn] LLM gpt-4-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:47.578Z [warn] LLM gpt-4o falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:48.798Z [warn] LLM gpt-3.5-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:51.013Z [warn] LLM gpt-4-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:54.446Z [warn] LLM gpt-3.5-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:27:59.306Z [warn] LLM gpt-4o falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:28:02.791Z [warn] LLM gpt-4-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:28:06.177Z [warn] LLM gpt-3.5-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:28:11.202Z [warn] LLM gpt-4o falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:28:14.571Z [warn] LLM gpt-4-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-13T19:28:18.054Z [warn] LLM gpt-3.5-turbo falló: 401 Incorrect API key provided: sk-or-v1*************************************************************74f0. You can find your API key at https://platform.openai.com/account/api-keys.

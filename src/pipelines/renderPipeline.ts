@@ -85,7 +85,7 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
 
     return { url, storyboardUrls };
   } catch (error) {
-    logger.error(`❌ Error en runRenderPipeline: ${error.message}`);
+    logger.error(`❌ Error en runRenderPipeline: ${(error instanceof Error ? error.message : error)}`);
     throw error;
   }
 }

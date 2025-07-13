@@ -30,7 +30,7 @@ const client = new OpenAI({
   }
 });
 
-const MODELS      = ['gpt-4o', 'gpt-4-turbo', 'gpt-3.5-turbo'];
+const MODELS      = ['openai/gpt-4.1', 'anthropic/claude-sonnet-4', 'google/gemini-2.5-pro'];
 const TIMEOUT_MS  = 60_000;
 const RETRIES     = 2;
 
