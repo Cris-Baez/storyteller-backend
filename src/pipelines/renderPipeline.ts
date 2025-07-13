@@ -22,7 +22,7 @@ import { assembleVideo }      from '../services/ffmpegService.js';
 import { logger }   from '../utils/logger.js';
 import { retry }    from '../utils/retry.js';
 
-const TIMEOUT = 60_000;   // Reducido a 60 segundos
+const TIMEOUT = 300_000;   // 5 minutos para todo el pipeline
 
 /* Helper timeout */
 function withTimeout<T>(p: Promise<T>, ms = TIMEOUT): Promise<T> {
@@ -86,6 +86,6 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
     return { url, storyboardUrls };
   } catch (error) {
     logger.error(`❌ Error en runRenderPipeline: ${(error instanceof Error ? error.message : error)}`);
-    throw error;
+    throw new Error(`Pipeline falló: ${error instanceof Error ? error.message : error}`);
   }
 }

@@ -1,10 +1,11 @@
 import { runRenderPipeline } from '../pipelines/renderPipeline.js';
+import { randomUUID } from 'crypto';
 
 const jobStatus: Record<string, 'pending' | 'done' | 'error'> = {};
 const jobResults: Record<string, any> = {};
 
 export async function startJob({ prompt, mode, visualStyle, duration }: any) {
-  const jobId = crypto.randomUUID();
+  const jobId = randomUUID();
   jobStatus[jobId] = 'pending';
 
   // Render en segundo plano

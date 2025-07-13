@@ -217,3 +217,139 @@
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
     at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/src/utils/retry.ts:5:20)
 2025-07-13T20:00:23.584Z [info] 🤖 Intentando modelo: openai/gpt-4-turbo
+2025-07-13T20:03:59.633Z [info] Storyteller AI backend running on 3000
+2025-07-13T20:04:14.575Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-13T20:04:14.576Z [info] 🎬 Prompt limpio: Tu prompt aqu...
+2025-07-13T20:04:14.577Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-13T20:04:53.362Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-13T20:04:53.363Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast open landscape at dawn.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The world awakens with t...
+2025-07-13T20:04:53.366Z [info] 🎞️  VideoPlan listo (30s) via openai/gpt-4o
+2025-07-13T20:04:53.367Z [info] 📜 Plan OK (30s)
+2025-07-13T20:04:53.369Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-13T20:04:53.370Z [info] → Se generarán 30 frames de storyboard
+2025-07-13T20:04:53.378Z [info] 🎞️  ClipService v6 — iniciando…
+2025-07-13T20:04:53.380Z [info] 🎙️  VoiceService v6 – iniciando…
+2025-07-13T20:04:53.382Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-13T20:04:53.384Z [info] 🎵  Freesound query: cinematic
+2025-07-13T20:04:53.469Z [info] → 30 segmentos de vídeo
+2025-07-13T20:04:54.007Z [warn] Runway fail: Runway HTTP 401
+2025-07-13T20:04:54.013Z [warn] Runway fail: Runway HTTP 401
+2025-07-13T20:04:54.242Z [warn] Runway fail: Runway HTTP 401
+2025-07-13T20:04:54.849Z [warn] Murf error: Request failed with status code 404
+2025-07-13T20:04:58.115Z [warn] SDXL fallo para t=7 → usando DALL·E
+2025-07-13T20:04:58.122Z [warn] SDXL fallo para t=1 → usando DALL·E
+2025-07-13T20:04:58.128Z [warn] SDXL fallo para t=0 → usando DALL·E
+2025-07-13T20:04:58.134Z [warn] SDXL fallo para t=5 → usando DALL·E
+2025-07-13T20:04:58.146Z [warn] SDXL fallo para t=9 → usando DALL·E
+2025-07-13T20:04:58.151Z [warn] SDXL fallo para t=6 → usando DALL·E
+2025-07-13T20:04:58.157Z [warn] SDXL fallo para t=21 → usando DALL·E
+2025-07-13T20:04:58.176Z [warn] SDXL fallo para t=8 → usando DALL·E
+2025-07-13T20:04:58.184Z [warn] SDXL fallo para t=23 → usando DALL·E
+2025-07-13T20:04:58.190Z [warn] SDXL fallo para t=17 → usando DALL·E
+2025-07-13T20:04:58.192Z [warn] SDXL fallo para t=3 → usando DALL·E
+2025-07-13T20:04:58.196Z [warn] SDXL fallo para t=11 → usando DALL·E
+2025-07-13T20:04:58.204Z [warn] SDXL fallo para t=18 → usando DALL·E
+2025-07-13T20:04:58.209Z [warn] SDXL fallo para t=15 → usando DALL·E
+2025-07-13T20:04:58.212Z [warn] SDXL fallo para t=4 → usando DALL·E
+2025-07-13T20:04:58.214Z [warn] SDXL fallo para t=14 → usando DALL·E
+2025-07-13T20:04:58.220Z [warn] SDXL fallo para t=26 → usando DALL·E
+2025-07-13T20:04:58.226Z [warn] SDXL fallo para t=27 → usando DALL·E
+2025-07-13T20:04:58.229Z [warn] SDXL fallo para t=13 → usando DALL·E
+2025-07-13T20:04:58.231Z [warn] SDXL fallo para t=10 → usando DALL·E
+2025-07-13T20:04:58.251Z [warn] SDXL fallo para t=19 → usando DALL·E
+2025-07-13T20:04:58.257Z [warn] SDXL fallo para t=20 → usando DALL·E
+2025-07-13T20:04:58.264Z [warn] SDXL fallo para t=24 → usando DALL·E
+2025-07-13T20:04:58.272Z [warn] SDXL fallo para t=12 → usando DALL·E
+2025-07-13T20:04:58.280Z [warn] SDXL fallo para t=28 → usando DALL·E
+2025-07-13T20:04:58.288Z [warn] SDXL fallo para t=2 → usando DALL·E
+2025-07-13T20:04:58.295Z [warn] SDXL fallo para t=22 → usando DALL·E
+2025-07-13T20:04:58.302Z [warn] SDXL fallo para t=25 → usando DALL·E
+2025-07-13T20:04:58.308Z [warn] SDXL fallo para t=16 → usando DALL·E
+2025-07-13T20:04:58.313Z [warn] SDXL fallo para t=29 → usando DALL·E
+2025-07-13T20:04:59.435Z [info] 🎞️  ClipService v6 — iniciando…
+2025-07-13T20:04:59.473Z [info] → 30 segmentos de vídeo
+2025-07-13T20:04:59.763Z [warn] Runway fail: Runway HTTP 401
+2025-07-13T20:04:59.791Z [warn] Runway fail: Runway HTTP 401
+2025-07-13T20:04:59.795Z [warn] Runway fail: Runway HTTP 401
+2025-07-13T20:04:59.929Z [info] 🎙️  VoiceService v6 – iniciando…
+2025-07-13T20:05:00.665Z [warn] Murf error: Request failed with status code 404
+2025-07-13T20:05:01.081Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-13T20:05:01.082Z [info] → Se generarán 30 frames de storyboard
+2025-07-13T20:05:04.287Z [info] 🎞️  ClipService v6 — iniciando…
+2025-07-13T20:05:04.288Z [info] → 30 segmentos de vídeo
+2025-07-13T20:05:04.390Z [warn] Runway fail: Runway HTTP 401
+2025-07-13T20:05:04.395Z [warn] Runway fail: Runway HTTP 401
+2025-07-13T20:05:04.397Z [warn] Runway fail: Runway HTTP 401
+2025-07-13T20:05:04.809Z [warn] SDXL fallo para t=18 → usando DALL·E
+2025-07-13T20:05:04.818Z [warn] SDXL fallo para t=29 → usando DALL·E
+2025-07-13T20:05:04.822Z [warn] SDXL fallo para t=0 → usando DALL·E
+2025-07-13T20:05:04.872Z [warn] SDXL fallo para t=4 → usando DALL·E
+2025-07-13T20:05:04.877Z [warn] SDXL fallo para t=7 → usando DALL·E
+2025-07-13T20:05:04.886Z [warn] SDXL fallo para t=5 → usando DALL·E
+2025-07-13T20:05:04.907Z [warn] SDXL fallo para t=20 → usando DALL·E
+2025-07-13T20:05:04.909Z [warn] SDXL fallo para t=14 → usando DALL·E
+2025-07-13T20:05:04.910Z [warn] SDXL fallo para t=2 → usando DALL·E
+2025-07-13T20:05:04.912Z [warn] SDXL fallo para t=1 → usando DALL·E
+2025-07-13T20:05:04.919Z [warn] SDXL fallo para t=8 → usando DALL·E
+2025-07-13T20:05:04.922Z [warn] SDXL fallo para t=19 → usando DALL·E
+2025-07-13T20:05:04.925Z [warn] SDXL fallo para t=10 → usando DALL·E
+2025-07-13T20:05:04.933Z [warn] SDXL fallo para t=15 → usando DALL·E
+2025-07-13T20:05:04.944Z [warn] SDXL fallo para t=21 → usando DALL·E
+2025-07-13T20:05:04.946Z [warn] SDXL fallo para t=23 → usando DALL·E
+2025-07-13T20:05:04.950Z [warn] SDXL fallo para t=13 → usando DALL·E
+2025-07-13T20:05:04.952Z [warn] SDXL fallo para t=24 → usando DALL·E
+2025-07-13T20:05:04.955Z [warn] SDXL fallo para t=22 → usando DALL·E
+2025-07-13T20:05:04.965Z [warn] SDXL fallo para t=6 → usando DALL·E
+2025-07-13T20:05:04.970Z [warn] SDXL fallo para t=12 → usando DALL·E
+2025-07-13T20:05:04.971Z [warn] SDXL fallo para t=11 → usando DALL·E
+2025-07-13T20:05:04.975Z [warn] SDXL fallo para t=9 → usando DALL·E
+2025-07-13T20:05:04.983Z [warn] SDXL fallo para t=25 → usando DALL·E
+2025-07-13T20:05:04.987Z [warn] SDXL fallo para t=3 → usando DALL·E
+2025-07-13T20:05:04.996Z [warn] SDXL fallo para t=26 → usando DALL·E
+2025-07-13T20:05:04.999Z [warn] SDXL fallo para t=17 → usando DALL·E
+2025-07-13T20:05:05.020Z [warn] SDXL fallo para t=27 → usando DALL·E
+2025-07-13T20:05:05.050Z [warn] SDXL fallo para t=16 → usando DALL·E
+2025-07-13T20:05:05.098Z [warn] SDXL fallo para t=28 → usando DALL·E
+2025-07-13T20:05:06.694Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-13T20:05:06.695Z [info] → Se generarán 30 frames de storyboard
+2025-07-13T20:05:08.915Z [error] ❌ Error en generateClips: Invalid reference to model version: video-lcm/video-ldr/latest. Expected format: owner/name or owner/name:version
+2025-07-13T20:05:08.916Z [error] ❌ Error en runRenderPipeline: Invalid reference to model version: video-lcm/video-ldr/latest. Expected format: owner/name or owner/name:version
+2025-07-13T20:05:10.109Z [warn] SDXL fallo para t=0 → usando DALL·E
+2025-07-13T20:05:10.141Z [warn] SDXL fallo para t=11 → usando DALL·E
+2025-07-13T20:05:10.147Z [warn] SDXL fallo para t=8 → usando DALL·E
+2025-07-13T20:05:10.155Z [warn] SDXL fallo para t=19 → usando DALL·E
+2025-07-13T20:05:10.159Z [warn] SDXL fallo para t=28 → usando DALL·E
+2025-07-13T20:05:10.166Z [warn] SDXL fallo para t=27 → usando DALL·E
+2025-07-13T20:05:10.182Z [warn] SDXL fallo para t=12 → usando DALL·E
+2025-07-13T20:05:10.189Z [warn] SDXL fallo para t=5 → usando DALL·E
+2025-07-13T20:05:10.193Z [warn] SDXL fallo para t=2 → usando DALL·E
+2025-07-13T20:05:10.201Z [warn] SDXL fallo para t=18 → usando DALL·E
+2025-07-13T20:05:10.206Z [warn] SDXL fallo para t=6 → usando DALL·E
+2025-07-13T20:05:10.215Z [warn] SDXL fallo para t=10 → usando DALL·E
+2025-07-13T20:05:10.220Z [warn] SDXL fallo para t=22 → usando DALL·E
+2025-07-13T20:05:10.224Z [warn] SDXL fallo para t=25 → usando DALL·E
+2025-07-13T20:05:10.229Z [warn] SDXL fallo para t=16 → usando DALL·E
+2025-07-13T20:05:10.234Z [warn] SDXL fallo para t=13 → usando DALL·E
+2025-07-13T20:05:10.241Z [warn] SDXL fallo para t=7 → usando DALL·E
+2025-07-13T20:05:10.246Z [warn] SDXL fallo para t=15 → usando DALL·E
+2025-07-13T20:05:10.251Z [warn] SDXL fallo para t=17 → usando DALL·E
+2025-07-13T20:05:10.257Z [warn] SDXL fallo para t=20 → usando DALL·E
+2025-07-13T20:05:10.263Z [warn] SDXL fallo para t=9 → usando DALL·E
+2025-07-13T20:05:10.293Z [warn] SDXL fallo para t=3 → usando DALL·E
+2025-07-13T20:05:10.301Z [warn] SDXL fallo para t=14 → usando DALL·E
+2025-07-13T20:05:10.308Z [warn] SDXL fallo para t=21 → usando DALL·E
+2025-07-13T20:05:10.318Z [warn] SDXL fallo para t=24 → usando DALL·E
+2025-07-13T20:05:10.321Z [warn] SDXL fallo para t=23 → usando DALL·E
+2025-07-13T20:05:10.325Z [warn] SDXL fallo para t=1 → usando DALL·E
+2025-07-13T20:05:10.331Z [warn] SDXL fallo para t=4 → usando DALL·E
+2025-07-13T20:05:10.335Z [warn] SDXL fallo para t=26 → usando DALL·E
+2025-07-13T20:05:10.467Z [warn] SDXL fallo para t=29 → usando DALL·E
+2025-07-13T20:05:12.160Z [error] ❌ Error en generateStoryboards: 405 status code (no body)
+2025-07-13T20:05:53.393Z [error] ❌ Error en createVoiceOver: timeout

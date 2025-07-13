@@ -6,3 +6,7 @@
 2025-07-13T19:51:45.173Z [error] ❌ Error en runRenderPipeline: Todos los modelos LLM fallaron
 2025-07-13T19:56:25.445Z [error] ❌ Error en runRenderPipeline: timeout
 2025-07-13T20:00:23.146Z [error] ❌ Error en runRenderPipeline: timeout
+2025-07-13T20:05:08.915Z [error] ❌ Error en generateClips: Invalid reference to model version: video-lcm/video-ldr/latest. Expected format: owner/name or owner/name:version
+2025-07-13T20:05:08.916Z [error] ❌ Error en runRenderPipeline: Invalid reference to model version: video-lcm/video-ldr/latest. Expected format: owner/name or owner/name:version
+2025-07-13T20:05:12.160Z [error] ❌ Error en generateStoryboards: 405 status code (no body)
+2025-07-13T20:05:53.393Z [error] ❌ Error en createVoiceOver: timeout

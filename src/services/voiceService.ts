@@ -54,9 +54,20 @@ async function murfTTS(text: string, voiceId: string): Promise<Buffer | null> {
   try {
     const { data } = await withTimeout(
       axios.post(
-        'https://api.murf.ai/v1/speech',
-        { text, voice: voiceId },
-        { headers: { Authorization: `Bearer ${env.MURF_API_KEY}` }, responseType: 'arraybuffer' }
+        'https://api.murf.ai/v1/speech/generate',
+        { 
+          voiceId: voiceId,
+          text: text,
+          format: 'WAV',
+          sampleRate: 48000
+        },
+        { 
+          headers: { 
+            'Authorization': `Bearer ${env.MURF_API_KEY}`,
+            'Content-Type': 'application/json'
+          }, 
+          responseType: 'arraybuffer' 
+        }
       )
     );
     return Buffer.from(data);

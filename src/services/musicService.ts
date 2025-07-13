@@ -20,7 +20,12 @@ import ffmpegPath          from 'ffmpeg-static';
 
 const TIMEOUT = 45_000;
 const CACHE_DIR = '/tmp/music_cache';
-await fs.mkdir(CACHE_DIR, { recursive: true });
+
+// Crear directorio de caché de forma síncrona
+import { existsSync, mkdirSync } from 'fs';
+if (!existsSync(CACHE_DIR)) {
+  mkdirSync(CACHE_DIR, { recursive: true });
+}
 
 function withTimeout<T>(p: Promise<T>, ms = TIMEOUT): Promise<T> {
   return Promise.race([

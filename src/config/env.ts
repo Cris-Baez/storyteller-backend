@@ -1,7 +1,12 @@
 import * as dotenv from 'dotenv';
 import { z } from 'zod';
 
-dotenv.config();
+// Cargar variables de entorno
+const result = dotenv.config();
+if (result.error) {
+  console.error('Error loading .env file:', result.error);
+  throw new Error('No se pudo cargar el archivo .env');
+}
 
 const schema = z.object({
   OPENAI_API_KEY: z.string(),
@@ -14,16 +19,7 @@ const schema = z.object({
   CDN_BUCKET_URL: z.string(),
   NODE_ENV: z.string().default('development'),
   OPENROUTER_API_KEY: z.string(),
-  OPENROUTER_BASE_URL: z.string().optional(),
-  OPENROUTER_HTTP_REFERER: z.string().optional(),
-  OPENROUTER_X_TITLE: z.string().optional(),
-  FREESOUND_API_KEY: z.string().optional(),
-  FFMPEG_TIMEOUT_MS: z.string().optional(),
-  GEN2_CONCURRENCY: z.string().optional(),
-  GEN2_TIMEOUT_MS: z.string().optional(),
-  GCP_PROJECT_ID: z.string(),
-  GCP_CREDENTIALS_JSON: z.string(),
-  GCP_BUCKET_NAME: z.string()
 });
 
-export const env = schema.parse(process.env);
+const env = schema.parse(process.env);
+export { env };

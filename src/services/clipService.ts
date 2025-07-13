@@ -135,15 +135,15 @@ async function dreamMachineGen(prompt:string,frames:number):Promise<string|null>
 }
 
 /* Replicate model map */
-const MODEL_MAP: Record<VideoPlan['metadata']['visualStyle'],{model:string;version:string}> = {
-  realistic:{model:'video-lcm/video-ldr',version:'latest'},
-  anime:{model:'animate-diffusion/animatediff',version:'c64f6a8c570c88b9a6b9e6c366b1e3e523f2e61bf5e691dd302ebb6acc65c581'},
-  cartoon:{model:'kling-ai/kling-v1',version:'latest'}
+const MODEL_MAP: Record<VideoPlan['metadata']['visualStyle'],string> = {
+  realistic: 'minimax/video-01',
+  anime: 'animate-diffusion/animatediff',
+  cartoon: 'minimax/video-01'
 };
 async function replicateGen(prompt:string,frames:number,style:VideoPlan['metadata']['visualStyle']):Promise<string>{
-  const {model,version} = MODEL_MAP[style];
+  const model = MODEL_MAP[style];
   const out = await withTimeout(
-    retry(()=>replicate.run(`${model}/${version}`,{input:{prompt,num_frames:frames}}),2) // Ajustado el formato
+    retry(()=>replicate.run(model,{input:{prompt,num_frames:frames}}),2)
   );
   return (out as string[])[0];
 }

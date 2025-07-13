@@ -30,7 +30,7 @@ const TMP_DIR      = 'C:\\tmp\\storyboards_v6';
 const TIMEOUT_IMG  = 60_000;  // 60 s por imagen
 
 const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
-const openai    = new OpenAI({ apiKey: env.OPENROUTER_API_KEY, baseURL: env.OPENROUTER_BASE_URL });
+const openai    = new OpenAI({ apiKey: env.OPENAI_API_KEY });
 
 /* Timeout helper */
 function withTimeout<T>(p: Promise<T>, ms = TIMEOUT_IMG): Promise<T> {

@@ -6,7 +6,9 @@ export const renderRouter = express.Router();
 
 // Esquema de validación
 const renderRequestSchema = z.object({
-  prompt: z.string().min(1, 'Prompt is required'),
+  prompt: z.string().min(1, 'Prompt is required').transform(val => 
+    val.replace(/[^\x00-\x7F]/g, "").trim() || "Create a cinematic story"
+  ),
   mode: z.enum(['cinematic', 'videogame', 'anime', 'cartoon', 'story', 'commercial']),
   visualStyle: z.enum(['realistic', 'anime', 'cartoon']),
   duration: z.number().min(1).max(300, 'Duration must be between 1 and 300 seconds'),
@@ -18,6 +20,21 @@ renderRouter.post('/', async (req, res) => {
     console.log('Datos recibidos:', req.body);
     console.log('Prompt recibido (raw):', JSON.stringify(req.body.prompt));
     console.log('Prompt recibido (bytes):', Buffer.from(req.body.prompt || '', 'utf8'));
+    
+    // Sanitizar el prompt
+    if (req.body.prompt) {
+      req.body.prompt = req.body.prompt
+        .replace(/[^\x00-\x7F]/g, "") // Eliminar caracteres no ASCII
+        .replace(/\s+/g, " ") // Normalizar espacios
+        .trim();
+      
+      // Si después de la sanitización queda muy corto, usar un prompt por defecto
+      if (req.body.prompt.length < 10) {
+        req.body.prompt = "Create a cinematic story about a character's journey through an epic adventure";
+      }
+    }
+    
+    console.log('Prompt sanitizado:', req.body.prompt);
     
     const validatedBody = renderRequestSchema.parse(req.body);
 
