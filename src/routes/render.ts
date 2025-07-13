@@ -15,6 +15,7 @@ const renderRequestSchema = z.object({
 // 1. Enviar trabajo
 renderRouter.post('/', async (req, res) => {
   try {
+    console.log('Datos recibidos:', req.body);
     const validatedBody = renderRequestSchema.parse(req.body);
 
     const jobId = await startJob(validatedBody);
@@ -29,6 +30,7 @@ renderRouter.post('/', async (req, res) => {
     console.log(`Job ${jobId} iniciado con datos:`, validatedBody);
   } catch (error) {
     if (error instanceof z.ZodError) {
+      console.error('Error de validación:', error.errors);
       return res.status(400).json({ error: error.errors });
     }
     console.error('Error interno:', error);
