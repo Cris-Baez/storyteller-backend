@@ -19,15 +19,19 @@ renderRouter.post('/', async (req, res) => {
 
     const jobId = await startJob(validatedBody);
 
+    // Respuesta rápida
     res.status(202).json({
       status: 'processing',
       jobId,
     });
+
+    // Log detallado
+    console.log(`Job ${jobId} iniciado con datos:`, validatedBody);
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: error.errors });
     }
-    console.error(error);
+    console.error('Error interno:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

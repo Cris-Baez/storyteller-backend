@@ -13,10 +13,12 @@ export async function startJob({ prompt, mode, visualStyle, duration }: any) {
       const result = await runRenderPipeline({ prompt, mode, visualStyle, duration });
       jobStatus[jobId] = 'done';
       jobResults[jobId] = result;
+      console.log(`Job ${jobId} completado con éxito. Resultado:`, result);
     } catch (error) {
       const err = error instanceof Error ? error : new Error(String(error));
       jobStatus[jobId] = 'error';
       jobResults[jobId] = { error: err.message };
+      console.error(`Error en el job ${jobId}:`, err);
     }
   });
 

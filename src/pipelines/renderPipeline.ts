@@ -22,7 +22,7 @@ import { assembleVideo }      from '../services/ffmpegService.js';
 import { logger }   from '../utils/logger.js';
 import { retry }    from '../utils/retry.js';
 
-const TIMEOUT = 120_000;   // 120 s límite por task
+const TIMEOUT = 60_000;   // Reducido a 60 segundos
 
 /* Helper timeout */
 function withTimeout<T>(p: Promise<T>, ms = TIMEOUT): Promise<T> {

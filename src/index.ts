@@ -6,7 +6,7 @@ import { logger } from './utils/logger.js';
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: '2mb' }));
+app.use(express.json({ limit: '10mb' }));
 app.use(morgan('dev'));
 
 app.use('/api/render', renderRouter);
