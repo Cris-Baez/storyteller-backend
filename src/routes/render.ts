@@ -1,18 +1,35 @@
 import express from 'express';
 import { startJob, getJobStatus, getJobResult } from '../jobs/jobQueue.js';
+import { z } from 'zod';
 
 export const renderRouter = express.Router();
 
+// Esquema de validación
+const renderRequestSchema = z.object({
+  prompt: z.string().min(1, 'Prompt is required'),
+  mode: z.enum(['cinematic', 'videogame', 'anime', 'cartoon', 'story', 'commercial']),
+  visualStyle: z.enum(['realistic', 'anime', 'cartoon']),
+  duration: z.number().min(1).max(300, 'Duration must be between 1 and 300 seconds'),
+});
+
 // 1. Enviar trabajo
 renderRouter.post('/', async (req, res) => {
-  const { prompt, style, type, duration } = req.body;
+  try {
+    const validatedBody = renderRequestSchema.parse(req.body);
 
-  const jobId = await startJob({ prompt, style, type, duration });
+    const jobId = await startJob(validatedBody);
 
-  res.status(202).json({
-    status: 'processing',
-    jobId,
-  });
+    res.status(202).json({
+      status: 'processing',
+      jobId,
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ error: error.errors });
+    }
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // 2. Ver estado
