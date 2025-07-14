@@ -121,18 +121,23 @@ function buildPrompt(
 /** Runway Gen-4 Turbo */
 async function runwayGen(prompt: string, frames: number, img?: string): Promise<string | null> {
   try {
-    // TEMPORALMENTE deshabilitamos promptImage para evitar errores 400
-    let createOpts: any = {
+    const createOpts: any = {
       model: 'gen4_turbo',
       promptText: prompt,
       duration: Math.ceil(frames / 24) <= 5 ? 5 : 10,
       ratio: '1280:720',
     };
-    
-    // NO usar promptImage por ahora para evitar errores
-    // TODO: Investigar formato exacto que requiere Runway para promptImage
+
     if (img) {
-      logger.info(`Imagen disponible pero no se usa en Runway por estabilidad: ${img}`);
+      try {
+        logger.info(`Procesando imagen de storyboard para Runway: ${img}`);
+        const imageResponse = await axios.get(img, { responseType: 'arraybuffer' });
+        const base64Image = Buffer.from(imageResponse.data).toString('base64');
+        createOpts.promptImage = base64Image;
+        logger.info('✅ Imagen convertida a Base64 y añadida a las opciones de Runway.');
+      } catch (e) {
+        logger.warn(`⚠️ No se pudo descargar o convertir la imagen para Runway. Error: ${(e as Error).message}. Continuando sin imagen.`);
+      }
     }
 
     const task = await runwayClient.imageToVideo

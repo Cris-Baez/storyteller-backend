@@ -59,6 +59,18 @@ function buildPrompt(sec: TimelineSecond, style: VideoPlan['metadata']['visualSt
   ].join(' ');
 }
 
+/* Función de validación de URL */
+function isValidHttpUrl(string: string | undefined | null): string is string {
+  if (!string) return false;
+  let url;
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+  return url.protocol === 'http:' || url.protocol === 'https:';
+}
+
 /* ---- Providers ---- */
 async function genWithFLUX(prompt: string) {
   try {
@@ -76,7 +88,12 @@ async function genWithFLUX(prompt: string) {
         2
       )
     );
-    return (out as string[])[0] as string;
+    const url = (out as string[])[0];
+    if (!isValidHttpUrl(url)) {
+      logger.error(`FLUX generó una URL inválida: ${url}`);
+      throw new Error('FLUX generated an invalid URL');
+    }
+    return url;
   } catch (e: any) {
     logger.error(`FLUX error: ${e.message}`);
     throw new Error('FLUX generation failed');
@@ -93,7 +110,12 @@ async function genWithSDXL(prompt: string) {
         2
       )
     );
-    return (out as string[])[0] as string;
+    const url = (out as string[])[0];
+    if (!isValidHttpUrl(url)) {
+      logger.error(`SDXL generó una URL inválida: ${url}`);
+      throw new Error('SDXL generation failed');
+    }
+    return url;
   } catch (e: any) {
     logger.error(`SDXL error: ${e.message}`);
     if (e.response) {
@@ -113,10 +135,12 @@ async function genWithDalle(prompt: string) {
       response_format: 'url'
     })
   );
-  if (!img.data || img.data.length === 0) {
-    throw new Error('No se generaron imágenes'); // Validación para evitar undefined
+  const url = img.data?.[0]?.url;
+  if (!isValidHttpUrl(url)) {
+    logger.error(`DALL-E generó una URL inválida: ${url}`);
+    throw new Error('No se generaron imágenes válidas con DALL-E');
   }
-  return img.data[0].url;
+  return url;
 }
 
 /* Fake CDN upload (write to /tmp) */
@@ -147,7 +171,7 @@ export async function generateStoryboards(plan: VideoPlan): Promise<string[]> {
   await Promise.all(
     keySecs.map(async (sec) => {
       const prompt = buildPrompt(sec, plan.metadata.visualStyle);
-      let imgUrl: string;
+      let imgUrl: string | null = null;
       try {
         imgUrl = await genWithFLUX(prompt);
       } catch (e) {
@@ -156,13 +180,19 @@ export async function generateStoryboards(plan: VideoPlan): Promise<string[]> {
           imgUrl = await genWithSDXL(prompt);
         } catch (e2) {
           logger.warn(`SDXL fallo para t=${sec.t} → usando DALL·E`);
-          const generatedUrl = await genWithDalle(prompt);
-          if (!generatedUrl) {
-            logger.error(`No se pudo generar una URL válida para la imagen t=${sec.t}`);
-            throw new Error('No se pudo generar una URL válida para la imagen');
+          try {
+            imgUrl = await genWithDalle(prompt);
+          } catch (e3) {
+            logger.error(`DALL-E también falló para t=${sec.t}: ${(e3 as Error).message}`);
+            imgUrl = null; // Asegurar que es null si todo falla
           }
-          imgUrl = generatedUrl;
         }
+      }
+
+      if (!imgUrl) {
+        logger.error(`❌ No se pudo generar imagen para t=${sec.t} con ningún proveedor.`);
+        // Continuar al siguiente en lugar de lanzar error para todo el batch
+        return; 
       }
 
       let buf: Buffer;
@@ -185,11 +215,11 @@ export async function generateStoryboards(plan: VideoPlan): Promise<string[]> {
           const axiosMod = (await import('axios')).default;
           await axiosMod.head(publicUrl, { timeout: 10000 });
           logger.info(`✅ Storyboard accesible en CDN: ${publicUrl}`);
+          urls.push(publicUrl); // Solo añadir si la subida y validación son exitosas
         } catch {
           logger.warn(`⚠️  Storyboard no accesible en CDN (HEAD fail): ${publicUrl}`);
-          throw new Error('Storyboard no accesible en CDN');
+          // No lanzar error aquí para no detener todo el proceso
         }
-        urls.push(publicUrl);
       } catch (error) {
         const err = error instanceof Error ? error : new Error(String(error));
         logger.error(`Error al subir el archivo al CDN: ${err.message}`);
@@ -197,6 +227,14 @@ export async function generateStoryboards(plan: VideoPlan): Promise<string[]> {
       }
     })
   );
+
+  if (urls.length < keySecs.length) {
+    logger.warn(`⚠️ Se generaron ${urls.length} de ${keySecs.length} storyboards solicitados.`);
+  }
+
+  if (urls.length === 0 && keySecs.length > 0) {
+    throw new Error('No se pudo generar ningún storyboard.');
+  }
 
   logger.info(`✅  Storyboards listos: ${urls.length}`);
   return urls;

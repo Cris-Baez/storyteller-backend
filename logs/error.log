@@ -1020,3 +1020,8 @@
 2025-07-14T18:39:17.555Z [error] ❌ Error en createVoiceOver: VoiceService failed
 2025-07-14T18:39:17.555Z [error] ❌ Error en runRenderPipeline: VoiceService failed
 2025-07-14T18:39:29.059Z [error] Unhandled Rejection: Error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T18:58:18.289Z [error] Error al descargar la imagen generada t=0: Invalid URL
+2025-07-14T18:58:22.554Z [error] Error al descargar la imagen generada t=0: Invalid URL
+2025-07-14T18:58:27.564Z [error] Error al descargar la imagen generada t=0: Invalid URL
+2025-07-14T18:58:29.075Z [error] ❌ Error en generateStoryboards: No se pudo descargar la imagen generada
+2025-07-14T18:58:29.076Z [error] ❌ Error en runRenderPipeline: No se pudo descargar la imagen generada

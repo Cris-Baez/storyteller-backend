@@ -3335,3 +3335,29 @@
 2025-07-14T18:39:28.917Z [info] Archivo subido correctamente al CDN: clips/clip_0_b906249f.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/clips/clip_0_b906249f.mp4
 2025-07-14T18:39:28.918Z [info] ✅ Clip subido a CDN: https://storage.googleapis.com/storyteller-ai-cdn/clips/clip_0_b906249f.mp4
 2025-07-14T18:39:29.059Z [error] Unhandled Rejection: Error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T18:57:46.188Z [info] Storyteller AI backend running on 3000
+2025-07-14T18:57:57.241Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T18:57:57.243Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T18:57:57.244Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T18:58:15.155Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T18:58:15.156Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast cityscape under a darkening sky.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"foreboding",
+     "dialogue":"The world i...
+2025-07-14T18:58:15.157Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T18:58:15.158Z [info] 📜 Plan OK (10s)
+2025-07-14T18:58:15.159Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T18:58:15.159Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T18:58:18.289Z [error] Error al descargar la imagen generada t=0: Invalid URL
+2025-07-14T18:58:19.791Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T18:58:19.792Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T18:58:22.554Z [error] Error al descargar la imagen generada t=0: Invalid URL
+2025-07-14T18:58:24.055Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T18:58:24.056Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T18:58:27.564Z [error] Error al descargar la imagen generada t=0: Invalid URL
+2025-07-14T18:58:29.075Z [error] ❌ Error en generateStoryboards: No se pudo descargar la imagen generada
+2025-07-14T18:58:29.076Z [error] ❌ Error en runRenderPipeline: No se pudo descargar la imagen generada
