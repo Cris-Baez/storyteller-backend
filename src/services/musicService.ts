@@ -124,7 +124,13 @@ export async function getBackgroundMusic(style: string): Promise<Buffer> {
 
   if (!raw) {
     logger.warn('⚠️  No se encontró música; devolviendo buffer vacío');
-    return Buffer.alloc(0);
+    throw new Error('No se pudo generar la pista de música');
   }
-  return await normalise(raw);
+  const buf = await normalise(raw);
+  if (!buf || !Buffer.isBuffer(buf) || buf.length === 0) {
+    logger.error('❌ La pista de música generada está vacía o es inválida');
+    throw new Error('La pista de música generada está vacía o es inválida');
+  }
+  logger.info(`✅  Pista de música lista (${buf.length} bytes)`);
+  return buf;
 }

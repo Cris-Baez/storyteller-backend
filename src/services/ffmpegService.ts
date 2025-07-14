@@ -18,6 +18,7 @@ import { spawn }      from 'child_process';
 import path           from 'path';
 import fs             from 'fs/promises';
 import { v4 as uuid } from 'uuid';
+import { uploadToCDN } from './cdnService.js';
 
 import { env }        from '../config/env.js';
 import { logger }     from '../utils/logger.js';
@@ -155,8 +156,32 @@ export async function assembleVideo(opts:{
     hlsIndex
   ), RETRIES);
 
-  /* 7️⃣ CDN placeholder */
-  const cdnUrl = `${env.CDN_BUCKET_URL}/${path.basename(final1080)}`;
-  logger.info(`✅  Video final listo → ${cdnUrl}`);
+  /* 7️⃣ Subida real a CDN */
+  try {
+    // Validar que el archivo existe antes de subir
+    await fs.access(final1080);
+  } catch (err) {
+    logger.error(`❌ El archivo de video final no existe: ${final1080}`);
+    throw new Error('No se encontró el archivo de video final para subir al CDN');
+  }
+
+  let cdnUrl = '';
+  try {
+    cdnUrl = await uploadToCDN(final1080, `videos/${path.basename(final1080)}`);
+    logger.info(`✅  Video final subido al CDN → ${cdnUrl}`);
+  } catch (err) {
+    logger.error(`❌ Error al subir el video final al CDN: ${(err instanceof Error ? err.message : err)}`);
+    throw new Error('Error al subir el video final al CDN');
+  }
+
+  // Validar accesibilidad del video en el CDN
+  try {
+    const axios = (await import('axios')).default;
+    await axios.head(cdnUrl, { timeout: 15000 });
+    logger.info(`✅  Video final accesible en CDN: ${cdnUrl}`);
+  } catch {
+    logger.warn(`⚠️  El video final no es accesible en el CDN (HEAD fail): ${cdnUrl}`);
+    throw new Error('El video final no es accesible en el CDN');
+  }
   return cdnUrl;
 }

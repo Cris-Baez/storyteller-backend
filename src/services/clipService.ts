@@ -192,7 +192,15 @@ export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): 
       const destVideo = path.join(TMP_CLIPS, `clip_${seg.start}_${uuid().slice(0, 6)}.mp4`);
       const bufVideo = await fetch(videoUrl).then(r => r.arrayBuffer()).then(b => Buffer.from(b));
       await fs.writeFile(destVideo, bufVideo);
-
+      // Validar que el archivo existe
+      try {
+        await fs.access(destVideo);
+      } catch (e) {
+        logger.error(`❌ Clip no se guardó correctamente: ${destVideo}`);
+        throw new Error('No se pudo guardar el clip de video');
+      }
+      // Validar accesibilidad si se sube a CDN en el futuro
+      logger.info(`✅ Clip generado y guardado: ${destVideo}`);
       return destVideo;
     });
 

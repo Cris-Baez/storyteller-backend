@@ -120,6 +120,7 @@ export async function generateStoryboards(plan: VideoPlan): Promise<string[]> {
 
   const urls: string[] = [];
 
+
   await Promise.all(
     keySecs.map(async (sec) => {
       const prompt = buildPrompt(sec, plan.metadata.visualStyle);
@@ -130,13 +131,20 @@ export async function generateStoryboards(plan: VideoPlan): Promise<string[]> {
         logger.warn(`SDXL fallo para t=${sec.t} → usando DALL·E`);
         const generatedUrl = await genWithDalle(prompt);
         if (!generatedUrl) {
+          logger.error(`No se pudo generar una URL válida para la imagen t=${sec.t}`);
           throw new Error('No se pudo generar una URL válida para la imagen');
         }
-        imgUrl = generatedUrl; // Asignar solo si es válido
+        imgUrl = generatedUrl;
       }
 
-      const buf = await axios.get(imgUrl, { responseType: 'arraybuffer' })
-        .then(r => Buffer.from(r.data));
+      let buf: Buffer;
+      try {
+        buf = await axios.get(imgUrl, { responseType: 'arraybuffer' })
+          .then(r => Buffer.from(r.data));
+      } catch (e) {
+        logger.error(`Error al descargar la imagen generada t=${sec.t}: ${(e instanceof Error ? e.message : e)}`);
+        throw new Error('No se pudo descargar la imagen generada');
+      }
 
       try {
         const localPngPath = `t${sec.t}_${uuid().slice(0,6)}`;
@@ -144,10 +152,20 @@ export async function generateStoryboards(plan: VideoPlan): Promise<string[]> {
         logger.info(`Archivo temporal creado: ${localPngPath}`);
 
         const publicUrl = await uploadToCDN(localPngPath, `storyboards/${env.GCP_PROJECT_ID}/t${sec.t}.png`);
+        // Validar accesibilidad del CDN
+        try {
+          const axiosMod = (await import('axios')).default;
+          await axiosMod.head(publicUrl, { timeout: 10000 });
+          logger.info(`✅ Storyboard accesible en CDN: ${publicUrl}`);
+        } catch {
+          logger.warn(`⚠️  Storyboard no accesible en CDN (HEAD fail): ${publicUrl}`);
+          throw new Error('Storyboard no accesible en CDN');
+        }
         urls.push(publicUrl);
       } catch (error) {
         const err = error instanceof Error ? error : new Error(String(error));
         logger.error(`Error al subir el archivo al CDN: ${err.message}`);
+        throw err;
       }
     })
   );

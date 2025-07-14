@@ -34,24 +34,52 @@ function withTimeout<T>(p: Promise<T>, ms = TIMEOUT_TTS): Promise<T> {
   ]);
 }
 
-/* ────────────────────────────────────────────────────────────
- * 1) Selección de voz simplificada (puedes mapear a IDs reales)
- * ────────────────────────────────────────────────────────── */
-function pickVoiceId(
+/* --- Murf AI ------------------------------------------------ */
+const MURF_FEMALE = [
+  'en-US-natalie',  'en-US-amara',    'en-US-phoebe',   'en-US-daisy',
+  'en-US-iris',     'en-US-julia',    'en-US-alicia',   'en-US-charlotte',
+  'en-US-michelle', 'en-US-naomi',    'en-US-samantha'
+] as const;
+
+const MURF_MALE = [
+  'en-US-ryan',     'en-US-terrell',  'en-US-miles',    'en-US-maverick',
+  'en-US-paul',     'en-US-charles',  'en-US-ken',      'en-US-carter',
+  'en-US-river',    'en-US-evander',  'en-US-daniel'
+] as const;
+
+/* --- ElevenLabs -------------------------------------------- */
+const ELEVEN_FEMALE = [
+  '21m00Tcm4TlvDq8ikWAM', 'EXAVITQu4vr4xnSDxMaL', 'AZnzlk1XvdvUeBnXmlld',
+  'yoZ06aMxZJJ28mfd3POQ', 'MF3mGyEYCl7XYWbV9V6O'
+] as const;
+
+const ELEVEN_MALE = [
+  'VR6AewLTigWG4xSOukaG', 'pNInz6obpgDQGcFmaJgB', 'TxGEqnHWrfWFTfGW9XjX',
+  '8LRt0oGbnP7jFUXMaX9X', 'bVMeCyTHy58xNoL34h3p'
+] as const;
+
+function pickRandom<T extends readonly string[]>(arr: T): T[number] {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/* ─────────────────────────────────────────────────────────── */
+export function pickVoiceId(
   char: CharacterVoiceSpec
 ): { provider: 'murf' | 'eleven'; voiceId: string } {
+  const gender = char.gender === 'female' ? 'female' : 'male';
+
   if (env.MURF_API_KEY) {
-    return {
-      provider: 'murf',
-      voiceId: char.gender === 'female' ? 'en-US-natalie' : 'en-US-will'
-    };
+    const voiceId = gender === 'female'
+      ? pickRandom(MURF_FEMALE)
+      : pickRandom(MURF_MALE);
+    return { provider: 'murf', voiceId };
   }
-  return {
-    provider: 'eleven',
-    voiceId: char.gender === 'female'
-      ? 'pNInz6obpgDQGcFmaJgB' // ejemplo female
-      : 'EXAVITQu4vr4xnSDxMaL' // ejemplo male
-  };
+
+  // Fallback – ElevenLabs
+  const voiceId = gender === 'female'
+    ? pickRandom(ELEVEN_FEMALE)
+    : pickRandom(ELEVEN_MALE);
+  return { provider: 'eleven', voiceId };
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -286,7 +314,11 @@ export async function createVoiceOver(plan: VideoPlan): Promise<Buffer> {
     await normalise(concatRaw, finalFile);
 
     const buf = await fs.readFile(finalFile);
-    logger.info('✅  Pista de voz lista');
+    if (!buf || !Buffer.isBuffer(buf) || buf.length === 0) {
+      logger.error('❌ La pista de voz generada está vacía o es inválida');
+      throw new Error('La pista de voz generada está vacía o es inválida');
+    }
+    logger.info(`✅  Pista de voz lista (${buf.length} bytes)`);
     return buf;
   } catch (e: any) {
     logger.error(`VoiceService error: ${e.message}`);

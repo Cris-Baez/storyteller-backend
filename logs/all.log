@@ -2174,3 +2174,373 @@
 2025-07-14T15:41:58.528Z [error] Murf API error: Request failed with status code 400, Código de estado: 400, Respuesta: {"errorCode":400,"errorMessage":"Invalid voice_id en-US-will. Use the GET /v1/speech/voices endpoint to retrieve the full list of supported voices, or visit: https://murf.ai/api/docs/voices-styles/voice-library, to view the voice library in our API docs."}
 2025-07-14T15:41:58.678Z [error] Murf API error: Request failed with status code 400, Código de estado: 400, Respuesta: {"errorMessage":"Invalid voice_id en-US-will. Use the GET /v1/speech/voices endpoint to retrieve the full list of supported voices, or visit: https://murf.ai/api/docs/voices-styles/voice-library, to view the voice library in our API docs.","errorCode":400}
 2025-07-14T15:41:58.731Z [error] VoiceService error: concat fail
+2025-07-14T15:57:20.861Z [info] Storyteller AI backend running on 3000
+2025-07-14T15:57:28.491Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T15:57:28.493Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T15:57:28.494Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T15:59:13.517Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T15:59:13.539Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast cityscape as the sun rises",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"None",
+     "voiceLin...
+2025-07-14T15:59:13.552Z [info] 🎞️  VideoPlan listo (60s) via openai/gpt-4o
+2025-07-14T15:59:13.554Z [info] 📜 Plan OK (60s)
+2025-07-14T15:59:13.557Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T15:59:13.559Z [info] → Se generarán 32 frames de storyboard
+2025-07-14T15:59:13.588Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T15:59:13.595Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T15:59:13.597Z [info] 🎵  Freesound query: cinematic
+2025-07-14T15:59:14.855Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:17.017Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:17.323Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:17.430Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:17.595Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:17.709Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:17.843Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:17.950Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:18.185Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:18.296Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:18.429Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:18.558Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:18.689Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:18.809Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:18.945Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:19.058Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:19.285Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:19.397Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:19.535Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:19.644Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:19.775Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:19.890Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:19.897Z [error] ❌ Error en generateClips: Cannot access 'storyboardUrls' before initialization
+2025-07-14T15:59:19.899Z [error] ❌ Error en runRenderPipeline: Cannot access 'storyboardUrls' before initialization
+2025-07-14T15:59:20.031Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:20.144Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:20.392Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:20.496Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:20.629Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:20.736Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:20.864Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:20.969Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:21.189Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:21.295Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:21.431Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:21.541Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:21.673Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:21.779Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:21.908Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:22.043Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:22.308Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:22.413Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:22.541Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:22.646Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:22.776Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:22.881Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:23.006Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:23.110Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:23.387Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:23.502Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:23.636Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:23.743Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:23.869Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:23.974Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:24.189Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:24.300Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:24.435Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:24.557Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:24.695Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:24.801Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:24.933Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:25.043Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:25.284Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:25.388Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:25.519Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:25.625Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:25.752Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:25.861Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:25.990Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:26.118Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:26.345Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:26.571Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:26.718Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:26.822Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:26.949Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:27.056Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:27.285Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:27.427Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:27.557Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:27.664Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:27.795Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:27.903Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:28.137Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:28.248Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:28.379Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:28.492Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:28.626Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:28.730Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:28.859Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:28.989Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:29.272Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:29.378Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:29.503Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:29.620Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:29.745Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:29.856Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:29.986Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:30.145Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:30.379Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:30.490Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:30.622Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:30.760Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:30.889Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:31.060Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:31.280Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:31.390Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:31.526Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:31.634Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:31.759Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:31.866Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:31.997Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:32.133Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:32.369Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:32.477Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:32.606Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:32.713Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:32.850Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:32.959Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:33.187Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:33.291Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:33.422Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:33.528Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:33.613Z [error] VoiceService error: concat fail
+2025-07-14T15:59:35.130Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T15:59:35.458Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:35.650Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:35.791Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:35.955Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:36.193Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:36.363Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:36.584Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:36.774Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:36.990Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:37.191Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:37.427Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:37.538Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:37.669Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:37.776Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:37.908Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:38.018Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:38.279Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:38.388Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:38.520Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:38.656Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:38.786Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:38.892Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:39.142Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:39.251Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:39.381Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:39.505Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:39.639Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:39.742Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:39.869Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:39.983Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:40.276Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:40.394Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:40.526Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:40.654Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:40.781Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:40.893Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:41.024Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:41.131Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:41.350Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:41.458Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:41.587Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:41.699Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:41.847Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:41.952Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:42.181Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:42.291Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:42.422Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:42.528Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:42.656Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:42.763Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:42.894Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:43.001Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:43.230Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:43.336Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:43.469Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:43.608Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:43.735Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:43.841Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:43.972Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:44.083Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:44.305Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:44.411Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:44.540Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:44.647Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:44.776Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:44.885Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:45.014Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:45.124Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:45.369Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:45.483Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:45.618Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:45.724Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:45.851Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:45.993Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:46.196Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:46.302Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:46.434Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:46.561Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:46.698Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:46.803Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:46.939Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:47.049Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:47.284Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:47.390Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:47.526Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:47.648Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:47.775Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:47.926Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:48.132Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:48.239Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:48.364Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:48.402Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 502 Bad Gateway: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+</body>
+</html>
+.
+2025-07-14T15:59:48.404Z [error] SDXL response: undefined
+2025-07-14T15:59:48.404Z [warn] SDXL fallo para t=22 → usando DALL·E
+2025-07-14T15:59:48.465Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 502 Bad Gateway: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+</body>
+</html>
+.
+2025-07-14T15:59:48.466Z [error] SDXL response: undefined
+2025-07-14T15:59:48.467Z [warn] SDXL fallo para t=4 → usando DALL·E
+2025-07-14T15:59:48.483Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:48.611Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:48.730Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:48.859Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:48.924Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 502 Bad Gateway: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+</body>
+</html>
+.
+2025-07-14T15:59:48.924Z [error] SDXL response: undefined
+2025-07-14T15:59:48.925Z [warn] SDXL fallo para t=42 → usando DALL·E
+2025-07-14T15:59:48.966Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:49.184Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:49.287Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:49.413Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:49.519Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:49.649Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:49.786Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:49.916Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:50.021Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:50.241Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:50.345Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:50.472Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:50.576Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:50.705Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:50.833Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:50.957Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:51.066Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:51.103Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T15:59:51.104Z [info] → Se generarán 32 frames de storyboard
+2025-07-14T15:59:51.294Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:51.605Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:51.731Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:51.836Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:51.967Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:52.072Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:52.331Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:52.456Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:52.572Z [error] VoiceService error: concat fail
+2025-07-14T15:59:54.074Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T15:59:54.295Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:54.406Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:54.539Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:54.651Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:54.779Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:54.899Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:55.124Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:55.237Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:55.370Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:55.476Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:55.610Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:55.724Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:55.852Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:55.972Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:56.205Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:56.312Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:56.438Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:56.541Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:56.670Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:56.781Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:56.912Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:57.021Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:57.248Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:57.363Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:57.491Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:57.604Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:57.733Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:57.842Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:57.973Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:58.083Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:58.308Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:58.432Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:58.555Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:58.669Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:58.805Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:58.919Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:59.140Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:59.246Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:59.383Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:59.493Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:59.623Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:59.751Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T15:59:59.878Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T15:59:59.982Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:00.215Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:00.322Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:00.450Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:00.561Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:00.686Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:00.805Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:00.955Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:01.063Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:01.296Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:01.408Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:01.539Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:01.647Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:01.774Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:01.920Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:02.138Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:02.249Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:02.381Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:02.490Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:02.618Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:02.722Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:02.850Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:02.955Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:03.268Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:03.371Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:03.502Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:03.604Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:03.730Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:03.840Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:00:03.983Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
+2025-07-14T16:00:04.100Z [warn] ElevenLabs error: Request failed with status code 400

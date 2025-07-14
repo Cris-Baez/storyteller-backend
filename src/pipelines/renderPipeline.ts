@@ -69,16 +69,65 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
     const voiceOver: Buffer = results[2] as Buffer;
     const music: Buffer = results[3] as Buffer;
 
-    logger.info(`Assets → SB:${storyboardUrls.length}  Clips:${clips.length}  VO:${voiceOver.length}B  BGM:${music.length}B`);
+    // Verificación de assets
+    logger.info('Verificando assets generados...');
+    if (!Array.isArray(storyboardUrls) || storyboardUrls.length === 0) {
+      logger.error('No se generaron storyboards válidos.');
+      throw new Error('No se generaron storyboards válidos.');
+    }
+    if (!Array.isArray(clips) || clips.length === 0) {
+      logger.error('No se generaron clips de video válidos.');
+      throw new Error('No se generaron clips de video válidos.');
+    }
+    if (!voiceOver || !Buffer.isBuffer(voiceOver) || voiceOver.length === 0) {
+      logger.error('No se generó la pista de voz.');
+      throw new Error('No se generó la pista de voz.');
+    }
+    if (!music || !Buffer.isBuffer(music) || music.length === 0) {
+      logger.error('No se generó la pista de música.');
+      throw new Error('No se generó la pista de música.');
+    }
 
-    /* 3️⃣  Ensamblado final */
-    const url = await withTimeout(
-      retry(()=>assembleVideo({ plan, clips, voiceOver, music })),
-      TIMEOUT * 2   // FFmpeg puede requerir más tiempo
-    ).catch(err => {
-      logger.error(`❌ Error en assembleVideo: ${err.message}`);
-      throw err;
-    });
+    // Logs claros de assets
+    logger.info('Storyboards CDN URLs:');
+    storyboardUrls.forEach((url, i) => logger.info(`  [SB${i}] ${url}`));
+    logger.info('Clips locales:');
+    clips.forEach((clip, i) => logger.info(`  [Clip${i}] ${clip}`));
+    logger.info(`VoiceOver buffer size: ${voiceOver.length} bytes`);
+    logger.info(`Music buffer size: ${music.length} bytes`);
+
+    // Validar accesibilidad de URLs de storyboards (HEAD request)
+    const axios = (await import('axios')).default;
+    await Promise.all(storyboardUrls.map(async (url, i) => {
+      try {
+        await axios.head(url, { timeout: 10000 });
+        logger.info(`✅ Storyboard accesible: ${url}`);
+      } catch {
+        logger.warn(`⚠️  Storyboard no accesible (HEAD fail): ${url}`);
+      }
+    }));
+
+    /* 3️⃣  Ensamblado final y subida a CDN */
+    let url = '';
+    try {
+      url = await withTimeout(
+        retry(()=>assembleVideo({ plan, clips, voiceOver, music })),
+        TIMEOUT * 2   // FFmpeg puede requerir más tiempo
+      );
+    } catch (err) {
+      logger.error(`❌ Error en assembleVideo o subida CDN: ${(err instanceof Error ? err.message : err)}`);
+      throw new Error('Error en el ensamblado o subida del video final al CDN');
+    }
+
+    // Validar accesibilidad del video final
+    try {
+      const axios = (await import('axios')).default;
+      await axios.head(url, { timeout: 15000 });
+      logger.info(`✅ Video final accesible en CDN: ${url}`);
+    } catch {
+      logger.warn(`⚠️  El video final no es accesible en el CDN (HEAD fail): ${url}`);
+      throw new Error('El video final no es accesible en el CDN');
+    }
 
     const elapsed = ((Date.now()-t0)/1000).toFixed(1);
     logger.info(`✅ Render completo en ${elapsed}s → ${url}`);

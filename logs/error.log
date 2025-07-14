@@ -921,3 +921,31 @@
 2025-07-14T15:41:58.528Z [error] Murf API error: Request failed with status code 400, Código de estado: 400, Respuesta: {"errorCode":400,"errorMessage":"Invalid voice_id en-US-will. Use the GET /v1/speech/voices endpoint to retrieve the full list of supported voices, or visit: https://murf.ai/api/docs/voices-styles/voice-library, to view the voice library in our API docs."}
 2025-07-14T15:41:58.678Z [error] Murf API error: Request failed with status code 400, Código de estado: 400, Respuesta: {"errorMessage":"Invalid voice_id en-US-will. Use the GET /v1/speech/voices endpoint to retrieve the full list of supported voices, or visit: https://murf.ai/api/docs/voices-styles/voice-library, to view the voice library in our API docs.","errorCode":400}
 2025-07-14T15:41:58.731Z [error] VoiceService error: concat fail
+2025-07-14T15:59:19.897Z [error] ❌ Error en generateClips: Cannot access 'storyboardUrls' before initialization
+2025-07-14T15:59:19.899Z [error] ❌ Error en runRenderPipeline: Cannot access 'storyboardUrls' before initialization
+2025-07-14T15:59:33.613Z [error] VoiceService error: concat fail
+2025-07-14T15:59:48.402Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 502 Bad Gateway: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+</body>
+</html>
+.
+2025-07-14T15:59:48.404Z [error] SDXL response: undefined
+2025-07-14T15:59:48.465Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 502 Bad Gateway: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+</body>
+</html>
+.
+2025-07-14T15:59:48.466Z [error] SDXL response: undefined
+2025-07-14T15:59:48.924Z [error] SDXL error: Request to https://api.replicate.com/v1/predictions failed with status 502 Bad Gateway: <html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+</body>
+</html>
+.
+2025-07-14T15:59:48.924Z [error] SDXL response: undefined
+2025-07-14T15:59:52.572Z [error] VoiceService error: concat fail
