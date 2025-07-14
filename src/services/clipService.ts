@@ -51,21 +51,29 @@ async function withTimeout<T>(p: Promise<T>, ms = GEN_TIMEOUT_MS) {
 
 /* ── Core generators ─────────────────────────────────────────────── */
 import { createReadStream } from 'fs';
+import os from 'os';
 
+// Siempre descarga la imagen a un archivo temporal local y la lee como buffer
 async function fetchImageBuffer(imagePathOrUrl: string): Promise<Buffer> {
+  let tempPath = '';
   if (imagePathOrUrl.startsWith('file://')) {
     // Local file
     const localPath = imagePathOrUrl.replace('file://', '');
-    return await fs.readFile(localPath);
+    tempPath = localPath;
   } else if (imagePathOrUrl.startsWith('http')) {
-    // Remote URL
+    // Descargar a archivo temporal
     const resp = await fetch(imagePathOrUrl);
     if (!resp.ok) throw new Error('No se pudo descargar la imagen para RunwayML');
-    return Buffer.from(await resp.arrayBuffer());
+    const arr = new Uint8Array(await resp.arrayBuffer());
+    tempPath = path.join(os.tmpdir(), `img_${uuid().slice(0,8)}.png`);
+    await fs.writeFile(tempPath, arr);
   } else {
     // Asume path local
-    return await fs.readFile(imagePathOrUrl);
+    tempPath = imagePathOrUrl;
   }
+  // Lee el archivo como buffer
+  const buf = await fs.readFile(tempPath);
+  return buf;
 }
 
 async function genRunway(prompt: string, frames: number, promptImage: string): Promise<string> {
