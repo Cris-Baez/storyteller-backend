@@ -1177,3 +1177,18 @@
 2025-07-14T20:43:20.067Z [error] Replicate también falla (seg 2)
 2025-07-14T20:43:20.073Z [error] No se generaron clips de video válidos.
 2025-07-14T20:43:20.075Z [error] ❌ Error en runRenderPipeline: No se generaron clips de video válidos.
+2025-07-14T20:56:56.129Z [error] FLUX respuesta inesperada: {}
+2025-07-14T20:56:56.130Z [error] FLUX error: FLUX returned invalid response format
+2025-07-14T20:57:08.187Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:57:08.197Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:57:08.217Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:57:08.219Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:57:08.223Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:57:08.226Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:57:08.228Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:57:08.230Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:57:08.232Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:57:08.234Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:57:14.129Z [error] Replicate también fallo (seg 0)
+2025-07-14T20:57:15.480Z [error] Replicate también fallo (seg 1)
+2025-07-14T20:57:15.704Z [error] Replicate también fallo (seg 2)

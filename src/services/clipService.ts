@@ -50,12 +50,12 @@ const MODEL_MAP = {
 /* ── Core generators ─────────────────────────────────────────────── */
 async function genRunway(prompt: string, frames: number): Promise<string> {
   const dur = Math.min(Math.ceil(frames / 24), 10) as 5 | 10;
-  // promptImage es obligatorio, pero no usamos imagen real, así que pasamos un PNG vacío válido
-  const dummyPng = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAn8B9pQn2wAAAABJRU5ErkJggg==';
+  // promptImage es obligatorio, usar un PNG real accesible por HTTPS
+  const placeholderImage = 'https://dummyimage.com/1280x720/000/fff.png';
   const out = await runway.imageToVideo
     .create({
       model      : 'gen4_turbo',
-      promptImage: dummyPng,
+      promptImage: placeholderImage,
       promptText : prompt.trim(),
       duration   : dur,
       ratio      : '1280:720'
