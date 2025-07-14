@@ -96,31 +96,20 @@ function buildPrompt(
 /** Runway Gen-4 Turbo */
 async function runwayGen(prompt: string, frames: number, img?: string): Promise<string | null> {
   try {
-    let validImg: string | undefined = undefined;
-    if (img && typeof img === 'string' && img.length > 0) {
-      // Solo aceptar URLs HTTPS válidas
-      const isValidUrl = /^https:\/\//.test(img);
-      if (isValidUrl && await validateUrl(img)) {
-        validImg = img;
-      } else {
-        logger.warn(`promptImage inválido (no https o inaccesible), ignorando: ${img}`);
-      }
-    }
-
-    // Runway solo acepta duration 5 o 10
-    let durationSec: 10 | 5 = 10;
-    const seconds = Math.ceil(frames / 24);
-    if (seconds <= 5) durationSec = 5;
-    else durationSec = 10;
-
-    // Solo incluir promptImage si es https válido
-    const createOpts: any = {
+    // Solo aceptar URLs HTTPS válidas y no vacías
+    let createOpts: any = {
       model: 'gen4_turbo',
       promptText: prompt,
-      duration: durationSec,
+      duration: Math.ceil(frames / 24) <= 5 ? 5 : 10,
       ratio: '1280:720',
     };
-    if (validImg) createOpts.promptImage = validImg;
+    if (img && typeof img === 'string' && img.length > 0 && /^https:\/\//.test(img)) {
+      if (await validateUrl(img)) {
+        createOpts.promptImage = img;
+      } else {
+        logger.warn(`promptImage inválido (no accesible), ignorando: ${img}`);
+      }
+    }
 
     const task = await runwayClient.imageToVideo
       .create(createOpts)
