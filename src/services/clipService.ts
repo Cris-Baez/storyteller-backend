@@ -26,7 +26,6 @@ import { pipeline }    from 'stream/promises';
 import { v4 as uuid }  from 'uuid';
 import fetch           from 'node-fetch';
 import pLimit          from 'p-limit';
-import RunwayML        from '@runwayml/sdk';
 import Replicate       from 'replicate';
 
 import { env }       from '../config/env.js';
@@ -43,7 +42,6 @@ const GEN_TIMEOUT_MS = Number(env.GEN2_TIMEOUT_MS ?? 150_000);
 const TMP_CLIPS      = '/tmp/clips_v7';
 await fs.mkdir(TMP_CLIPS, { recursive: true });
 
-const runway    = new RunwayML();
 const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
 
 const DUMMY_IMAGE = 'https://dummyimage.com/1280x720/222/fff.png'; // Puedes poner tu propio PNG CDN
@@ -101,7 +99,7 @@ async function fetchImageBuffer(imagePathOrUrl: string): Promise<Buffer> {
   } else if (imagePathOrUrl.startsWith('http')) {
     // Descargar a archivo temporal
     const resp = await fetch(imagePathOrUrl);
-    if (!resp.ok) throw new Error('No se pudo descargar la imagen para RunwayML');
+    if (!resp.ok) throw new Error('No se pudo descargar la imagen');
     const arr = new Uint8Array(await resp.arrayBuffer());
     tempPath = path.join(os.tmpdir(), `img_${uuid().slice(0,8)}.png`);
     await fs.writeFile(tempPath, arr);
@@ -123,30 +121,7 @@ async function fetchImageBuffer(imagePathOrUrl: string): Promise<Buffer> {
   return buffer;
 }
 
-async function genRunway(prompt: string, frames: number, promptImage: string): Promise<string> {
-  // Runway SOLO acepta 5 o 10 (seconds)
-  const dur: 5 | 10 = (Math.ceil(frames / 24) <= 5 ? 5 : 10);
-
-
-
-  // Forzar siempre la dummy image para RunwayML (test de compatibilidad)
-  const promptImageUrl = DUMMY_IMAGE;
-  logger.info(`[DEBUG] promptImageUrl (FORZADO DUMMY) enviado a RunwayML: ${promptImageUrl}`);
-
-  const out = await runway.imageToVideo
-    .create({
-      model: 'gen4_turbo',
-      promptImage: promptImageUrl,
-      promptText: prompt.trim(),
-      duration: dur,
-      ratio: '1280:720'
-    })
-    .waitForTaskOutput();
-
-  if (!Array.isArray(out?.output) || !out.output[0])
-    throw new Error('Runway output vacío');
-  return out.output[0] as string;
-}
+// RunwayML eliminado: función genRunway removida
 
 async function genReplicateFallback(
   prompt: string,
