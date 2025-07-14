@@ -94,14 +94,14 @@ function buildPrompt(
  * ────────────────────────────────────────────────────────── */
 
 /** Runway Gen-4 Turbo */
-async function runwayGen(prompt: string, frames: number, promptImage?: string): Promise<string | null> {
+async function runwayGen(prompt: string, frames: number, img?: string): Promise<string | null> {
   try {
     const durationSec: 10 | 5 | undefined = Math.min(10, Math.ceil(frames / 24)) as 10 | 5;
     const task = await runwayClient.imageToVideo
       .create({
         model: 'gen4_turbo',
         promptText: prompt,
-        promptImage: promptImage ?? '', // Manejar caso de imagen opcional
+        promptImage: img ?? '', // Manejo opcional de imagen
         duration: durationSec,
         ratio: '1280:720',
       })
@@ -112,10 +112,9 @@ async function runwayGen(prompt: string, frames: number, promptImage?: string): 
     }
 
     return task.output[0];
-  } catch (e: unknown) {
-    const error = e instanceof Error ? e : new Error(String(e));
-    logger.warn(`Runway fail: ${error.message}`);
-    return null;
+  } catch (e) {
+    logger.warn(`Runway error: ${(e as Error).message}`);
+    return null;          // ← fuerza fallback
   }
 }
 
@@ -166,13 +165,17 @@ export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): 
       const prompt = buildPrompt(seg, plan.metadata.visualStyle);
       const frames = (seg.end - seg.start + 1) * 24;
 
-      const imageUrl = storyboardUrls?.[seg.start];
-      if (!imageUrl || !imageUrl.startsWith('http')) {
-        logger.warn(`📸 Imagen inválida para el clip ${seg.start}, se usará modelo Replicate`);
-        return await replicateGen(prompt, frames, plan.metadata.visualStyle);
+      const imgUrl = storyboardUrls?.[seg.start];
+
+      // Si no existe o no es pública, pasa directo a Replicate
+      if (!imgUrl || !(await validateUrl(imgUrl))) {
+        logger.warn(`Imagen inválida para clip ${seg.start}, uso Replicate`);
+        return replicateGen(prompt, frames, plan.metadata.visualStyle);
       }
 
-      const videoUrl = await runwayGen(prompt, frames, imageUrl) ?? await replicateGen(prompt, frames, plan.metadata.visualStyle);
+      const videoUrl =
+        (await runwayGen(prompt, frames, imgUrl)) ??
+        (await replicateGen(prompt, frames, plan.metadata.visualStyle));
 
       if (!videoUrl) {
         logger.error(`❌ No se pudo generar el clip para el segmento ${seg.start}`);

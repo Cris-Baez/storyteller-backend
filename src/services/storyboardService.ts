@@ -139,8 +139,12 @@ export async function generateStoryboards(plan: VideoPlan): Promise<string[]> {
         .then(r => Buffer.from(r.data));
 
       try {
-        const cdnUrl = await upload(buf, `t${sec.t}_${uuid().slice(0,6)}`);
-        urls.push(cdnUrl);
+        const localPngPath = `t${sec.t}_${uuid().slice(0,6)}`;
+        await fs.writeFile(localPngPath, buf);
+        logger.info(`Archivo temporal creado: ${localPngPath}`);
+
+        const publicUrl = await uploadToCDN(localPngPath, `storyboards/${env.GCP_PROJECT_ID}/t${sec.t}.png`);
+        urls.push(publicUrl);
       } catch (error) {
         const err = error instanceof Error ? error : new Error(String(error));
         logger.error(`Error al subir el archivo al CDN: ${err.message}`);
