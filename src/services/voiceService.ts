@@ -23,8 +23,8 @@ import { logger } from '../utils/logger.js';
 import { retry }  from '../utils/retry.js';
 
 const TMP_DIR      = '/tmp/voices_v6';
-const TIMEOUT_TTS  = 45_000;
-const RETRIES      = 2;
+const TIMEOUT_TTS  = 60_000; // Incrementar tiempo de espera a 60 segundos
+const RETRIES      = 3; // Incrementar reintentos a 3
 
 /* Helper timeout */
 function withTimeout<T>(p: Promise<T>, ms = TIMEOUT_TTS): Promise<T> {
@@ -190,6 +190,16 @@ async function validateVoiceId(voiceId: string): Promise<boolean> {
   }
 }
 
+/* Validar voiceId antes de usar Murf */
+async function validateVoiceIdBeforeUse(voiceId: string): Promise<boolean> {
+  if (!env.MURF_API_KEY) return false;
+  const isValid = await validateVoiceId(voiceId);
+  if (!isValid) {
+    logger.warn(`Voice ID inválido: ${voiceId}. Usando ElevenLabs como fallback.`);
+  }
+  return isValid;
+}
+
 /* ════════════════════════════════════════════════════════════
  * createVoiceOver – API pública
  * ═══════════════════════════════════════════════════════════ */
@@ -225,14 +235,22 @@ export async function createVoiceOver(plan: VideoPlan): Promise<Buffer> {
         }
       );
 
-      const ttsBuf =
-        (provider === 'murf'
-          ? await retry(() => murfTTS(actualText, voiceId), RETRIES)
-          : await retry(() => elevenTTS(actualText, voiceId), RETRIES)) ??
-        Buffer.alloc(0);
+      let ttsBuf: Buffer | null = null;
+
+      try {
+        if (provider === 'murf' && (await validateVoiceIdBeforeUse(voiceId))) {
+          ttsBuf = await retry(() => murfTTS(actualText, voiceId), RETRIES);
+        } else {
+          ttsBuf = await retry(() => elevenTTS(actualText, voiceId), RETRIES);
+        }
+      } catch (error) {
+        logger.error(`❌ Error en TTS para línea ${sec.t}: ${(error as Error).message}`);
+        ttsBuf = Buffer.alloc(0); // Fallback a silencio
+      }
 
       const file = path.join(TMP_DIR, `sec${sec.t}.mp3`);
-      await fs.writeFile(file, ttsBuf);
+      const bufferToWrite = ttsBuf ?? Buffer.alloc(0); // Asegurar que siempre se escribe un buffer válido
+      await fs.writeFile(file, bufferToWrite);
       parts[sec.t] = file;
     }
 
