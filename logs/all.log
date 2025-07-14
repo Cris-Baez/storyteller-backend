@@ -1708,3 +1708,63 @@
 2025-07-13T21:05:40.576Z [warn] Runway fail: Runway HTTP 400
 2025-07-13T21:05:40.609Z [warn] Runway fail: Runway HTTP 400
 2025-07-13T21:05:40.923Z [warn] Runway fail: Runway HTTP 400
+2025-07-14T13:26:37.142Z [info] Storyteller AI backend running on 3000
+2025-07-14T13:26:42.478Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T13:26:42.481Z [info] 🎬 Prompt limpio: Tacos voladores espaciales para un comercial...
+2025-07-14T13:26:42.483Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T13:27:12.705Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T13:27:12.707Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast galaxy with stars and nebulae.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"In a universe far...
+2025-07-14T13:27:12.709Z [info] 🎞️  VideoPlan listo (15s) via openai/gpt-4o
+2025-07-14T13:27:12.710Z [info] 📜 Plan OK (15s)
+2025-07-14T13:27:12.711Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T13:27:12.712Z [info] → Se generarán 15 frames de storyboard
+2025-07-14T13:27:12.717Z [info] 🎞️  ClipService v6.1 — iniciando…
+2025-07-14T13:27:12.720Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T13:27:12.723Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T13:27:12.725Z [info] 🎵  Freesound query: cinematic
+2025-07-14T13:27:12.799Z [info] → 15 segmentos de vídeo
+2025-07-14T13:27:13.517Z [warn] Runway fail: Runway HTTP 400
+2025-07-14T13:27:13.524Z [warn] Runway fail: Runway HTTP 400
+2025-07-14T13:27:13.533Z [warn] Runway fail: Runway HTTP 400
+2025-07-14T13:27:13.899Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:14.118Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:14.302Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:14.486Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:14.636Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:14.786Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:14.946Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:15.099Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:15.253Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:15.403Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:15.555Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:15.707Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:15.862Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:16.019Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:16.173Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:16.989Z [error] VoiceService error: concat fail
+2025-07-14T13:27:18.489Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T13:27:18.568Z [info] Archivo escrito correctamente: C:\tmp\storyboards_v6\t4_ddd040.png
+2025-07-14T13:27:18.665Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:18.783Z [info] Archivo escrito correctamente: C:\tmp\storyboards_v6\t12_aeb95e.png
+2025-07-14T13:27:18.824Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:18.970Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:19.117Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:19.262Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:19.408Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:19.553Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:19.701Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:19.851Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:19.994Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:20.139Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:20.294Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:20.443Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:20.592Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:20.741Z [error] Murf API error: Request failed with status code 400
+2025-07-14T13:27:20.809Z [error] VoiceService error: concat fail

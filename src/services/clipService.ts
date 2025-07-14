@@ -21,6 +21,7 @@ import fs          from 'fs/promises';
 import path        from 'path';
 import { v4 as uuid } from 'uuid';
 import Replicate   from 'replicate';
+import RunwayML    from '@runwayml/sdk';
 
 /* ─── Config ─────────────────────────────────────────────── */
 const GEN_CONCURRENCY = Number(env.GEN2_CONCURRENCY ?? 3);
@@ -28,6 +29,7 @@ const GEN_TIMEOUT_MS  = Number(env.GEN2_TIMEOUT_MS  ?? 150_000);
 const TMP_CLIPS       = '/tmp/clips_v6';
 
 const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
+const runwayClient = new RunwayML();
 
 /* Helper timeout */
 async function withTimeout<T>(p: Promise<T>, ms = GEN_TIMEOUT_MS): Promise<T> {
@@ -42,6 +44,8 @@ async function withTimeout<T>(p: Promise<T>, ms = GEN_TIMEOUT_MS): Promise<T> {
  * ────────────────────────────────────────────────────────── */
 interface Segment { start: number; end: number; secs: TimelineSecond[] }
 
+const SEGMENT_SIZE = 3; // Tamaño ideal de segmento en segundos
+
 function segmentTimeline(tl: TimelineSecond[]): Segment[] {
   if (tl.length === 0) return [];
   const segs: Segment[] = [];
@@ -49,7 +53,7 @@ function segmentTimeline(tl: TimelineSecond[]): Segment[] {
 
   for (let i = 1; i < tl.length; i++) {
     const sec = tl[i];
-    const needSplit = sec.transition !== 'none' || i % 2 === 0;
+    const needSplit = sec.transition !== 'none' || current.secs.length >= SEGMENT_SIZE;
     if (needSplit) {
       current.end = i - 1;
       segs.push(current);
@@ -89,40 +93,24 @@ function buildPrompt(
  * ────────────────────────────────────────────────────────── */
 
 /** Runway Gen-4 Turbo */
-async function runwayGen(prompt: string, frames: number): Promise<string | null> {
+async function runwayGen(prompt: string, frames: number, promptImage: string): Promise<string | null> {
   try {
-    const durationSec = Math.min(10, Math.ceil(frames / 24));
-    const res = await withTimeout(fetch('https://api.runwayml.com/v1/image_to_video', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${env.RUNWAY_API_TOKEN}`,
-        'Content-Type': 'application/json',
-        'X-Runway-Version': '2024-11-06'
-      },
-      body: JSON.stringify({
+    const durationSec: 10 | 5 | undefined = Math.min(10, Math.ceil(frames / 24)) as 10 | 5;
+    const task = await runwayClient.imageToVideo
+      .create({
         model: 'gen4_turbo',
         promptText: prompt,
+        promptImage: promptImage, // Imagen específica del storyboard
         duration: durationSec,
-        ratio: '1280:768'
+        ratio: '1280:720',
       })
-    }), GEN_TIMEOUT_MS * 2); // Aumentar el tiempo de espera
+      .waitForTaskOutput();
 
-    if (!res.ok) throw new Error(`Runway HTTP ${res.status}`);
-    const { id } = await res.json() as { id: string };
-
-    /* Polling de estado */
-    let wait = 5000; // Aumentar tiempo inicial de espera
-    while (true) {
-      const poll = await fetch(`https://api.runwayml.com/v1/tasks/${id}`, {
-        headers: { Authorization: `Bearer ${env.RUNWAY_API_TOKEN}` }
-      });
-      if (!poll.ok) throw new Error(`Runway poll ${poll.status}`);
-      const data: any = await poll.json();
-      if (data.status === 'SUCCEEDED') return data.output?.url ?? null;
-      if (data.status === 'FAILED'   ) throw new Error(data.error || 'Runway failed');
-      await new Promise(r => setTimeout(r, wait));
-      wait = Math.min(wait * 1.6, 20_000); // Aumentar límite máximo de espera
+    if (!task || !task.output || !Array.isArray(task.output)) {
+      throw new Error('Runway task failed or returned no output');
     }
+
+    return task.output[0];
   } catch (e: any) {
     logger.warn(`Runway fail: ${e.message}`);
     return null;
@@ -202,7 +190,7 @@ async function fetchSoundFreesound(query: string): Promise<string | null> {
 /* ────────────────────────────────────────────────────────────
  * 4) generateClips — API pública
  * ────────────────────────────────────────────────────────── */
-export async function generateClips(plan: VideoPlan): Promise<string[]> {
+export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): Promise<string[]> {
   logger.info('🎞️  ClipService v6.1 — iniciando…');
   await fs.mkdir(TMP_CLIPS, { recursive: true });
 
@@ -218,7 +206,9 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
       const prompt = buildPrompt(seg, plan.metadata.visualStyle);
       const frames = (seg.end - seg.start + 1) * 24;
 
-      const videoUrl = await runwayGen(prompt, frames) ?? await replicateGen(prompt, frames, plan.metadata.visualStyle);
+      const promptImage = storyboardUrls[seg.start] ?? undefined;
+
+      const videoUrl = await runwayGen(prompt, frames, promptImage) ?? await replicateGen(prompt, frames, plan.metadata.visualStyle);
       const voiceUrl = await generateVoiceMurf(`Narración para segmento ${seg.start}`);
       const soundUrl = await fetchSoundFreesound('ambient space');
 

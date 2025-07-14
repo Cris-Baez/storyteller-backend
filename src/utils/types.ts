@@ -66,6 +66,7 @@ export interface VideoPlan {
     music?: MusicSpec;
     characters?: CharacterVoiceSpec[]; // Agregar personajes al metadata
   };
+  storyboard?: string[]; // Agregar propiedad para imágenes generadas por storyboardService
 }
 
 /* → Respuesta final del backend */

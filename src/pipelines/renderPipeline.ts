@@ -55,7 +55,7 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
         logger.error(`❌ Error en generateStoryboards: ${err.message}`);
         throw err;
       }),
-      withTimeout(retry(()=>generateClips(plan))).catch(err => {
+      withTimeout(retry(()=>generateClips(plan, storyboardUrls))).catch(err => {
         logger.error(`❌ Error en generateClips: ${err.message}`);
         throw err;
       }),
