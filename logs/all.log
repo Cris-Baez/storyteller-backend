@@ -4230,3 +4230,55 @@
 2025-07-14T22:34:12.698Z [warn] ElevenLabs error: Request failed with status code 403
 2025-07-14T22:34:12.699Z [error] Error generando voz: No se pudo generar la voz
 2025-07-14T22:34:12.699Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-14T22:37:53.433Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-14T22:37:59.630Z [info] ::1 - - [14/Jul/2025:22:37:59 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-14T22:37:59.632Z [info] 🚀 Pipeline v7 – inicio
+2025-07-14T22:37:59.636Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T22:37:59.637Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T22:38:12.070Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T22:38:12.071Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast cityscape at dawn, skyscrapers glistening.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The w...
+2025-07-14T22:38:12.073Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T22:38:12.073Z [info] 📜 VideoPlan listo (10s)
+2025-07-14T22:38:12.074Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T22:38:12.074Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T22:38:15.159Z [error] FLUX respuesta inesperada: {}
+2025-07-14T22:38:15.161Z [error] FLUX error: FLUX returned invalid response format
+2025-07-14T22:38:15.162Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-14T22:38:20.569Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/jzevGf3B3mjVOEF7Q8Ah4pHunLxb9avrWtEAoIkkWONcjzAVA/out-0.png
+2025-07-14T22:38:22.216Z [info] Archivo temporal creado: t0_e2f825
+2025-07-14T22:38:23.660Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T22:38:23.769Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T22:38:23.770Z [info] ✅  Storyboards listos: 1
+2025-07-14T22:38:23.771Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-14T22:38:23.772Z [info] → Generando 3 segmentos…
+2025-07-14T22:38:23.785Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T22:38:23.804Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T22:38:23.805Z [info] 🎵  Freesound query: cinematic
+2025-07-14T22:38:24.189Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:38:24.191Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:38:24.198Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:38:24.200Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:38:24.204Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:38:24.206Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:38:24.211Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:38:24.213Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:38:24.215Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:38:24.217Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:38:24.228Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:38:24.230Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:38:24.248Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:38:24.249Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:38:24.273Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:38:24.274Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:38:24.279Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:38:24.280Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:38:24.286Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:38:24.289Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:38:24.291Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.

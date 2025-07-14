@@ -119,20 +119,24 @@ async function genRunway(prompt: string, frames: number, promptImage: string): P
   // Runway SOLO acepta 5 o 10 (seconds)
   const dur: 5 | 10 = (Math.ceil(frames / 24) <= 5 ? 5 : 10);
 
-  let promptImageInput: string | import('fs').ReadStream;
+  let promptImageUrl: string;
   if (promptImage.startsWith('http')) {
-    // Si es URL, pásala como string
-    promptImageInput = promptImage;
+    // Si es URL pública, úsala directo
+    promptImageUrl = promptImage;
   } else {
-    // Si es archivo local, pásalo como ReadStream
+    // Si es archivo local, súbelo a CDN y usa la URL resultante
     const localPath = promptImage.replace('file://', '');
-    promptImageInput = createReadStream(localPath);
+    const { uploadToCDN } = await import('./cdnService.js');
+    // Nombre único para evitar colisiones
+    const cdnPath = `runway-inputs/${uuid().slice(0,8)}_${path.basename(localPath)}`;
+    promptImageUrl = await uploadToCDN(localPath, cdnPath);
+    logger.info(`🖼️ Imagen local subida a CDN para RunwayML: ${promptImageUrl}`);
   }
 
   const out = await runway.imageToVideo
     .create({
       model: 'gen4_turbo',
-      promptImage: promptImageInput as any,
+      promptImage: promptImageUrl,
       promptText: prompt.trim(),
       duration: dur,
       ratio: '1280:720'
