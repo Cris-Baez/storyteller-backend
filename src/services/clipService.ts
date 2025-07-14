@@ -118,27 +118,21 @@ async function fetchImageBuffer(imagePathOrUrl: string): Promise<Buffer> {
 async function genRunway(prompt: string, frames: number, promptImage: string): Promise<string> {
   // Runway SOLO acepta 5 o 10 (seconds)
   const dur: 5 | 10 = (Math.ceil(frames / 24) <= 5 ? 5 : 10);
-  
-  const imageBuffer = await fetchImageBuffer(promptImage);
-  
-  // Crear un Blob con el Content-Length correcto
-  const imageBlob = new Blob([imageBuffer], { type: 'image/png' });
-  
-  // Crear un File object con propiedades correctas para la API
-  const imageFile = new File([imageBlob], 'prompt_image.png', { 
-    type: 'image/png'
-  });
-  
-  // Asegurar que el File tenga el tamaño correcto
-  Object.defineProperty(imageFile, 'size', {
-    value: imageBuffer.length,
-    writable: false
-  });
-  
+
+  let promptImageInput: string | import('fs').ReadStream;
+  if (promptImage.startsWith('http')) {
+    // Si es URL, pásala como string
+    promptImageInput = promptImage;
+  } else {
+    // Si es archivo local, pásalo como ReadStream
+    const localPath = promptImage.replace('file://', '');
+    promptImageInput = createReadStream(localPath);
+  }
+
   const out = await runway.imageToVideo
     .create({
       model: 'gen4_turbo',
-      promptImage: imageFile as any,
+      promptImage: promptImageInput as any,
       promptText: prompt.trim(),
       duration: dur,
       ratio: '1280:720'

@@ -4178,3 +4178,55 @@
 2025-07-14T21:32:31.506Z [warn] Runway fallo (seg 2) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
 2025-07-14T21:32:32.771Z [warn] Runway fallo (seg 0) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
 2025-07-14T21:32:33.163Z [warn] Runway fallo (seg 1) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T22:33:33.105Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-14T22:33:44.493Z [info] ::1 - - [14/Jul/2025:22:33:44 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-14T22:33:44.499Z [info] 🚀 Pipeline v7 – inicio
+2025-07-14T22:33:44.506Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T22:33:44.507Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T22:34:00.234Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T22:34:00.236Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast cityscape under a dark sky.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The world stands on ...
+2025-07-14T22:34:00.238Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T22:34:00.239Z [info] 📜 VideoPlan listo (10s)
+2025-07-14T22:34:00.241Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T22:34:00.242Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T22:34:03.658Z [error] FLUX respuesta inesperada: {}
+2025-07-14T22:34:03.659Z [error] FLUX error: FLUX returned invalid response format
+2025-07-14T22:34:03.660Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-14T22:34:09.388Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/fGLsQe2G2dkF9kXXpH1VDy8qSs5Tbzf37Fe3us6W9OKHebGoC/out-0.png
+2025-07-14T22:34:10.544Z [info] Archivo temporal creado: t0_8db6fa
+2025-07-14T22:34:12.199Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T22:34:12.344Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T22:34:12.345Z [info] ✅  Storyboards listos: 1
+2025-07-14T22:34:12.346Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-14T22:34:12.347Z [info] → Generando 3 segmentos…
+2025-07-14T22:34:12.364Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T22:34:12.414Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T22:34:12.415Z [info] 🎵  Freesound query: cinematic
+2025-07-14T22:34:12.648Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:34:12.649Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:34:12.652Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:34:12.653Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:34:12.656Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:34:12.656Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:34:12.658Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:34:12.658Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:34:12.663Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:34:12.664Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:34:12.671Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:34:12.672Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:34:12.673Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:34:12.674Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:34:12.677Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:34:12.678Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:34:12.691Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:34:12.691Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:34:12.698Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T22:34:12.699Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T22:34:12.699Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
