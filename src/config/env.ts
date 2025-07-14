@@ -14,7 +14,7 @@ const schema = z.object({
   MURF_API_KEY: z.string(), // Cambiar de opcional a requerido
   ELEVENLABS_API_KEY: z.string().optional(),
   ARTLIST_TOKEN: z.string().optional(),
-  RUNWAY_API_TOKEN: z.string().optional(),
+  // RUNWAY_API_TOKEN: z.string().optional(), // Eliminado: ya no se usa RunwayML
   DM_API_TOKEN: z.string().optional(),
   CDN_BUCKET_URL: z.string(),
   NODE_ENV: z.string().default('development'),

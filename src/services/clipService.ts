@@ -1,22 +1,8 @@
 /*──────────────────────── clipService.ts v7.2 ────────────────────────
  * Storyteller AI · ClipService
  * --------------------------------------------------------------------
- * • Genera clips con Runway Gen‑4 Turbo. Fallback a Replicate.
- * • Descarga en streaming  → /tmp  → sube a Google Cloud Storage.function buildPrompt(seg: Segment, style: VideoPlan['metadata']['visualStyle']) {
-  const f = seg.secs[0];
-  const l = seg.secs[seg.secs.length - 1];
-  
-  // Construir comando de cámara específico para Director
-  const cameraCommand = `[${f.camera.shot} shot, ${f.camera.movement}]`;
-  
-  return [
-    cameraCommand,  // Comando de cámara al inicio para Director
-    [f.visual, seg.secs.length > 1 ? l.visual : ''].filter(Boolean).join(', '),
-    `style ${style}`,
-    (f.sceneMood || '') + ' cinematic lighting',
-    '24 fps, ultra‑smooth, no watermark'
-  ].filter(Boolean).join(', ');
-}rrencia limitada por ENV GEN2_CONCURRENCY.
+ * • Genera clips con Replicate.
+ * • Descarga en streaming  → /tmp  → sube a Google Cloud Storage.
  * -------------------------------------------------------------------*/
 
 import fs              from 'fs/promises';
@@ -121,7 +107,7 @@ async function fetchImageBuffer(imagePathOrUrl: string): Promise<Buffer> {
   return buffer;
 }
 
-// RunwayML eliminado: función genRunway removida
+// ...existing code...
 
 async function genReplicateFallback(
   prompt: string,
