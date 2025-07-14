@@ -1910,3 +1910,24 @@
     at listOnTimeout (node:internal/timers:581:17)
     at process.processTimers (node:internal/timers:519:7)
 2025-07-14T15:04:42.974Z [info] 🤖 Intentando modelo: anthropic/claude-3-sonnet
+2025-07-14T15:13:42.501Z [info] Storyteller AI backend running on 3000
+2025-07-14T15:14:06.720Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T15:14:06.723Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T15:14:06.724Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T15:14:55.815Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T15:14:55.818Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast city skyline at dawn",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The world was on the brink....
+2025-07-14T15:14:55.821Z [info] 🎞️  VideoPlan listo (60s) via openai/gpt-4o
+2025-07-14T15:14:55.822Z [info] 📜 Plan OK (60s)
+2025-07-14T15:14:55.823Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T15:14:55.824Z [info] → Se generarán 37 frames de storyboard
+2025-07-14T15:14:55.834Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T15:14:55.839Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T15:14:55.840Z [info] 🎵  Freesound query: cinematic
+2025-07-14T15:14:56.638Z [error] Unhandled Rejection: Error: 400 {"error":"videoUri: Failed to fetch asset. Received HTTP response code \"404\".","docUrl":"https://docs.dev.runwayml.com/api"}

@@ -786,3 +786,4 @@
 2025-07-14T14:30:34.648Z [error] Murf API error: Request failed with status code 400, Código de estado: 400, Respuesta: {"errorMessage":"Invalid voice_id en-US-will. Use the GET /v1/speech/voices endpoint to retrieve the full list of supported voices, or visit: https://murf.ai/api/docs/voices-styles/voice-library, to view the voice library in our API docs.","errorCode":400}
 2025-07-14T14:30:34.836Z [error] Unhandled Rejection: Error: 400 {"error":"videoUri: Failed to fetch asset. Received HTTP response code \"404\".","docUrl":"https://docs.dev.runwayml.com/api"}
 2025-07-14T14:41:42.427Z [error] Unhandled Rejection: Error: 400 {"error":"videoUri: Failed to fetch asset. Received HTTP response code \"404\".","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T15:14:56.638Z [error] Unhandled Rejection: Error: 400 {"error":"videoUri: Failed to fetch asset. Received HTTP response code \"404\".","docUrl":"https://docs.dev.runwayml.com/api"}

@@ -96,12 +96,16 @@ function buildPrompt(
 /** Runway Gen-4 Turbo */
 async function runwayGen(prompt: string, frames: number, img?: string): Promise<string | null> {
   try {
+    if (img && !(await validateUrl(img))) {
+      throw new Error(`Invalid image URL: ${img}`);
+    }
+
     const durationSec: 10 | 5 | undefined = Math.min(10, Math.ceil(frames / 24)) as 10 | 5;
     const task = await runwayClient.imageToVideo
       .create({
         model: 'gen4_turbo',
         promptText: prompt,
-        promptImage: img ?? '', // Manejo opcional de imagen
+        promptImage: img ?? '',
         duration: durationSec,
         ratio: '1280:720',
       })
@@ -113,8 +117,11 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
 
     return task.output[0];
   } catch (e) {
-    logger.warn(`Runway error: ${(e as Error).message}`);
-    return null;          // ← fuerza fallback
+    logger.error(`Runway error: ${(e as Error).message}`);
+    if ((e as any).response) {
+      logger.error(`Runway response: ${JSON.stringify((e as any).response.data)}`);
+    }
+    return null; // Fallback
   }
 }
 
