@@ -1,5 +1,6 @@
 import Replicate from 'replicate';
 import axios from 'axios';
+import sharp from 'sharp';
 // Generador de video con Replicate (antes en providers/replicateFallback)
 export async function generateReplicateClip(sec: import('../utils/types').TimelineSecond): Promise<Buffer> {
   const { env } = await import('../config/env');
@@ -131,30 +132,63 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
     if (img) {
       try {
         logger.info(`Procesando imagen de storyboard para Runway: ${img}`);
-        const imageResponse = await axios.get(img, { responseType: 'arraybuffer' });
-        const base64Image = Buffer.from(imageResponse.data).toString('base64');
-        createOpts.promptImage = base64Image;
-        logger.info('✅ Imagen convertida a Base64 y añadida a las opciones de Runway.');
+        
+        // 1. Obtener la imagen
+        const imageResponse = await axios.get(img, { 
+          responseType: 'arraybuffer',
+          timeout: 10000,
+          maxContentLength: 10 * 1024 * 1024
+        });
+
+        // 2. Procesar la imagen con Sharp
+        const processedImageBuffer = await sharp(imageResponse.data)
+          // Convertir a PNG y asegurar dimensiones adecuadas
+          .png()
+          .resize(1024, 1024, {
+            fit: 'inside',
+            withoutEnlargement: true
+          })
+          // Asegurar espacio de color y canal alpha
+          .ensureAlpha()
+          .toBuffer();
+
+        logger.info(`✅ Imagen procesada: ${processedImageBuffer.length} bytes`);
+
+        // 3. Convertir a base64 y crear Data URI
+        const base64Image = processedImageBuffer.toString('base64');
+        const dataUri = `data:image/png;base64,${base64Image}`;
+
+        // 4. Agregar a las opciones de Runway
+        createOpts.promptImage = dataUri;
+        logger.info('✅ Imagen procesada y añadida a opciones de Runway');
+
       } catch (e) {
-        logger.warn(`⚠️ No se pudo descargar o convertir la imagen para Runway. Error: ${(e as Error).message}. Continuando sin imagen.`);
+        const errorMessage = e instanceof Error ? e.message : 'Error desconocido';
+        logger.error(`Error procesando imagen para Runway: ${errorMessage}`);
+        if (e instanceof Error && e.stack) {
+          logger.error(`Stack trace: ${e.stack}`);
+        }
+        logger.warn('⚠️ Continuando sin imagen debido a error de procesamiento');
       }
     }
 
-    const task = await runwayClient.imageToVideo
-      .create(createOpts)
-      .waitForTaskOutput();
+    logger.info('Enviando solicitud a Runway...');
+    const task = await withTimeout(
+      retry(() => runwayClient.imageToVideo.create(createOpts).waitForTaskOutput(), 2)
+    );
 
-    if (!task || !task.output || !Array.isArray(task.output)) {
-      throw new Error('Runway task failed or returned no output');
+    if (!task?.output?.length) {
+      throw new Error('Runway no devolvió output válido');
     }
 
     return task.output[0];
   } catch (e) {
-    logger.error(`Runway error: ${(e as Error).message}`);
-    if ((e as any).response) {
-      logger.error(`Runway response: ${JSON.stringify((e as any).response.data)}`);
+    const errorMessage = e instanceof Error ? e.message : 'Error desconocido';
+    logger.error(`Runway error: ${errorMessage}`);
+    if ((e as any).response?.data) {
+      logger.error(`Runway response data: ${JSON.stringify((e as any).response.data, null, 2)}`);
     }
-    return null; // Fallback
+    return null;
   }
 }
 

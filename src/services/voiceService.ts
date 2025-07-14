@@ -227,97 +227,60 @@ async function validateVoiceIdBeforeUse(voiceId: string): Promise<boolean> {
   return isValid;
 }
 
+/* ────────────────────────────────────────────────────────────
+ * 6) Genera voz para un texto usando ElevenLabs como proveedor principal
+ * ────────────────────────────────────────────────────────── */
+async function generateVoice(text: string): Promise<Buffer> {
+  // Usar voz estable de ElevenLabs (Rachel)
+  const STABLE_VOICE_ID = 'EXAVITQu4vr4xnSDxMaL';
+  
+  try {
+    const buffer = await elevenTTS(text, STABLE_VOICE_ID);
+    if (buffer) {
+      return buffer;
+    }
+    throw new Error('No se pudo generar la voz');
+  } catch (e) {
+    logger.error(`Error generando voz: ${e instanceof Error ? e.message : 'Unknown error'}`);
+    return Buffer.from([]);
+  }
+}
+
 /* ════════════════════════════════════════════════════════════
  * createVoiceOver – API pública
  * ═══════════════════════════════════════════════════════════ */
 export async function createVoiceOver(plan: VideoPlan): Promise<Buffer> {
   logger.info('🎙️  VoiceService v6.1 – iniciando…');
-  await fs.mkdir(TMP_DIR, { recursive: true });
-
-  const parts: string[] = []; // archivos MP3 en orden
-  const charMap = new Map<string, CharacterVoiceSpec>();
-  plan.metadata.characters?.forEach(c => charMap.set(c.name.toLowerCase(), c));
-
+  
   try {
-    /* —— 1. TTS línea por línea —— */
-    for (const sec of plan.timeline) {
-      if (!sec.voiceLine) continue;
-
-      const [maybeName, ...textArr] = sec.voiceLine.split(':');
-      let actualText = sec.voiceLine;
-      let charSpec: CharacterVoiceSpec | undefined;
-
-      if (textArr.length) {
-        actualText = textArr.join(':').trim();
-        charSpec = charMap.get(maybeName.toLowerCase());
-      }
-
-      const { provider, voiceId } = pickVoiceId(
-        charSpec ?? {
-          name: 'Narrator',
-          voiceId: 'default',
-          gender: 'male',
-          age: 35,
-          language: 'en-US'
+    // Intentar generar la voz
+    const audioBuffers = await Promise.all(
+      plan.timeline.map(async (sec) => {
+        if (!sec.dialogue) return Buffer.from([]);
+        try {
+          return await generateVoice(sec.dialogue);
+        } catch (e) {
+          if ((e as any).response?.status === 403) {
+            logger.error('⚠️ Error de autenticación con ElevenLabs. Verifica tu API key y suscripción.');
+            return Buffer.from([]);
+          }
+          throw e;
         }
-      );
+      })
+    );
 
-      let ttsBuf: Buffer | null = null;
-
-      try {
-        // Usar directamente ElevenLabs para máxima estabilidad
-        ttsBuf = await retry(() => elevenTTS(actualText, voiceId), RETRIES);
-      } catch (error) {
-        logger.error(`❌ Error en TTS para línea ${sec.t}: ${(error as Error).message}`);
-        ttsBuf = Buffer.alloc(0); // Fallback a silencio
-      }
-
-      const file = path.join(TMP_DIR, `sec${sec.t}.mp3`);
-      const bufferToWrite = ttsBuf ?? Buffer.alloc(0); // Asegurar que siempre se escribe un buffer válido
-      await fs.writeFile(file, bufferToWrite);
-      parts[sec.t] = file;
+    // Si todos los buffers están vacíos, significa que no se generó ninguna voz
+    if (audioBuffers.every((buf: Buffer) => buf.length === 0)) {
+      logger.warn('⚠️ No se pudo generar ninguna voz. El video continuará sin narración.');
+      return Buffer.from([]);
     }
 
-    /* —— 2. Rellenar silencios —— */
-    for (let i = 0; i < plan.metadata.duration; i++) {
-      if (!parts[i]) {
-        const file = path.join(TMP_DIR, `silence${i}.mp3`);
-        await silence(1, file);
-        parts[i] = file;
-      }
-    }
-
-    /* —— 3. Concat —— */
-    const listPath = path.join(TMP_DIR, `${uuid()}.txt`);
-    await fs.writeFile(listPath, parts.map(f => `file '${f}'`).join('\n'));
-
-    const concatRaw = path.join(TMP_DIR, `${uuid()}_raw.mp3`);
-    await new Promise((res, rej) => {
-      spawn(ffmpegPath!, [
-        '-f',
-        'concat',
-        '-safe',
-        '0',
-        '-i',
-        listPath,
-        '-c',
-        'copy',
-        concatRaw
-      ]).on('close', c => (c === 0 ? res(null) : rej(new Error('concat fail'))));
-    });
-
-    const finalFile = path.join(TMP_DIR, `${uuid()}_final.mp3`);
-    await normalise(concatRaw, finalFile);
-
-    const buf = await fs.readFile(finalFile);
-    if (!buf || !Buffer.isBuffer(buf) || buf.length === 0) {
-      logger.error('❌ La pista de voz generada está vacía o es inválida');
-      throw new Error('La pista de voz generada está vacía o es inválida');
-    }
-    logger.info(`✅  Pista de voz lista (${buf.length} bytes)`);
-    return buf;
-  } catch (e: any) {
-    logger.error(`VoiceService error: ${e.message}`);
-    throw new Error('VoiceService failed');
+    // Concatenar los buffers de audio
+    return Buffer.concat(audioBuffers);
+  } catch (e) {
+    logger.error(`VoiceService error: ${e instanceof Error ? e.message : 'Unknown error'}`);
+    // En caso de error, devolver un buffer vacío en lugar de lanzar una excepción
+    logger.warn('⚠️ Continuando sin narración debido a errores en la generación de voz.');
+    return Buffer.from([]);
   }
 }

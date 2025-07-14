@@ -1025,3 +1025,16 @@
 2025-07-14T18:58:27.564Z [error] Error al descargar la imagen generada t=0: Invalid URL
 2025-07-14T18:58:29.075Z [error] ❌ Error en generateStoryboards: No se pudo descargar la imagen generada
 2025-07-14T18:58:29.076Z [error] ❌ Error en runRenderPipeline: No se pudo descargar la imagen generada
+2025-07-14T19:12:10.609Z [error] FLUX generó una URL inválida: undefined
+2025-07-14T19:12:10.610Z [error] FLUX error: FLUX generated an invalid URL
+2025-07-14T19:12:21.329Z [error] VoiceService error: concat fail
+2025-07-14T19:12:24.150Z [error] VoiceService error: concat fail
+2025-07-14T19:12:26.051Z [error] Runway error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T19:12:26.054Z [error] ❌ Fallaron todos los modelos para el segmento 0
+2025-07-14T19:12:27.117Z [error] VoiceService error: concat fail
+2025-07-14T19:12:28.631Z [error] ❌ Error en createVoiceOver: VoiceService failed
+2025-07-14T19:12:28.632Z [error] ❌ Error en runRenderPipeline: VoiceService failed
+2025-07-14T19:12:31.974Z [error] Runway error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T19:12:31.975Z [error] ❌ Fallaron todos los modelos para el segmento 4
+2025-07-14T19:12:39.473Z [error] Runway error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T19:12:39.474Z [error] ❌ Fallaron todos los modelos para el segmento 8

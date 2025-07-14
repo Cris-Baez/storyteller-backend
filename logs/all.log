@@ -3361,3 +3361,79 @@
 2025-07-14T18:58:27.564Z [error] Error al descargar la imagen generada t=0: Invalid URL
 2025-07-14T18:58:29.075Z [error] ❌ Error en generateStoryboards: No se pudo descargar la imagen generada
 2025-07-14T18:58:29.076Z [error] ❌ Error en runRenderPipeline: No se pudo descargar la imagen generada
+2025-07-14T19:11:33.207Z [info] Storyteller AI backend running on 3000
+2025-07-14T19:11:48.893Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T19:11:48.894Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T19:11:48.896Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T19:12:07.080Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T19:12:07.081Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast cityscape at dawn, bathed in golden light.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The w...
+2025-07-14T19:12:07.082Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T19:12:07.082Z [info] 📜 Plan OK (10s)
+2025-07-14T19:12:07.083Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T19:12:07.083Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T19:12:10.609Z [error] FLUX generó una URL inválida: undefined
+2025-07-14T19:12:10.610Z [error] FLUX error: FLUX generated an invalid URL
+2025-07-14T19:12:10.610Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-14T19:12:17.289Z [info] Archivo temporal creado: t0_4d20b4
+2025-07-14T19:12:18.726Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T19:12:18.827Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T19:12:18.828Z [info] ✅  Storyboards listos: 1
+2025-07-14T19:12:18.829Z [info] 🎞️  ClipService v6.2 — iniciando (con subida a CDN)…
+2025-07-14T19:12:18.829Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T19:12:18.830Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T19:12:18.830Z [info] 🎵  Freesound query: cinematic
+2025-07-14T19:12:18.833Z [info] → 3 segmentos de vídeo (limitado)
+2025-07-14T19:12:18.923Z [info] Procesando imagen de storyboard para Runway: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T19:12:19.164Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:19.267Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:19.370Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:19.476Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:19.576Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:19.690Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:19.806Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:19.846Z [info] ✅ Imagen convertida a Base64 y añadida a las opciones de Runway.
+2025-07-14T19:12:19.911Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:20.020Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:20.120Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:21.329Z [error] VoiceService error: concat fail
+2025-07-14T19:12:22.833Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T19:12:22.941Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:23.050Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:23.168Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:23.332Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:23.446Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:23.573Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:23.682Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:23.796Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:23.942Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:24.050Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:24.150Z [error] VoiceService error: concat fail
+2025-07-14T19:12:25.654Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T19:12:25.764Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:25.920Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:26.040Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:26.051Z [error] Runway error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T19:12:26.054Z [error] ❌ Fallaron todos los modelos para el segmento 0
+2025-07-14T19:12:26.148Z [info] ✅  Pista de música lista (1024940 bytes)
+2025-07-14T19:12:26.235Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:26.358Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:26.468Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:26.579Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:26.688Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:26.801Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:27.049Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:12:27.117Z [error] VoiceService error: concat fail
+2025-07-14T19:12:28.631Z [error] ❌ Error en createVoiceOver: VoiceService failed
+2025-07-14T19:12:28.632Z [error] ❌ Error en runRenderPipeline: VoiceService failed
+2025-07-14T19:12:31.974Z [error] Runway error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T19:12:31.975Z [error] ❌ Fallaron todos los modelos para el segmento 4
+2025-07-14T19:12:39.473Z [error] Runway error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T19:12:39.474Z [error] ❌ Fallaron todos los modelos para el segmento 8
+2025-07-14T19:12:39.474Z [info] ✅  Clips generados y subidos: 0

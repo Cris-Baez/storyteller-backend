@@ -88,14 +88,27 @@ async function genWithFLUX(prompt: string) {
         2
       )
     );
-    const url = (out as string[])[0];
+
+    // Validación más detallada de la respuesta
+    if (!out || !Array.isArray(out)) {
+      logger.error(`FLUX respuesta inesperada: ${JSON.stringify(out)}`);
+      throw new Error('FLUX returned invalid response format');
+    }
+
+    const url = out[0];
     if (!isValidHttpUrl(url)) {
       logger.error(`FLUX generó una URL inválida: ${url}`);
+      logger.error(`Respuesta completa de FLUX: ${JSON.stringify(out)}`);
       throw new Error('FLUX generated an invalid URL');
     }
+
+    logger.info(`✅ FLUX generó imagen exitosamente: ${url}`);
     return url;
   } catch (e: any) {
     logger.error(`FLUX error: ${e.message}`);
+    if (e.response?.data) {
+      logger.error(`FLUX response data: ${JSON.stringify(e.response.data)}`);
+    }
     throw new Error('FLUX generation failed');
   }
 }
@@ -105,21 +118,37 @@ async function genWithSDXL(prompt: string) {
     const out = await withTimeout(
       retry(() =>
         replicate.run(`${SDXL_MODEL}:${SDXL_VERSION}`, {
-          input: { prompt, width: 1024, height: 1024, num_inference_steps: 30 }
+          input: { 
+            prompt, 
+            width: 1024, 
+            height: 1024,
+            num_inference_steps: 30,
+            guidance_scale: 7.5 // Añadiendo parámetro para mejor calidad
+          }
         }),
         2
       )
     );
-    const url = (out as string[])[0];
+
+    // Validación más detallada de la respuesta
+    if (!out || !Array.isArray(out)) {
+      logger.error(`SDXL respuesta inesperada: ${JSON.stringify(out)}`);
+      throw new Error('SDXL returned invalid response format');
+    }
+
+    const url = out[0];
     if (!isValidHttpUrl(url)) {
       logger.error(`SDXL generó una URL inválida: ${url}`);
-      throw new Error('SDXL generation failed');
+      logger.error(`Respuesta completa de SDXL: ${JSON.stringify(out)}`);
+      throw new Error('SDXL generated an invalid URL');
     }
+
+    logger.info(`✅ SDXL generó imagen exitosamente: ${url}`);
     return url;
   } catch (e: any) {
     logger.error(`SDXL error: ${e.message}`);
-    if (e.response) {
-      logger.error(`SDXL response: ${JSON.stringify(e.response.data)}`);
+    if (e.response?.data) {
+      logger.error(`SDXL response data: ${JSON.stringify(e.response.data)}`);
     }
     throw new Error('SDXL generation failed');
   }
