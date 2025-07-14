@@ -100,7 +100,13 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
       throw new Error(`Invalid image URL: ${img}`);
     }
 
-    const durationSec: 10 | 5 | undefined = Math.min(10, Math.ceil(frames / 24)) as 10 | 5;
+
+    // Runway solo acepta duration 5 o 10
+    let durationSec: 10 | 5 = 10;
+    const seconds = Math.ceil(frames / 24);
+    if (seconds <= 5) durationSec = 5;
+    else durationSec = 10;
+
     const task = await runwayClient.imageToVideo
       .create({
         model: 'gen4_turbo',

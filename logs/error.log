@@ -971,3 +971,33 @@
 2025-07-14T16:14:46.323Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
 2025-07-14T16:14:47.390Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
 2025-07-14T16:14:52.024Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:21:35.005Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.032Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.042Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.057Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.068Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.081Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.090Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.102Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.113Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.128Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.138Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.153Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.162Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.176Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.188Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.200Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.210Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.228Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.234Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.243Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.252Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.263Z [error] SDXL error: img timeout
+2025-07-14T16:22:37.809Z [error] SDXL error: img timeout
+2025-07-14T16:22:37.815Z [error] SDXL error: img timeout
+2025-07-14T16:22:37.824Z [error] SDXL error: img timeout
+2025-07-14T16:22:37.833Z [error] SDXL error: img timeout
+2025-07-14T16:23:10.112Z [error] SDXL error: Prediction failed: NSFW content detected. Try running it again, or try a different prompt.
+2025-07-14T16:23:12.278Z [error] ❌ Error en generateStoryboards: 400 Billing hard limit has been reached
+2025-07-14T16:23:12.279Z [error] ❌ Error en runRenderPipeline: 400 Billing hard limit has been reached
+2025-07-14T16:26:38.390Z [error] Unhandled Rejection: Error: 400 {"error":"`duration` must be 5 or 10.","docUrl":"https://docs.dev.runwayml.com/api"}

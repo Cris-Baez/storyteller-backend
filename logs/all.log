@@ -2613,3 +2613,350 @@
 2025-07-14T16:14:47.390Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
 2025-07-14T16:14:51.679Z [info] Archivo temporal creado: t14_b37858
 2025-07-14T16:14:52.024Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:19:48.110Z [info] Storyteller AI backend running on 3000
+2025-07-14T16:19:56.161Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T16:19:56.164Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T16:19:56.166Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T16:20:34.973Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T16:20:34.974Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A desolate city skyline shrouded in mist.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The world wai...
+2025-07-14T16:20:34.977Z [info] 🎞️  VideoPlan listo (60s) via openai/gpt-4o
+2025-07-14T16:20:34.978Z [info] 📜 Plan OK (60s)
+2025-07-14T16:20:34.980Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T16:20:34.981Z [info] → Se generarán 33 frames de storyboard
+2025-07-14T16:20:41.112Z [info] Archivo temporal creado: t6_61d318
+2025-07-14T16:20:42.538Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t6.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t6.png
+2025-07-14T16:20:42.546Z [info] Archivo temporal creado: t32_5e15e9
+2025-07-14T16:20:42.673Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t6.png
+2025-07-14T16:20:43.561Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t32.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t32.png
+2025-07-14T16:20:43.683Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t32.png
+2025-07-14T16:20:44.630Z [info] Archivo temporal creado: t42_862580
+2025-07-14T16:20:45.164Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t42.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t42.png
+2025-07-14T16:20:45.270Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t42.png
+2025-07-14T16:20:47.078Z [info] Archivo temporal creado: t28_eb87db
+2025-07-14T16:20:47.623Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t28.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t28.png
+2025-07-14T16:20:47.721Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t28.png
+2025-07-14T16:20:56.003Z [info] Archivo temporal creado: t52_45e56f
+2025-07-14T16:20:57.154Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t52.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t52.png
+2025-07-14T16:20:57.273Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t52.png
+2025-07-14T16:21:06.013Z [info] Archivo temporal creado: t8_b6d4d6
+2025-07-14T16:21:06.102Z [info] Archivo temporal creado: t30_971eb7
+2025-07-14T16:21:07.333Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t30.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t30.png
+2025-07-14T16:21:07.374Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t8.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t8.png
+2025-07-14T16:21:07.441Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t30.png
+2025-07-14T16:21:07.487Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t8.png
+2025-07-14T16:21:22.877Z [info] Archivo temporal creado: t18_4f2f28
+2025-07-14T16:21:23.263Z [info] Archivo temporal creado: t10_200094
+2025-07-14T16:21:24.280Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t18.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t18.png
+2025-07-14T16:21:24.409Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t18.png
+2025-07-14T16:21:24.598Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t10.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t10.png
+2025-07-14T16:21:24.726Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t10.png
+2025-07-14T16:21:26.490Z [info] Archivo temporal creado: t24_294c5d
+2025-07-14T16:21:27.047Z [info] Archivo temporal creado: t38_2fae08
+2025-07-14T16:21:27.219Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t24.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t24.png
+2025-07-14T16:21:27.354Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t24.png
+2025-07-14T16:21:27.620Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t38.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t38.png
+2025-07-14T16:21:27.723Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t38.png
+2025-07-14T16:21:35.005Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.007Z [warn] SDXL fallo para t=0 → usando DALL·E
+2025-07-14T16:21:35.032Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.034Z [warn] SDXL fallo para t=1 → usando DALL·E
+2025-07-14T16:21:35.042Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.043Z [warn] SDXL fallo para t=2 → usando DALL·E
+2025-07-14T16:21:35.057Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.059Z [warn] SDXL fallo para t=4 → usando DALL·E
+2025-07-14T16:21:35.068Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.070Z [warn] SDXL fallo para t=12 → usando DALL·E
+2025-07-14T16:21:35.081Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.083Z [warn] SDXL fallo para t=14 → usando DALL·E
+2025-07-14T16:21:35.090Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.092Z [warn] SDXL fallo para t=16 → usando DALL·E
+2025-07-14T16:21:35.102Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.104Z [warn] SDXL fallo para t=20 → usando DALL·E
+2025-07-14T16:21:35.113Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.116Z [warn] SDXL fallo para t=22 → usando DALL·E
+2025-07-14T16:21:35.128Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.129Z [warn] SDXL fallo para t=26 → usando DALL·E
+2025-07-14T16:21:35.138Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.139Z [warn] SDXL fallo para t=29 → usando DALL·E
+2025-07-14T16:21:35.153Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.154Z [warn] SDXL fallo para t=34 → usando DALL·E
+2025-07-14T16:21:35.162Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.164Z [warn] SDXL fallo para t=36 → usando DALL·E
+2025-07-14T16:21:35.176Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.179Z [warn] SDXL fallo para t=40 → usando DALL·E
+2025-07-14T16:21:35.188Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.190Z [warn] SDXL fallo para t=44 → usando DALL·E
+2025-07-14T16:21:35.200Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.202Z [warn] SDXL fallo para t=45 → usando DALL·E
+2025-07-14T16:21:35.210Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.211Z [warn] SDXL fallo para t=46 → usando DALL·E
+2025-07-14T16:21:35.228Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.228Z [warn] SDXL fallo para t=48 → usando DALL·E
+2025-07-14T16:21:35.234Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.236Z [warn] SDXL fallo para t=50 → usando DALL·E
+2025-07-14T16:21:35.243Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.244Z [warn] SDXL fallo para t=54 → usando DALL·E
+2025-07-14T16:21:35.252Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.254Z [warn] SDXL fallo para t=56 → usando DALL·E
+2025-07-14T16:21:35.263Z [error] SDXL error: img timeout
+2025-07-14T16:21:35.264Z [warn] SDXL fallo para t=58 → usando DALL·E
+2025-07-14T16:21:37.806Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T16:21:37.807Z [info] → Se generarán 33 frames de storyboard
+2025-07-14T16:22:12.501Z [info] Archivo temporal creado: t34_f9cf48
+2025-07-14T16:22:12.723Z [info] Archivo temporal creado: t10_5625a4
+2025-07-14T16:22:12.990Z [info] Archivo temporal creado: t24_0a3c48
+2025-07-14T16:22:14.148Z [info] Archivo temporal creado: t0_bb6cf7
+2025-07-14T16:22:14.163Z [info] Archivo temporal creado: t26_46fbb7
+2025-07-14T16:22:14.213Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t34.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t34.png
+2025-07-14T16:22:14.344Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t34.png
+2025-07-14T16:22:14.487Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t10.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t10.png
+2025-07-14T16:22:14.631Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t10.png
+2025-07-14T16:22:14.806Z [info] Archivo temporal creado: t12_38289c
+2025-07-14T16:22:15.322Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T16:22:15.400Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t26.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t26.png
+2025-07-14T16:22:15.428Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T16:22:15.488Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t12.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t12.png
+2025-07-14T16:22:15.506Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t26.png
+2025-07-14T16:22:15.578Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t12.png
+2025-07-14T16:22:15.885Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t24.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t24.png
+2025-07-14T16:22:16.005Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t24.png
+2025-07-14T16:22:17.465Z [info] Archivo temporal creado: t2_e8d9bf
+2025-07-14T16:22:18.247Z [info] Archivo temporal creado: t20_3596ad
+2025-07-14T16:22:18.943Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t20.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t20.png
+2025-07-14T16:22:19.041Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t20.png
+2025-07-14T16:22:19.131Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t2.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t2.png
+2025-07-14T16:22:19.235Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t2.png
+2025-07-14T16:22:19.242Z [info] Archivo temporal creado: t30_890877
+2025-07-14T16:22:19.419Z [info] Archivo temporal creado: t16_c45f88
+2025-07-14T16:22:19.978Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t16.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t16.png
+2025-07-14T16:22:20.078Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t16.png
+2025-07-14T16:22:20.494Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t30.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t30.png
+2025-07-14T16:22:20.584Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t30.png
+2025-07-14T16:22:22.372Z [info] Archivo temporal creado: t1_c09258
+2025-07-14T16:22:23.058Z [info] Archivo temporal creado: t4_e9ebf4
+2025-07-14T16:22:23.629Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t1.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t1.png
+2025-07-14T16:22:23.710Z [info] Archivo temporal creado: t28_f587a4
+2025-07-14T16:22:23.735Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t1.png
+2025-07-14T16:22:23.790Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t4.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t4.png
+2025-07-14T16:22:23.883Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t4.png
+2025-07-14T16:22:24.069Z [info] Archivo temporal creado: t32_08eb4f
+2025-07-14T16:22:24.703Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t32.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t32.png
+2025-07-14T16:22:24.801Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t32.png
+2025-07-14T16:22:24.916Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t28.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t28.png
+2025-07-14T16:22:25.033Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t28.png
+2025-07-14T16:22:26.728Z [info] Archivo temporal creado: t36_265c78
+2025-07-14T16:22:26.825Z [info] Archivo temporal creado: t22_f57ad2
+2025-07-14T16:22:27.447Z [info] Archivo temporal creado: t42_3ef529
+2025-07-14T16:22:27.456Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t36.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t36.png
+2025-07-14T16:22:27.600Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t36.png
+2025-07-14T16:22:27.750Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t22.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t22.png
+2025-07-14T16:22:27.893Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t22.png
+2025-07-14T16:22:28.156Z [info] Archivo temporal creado: t6_50edeb
+2025-07-14T16:22:28.629Z [info] Archivo temporal creado: t48_38de2f
+2025-07-14T16:22:28.776Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t42.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t42.png
+2025-07-14T16:22:28.990Z [info] Archivo temporal creado: t46_ac8950
+2025-07-14T16:22:29.041Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t6.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t6.png
+2025-07-14T16:22:29.048Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t42.png
+2025-07-14T16:22:29.169Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t6.png
+2025-07-14T16:22:29.317Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t48.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t48.png
+2025-07-14T16:22:29.368Z [info] Archivo temporal creado: t14_f3ece7
+2025-07-14T16:22:29.417Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t48.png
+2025-07-14T16:22:29.868Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t14.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t14.png
+2025-07-14T16:22:29.959Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t14.png
+2025-07-14T16:22:30.086Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t46.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t46.png
+2025-07-14T16:22:30.186Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t46.png
+2025-07-14T16:22:31.206Z [info] Archivo temporal creado: t45_511db2
+2025-07-14T16:22:31.265Z [info] Archivo temporal creado: t38_19b0a5
+2025-07-14T16:22:31.699Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t45.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t45.png
+2025-07-14T16:22:31.789Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t45.png
+2025-07-14T16:22:31.905Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t38.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t38.png
+2025-07-14T16:22:31.981Z [info] Archivo temporal creado: t44_8c1e15
+2025-07-14T16:22:32.017Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t38.png
+2025-07-14T16:22:32.499Z [info] Archivo temporal creado: t50_8aa63f
+2025-07-14T16:22:32.594Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t44.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t44.png
+2025-07-14T16:22:32.721Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t44.png
+2025-07-14T16:22:33.019Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t50.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t50.png
+2025-07-14T16:22:33.118Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t50.png
+2025-07-14T16:22:33.391Z [info] Archivo temporal creado: t29_956c19
+2025-07-14T16:22:33.919Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t29.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t29.png
+2025-07-14T16:22:34.002Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t29.png
+2025-07-14T16:22:35.250Z [info] Archivo temporal creado: t56_5f39d3
+2025-07-14T16:22:35.481Z [info] Archivo temporal creado: t52_84af02
+2025-07-14T16:22:35.912Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t56.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t56.png
+2025-07-14T16:22:36.015Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t56.png
+2025-07-14T16:22:36.101Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t52.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t52.png
+2025-07-14T16:22:36.205Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t52.png
+2025-07-14T16:22:36.250Z [info] Archivo temporal creado: t18_7d2c5d
+2025-07-14T16:22:36.820Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t18.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t18.png
+2025-07-14T16:22:36.909Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t18.png
+2025-07-14T16:22:37.809Z [error] SDXL error: img timeout
+2025-07-14T16:22:37.810Z [warn] SDXL fallo para t=8 → usando DALL·E
+2025-07-14T16:22:37.815Z [error] SDXL error: img timeout
+2025-07-14T16:22:37.817Z [warn] SDXL fallo para t=40 → usando DALL·E
+2025-07-14T16:22:37.824Z [error] SDXL error: img timeout
+2025-07-14T16:22:37.826Z [warn] SDXL fallo para t=54 → usando DALL·E
+2025-07-14T16:22:37.833Z [error] SDXL error: img timeout
+2025-07-14T16:22:37.835Z [warn] SDXL fallo para t=58 → usando DALL·E
+2025-07-14T16:22:39.962Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T16:22:39.963Z [info] → Se generarán 33 frames de storyboard
+2025-07-14T16:22:46.178Z [info] Archivo temporal creado: t30_bc73ab
+2025-07-14T16:22:46.233Z [info] Archivo temporal creado: t0_484467
+2025-07-14T16:22:46.503Z [info] Archivo temporal creado: t1_ced6bc
+2025-07-14T16:22:46.899Z [info] Archivo temporal creado: t45_7fe380
+2025-07-14T16:22:47.421Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T16:22:47.557Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T16:22:47.736Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t30.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t30.png
+2025-07-14T16:22:47.787Z [info] Archivo temporal creado: t2_3039ec
+2025-07-14T16:22:47.833Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t1.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t1.png
+2025-07-14T16:22:47.869Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t30.png
+2025-07-14T16:22:47.962Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t1.png
+2025-07-14T16:22:48.175Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t45.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t45.png
+2025-07-14T16:22:48.296Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t45.png
+2025-07-14T16:22:48.560Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t2.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t2.png
+2025-07-14T16:22:48.582Z [info] Archivo temporal creado: t20_eff8ab
+2025-07-14T16:22:48.655Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t2.png
+2025-07-14T16:22:48.781Z [info] Archivo temporal creado: t28_321e3f
+2025-07-14T16:22:49.148Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t20.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t20.png
+2025-07-14T16:22:49.242Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t20.png
+2025-07-14T16:22:49.479Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t28.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t28.png
+2025-07-14T16:22:49.581Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t28.png
+2025-07-14T16:22:50.490Z [info] Archivo temporal creado: t10_6dd72b
+2025-07-14T16:22:51.317Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t10.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t10.png
+2025-07-14T16:22:51.475Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t10.png
+2025-07-14T16:22:51.486Z [info] Archivo temporal creado: t4_224f8f
+2025-07-14T16:22:51.489Z [info] Archivo temporal creado: t22_b2873c
+2025-07-14T16:22:51.615Z [info] Archivo temporal creado: t34_571540
+2025-07-14T16:22:52.155Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t22.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t22.png
+2025-07-14T16:22:52.367Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t22.png
+2025-07-14T16:22:52.470Z [info] Archivo temporal creado: t42_79ea15
+2025-07-14T16:22:52.660Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t34.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t34.png
+2025-07-14T16:22:52.671Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t4.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t4.png
+2025-07-14T16:22:52.811Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t34.png
+2025-07-14T16:22:52.814Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t4.png
+2025-07-14T16:22:53.036Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t42.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t42.png
+2025-07-14T16:22:53.121Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t42.png
+2025-07-14T16:22:53.630Z [info] Archivo temporal creado: t14_9ae1d2
+2025-07-14T16:22:54.263Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t14.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t14.png
+2025-07-14T16:22:54.305Z [info] Archivo temporal creado: t32_b4105d
+2025-07-14T16:22:54.361Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t14.png
+2025-07-14T16:22:55.215Z [info] Archivo temporal creado: t36_b2deb1
+2025-07-14T16:22:55.224Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t32.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t32.png
+2025-07-14T16:22:55.343Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t32.png
+2025-07-14T16:22:55.779Z [info] Archivo temporal creado: t44_1d183c
+2025-07-14T16:22:55.875Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t36.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t36.png
+2025-07-14T16:22:55.989Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t36.png
+2025-07-14T16:22:56.074Z [info] Archivo temporal creado: t48_5b134a
+2025-07-14T16:22:56.474Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t44.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t44.png
+2025-07-14T16:22:56.588Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t44.png
+2025-07-14T16:22:56.641Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t48.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t48.png
+2025-07-14T16:22:56.728Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t48.png
+2025-07-14T16:22:57.401Z [info] Archivo temporal creado: t24_427f31
+2025-07-14T16:22:58.020Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t24.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t24.png
+2025-07-14T16:22:58.111Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t24.png
+2025-07-14T16:22:59.338Z [info] Archivo temporal creado: t16_bdecf3
+2025-07-14T16:22:59.632Z [info] Archivo temporal creado: t8_89ac22
+2025-07-14T16:23:00.027Z [info] Archivo temporal creado: t12_8c9496
+2025-07-14T16:23:00.094Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t16.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t16.png
+2025-07-14T16:23:00.201Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t16.png
+2025-07-14T16:23:00.453Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t8.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t8.png
+2025-07-14T16:23:00.460Z [info] Archivo temporal creado: t56_6fd6c8
+2025-07-14T16:23:00.549Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t8.png
+2025-07-14T16:23:01.061Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t56.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t56.png
+2025-07-14T16:23:01.155Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t56.png
+2025-07-14T16:23:01.337Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t12.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t12.png
+2025-07-14T16:23:01.388Z [info] Archivo temporal creado: t54_461abb
+2025-07-14T16:23:01.460Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t12.png
+2025-07-14T16:23:01.900Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t54.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t54.png
+2025-07-14T16:23:01.989Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t54.png
+2025-07-14T16:23:03.178Z [info] Archivo temporal creado: t58_230f89
+2025-07-14T16:23:03.756Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t58.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t58.png
+2025-07-14T16:23:03.851Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t58.png
+2025-07-14T16:23:04.116Z [info] Archivo temporal creado: t6_7ec29f
+2025-07-14T16:23:04.368Z [info] Archivo temporal creado: t29_bfe57c
+2025-07-14T16:23:04.824Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t6.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t6.png
+2025-07-14T16:23:04.838Z [info] Archivo temporal creado: t52_73fbb7
+2025-07-14T16:23:04.981Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t6.png
+2025-07-14T16:23:05.213Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t29.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t29.png
+2025-07-14T16:23:05.338Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t29.png
+2025-07-14T16:23:05.587Z [info] Archivo temporal creado: t18_3cdbeb
+2025-07-14T16:23:05.659Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t52.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t52.png
+2025-07-14T16:23:05.783Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t52.png
+2025-07-14T16:23:06.289Z [info] Archivo temporal creado: t50_2241ff
+2025-07-14T16:23:06.315Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t18.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t18.png
+2025-07-14T16:23:06.451Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t18.png
+2025-07-14T16:23:06.878Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t50.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t50.png
+2025-07-14T16:23:06.974Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t50.png
+2025-07-14T16:23:06.991Z [info] Archivo temporal creado: t38_5fb408
+2025-07-14T16:23:07.629Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t38.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t38.png
+2025-07-14T16:23:07.732Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t38.png
+2025-07-14T16:23:08.111Z [info] Archivo temporal creado: t26_5d0423
+2025-07-14T16:23:08.215Z [info] Archivo temporal creado: t46_0c7d57
+2025-07-14T16:23:08.829Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t26.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t26.png
+2025-07-14T16:23:08.871Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t46.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t46.png
+2025-07-14T16:23:08.937Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t26.png
+2025-07-14T16:23:08.984Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t46.png
+2025-07-14T16:23:10.112Z [error] SDXL error: Prediction failed: NSFW content detected. Try running it again, or try a different prompt.
+2025-07-14T16:23:10.113Z [warn] SDXL fallo para t=40 → usando DALL·E
+2025-07-14T16:23:12.278Z [error] ❌ Error en generateStoryboards: 400 Billing hard limit has been reached
+2025-07-14T16:23:12.279Z [error] ❌ Error en runRenderPipeline: 400 Billing hard limit has been reached
+2025-07-14T16:25:35.095Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T16:25:35.099Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T16:25:35.100Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T16:25:53.464Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T16:25:53.465Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A desolate cityscape under dark, stormy skies.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The worl...
+2025-07-14T16:25:53.467Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T16:25:53.468Z [info] 📜 Plan OK (10s)
+2025-07-14T16:25:53.469Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T16:25:53.471Z [info] → Se generarán 10 frames de storyboard
+2025-07-14T16:25:59.979Z [info] Archivo temporal creado: t0_c468b2
+2025-07-14T16:26:00.473Z [info] Archivo temporal creado: t2_aabf29
+2025-07-14T16:26:01.849Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T16:26:01.906Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t2.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t2.png
+2025-07-14T16:26:01.964Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T16:26:02.002Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t2.png
+2025-07-14T16:26:03.302Z [info] Archivo temporal creado: t3_2bb3a8
+2025-07-14T16:26:04.331Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t3.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t3.png
+2025-07-14T16:26:04.427Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t3.png
+2025-07-14T16:26:07.840Z [info] Archivo temporal creado: t6_7c1fb4
+2025-07-14T16:26:08.698Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t6.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t6.png
+2025-07-14T16:26:08.805Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t6.png
+2025-07-14T16:26:12.259Z [info] Archivo temporal creado: t4_c6237f
+2025-07-14T16:26:12.951Z [info] Archivo temporal creado: t9_6994d9
+2025-07-14T16:26:13.018Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t4.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t4.png
+2025-07-14T16:26:13.110Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t4.png
+2025-07-14T16:26:13.998Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t9.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t9.png
+2025-07-14T16:26:14.118Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t9.png
+2025-07-14T16:26:20.290Z [info] Archivo temporal creado: t8_0f7e26
+2025-07-14T16:26:21.762Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t8.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t8.png
+2025-07-14T16:26:21.865Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t8.png
+2025-07-14T16:26:23.813Z [info] Archivo temporal creado: t7_f9afb2
+2025-07-14T16:26:24.363Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t7.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t7.png
+2025-07-14T16:26:24.464Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t7.png
+2025-07-14T16:26:28.161Z [info] Archivo temporal creado: t1_fa84d6
+2025-07-14T16:26:28.868Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t1.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t1.png
+2025-07-14T16:26:28.969Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t1.png
+2025-07-14T16:26:36.233Z [info] Archivo temporal creado: t5_eeeb8a
+2025-07-14T16:26:37.209Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t5.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t5.png
+2025-07-14T16:26:37.325Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t5.png
+2025-07-14T16:26:37.326Z [info] ✅  Storyboards listos: 10
+2025-07-14T16:26:37.328Z [info] 🎞️  ClipService v6.1 — iniciando…
+2025-07-14T16:26:37.335Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T16:26:37.336Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T16:26:37.339Z [info] 🎵  Freesound query: cinematic
+2025-07-14T16:26:37.350Z [info] → 9 segmentos de vídeo
+2025-07-14T16:26:37.989Z [warn] Voice ID inválido: en-US-daniel. Usando ElevenLabs como fallback.
+2025-07-14T16:26:38.390Z [error] Unhandled Rejection: Error: 400 {"error":"`duration` must be 5 or 10.","docUrl":"https://docs.dev.runwayml.com/api"}
