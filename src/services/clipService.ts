@@ -71,12 +71,26 @@ async function genRunway(prompt: string, frames: number, promptImage: string): P
 async function genReplicate(
   prompt: string,
   frames: number,
-  style: keyof typeof MODEL_MAP
+  style: keyof typeof MODEL_MAP,
+  referenceImages?: string[]
 ): Promise<string> {
   const dur = Math.min(Math.ceil(frames / 24), 5);
-  const res: any = await replicate.run(MODEL_MAP[style], {
-    input: { prompt, aspect_ratio: '16:9', duration: dur }
-  });
+  let model: string = MODEL_MAP[style];
+  let input: any = { prompt, duration: dur };
+  // Para realismo, usar Veo-3-fast si no hay imágenes, o zeroscope si no
+  if (style === 'realistic') {
+    if (referenceImages && referenceImages.length > 0) {
+      model = 'runwayml/gen4-image';
+      input = { prompt, reference_images: referenceImages, aspect_ratio: '16:9', duration: dur };
+    } else {
+      model = 'google/veo-3-fast';
+      input = { prompt, duration: dur };
+    }
+  } else if (referenceImages && referenceImages.length > 0) {
+    input.reference_images = referenceImages;
+  }
+  if (!input.aspect_ratio) input.aspect_ratio = '16:9';
+  const res: any = await replicate.run(model as any, { input });
   return Array.isArray(res) ? res[0] : res.video;
 }
 
@@ -128,22 +142,40 @@ export async function generateClips(
     const prompt = buildPrompt(seg, plan.metadata.visualStyle);
     const frames = (seg.end - seg.start + 1) * 24;
 
-    // Si tienes storyboard para ese segmento, úsalo. Si no, fallback a dummy.
+    // 1. Buscar imagen de storyboard local (si existe), luego CDN, luego dummy
     let promptImage = DUMMY_IMAGE;
     if (Array.isArray(storyboardUrls) && storyboardUrls[seg.start]) {
-      promptImage = storyboardUrls[seg.start];
+      // Si la URL es file:// usa local, si es http(s) usa CDN
+      if (storyboardUrls[seg.start].startsWith('file://')) {
+        promptImage = storyboardUrls[seg.start].replace('file://', '');
+      } else {
+        promptImage = storyboardUrls[seg.start];
+      }
     }
 
-    /* 1. Runway → Replicate fallback */
+    // 2. RunwayML: probar primero local, si falla probar CDN, si falla dummy
     let url: string | null = null;
-    try {
-      url = await withTimeout(genRunway(prompt, frames, promptImage));
-    } catch (err) {
-      logger.warn(`Runway fallo (seg ${seg.start}): ${(err as Error).message}`);
+    let triedImages: string[] = [];
+    for (const img of [promptImage, DUMMY_IMAGE]) {
+      triedImages.push(img);
+      try {
+        url = await withTimeout(genRunway(prompt, frames, img));
+        break;
+      } catch (err) {
+        logger.warn(`Runway fallo (seg ${seg.start}) con imagen ${img}: ${(err as Error).message}`);
+      }
+    }
+    if (!url) {
+      // Si hay imagen válida, pásala como reference_images a Replicate
+      let referenceImages: string[] = [];
+      if (promptImage && promptImage !== DUMMY_IMAGE && promptImage.startsWith('http')) {
+        referenceImages = [promptImage];
+      }
       try {
         url = await withTimeout(genReplicate(
           prompt, frames,
-          plan.metadata.visualStyle as keyof typeof MODEL_MAP
+          plan.metadata.visualStyle as keyof typeof MODEL_MAP,
+          referenceImages
         ));
       } catch {
         logger.error(`Replicate también fallo (seg ${seg.start})`);
@@ -151,13 +183,13 @@ export async function generateClips(
       }
     }
 
-    /* 2. Descarga en streaming → /tmp */
+    // 3. Descargar en streaming → /tmp
     const fname = `clip_${seg.start}_${uuid().slice(0,8)}.mp4`;
     const local = path.join(TMP_CLIPS, fname);
     const resp  = await fetch(url!);
     await pipeline(resp.body as any, fss.createWriteStream(local));
 
-    /* 3. Sube a CDN */
+    // 4. Subir a CDN
     const { uploadToCDN } = await import('./cdnService.js');
     const cdn = await uploadToCDN(local, `clips/${fname}`);
     clipUrls.push(cdn);
