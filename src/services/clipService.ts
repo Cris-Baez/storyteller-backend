@@ -55,23 +55,26 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
           .jpeg({ quality: 90 })
           .toFile(tmpFile);
 
-        // 🔧 2. Asegúrate que la imagen subida al CDN esté marcada como pública
-        const { uploadToCDN } = await import('./cdnService.js');
-        const cdnUrl = await uploadToCDN(tmpFile, `runway-prompts/${uuid()}.jpg`);
-        logger.info(`✅ Imagen procesada y subida a CDN: ${cdnUrl}`);
+        // Ajuste para RunwayML: Eliminar uso de uploadImage si no está soportado
+        logger.warn('⚠️ La función uploadImage no está disponible en RunwayML SDK');
 
-        // 🔧 3. Valida que la URL funcione desde Runway
-        const isValidUrl = await validateUrl(cdnUrl);
-        if (!isValidUrl) {
-          logger.warn(`URL de imagen no válida para Runway: ${cdnUrl}`);
-          delete createOpts.promptImage;
-        } else {
-          createOpts.promptImage = cdnUrl;
+        // Definir bufVideo en el ámbito correcto
+        let bufVideo: Buffer | null = null;
+
+        // Fallback de frame negro
+        if (!bufVideo) {
+          logger.warn('🕳️ usando black frame de reserva');
+          const generateBlackFrame = async (frames: number, width: number, height: number): Promise<Buffer> => {
+            // Implementación rápida de frame negro
+            const ffmpegCmd = `ffmpeg -f lavfi -i color=c=black:s=${width}x${height} -t ${frames / 24} -r 24 -f mp4 pipe:1`;
+            const { spawn } = await import('child_process');
+            const ffmpeg = spawn(ffmpegCmd, { shell: true });
+            const chunks: Buffer[] = [];
+            for await (const chunk of ffmpeg.stdout) chunks.push(chunk);
+            return Buffer.concat(chunks);
+          };
+          bufVideo = await generateBlackFrame(frames, 1280, 720);
         }
-        // 6. Limpiar
-        await fs.rm(tmpDir, { recursive: true, force: true }).catch(e => 
-          logger.warn(`Error limpiando directorio temporal: ${e instanceof Error ? e.message : 'Unknown error'}`)
-        );
       } catch (e) {
         const errorMessage = e instanceof Error ? e.message : 'Error desconocido';
         logger.error(`Error procesando imagen para Runway: ${errorMessage}`);
