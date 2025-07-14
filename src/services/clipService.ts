@@ -119,6 +119,7 @@ async function genRunway(prompt: string, frames: number, promptImage: string): P
   // Runway SOLO acepta 5 o 10 (seconds)
   const dur: 5 | 10 = (Math.ceil(frames / 24) <= 5 ? 5 : 10);
 
+
   let promptImageUrl: string;
   if (promptImage.startsWith('http')) {
     // Si es URL pública, úsala directo
@@ -132,6 +133,8 @@ async function genRunway(prompt: string, frames: number, promptImage: string): P
     promptImageUrl = await uploadToCDN(localPath, cdnPath);
     logger.info(`🖼️ Imagen local subida a CDN para RunwayML: ${promptImageUrl}`);
   }
+
+  logger.info(`[DEBUG] promptImageUrl enviado a RunwayML: ${promptImageUrl}`);
 
   const out = await runway.imageToVideo
     .create({
