@@ -120,21 +120,10 @@ async function genRunway(prompt: string, frames: number, promptImage: string): P
   const dur: 5 | 10 = (Math.ceil(frames / 24) <= 5 ? 5 : 10);
 
 
-  let promptImageUrl: string;
-  if (promptImage.startsWith('http')) {
-    // Si es URL pública, úsala directo
-    promptImageUrl = promptImage;
-  } else {
-    // Si es archivo local, súbelo a CDN y usa la URL resultante
-    const localPath = promptImage.replace('file://', '');
-    const { uploadToCDN } = await import('./cdnService.js');
-    // Nombre único para evitar colisiones
-    const cdnPath = `runway-inputs/${uuid().slice(0,8)}_${path.basename(localPath)}`;
-    promptImageUrl = await uploadToCDN(localPath, cdnPath);
-    logger.info(`🖼️ Imagen local subida a CDN para RunwayML: ${promptImageUrl}`);
-  }
 
-  logger.info(`[DEBUG] promptImageUrl enviado a RunwayML: ${promptImageUrl}`);
+  // Forzar siempre la dummy image para RunwayML (test de compatibilidad)
+  const promptImageUrl = DUMMY_IMAGE;
+  logger.info(`[DEBUG] promptImageUrl (FORZADO DUMMY) enviado a RunwayML: ${promptImageUrl}`);
 
   const out = await runway.imageToVideo
     .create({
