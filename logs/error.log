@@ -949,3 +949,25 @@
 .
 2025-07-14T15:59:48.924Z [error] SDXL response: undefined
 2025-07-14T15:59:52.572Z [error] VoiceService error: concat fail
+2025-07-14T16:14:02.994Z [error] ❌ Error en generateClips: Cannot access 'storyboardUrls' before initialization
+2025-07-14T16:14:02.995Z [error] ❌ Error en runRenderPipeline: Cannot access 'storyboardUrls' before initialization
+2025-07-14T16:14:04.466Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:04.852Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:07.345Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:08.650Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:15.913Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:16.669Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:19.432Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:20.586Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:24.766Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:25.662Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:29.262Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:29.722Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:33.775Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:34.403Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:38.097Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:38.960Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:43.172Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:46.323Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:47.390Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:52.024Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access

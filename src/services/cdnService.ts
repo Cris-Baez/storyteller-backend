@@ -20,13 +20,10 @@ export async function uploadToCDN(localFilePath: string, cdnPath: string): Promi
     throw new Error(`El archivo no existe en la ruta especificada: ${localFilePath}`);
   }
 
+
+  // Subida simple, sin ACLs ni public:true (compatible con uniform bucket-level access)
   await bucket.upload(localFilePath, {
-    destination: cdnPath,
-    resumable: false,
-    public: true,
-    metadata: {
-      cacheControl: 'public, max-age=86400', // 1 día de caché
-    },
+    destination: cdnPath
   });
 
   const url = `https://storage.googleapis.com/${env.GCP_BUCKET_NAME}/${cdnPath}`;

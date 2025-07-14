@@ -44,12 +44,15 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
     const plan: VideoPlan = await withTimeout(retry(()=>createVideoPlan(req)), TIMEOUT);
     logger.info(`📜 Plan OK (${plan.timeline.length}s)`);
 
-    /* 2️⃣  Storyboards · Clips · VO · Música (paralelo) */
-    const results = await Promise.all([
-      withTimeout(retry(()=>generateStoryboards(plan))).catch(err => {
-        logger.error(`❌ Error en generateStoryboards: ${err.message}`);
-        throw err;
-      }),
+
+    // 2️⃣ Storyboards primero
+    const storyboardUrls: string[] = await withTimeout(retry(()=>generateStoryboards(plan))).catch(err => {
+      logger.error(`❌ Error en generateStoryboards: ${err.message}`);
+      throw err;
+    });
+
+    // 3️⃣ Clips, VO y música en paralelo
+    const [clips, voiceOver, music] = await Promise.all([
       withTimeout(retry(()=>generateClips(plan, storyboardUrls))).catch(err => {
         logger.error(`❌ Error en generateClips: ${err.message}`);
         throw err;
@@ -63,11 +66,6 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
         throw err;
       })
     ]);
-
-    const storyboardUrls: string[] = results[0] as string[];
-    const clips: string[] = results[1] as string[];
-    const voiceOver: Buffer = results[2] as Buffer;
-    const music: Buffer = results[3] as Buffer;
 
     // Verificación de assets
     logger.info('Verificando assets generados...');

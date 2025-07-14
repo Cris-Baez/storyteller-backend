@@ -2544,3 +2544,72 @@
 2025-07-14T16:00:03.840Z [warn] ElevenLabs error: Request failed with status code 400
 2025-07-14T16:00:03.983Z [warn] Voice ID inválido: en-US-will. Usando ElevenLabs como fallback.
 2025-07-14T16:00:04.100Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:13:15.056Z [info] Storyteller AI backend running on 3000
+2025-07-14T16:13:18.593Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T16:13:18.597Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T16:13:18.600Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T16:13:56.956Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T16:13:56.958Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast cityscape at dawn, skyscrapers silhouetted.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The ...
+2025-07-14T16:13:56.963Z [info] 🎞️  VideoPlan listo (60s) via openai/gpt-4o
+2025-07-14T16:13:56.964Z [info] 📜 Plan OK (60s)
+2025-07-14T16:13:56.966Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T16:13:56.968Z [info] → Se generarán 37 frames de storyboard
+2025-07-14T16:13:56.984Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T16:13:56.986Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T16:13:56.989Z [info] 🎵  Freesound query: cinematic
+2025-07-14T16:13:58.587Z [warn] Voice ID inválido: en-US-charles. Usando ElevenLabs como fallback.
+2025-07-14T16:14:01.677Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:14:01.974Z [warn] Voice ID inválido: en-US-charles. Usando ElevenLabs como fallback.
+2025-07-14T16:14:02.117Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:14:02.994Z [error] ❌ Error en generateClips: Cannot access 'storyboardUrls' before initialization
+2025-07-14T16:14:02.995Z [error] ❌ Error en runRenderPipeline: Cannot access 'storyboardUrls' before initialization
+2025-07-14T16:14:03.203Z [info] Archivo temporal creado: t2_1406db
+2025-07-14T16:14:03.958Z [info] Archivo temporal creado: t12_8cb784
+2025-07-14T16:14:04.466Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:04.852Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:05.820Z [info] ✅  Pista de música lista (1024940 bytes)
+2025-07-14T16:14:05.970Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T16:14:05.971Z [info] → Se generarán 37 frames de storyboard
+2025-07-14T16:14:07.051Z [info] Archivo temporal creado: t6_5bae5d
+2025-07-14T16:14:07.345Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:08.302Z [info] Archivo temporal creado: t8_5a47ca
+2025-07-14T16:14:08.650Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:15.578Z [info] Archivo temporal creado: t26_5af1f3
+2025-07-14T16:14:15.913Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:16.361Z [info] Archivo temporal creado: t16_a14fcc
+2025-07-14T16:14:16.669Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:19.095Z [info] Archivo temporal creado: t18_c5c486
+2025-07-14T16:14:19.432Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:20.162Z [info] Archivo temporal creado: t42_01c98e
+2025-07-14T16:14:20.586Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:24.513Z [info] Archivo temporal creado: t34_2654a8
+2025-07-14T16:14:24.766Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:25.412Z [info] Archivo temporal creado: t0_5cff92
+2025-07-14T16:14:25.662Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:28.771Z [info] Archivo temporal creado: t56_83bba1
+2025-07-14T16:14:29.262Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:29.308Z [info] Archivo temporal creado: t40_f98a78
+2025-07-14T16:14:29.722Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:33.407Z [info] Archivo temporal creado: t20_4d45c0
+2025-07-14T16:14:33.775Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:34.121Z [info] Archivo temporal creado: t4_feac99
+2025-07-14T16:14:34.403Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:37.805Z [info] Archivo temporal creado: t24_2d3584
+2025-07-14T16:14:38.097Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:38.509Z [info] Archivo temporal creado: t50_b8c12d
+2025-07-14T16:14:38.960Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:42.830Z [info] Archivo temporal creado: t23_5bb2cf
+2025-07-14T16:14:43.172Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:46.027Z [info] Archivo temporal creado: t17_988bb2
+2025-07-14T16:14:46.323Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:47.108Z [info] Archivo temporal creado: t52_45f18c
+2025-07-14T16:14:47.390Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
+2025-07-14T16:14:51.679Z [info] Archivo temporal creado: t14_b37858
+2025-07-14T16:14:52.024Z [error] Error al subir el archivo al CDN: Cannot insert legacy ACL for an object when uniform bucket-level access is enabled. Read more at https://cloud.google.com/storage/docs/uniform-bucket-level-access
