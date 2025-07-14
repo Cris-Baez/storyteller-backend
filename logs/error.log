@@ -1014,3 +1014,9 @@
 2025-07-14T17:10:48.463Z [error] Unhandled Rejection: Error: 400 {"error":"promptImage: Invalid input"}
 2025-07-14T17:17:37.334Z [error] Unhandled Rejection: Error: 400 {"error":"promptImage: Invalid input"}
 2025-07-14T17:27:16.817Z [error] Unhandled Rejection: Error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T18:39:04.639Z [error] VoiceService error: concat fail
+2025-07-14T18:39:08.943Z [error] VoiceService error: concat fail
+2025-07-14T18:39:16.041Z [error] VoiceService error: concat fail
+2025-07-14T18:39:17.555Z [error] ❌ Error en createVoiceOver: VoiceService failed
+2025-07-14T18:39:17.555Z [error] ❌ Error en runRenderPipeline: VoiceService failed
+2025-07-14T18:39:29.059Z [error] Unhandled Rejection: Error: 400 {"error":"promptImage: Invalid input"}

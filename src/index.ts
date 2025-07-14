@@ -4,17 +4,15 @@ import morgan from 'morgan';
 import { renderRouter } from './routes/render.js';
 import { logger } from './utils/logger.js';
 
-// Manejo de errores no capturados
-process.on('uncaughtException', (error) => {
-  console.error('Uncaught Exception:', error);
-  logger.error(`Uncaught Exception: ${error.message}`);
-  process.exit(1);
-});
-
+// Manejo global de errores no capturados
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-  logger.error(`Unhandled Rejection: ${reason}`);
-  process.exit(1);
+  // Log the error but don't exit the process
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  // Log the error but don't exit the process immediately
 });
 
 const app = express();

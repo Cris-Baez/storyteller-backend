@@ -24,10 +24,11 @@ import { VideoPlan, TimelineSecond, CameraSpec } from '../utils/types.js';
 import { uploadToCDN }  from './cdnService.js';
 
 /* ─── Config ─────────────────────────────────────────────── */
+const FLUX_MODEL   = 'black-forest-labs/flux-1.1-pro';
 const SDXL_MODEL   = 'stability-ai/sdxl';
-const SDXL_VERSION = '39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b';
+const SDXL_VERSION = '7762fd07cf82c948538e41f63f77d685e02b063e37e496e96eefd46c929f9bdc';
 const TMP_DIR      = 'C:\\tmp\\storyboards_v6';
-const TIMEOUT_IMG  = 60_000;  // 60 s por imagen
+const TIMEOUT_IMG  = 90_000;  // 90 s por imagen (FLUX puede ser más lento)
 
 const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
 const openai    = new OpenAI({ apiKey: env.OPENAI_API_KEY });
@@ -59,6 +60,29 @@ function buildPrompt(sec: TimelineSecond, style: VideoPlan['metadata']['visualSt
 }
 
 /* ---- Providers ---- */
+async function genWithFLUX(prompt: string) {
+  try {
+    const out = await withTimeout(
+      retry(() =>
+        replicate.run(FLUX_MODEL, {
+          input: { 
+            prompt, 
+            width: 1024, 
+            height: 1024,
+            steps: 25,
+            guidance: 3.5
+          }
+        }),
+        2
+      )
+    );
+    return (out as string[])[0] as string;
+  } catch (e: any) {
+    logger.error(`FLUX error: ${e.message}`);
+    throw new Error('FLUX generation failed');
+  }
+}
+
 async function genWithSDXL(prompt: string) {
   try {
     const out = await withTimeout(
@@ -125,15 +149,20 @@ export async function generateStoryboards(plan: VideoPlan): Promise<string[]> {
       const prompt = buildPrompt(sec, plan.metadata.visualStyle);
       let imgUrl: string;
       try {
-        imgUrl = await genWithSDXL(prompt);
+        imgUrl = await genWithFLUX(prompt);
       } catch (e) {
-        logger.warn(`SDXL fallo para t=${sec.t} → usando DALL·E`);
-        const generatedUrl = await genWithDalle(prompt);
-        if (!generatedUrl) {
-          logger.error(`No se pudo generar una URL válida para la imagen t=${sec.t}`);
-          throw new Error('No se pudo generar una URL válida para la imagen');
+        logger.warn(`FLUX fallo para t=${sec.t} → usando SDXL`);
+        try {
+          imgUrl = await genWithSDXL(prompt);
+        } catch (e2) {
+          logger.warn(`SDXL fallo para t=${sec.t} → usando DALL·E`);
+          const generatedUrl = await genWithDalle(prompt);
+          if (!generatedUrl) {
+            logger.error(`No se pudo generar una URL válida para la imagen t=${sec.t}`);
+            throw new Error('No se pudo generar una URL válida para la imagen');
+          }
+          imgUrl = generatedUrl;
         }
-        imgUrl = generatedUrl;
       }
 
       let buf: Buffer;

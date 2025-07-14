@@ -3238,3 +3238,100 @@
 2025-07-14T17:27:16.394Z [info] 🎵  Freesound query: cinematic
 2025-07-14T17:27:16.405Z [info] → 3 segmentos de vídeo (limitado)
 2025-07-14T17:27:16.817Z [error] Unhandled Rejection: Error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T18:38:13.984Z [info] Storyteller AI backend running on 3000
+2025-07-14T18:38:19.398Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T18:38:19.400Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T18:38:19.401Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T18:38:44.997Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T18:38:44.998Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast city skyline at dawn.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"anticipation",
+     "dialogue":"The world awaits a h...
+2025-07-14T18:38:45.001Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T18:38:45.002Z [info] 📜 Plan OK (10s)
+2025-07-14T18:38:45.005Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T18:38:45.007Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T18:38:58.099Z [info] Archivo temporal creado: t0_b7cc69
+2025-07-14T18:38:59.514Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T18:38:59.630Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T18:38:59.631Z [info] ✅  Storyboards listos: 1
+2025-07-14T18:38:59.632Z [info] 🎞️  ClipService v6.2 — iniciando (con subida a CDN)…
+2025-07-14T18:38:59.634Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T18:38:59.635Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T18:38:59.636Z [info] 🎵  Freesound query: cinematic
+2025-07-14T18:38:59.645Z [info] → 3 segmentos de vídeo (limitado)
+2025-07-14T18:39:00.300Z [warn] Voice ID inválido: en-US-terrell. Usando ElevenLabs como fallback.
+2025-07-14T18:39:00.713Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:00.847Z [warn] Voice ID inválido: en-US-miles. Usando ElevenLabs como fallback.
+2025-07-14T18:39:02.314Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:02.513Z [warn] Voice ID inválido: en-US-terrell. Usando ElevenLabs como fallback.
+2025-07-14T18:39:02.616Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:02.741Z [warn] Voice ID inválido: en-US-miles. Usando ElevenLabs como fallback.
+2025-07-14T18:39:02.846Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:02.972Z [warn] Voice ID inválido: en-US-maverick. Usando ElevenLabs como fallback.
+2025-07-14T18:39:03.100Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:03.358Z [warn] Voice ID inválido: en-US-charles. Usando ElevenLabs como fallback.
+2025-07-14T18:39:03.480Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:03.609Z [warn] Voice ID inválido: en-US-river. Usando ElevenLabs como fallback.
+2025-07-14T18:39:03.726Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:03.848Z [warn] Voice ID inválido: en-US-paul. Usando ElevenLabs como fallback.
+2025-07-14T18:39:03.952Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:04.216Z [warn] Voice ID inválido: en-US-river. Usando ElevenLabs como fallback.
+2025-07-14T18:39:04.327Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:04.452Z [warn] Voice ID inválido: en-US-ryan. Usando ElevenLabs como fallback.
+2025-07-14T18:39:04.575Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:04.639Z [error] VoiceService error: concat fail
+2025-07-14T18:39:06.139Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T18:39:06.205Z [info] ✅  Pista de música lista (1024940 bytes)
+2025-07-14T18:39:06.351Z [warn] Voice ID inválido: en-US-ryan. Usando ElevenLabs como fallback.
+2025-07-14T18:39:06.468Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:06.606Z [warn] Voice ID inválido: en-US-evander. Usando ElevenLabs como fallback.
+2025-07-14T18:39:06.718Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:06.848Z [warn] Voice ID inválido: en-US-charles. Usando ElevenLabs como fallback.
+2025-07-14T18:39:06.957Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:07.213Z [warn] Voice ID inválido: en-US-ken. Usando ElevenLabs como fallback.
+2025-07-14T18:39:07.324Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:07.447Z [warn] Voice ID inválido: en-US-paul. Usando ElevenLabs como fallback.
+2025-07-14T18:39:07.553Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:07.677Z [warn] Voice ID inválido: en-US-river. Usando ElevenLabs como fallback.
+2025-07-14T18:39:07.801Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:07.935Z [warn] Voice ID inválido: en-US-ken. Usando ElevenLabs como fallback.
+2025-07-14T18:39:08.043Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:08.277Z [warn] Voice ID inválido: en-US-miles. Usando ElevenLabs como fallback.
+2025-07-14T18:39:08.389Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:08.526Z [warn] Voice ID inválido: en-US-ken. Usando ElevenLabs como fallback.
+2025-07-14T18:39:08.637Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:08.762Z [warn] Voice ID inválido: en-US-carter. Usando ElevenLabs como fallback.
+2025-07-14T18:39:08.867Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:08.943Z [error] VoiceService error: concat fail
+2025-07-14T18:39:10.451Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T18:39:10.657Z [warn] Voice ID inválido: en-US-miles. Usando ElevenLabs como fallback.
+2025-07-14T18:39:10.762Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:10.887Z [warn] Voice ID inválido: en-US-charles. Usando ElevenLabs como fallback.
+2025-07-14T18:39:11.000Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:11.314Z [warn] Voice ID inválido: en-US-ken. Usando ElevenLabs como fallback.
+2025-07-14T18:39:11.423Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:11.547Z [warn] Voice ID inválido: en-US-miles. Usando ElevenLabs como fallback.
+2025-07-14T18:39:11.657Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:11.786Z [warn] Voice ID inválido: en-US-terrell. Usando ElevenLabs como fallback.
+2025-07-14T18:39:13.700Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:13.959Z [warn] Voice ID inválido: en-US-daniel. Usando ElevenLabs como fallback.
+2025-07-14T18:39:14.080Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:14.334Z [warn] Voice ID inválido: en-US-river. Usando ElevenLabs como fallback.
+2025-07-14T18:39:14.743Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:14.955Z [warn] Voice ID inválido: en-US-ken. Usando ElevenLabs como fallback.
+2025-07-14T18:39:15.152Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:15.428Z [warn] Voice ID inválido: en-US-maverick. Usando ElevenLabs como fallback.
+2025-07-14T18:39:15.557Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:15.774Z [warn] Voice ID inválido: en-US-maverick. Usando ElevenLabs como fallback.
+2025-07-14T18:39:15.984Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T18:39:16.041Z [error] VoiceService error: concat fail
+2025-07-14T18:39:17.555Z [error] ❌ Error en createVoiceOver: VoiceService failed
+2025-07-14T18:39:17.555Z [error] ❌ Error en runRenderPipeline: VoiceService failed
+2025-07-14T18:39:28.917Z [info] Archivo subido correctamente al CDN: clips/clip_0_b906249f.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/clips/clip_0_b906249f.mp4
+2025-07-14T18:39:28.918Z [info] ✅ Clip subido a CDN: https://storage.googleapis.com/storyteller-ai-cdn/clips/clip_0_b906249f.mp4
+2025-07-14T18:39:29.059Z [error] Unhandled Rejection: Error: 400 {"error":"promptImage: Invalid input"}

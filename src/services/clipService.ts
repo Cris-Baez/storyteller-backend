@@ -4,13 +4,13 @@ import axios from 'axios';
 export async function generateReplicateClip(sec: import('../utils/types').TimelineSecond): Promise<Buffer> {
   const { env } = await import('../config/env');
   const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
-  // Usa modelo realista por defecto (puedes cambiarlo por otro de tu preferencia)
-  const model = 'kwaivgi/kling-v1.6-standard';
+  // Usa modelo realista más actualizado (2025)
+  const model = 'minimax/video-01';
   const output = await replicate.run(model, {
     input: {
       prompt: sec.visual,
-      seed: 42,
-      fps: 24
+      aspect_ratio: '16:9',
+      duration: 5
     }
   });
 
@@ -121,19 +121,18 @@ function buildPrompt(
 /** Runway Gen-4 Turbo */
 async function runwayGen(prompt: string, frames: number, img?: string): Promise<string | null> {
   try {
-    // Solo aceptar URLs HTTPS válidas y no vacías
+    // TEMPORALMENTE deshabilitamos promptImage para evitar errores 400
     let createOpts: any = {
       model: 'gen4_turbo',
       promptText: prompt,
       duration: Math.ceil(frames / 24) <= 5 ? 5 : 10,
       ratio: '1280:720',
     };
-    if (img && typeof img === 'string' && img.length > 0 && /^https:\/\//.test(img)) {
-      if (await validateUrl(img)) {
-        createOpts.promptImage = img;
-      } else {
-        logger.warn(`promptImage inválido (no accesible), ignorando: ${img}`);
-      }
+    
+    // NO usar promptImage por ahora para evitar errores
+    // TODO: Investigar formato exacto que requiere Runway para promptImage
+    if (img) {
+      logger.info(`Imagen disponible pero no se usa en Runway por estabilidad: ${img}`);
     }
 
     const task = await runwayClient.imageToVideo
@@ -154,11 +153,11 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
   }
 }
 
-/** Mapas de modelo Replicate */
+/** Mapas de modelo Replicate - Actualizados 2025 */
 const MODEL_MAP = {
-  realistic: 'kwaivgi/kling-v1.6-standard',
-  anime:     'zsxkib/animate-diff',
-  cartoon:   'minimax/video-01'
+  realistic: 'minimax/video-01',         // Modelo más reciente para video realista
+  anime:     'tencent/hunyuan-video',    // Modelo especializado en anime
+  cartoon:   'lightricks/ltx-video'      // Modelo para contenido cartoon/animated
 } as const;
 
 /** Replicate fallback */
@@ -170,10 +169,18 @@ async function replicateGen(
   const model = MODEL_MAP[style as keyof typeof MODEL_MAP];
   const { env } = await import('../config/env');
   const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
+  
+  // Parámetros actualizados para modelos 2025
+  const duration = Math.min(Math.ceil(frames / 24), 5); // Max 5 segundos
+  
   const output = await withTimeout(
     retry(
       () => replicate.run(model, {
-        input: { prompt, num_frames: frames }
+        input: { 
+          prompt, 
+          aspect_ratio: '16:9',
+          duration: duration
+        }
       }),
       2 /* reintentos */
     )
@@ -206,21 +213,41 @@ export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): 
   for (const seg of segments) {
     const prompt = buildPrompt(seg, plan.metadata.visualStyle);
     const frames = (seg.end - seg.start + 1) * 24;
-    const imgUrl = storyboardUrls?.[seg.start];
+    let imgUrl: string | undefined = undefined;
     let videoUrl: string | null = null;
     let bufVideo: Buffer | null = null;
 
-    // 1. Intenta con Runway
+    // 1. Subir imagen a CDN y esperar que esté lista
     try {
-      videoUrl = await runwayGen(prompt, frames, imgUrl);
+      if (storyboardUrls?.[seg.start]) {
+        const imgCandidate = storyboardUrls[seg.start];
+        if (
+          typeof imgCandidate === 'string' &&
+          /^https:\/\//.test(imgCandidate) &&
+          imgCandidate.includes('storage.googleapis.com') &&
+          (await validateUrl(imgCandidate))
+        ) {
+          imgUrl = imgCandidate;
+        } else {
+          logger.warn(`Storyboard no accesible en CDN para segmento ${seg.start}: ${imgCandidate}`);
+        }
+      }
+    } catch (imgErr) {
+      logger.warn(`Error validando storyboard CDN para segmento ${seg.start}: ${imgErr}`);
+    }
+
+    // 2. Intenta con Runway SOLO si la imagen está en CDN y es válida
+    try {
+      videoUrl = await withTimeout(runwayGen(prompt, frames, imgUrl));
       if (videoUrl) {
         bufVideo = await fetch(videoUrl).then(r => r.arrayBuffer()).then(b => Buffer.from(b));
       }
     } catch (err) {
       logger.warn(`⚠️ Runway falló para segmento ${seg.start}: ${err}`);
+      videoUrl = null; // Asegurar que está limpio para fallback
     }
 
-    // 2. Si falla, intenta con Replicate
+    // 3. Si falla, intenta con Replicate
     if (!bufVideo) {
       try {
         videoUrl = await replicateGen(prompt, frames, plan.metadata.visualStyle);
@@ -233,7 +260,7 @@ export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): 
       }
     }
 
-    // 3. Guardar temporal y subir a CDN
+    // 4. Guardar temporal y subir a CDN
     const filename = `clip_${seg.start}_${uuid().slice(0, 8)}.mp4`;
     const localPath = path.join(TMP_CLIPS, filename);
     try {

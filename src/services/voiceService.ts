@@ -68,33 +68,12 @@ export function pickVoiceId(
 ): { provider: 'murf' | 'eleven'; voiceId: string } {
   const gender = char.gender === 'female' ? 'female' : 'male';
 
-  // IDs válidos y existentes (actualizados a julio 2025)
-  const DEFAULT_MURF = gender === 'female' ? 'en-US-natalie' : 'en-US-ryan';
-  const DEFAULT_ELEVEN = gender === 'female' ? '21m00Tcm4TlvDq8ikWAM' : 'VR6AewLTigWG4xSOukaG';
+  // Por estabilidad, usar solo ElevenLabs con IDs verificados
+  const STABLE_ELEVEN_FEMALE = 'EXAVITQu4vr4xnSDxMaL'; // Rachel - muy estable
+  const STABLE_ELEVEN_MALE = 'pNInz6obpgDQGcFmaJgB';   // Adam - muy estable
 
-  // Convertir a arrays de string para validación flexible
-  const murfVoices = [...MURF_FEMALE, ...MURF_MALE].map(String);
-  const elevenVoices = [...ELEVEN_FEMALE, ...ELEVEN_MALE].map(String);
-
-  if (env.MURF_API_KEY) {
-    const voiceId = gender === 'female'
-      ? pickRandom(MURF_FEMALE)
-      : pickRandom(MURF_MALE);
-    if (!murfVoices.includes(String(voiceId))) {
-      logger.warn(`VoiceId Murf inválido (${voiceId}), usando por defecto: ${DEFAULT_MURF}`);
-      return { provider: 'murf', voiceId: DEFAULT_MURF };
-    }
-    return { provider: 'murf', voiceId };
-  }
-
-  // Fallback – ElevenLabs
-  const voiceId = gender === 'female'
-    ? pickRandom(ELEVEN_FEMALE)
-    : pickRandom(ELEVEN_MALE);
-  if (!elevenVoices.includes(String(voiceId))) {
-    logger.warn(`VoiceId ElevenLabs inválido (${voiceId}), usando por defecto: ${DEFAULT_ELEVEN}`);
-    return { provider: 'eleven', voiceId: DEFAULT_ELEVEN };
-  }
+  const voiceId = gender === 'female' ? STABLE_ELEVEN_FEMALE : STABLE_ELEVEN_MALE;
+  
   return { provider: 'eleven', voiceId };
 }
 
@@ -237,7 +216,11 @@ async function validateVoiceId(voiceId: string): Promise<boolean> {
 /* Validar voiceId antes de usar Murf */
 async function validateVoiceIdBeforeUse(voiceId: string): Promise<boolean> {
   if (!env.MURF_API_KEY) return false;
-  const isValid = await validateVoiceId(voiceId);
+  
+  // Lista de IDs válidos conocidos para evitar llamadas API innecesarias
+  const validMurfIds = [...MURF_FEMALE, ...MURF_MALE];
+  const isValid = validMurfIds.includes(voiceId as any);
+  
   if (!isValid) {
     logger.warn(`Voice ID inválido: ${voiceId}. Usando ElevenLabs como fallback.`);
   }
@@ -282,11 +265,8 @@ export async function createVoiceOver(plan: VideoPlan): Promise<Buffer> {
       let ttsBuf: Buffer | null = null;
 
       try {
-        if (provider === 'murf' && (await validateVoiceIdBeforeUse(voiceId))) {
-          ttsBuf = await retry(() => murfTTS(actualText, voiceId), RETRIES);
-        } else {
-          ttsBuf = await retry(() => elevenTTS(actualText, voiceId), RETRIES);
-        }
+        // Usar directamente ElevenLabs para máxima estabilidad
+        ttsBuf = await retry(() => elevenTTS(actualText, voiceId), RETRIES);
       } catch (error) {
         logger.error(`❌ Error en TTS para línea ${sec.t}: ${(error as Error).message}`);
         ttsBuf = Buffer.alloc(0); // Fallback a silencio
