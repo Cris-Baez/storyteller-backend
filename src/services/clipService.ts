@@ -48,18 +48,26 @@ const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
 
 const DUMMY_IMAGE = 'https://dummyimage.com/1280x720/222/fff.png'; // Puedes poner tu propio PNG CDN
 
+
+// Modelos principales y recomendados para cada estilo
 const MODEL_MAP = {
-  realistic: 'google/veo-3-fast',           // Google Veo 3 Fast - mejor calidad y más rápido
-  anime    : 'bytedance/seedance-1-pro',    // Seedance Pro - excelente para anime/cartoon
-  cartoon  : 'pixverse/pixverse-v4.5',     // PixVerse v4.5 - muy bueno para cartoon/estilizado
-  cinematic: 'minimax/video-01-director'   // Director - perfecto para movimientos de cámara complejos
+  realistic: 'google/veo-3',                // Google Veo 3 - realista, rápido
+  anime    : 'bytedance/seedance-1-pro',    // Seedance Pro - anime/cartoon
+  cartoon  : 'pixverse/pixverse-v4.5',      // PixVerse v4.5 - cartoon/estilizado
+  cinematic: 'luma/ray-2-720p',             // Luma Ray 2 - cinematic, escenas complejas
+  flash    : 'luma/ray-flash-2-540p',       // Luma Ray Flash 2 - escenas rápidas, anime
+  kling    : 'kwaivgi/kling-v2.1',          // Kling v2.1 - animación avanzada
+  director : 'minimax/video-01-director',   // Director - movimientos de cámara
 } as const;
 
-// Modelos de fallback adicionales
+
+// Modelos de fallback adicionales y robustos
 const FALLBACK_MODELS = {
-  backup1: 'bytedance/seedance-1-lite',     // Seedance Lite - más rápido, menor calidad
+  backup1: 'bytedance/seedance-1-lite',     // Seedance Lite - rápido, menor calidad
   backup2: 'minimax/hailuo-02',             // Hailuo 2 - robusto, buena física
-  backup3: 'minimax/video-01-director'     // Director como fallback para cualquier estilo
+  backup3: 'kwaivgi/kling-v2.1',            // Kling v2.1 - animación avanzada
+  backup4: 'luma/ray-flash-2-540p',         // Ray Flash 2 - escenas rápidas
+  backup5: 'minimax/video-01-director'      // Director como fallback para cualquier estilo
 } as const;
 
 /* ── Helpers ──────────────────────────────────────────────────────── */
@@ -220,8 +228,8 @@ async function genReplicate(
   };
 
   // Configuración específica por modelo
-  if (model === 'google/veo-3-fast') {
-    // Google Veo 3 Fast - text-to-video y image-to-video
+  if (model === 'google/veo-3') {
+    // Google Veo 3 - text-to-video y image-to-video
     input = {
       prompt: prompt.trim(),
       duration: dur,
@@ -337,99 +345,75 @@ export async function generateClips(
   const limit = pLimit(CONCURRENCY);
   const clipUrls: string[] = [];
 
+
   await Promise.all(segments.map(async (seg, idx) => {
     const prompt = buildPrompt(seg, plan.metadata.visualStyle);
     const frames = (seg.end - seg.start + 1) * 24;
 
-    // 1. Buscar imagen de storyboard local (si existe), luego CDN, luego dummy
-    let promptImage = DUMMY_IMAGE;
-    if (Array.isArray(storyboardUrls) && storyboardUrls[seg.start]) {
-      // Pasa la ruta tal cual, con file:// si es local
-      promptImage = storyboardUrls[seg.start];
+    // Buscar imagen de storyboard local (si existe), luego dummy
+    let referenceImages: string[] = [];
+    if (Array.isArray(storyboardUrls) && storyboardUrls[seg.start] && storyboardUrls[seg.start].startsWith('http')) {
+      referenceImages = [storyboardUrls[seg.start]];
     }
 
-    // 2. RunwayML: probar primero local, si falla probar CDN, si falla dummy
+    // Lista de modelos para probar en orden de preferencia
+    const baseStyle = plan.metadata.visualStyle as keyof typeof MODEL_MAP;
+    const hasComplexMovement = seg.secs.some(s =>
+      s.camera.movement !== 'none' &&
+      ['dolly-in', 'dolly-out', 'pan', 'tilt', 'zoom'].includes(s.camera.movement)
+    );
+    const fallbackModels: Array<keyof typeof MODEL_MAP> = hasComplexMovement
+      ? ['cinematic', baseStyle, 'realistic', 'cartoon']
+      : [baseStyle, 'realistic', 'cinematic', 'cartoon'];
+    const uniqueModels = [...new Set(fallbackModels)];
+
     let url: string | null = null;
-    let triedImages: string[] = [];
-    for (const img of [promptImage, DUMMY_IMAGE]) {
-      triedImages.push(img);
+    for (const modelStyle of uniqueModels) {
       try {
-        url = await withTimeout(genRunway(prompt, frames, img));
-        break;
+        logger.info(`🎬 Probando modelo Replicate: ${MODEL_MAP[modelStyle]} para seg ${seg.start}`);
+        url = await withTimeout(genReplicate(
+          prompt, frames, modelStyle, referenceImages
+        ));
+        if (url) {
+          logger.info(`✅ Éxito con ${MODEL_MAP[modelStyle]} para seg ${seg.start}`);
+          break;
+        }
       } catch (err) {
-        logger.warn(`Runway fallo (seg ${seg.start}) con imagen ${img}: ${(err as Error).message}`);
+        logger.warn(`❌ ${MODEL_MAP[modelStyle]} falló para seg ${seg.start}: ${(err as Error).message}`);
       }
     }
+
+    // Si aún no hay URL, probar modelos de fallback adicionales
     if (!url) {
-      // Fallback con múltiples modelos de Replicate
-      let referenceImages: string[] = [];
-      if (promptImage && promptImage !== DUMMY_IMAGE && promptImage.startsWith('http')) {
-        referenceImages = [promptImage];
-      }
-      
-      // Lista de modelos para probar en orden de preferencia
-      const baseStyle = plan.metadata.visualStyle as keyof typeof MODEL_MAP;
-      
-      // Si hay movimientos complejos de cámara, priorizar Director
-      const hasComplexMovement = seg.secs.some(s => 
-        s.camera.movement !== 'none' && 
-        ['dolly-in', 'dolly-out', 'pan', 'tilt', 'zoom'].includes(s.camera.movement)
-      );
-      
-      const fallbackModels: Array<keyof typeof MODEL_MAP> = hasComplexMovement 
-        ? ['cinematic', baseStyle, 'realistic', 'cartoon']  // Director primero si hay movimiento complejo
-        : [baseStyle, 'realistic', 'cinematic', 'cartoon']; // Estilo base primero normalmente
-      
-      // Eliminar duplicados
-      const uniqueModels = [...new Set(fallbackModels)];
-      
-      for (const modelStyle of uniqueModels) {
+      const backupModels = Object.values(FALLBACK_MODELS);
+      for (const backupModel of backupModels) {
         try {
-          logger.info(`🔄 Probando ${MODEL_MAP[modelStyle]} para seg ${seg.start}`);
-          url = await withTimeout(genReplicate(
-            prompt, frames, modelStyle, referenceImages
+          logger.info(`🆘 Probando modelo de emergencia ${backupModel} para seg ${seg.start}`);
+          url = await withTimeout(genReplicateFallback(
+            prompt, frames, backupModel, referenceImages
           ));
           if (url) {
-            logger.info(`✅ Éxito con ${MODEL_MAP[modelStyle]} para seg ${seg.start}`);
+            logger.info(`✅ Éxito con modelo de emergencia ${backupModel} para seg ${seg.start}`);
             break;
           }
         } catch (err) {
-          logger.warn(`❌ ${MODEL_MAP[modelStyle]} falló para seg ${seg.start}: ${(err as Error).message}`);
+          logger.warn(`❌ Modelo de emergencia ${backupModel} falló para seg ${seg.start}: ${(err as Error).message}`);
         }
-      }
-      
-      // Si aún no hay URL, probar modelos de fallback adicionales
-      if (!url) {
-        const backupModels = Object.values(FALLBACK_MODELS);
-        for (const backupModel of backupModels) {
-          try {
-            logger.info(`🆘 Probando modelo de emergencia ${backupModel} para seg ${seg.start}`);
-            url = await withTimeout(genReplicateFallback(
-              prompt, frames, backupModel, referenceImages
-            ));
-            if (url) {
-              logger.info(`✅ Éxito con modelo de emergencia ${backupModel} para seg ${seg.start}`);
-              break;
-            }
-          } catch (err) {
-            logger.warn(`❌ Modelo de emergencia ${backupModel} falló para seg ${seg.start}: ${(err as Error).message}`);
-          }
-        }
-      }
-      
-      if (!url) {
-        logger.error(`❌ Todos los modelos fallaron para seg ${seg.start}`);
-        return; // omite segmento
       }
     }
 
-    // 3. Descargar en streaming → /tmp
+    if (!url) {
+      logger.error(`❌ Todos los modelos Replicate fallaron para seg ${seg.start}`);
+      return; // omite segmento
+    }
+
+    // Descargar en streaming → /tmp
     const fname = `clip_${seg.start}_${uuid().slice(0,8)}.mp4`;
     const local = path.join(TMP_CLIPS, fname);
-    const resp  = await fetch(url!);
+    const resp  = await fetch(url);
     await pipeline(resp.body as any, fss.createWriteStream(local));
 
-    // 4. Subir a CDN
+    // Subir a CDN
     const { uploadToCDN } = await import('./cdnService.js');
     const cdn = await uploadToCDN(local, `clips/${fname}`);
     clipUrls.push(cdn);
