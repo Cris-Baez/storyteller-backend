@@ -4436,3 +4436,105 @@
 2025-07-14T23:16:48.596Z [warn] ElevenLabs error: Request failed with status code 403
 2025-07-14T23:16:48.596Z [error] Error generando voz: No se pudo generar la voz
 2025-07-14T23:16:48.597Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-14T23:24:54.410Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-14T23:25:03.132Z [info] ::1 - - [14/Jul/2025:23:25:03 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-14T23:25:03.138Z [info] 🚀 Pipeline v7 – inicio
+2025-07-14T23:25:03.145Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T23:25:03.147Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T23:25:15.932Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T23:25:15.934Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast cityscape at dawn, skyline glowing.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The world aw...
+2025-07-14T23:25:15.936Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T23:25:15.937Z [info] 📜 VideoPlan listo (10s)
+2025-07-14T23:25:15.938Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T23:25:15.939Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T23:25:19.259Z [error] FLUX respuesta inesperada: {}
+2025-07-14T23:25:19.259Z [error] FLUX error: FLUX returned invalid response format
+2025-07-14T23:25:19.260Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-14T23:25:24.413Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/sukdOhea5fsfIJLM97mWBBxSjy2eDDGboyzEVXkRr3oSehGoC/out-0.png
+2025-07-14T23:25:25.562Z [info] Archivo temporal creado: t0_cfeb2d
+2025-07-14T23:25:26.878Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T23:25:26.992Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T23:25:26.993Z [info] ✅  Storyboards listos: 1
+2025-07-14T23:25:26.993Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-14T23:25:26.994Z [info] → Generando 3 segmentos…
+2025-07-14T23:25:27.009Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T23:25:27.031Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T23:25:27.032Z [info] 🎵  Freesound query: cinematic
+2025-07-14T23:25:27.382Z [warn] Runway fallo (seg 0) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:25:27.390Z [warn] Runway fallo (seg 2) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:25:27.410Z [warn] Runway fallo (seg 1) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:25:27.425Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T23:25:27.427Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T23:25:27.446Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T23:25:27.448Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T23:25:27.452Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T23:25:27.453Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T23:25:27.459Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T23:25:27.460Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T23:25:27.465Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T23:25:27.466Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T23:25:27.470Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T23:25:27.471Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T23:25:27.476Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T23:25:27.477Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T23:25:27.480Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T23:25:27.482Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T23:25:27.490Z [warn] Runway fallo (seg 0) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:25:27.492Z [info] 🔄 Probando minimax/video-01-director para seg 0
+2025-07-14T23:25:27.494Z [info] 🎬 Generando con minimax/video-01-director - dur:1s - style:cinematic
+2025-07-14T23:25:27.502Z [warn] Runway fallo (seg 2) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:25:27.502Z [info] 🔄 Probando google/veo-3-fast para seg 2
+2025-07-14T23:25:27.502Z [info] 🎬 Generando con google/veo-3-fast - dur:1s - style:realistic
+2025-07-14T23:25:27.509Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T23:25:27.509Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T23:25:27.516Z [warn] Runway fallo (seg 1) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:25:27.516Z [info] 🔄 Probando minimax/video-01-director para seg 1
+2025-07-14T23:25:27.516Z [info] 🎬 Generando con minimax/video-01-director - dur:1s - style:cinematic
+2025-07-14T23:25:27.582Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T23:25:27.583Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T23:25:27.584Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-14T23:25:33.260Z [info] ✅  Pista de música lista (1024940 bytes)
+2025-07-14T23:26:23.291Z [info] ✅ Éxito con google/veo-3-fast para seg 2
+2025-07-14T23:26:24.805Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-14T23:26:24.806Z [info] → Generando 3 segmentos…
+2025-07-14T23:26:25.316Z [warn] Runway fallo (seg 2) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:26:25.324Z [warn] Runway fallo (seg 1) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:26:25.331Z [warn] Runway fallo (seg 0) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:26:25.516Z [warn] Runway fallo (seg 2) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:26:25.517Z [info] 🔄 Probando google/veo-3-fast para seg 2
+2025-07-14T23:26:25.518Z [info] 🎬 Generando con google/veo-3-fast - dur:1s - style:realistic
+2025-07-14T23:26:25.527Z [warn] Runway fallo (seg 1) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:26:25.528Z [info] 🔄 Probando minimax/video-01-director para seg 1
+2025-07-14T23:26:25.528Z [info] 🎬 Generando con minimax/video-01-director - dur:1s - style:cinematic
+2025-07-14T23:26:25.534Z [warn] Runway fallo (seg 0) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:26:25.534Z [info] 🔄 Probando minimax/video-01-director para seg 0
+2025-07-14T23:26:25.534Z [info] 🎬 Generando con minimax/video-01-director - dur:1s - style:cinematic
+2025-07-14T23:27:21.122Z [info] ✅ Éxito con google/veo-3-fast para seg 2
+2025-07-14T23:27:22.630Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-14T23:27:22.631Z [info] → Generando 3 segmentos…
+2025-07-14T23:27:22.911Z [warn] Runway fallo (seg 1) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:27:22.938Z [warn] Runway fallo (seg 0) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:27:22.973Z [warn] Runway fallo (seg 2) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:27:23.007Z [warn] Runway fallo (seg 1) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:27:23.008Z [info] 🔄 Probando minimax/video-01-director para seg 1
+2025-07-14T23:27:23.009Z [info] 🎬 Generando con minimax/video-01-director - dur:1s - style:cinematic
+2025-07-14T23:27:23.043Z [warn] Runway fallo (seg 0) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:27:23.044Z [info] 🔄 Probando minimax/video-01-director para seg 0
+2025-07-14T23:27:23.044Z [info] 🎬 Generando con minimax/video-01-director - dur:1s - style:cinematic
+2025-07-14T23:27:23.082Z [warn] Runway fallo (seg 2) con imagen https://dummyimage.com/1280x720/222/fff.png: runway is not defined
+2025-07-14T23:27:23.083Z [info] 🔄 Probando google/veo-3-fast para seg 2
+2025-07-14T23:27:23.084Z [info] 🎬 Generando con google/veo-3-fast - dur:1s - style:realistic
+2025-07-14T23:27:57.502Z [warn] ❌ minimax/video-01-director falló para seg 0: clip timeout
+2025-07-14T23:27:57.503Z [info] 🔄 Probando google/veo-3-fast para seg 0
+2025-07-14T23:27:57.503Z [info] 🎬 Generando con google/veo-3-fast - dur:1s - style:realistic
+2025-07-14T23:27:57.518Z [warn] ❌ minimax/video-01-director falló para seg 1: clip timeout
+2025-07-14T23:27:57.518Z [info] 🔄 Probando google/veo-3-fast para seg 1
+2025-07-14T23:27:57.519Z [info] 🎬 Generando con google/veo-3-fast - dur:1s - style:realistic
+2025-07-14T23:28:18.759Z [info] ✅ Éxito con google/veo-3-fast para seg 2
