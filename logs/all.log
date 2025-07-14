@@ -3130,3 +3130,30 @@
 2025-07-14T16:56:08.008Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_7_3298c6.mp4
 2025-07-14T16:56:36.888Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_6_cbfe09.mp4
 2025-07-14T16:56:36.889Z [info] ✅  Clips generados: 9
+2025-07-14T17:04:47.653Z [info] Storyteller AI backend running on 3000
+2025-07-14T17:04:53.103Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T17:04:53.106Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T17:04:53.108Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T17:05:43.301Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T17:05:43.302Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast cityscape under a dark sky.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"foreboding",
+     "dialogue":"The world hangs ...
+2025-07-14T17:05:43.304Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T17:05:43.304Z [info] 📜 Plan OK (10s)
+2025-07-14T17:05:43.305Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T17:05:43.306Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T17:05:52.397Z [info] Archivo temporal creado: t0_b1681c
+2025-07-14T17:05:53.796Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T17:05:53.916Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T17:05:53.917Z [info] ✅  Storyboards listos: 1
+2025-07-14T17:05:53.918Z [info] 🎞️  ClipService v6.1 — iniciando…
+2025-07-14T17:05:53.919Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T17:05:53.920Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T17:05:53.921Z [info] 🎵  Freesound query: cinematic
+2025-07-14T17:05:53.929Z [info] → 3 segmentos de vídeo (limitado)
+2025-07-14T17:05:54.353Z [error] Unhandled Rejection: Error: 400 {"error":"promptImage: Invalid input"}

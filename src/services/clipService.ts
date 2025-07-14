@@ -96,10 +96,14 @@ function buildPrompt(
 /** Runway Gen-4 Turbo */
 async function runwayGen(prompt: string, frames: number, img?: string): Promise<string | null> {
   try {
-    if (img && !(await validateUrl(img))) {
-      throw new Error(`Invalid image URL: ${img}`);
+    let validImg: string | undefined = undefined;
+    if (img && typeof img === 'string' && img.length > 0) {
+      if (await validateUrl(img)) {
+        validImg = img;
+      } else {
+        logger.warn(`promptImage inválido, ignorando: ${img}`);
+      }
     }
-
 
     // Runway solo acepta duration 5 o 10
     let durationSec: 10 | 5 = 10;
@@ -107,14 +111,17 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
     if (seconds <= 5) durationSec = 5;
     else durationSec = 10;
 
+    // Solo incluir promptImage si es válido
+    const createOpts: any = {
+      model: 'gen4_turbo',
+      promptText: prompt,
+      duration: durationSec,
+      ratio: '1280:720',
+    };
+    if (validImg) createOpts.promptImage = validImg;
+
     const task = await runwayClient.imageToVideo
-      .create({
-        model: 'gen4_turbo',
-        promptText: prompt,
-        promptImage: img ?? '',
-        duration: durationSec,
-        ratio: '1280:720',
-      })
+      .create(createOpts)
       .waitForTaskOutput();
 
     if (!task || !task.output || !Array.isArray(task.output)) {
