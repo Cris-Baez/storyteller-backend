@@ -1001,3 +1001,12 @@
 2025-07-14T16:23:12.278Z [error] ❌ Error en generateStoryboards: 400 Billing hard limit has been reached
 2025-07-14T16:23:12.279Z [error] ❌ Error en runRenderPipeline: 400 Billing hard limit has been reached
 2025-07-14T16:26:38.390Z [error] Unhandled Rejection: Error: 400 {"error":"`duration` must be 5 or 10.","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T16:46:39.877Z [error] SDXL error: img timeout
+2025-07-14T16:46:39.895Z [error] SDXL error: img timeout
+2025-07-14T16:47:17.520Z [error] VoiceService error: concat fail
+2025-07-14T16:47:21.856Z [error] VoiceService error: concat fail
+2025-07-14T16:47:26.442Z [error] VoiceService error: concat fail
+2025-07-14T16:47:27.959Z [error] ❌ Error en createVoiceOver: VoiceService failed
+2025-07-14T16:47:27.960Z [error] ❌ Error en runRenderPipeline: VoiceService failed
+2025-07-14T16:49:58.009Z [error] Runway error: An unexpected error occurred.
+2025-07-14T16:55:32.969Z [error] ❌ Error en generateClips: timeout

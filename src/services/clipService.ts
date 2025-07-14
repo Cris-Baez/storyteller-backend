@@ -166,8 +166,16 @@ export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): 
   logger.info('🎞️  ClipService v6.1 — iniciando…');
   await fs.mkdir(TMP_CLIPS, { recursive: true });
 
-  const segments = segmentTimeline(plan.timeline);
-  logger.info(`→ ${segments.length} segmentos de vídeo`);
+  let segments = segmentTimeline(plan.timeline);
+  // Limitar a máximo 3 segmentos para reducir recursos
+  if (segments.length > 3) {
+    // Tomar solo el primero, el del medio y el último
+    const first = segments[0];
+    const last = segments[segments.length - 1];
+    const middle = segments[Math.floor(segments.length / 2)];
+    segments = [first, middle, last].filter((v, i, arr) => arr.indexOf(v) === i); // evitar duplicados
+  }
+  logger.info(`→ ${segments.length} segmentos de vídeo (limitado)`);
 
   const paths: string[] = [];
 
@@ -177,15 +185,9 @@ export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): 
     const proms = batch.map(async (seg) => {
       const prompt = buildPrompt(seg, plan.metadata.visualStyle);
       const frames = (seg.end - seg.start + 1) * 24;
-
       const imgUrl = storyboardUrls?.[seg.start];
 
-      // Si no existe o no es pública, pasa directo a Replicate
-      if (!imgUrl || !(await validateUrl(imgUrl))) {
-        logger.warn(`Imagen inválida para clip ${seg.start}, uso Replicate`);
-        return replicateGen(prompt, frames, plan.metadata.visualStyle);
-      }
-
+      // Generar el video clip usando Runway o Replicate
       const videoUrl =
         (await runwayGen(prompt, frames, imgUrl)) ??
         (await replicateGen(prompt, frames, plan.metadata.visualStyle));
@@ -210,7 +212,7 @@ export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): 
       return destVideo;
     });
 
-    paths.push(...await Promise.all(proms));
+    paths.push(...(await Promise.all(proms)));
   }
 
   logger.info(`✅  Clips generados: ${paths.length}`);

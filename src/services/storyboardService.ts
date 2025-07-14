@@ -42,9 +42,8 @@ function withTimeout<T>(p: Promise<T>, ms = TIMEOUT_IMG): Promise<T> {
 
 /* Decide qué segundos necesitan storyboard */
 function pickKeyFrames(timeline: TimelineSecond[]): TimelineSecond[] {
-  const dur = timeline.length;
-  const step = dur <= 30 ? 1 : 2;
-  return timeline.filter((sec) => sec.highlight || sec.t % step === 0);
+  // Solo generar la imagen del primer segundo (t=0) para el video principal
+  return timeline.filter((sec) => sec.t === 0);
 }
 
 /* Genera prompt final para IA */

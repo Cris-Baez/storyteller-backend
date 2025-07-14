@@ -68,10 +68,22 @@ export function pickVoiceId(
 ): { provider: 'murf' | 'eleven'; voiceId: string } {
   const gender = char.gender === 'female' ? 'female' : 'male';
 
+  // IDs válidos y existentes (actualizados a julio 2025)
+  const DEFAULT_MURF = gender === 'female' ? 'en-US-natalie' : 'en-US-ryan';
+  const DEFAULT_ELEVEN = gender === 'female' ? '21m00Tcm4TlvDq8ikWAM' : 'VR6AewLTigWG4xSOukaG';
+
+  // Convertir a arrays de string para validación flexible
+  const murfVoices = [...MURF_FEMALE, ...MURF_MALE].map(String);
+  const elevenVoices = [...ELEVEN_FEMALE, ...ELEVEN_MALE].map(String);
+
   if (env.MURF_API_KEY) {
     const voiceId = gender === 'female'
       ? pickRandom(MURF_FEMALE)
       : pickRandom(MURF_MALE);
+    if (!murfVoices.includes(String(voiceId))) {
+      logger.warn(`VoiceId Murf inválido (${voiceId}), usando por defecto: ${DEFAULT_MURF}`);
+      return { provider: 'murf', voiceId: DEFAULT_MURF };
+    }
     return { provider: 'murf', voiceId };
   }
 
@@ -79,6 +91,10 @@ export function pickVoiceId(
   const voiceId = gender === 'female'
     ? pickRandom(ELEVEN_FEMALE)
     : pickRandom(ELEVEN_MALE);
+  if (!elevenVoices.includes(String(voiceId))) {
+    logger.warn(`VoiceId ElevenLabs inválido (${voiceId}), usando por defecto: ${DEFAULT_ELEVEN}`);
+    return { provider: 'eleven', voiceId: DEFAULT_ELEVEN };
+  }
   return { provider: 'eleven', voiceId };
 }
 

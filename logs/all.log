@@ -2960,3 +2960,173 @@
 2025-07-14T16:26:37.350Z [info] → 9 segmentos de vídeo
 2025-07-14T16:26:37.989Z [warn] Voice ID inválido: en-US-daniel. Usando ElevenLabs como fallback.
 2025-07-14T16:26:38.390Z [error] Unhandled Rejection: Error: 400 {"error":"`duration` must be 5 or 10.","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T16:45:07.455Z [info] Storyteller AI backend running on 3000
+2025-07-14T16:45:14.055Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T16:45:14.057Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T16:45:14.058Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T16:45:39.856Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T16:45:39.857Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "A vast city skyline at dawn.",
+      "camera": {"shot": "wide", "movement": "dolly-in"},
+      "emotion": "wonder",
+      "dialogue": "The city i...
+2025-07-14T16:45:39.858Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T16:45:39.859Z [info] 📜 Plan OK (10s)
+2025-07-14T16:45:39.860Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T16:45:39.860Z [info] → Se generarán 10 frames de storyboard
+2025-07-14T16:45:46.204Z [info] Archivo temporal creado: t8_f5a4e3
+2025-07-14T16:45:47.740Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t8.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t8.png
+2025-07-14T16:45:47.876Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t8.png
+2025-07-14T16:45:49.960Z [info] Archivo temporal creado: t0_009560
+2025-07-14T16:45:50.711Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T16:45:50.911Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T16:45:55.518Z [info] Archivo temporal creado: t4_dab15f
+2025-07-14T16:45:56.422Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t4.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t4.png
+2025-07-14T16:45:56.539Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t4.png
+2025-07-14T16:46:01.848Z [info] Archivo temporal creado: t2_c1035b
+2025-07-14T16:46:02.873Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t2.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t2.png
+2025-07-14T16:46:02.985Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t2.png
+2025-07-14T16:46:16.069Z [info] Archivo temporal creado: t5_141849
+2025-07-14T16:46:17.977Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t5.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t5.png
+2025-07-14T16:46:18.097Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t5.png
+2025-07-14T16:46:27.005Z [info] Archivo temporal creado: t1_d6df38
+2025-07-14T16:46:28.478Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t1.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t1.png
+2025-07-14T16:46:28.601Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t1.png
+2025-07-14T16:46:30.595Z [info] Archivo temporal creado: t7_1beea2
+2025-07-14T16:46:31.249Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t7.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t7.png
+2025-07-14T16:46:31.363Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t7.png
+2025-07-14T16:46:35.011Z [info] Archivo temporal creado: t3_796d34
+2025-07-14T16:46:35.695Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t3.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t3.png
+2025-07-14T16:46:35.802Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t3.png
+2025-07-14T16:46:39.877Z [error] SDXL error: img timeout
+2025-07-14T16:46:39.878Z [warn] SDXL fallo para t=6 → usando DALL·E
+2025-07-14T16:46:39.895Z [error] SDXL error: img timeout
+2025-07-14T16:46:39.896Z [warn] SDXL fallo para t=9 → usando DALL·E
+2025-07-14T16:46:42.610Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T16:46:42.611Z [info] → Se generarán 10 frames de storyboard
+2025-07-14T16:46:55.048Z [info] Archivo temporal creado: t9_b8048a
+2025-07-14T16:46:56.600Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t9.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t9.png
+2025-07-14T16:46:56.717Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t9.png
+2025-07-14T16:47:04.240Z [info] Archivo temporal creado: t1_5ae675
+2025-07-14T16:47:04.367Z [info] Archivo temporal creado: t6_b7a2e7
+2025-07-14T16:47:04.481Z [info] Archivo temporal creado: t7_df2776
+2025-07-14T16:47:04.783Z [info] Archivo temporal creado: t0_a81fdd
+2025-07-14T16:47:05.583Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t1.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t1.png
+2025-07-14T16:47:05.702Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t1.png
+2025-07-14T16:47:05.708Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t6.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t6.png
+2025-07-14T16:47:05.820Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t6.png
+2025-07-14T16:47:06.308Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T16:47:06.441Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T16:47:06.455Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t7.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t7.png
+2025-07-14T16:47:06.565Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t7.png
+2025-07-14T16:47:07.607Z [info] Archivo temporal creado: t2_36c4d5
+2025-07-14T16:47:08.826Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t2.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t2.png
+2025-07-14T16:47:08.902Z [info] Archivo temporal creado: t3_831051
+2025-07-14T16:47:08.930Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t2.png
+2025-07-14T16:47:09.096Z [info] Archivo temporal creado: t4_f788c8
+2025-07-14T16:47:09.525Z [info] Archivo temporal creado: t8_e2cf68
+2025-07-14T16:47:09.701Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t3.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t3.png
+2025-07-14T16:47:09.852Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t3.png
+2025-07-14T16:47:09.881Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t4.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t4.png
+2025-07-14T16:47:09.998Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t4.png
+2025-07-14T16:47:10.196Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t8.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t8.png
+2025-07-14T16:47:10.288Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t8.png
+2025-07-14T16:47:12.276Z [info] Archivo temporal creado: t5_c6a291
+2025-07-14T16:47:12.855Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t5.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t5.png
+2025-07-14T16:47:12.964Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t5.png
+2025-07-14T16:47:12.965Z [info] ✅  Storyboards listos: 10
+2025-07-14T16:47:12.966Z [info] 🎞️  ClipService v6.1 — iniciando…
+2025-07-14T16:47:12.969Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T16:47:12.970Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T16:47:12.972Z [info] 🎵  Freesound query: cinematic
+2025-07-14T16:47:12.980Z [info] → 9 segmentos de vídeo
+2025-07-14T16:47:13.601Z [warn] Voice ID inválido: en-US-terrell. Usando ElevenLabs como fallback.
+2025-07-14T16:47:13.955Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:15.031Z [warn] Voice ID inválido: en-US-daniel. Usando ElevenLabs como fallback.
+2025-07-14T16:47:15.149Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:15.446Z [warn] Voice ID inválido: en-US-carter. Usando ElevenLabs como fallback.
+2025-07-14T16:47:15.557Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:15.685Z [warn] Voice ID inválido: en-US-daniel. Usando ElevenLabs como fallback.
+2025-07-14T16:47:15.790Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:15.921Z [warn] Voice ID inválido: en-US-terrell. Usando ElevenLabs como fallback.
+2025-07-14T16:47:16.028Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:16.264Z [warn] Voice ID inválido: en-US-maverick. Usando ElevenLabs como fallback.
+2025-07-14T16:47:16.416Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:16.546Z [warn] Voice ID inválido: en-US-ryan. Usando ElevenLabs como fallback.
+2025-07-14T16:47:16.651Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:16.775Z [warn] Voice ID inválido: en-US-daniel. Usando ElevenLabs como fallback.
+2025-07-14T16:47:16.880Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:17.007Z [warn] Voice ID inválido: en-US-carter. Usando ElevenLabs como fallback.
+2025-07-14T16:47:17.115Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:17.358Z [warn] Voice ID inválido: en-US-terrell. Usando ElevenLabs como fallback.
+2025-07-14T16:47:17.463Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:17.520Z [error] VoiceService error: concat fail
+2025-07-14T16:47:19.025Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T16:47:19.150Z [info] ✅  Pista de música lista (1024940 bytes)
+2025-07-14T16:47:19.256Z [warn] Voice ID inválido: en-US-paul. Usando ElevenLabs como fallback.
+2025-07-14T16:47:19.360Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:19.497Z [warn] Voice ID inválido: en-US-paul. Usando ElevenLabs como fallback.
+2025-07-14T16:47:19.608Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:19.740Z [warn] Voice ID inválido: en-US-daniel. Usando ElevenLabs como fallback.
+2025-07-14T16:47:19.852Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:19.980Z [warn] Voice ID inválido: en-US-carter. Usando ElevenLabs como fallback.
+2025-07-14T16:47:20.091Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:20.369Z [warn] Voice ID inválido: en-US-carter. Usando ElevenLabs como fallback.
+2025-07-14T16:47:20.485Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:20.619Z [warn] Voice ID inválido: en-US-carter. Usando ElevenLabs como fallback.
+2025-07-14T16:47:20.731Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:20.859Z [warn] Voice ID inválido: en-US-evander. Usando ElevenLabs como fallback.
+2025-07-14T16:47:20.962Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:21.181Z [warn] Voice ID inválido: en-US-charles. Usando ElevenLabs como fallback.
+2025-07-14T16:47:21.293Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:21.425Z [warn] Voice ID inválido: en-US-maverick. Usando ElevenLabs como fallback.
+2025-07-14T16:47:21.534Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:21.663Z [warn] Voice ID inválido: en-US-carter. Usando ElevenLabs como fallback.
+2025-07-14T16:47:21.772Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:21.856Z [error] VoiceService error: concat fail
+2025-07-14T16:47:23.357Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T16:47:23.616Z [warn] Voice ID inválido: en-US-evander. Usando ElevenLabs como fallback.
+2025-07-14T16:47:23.726Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:23.859Z [warn] Voice ID inválido: en-US-carter. Usando ElevenLabs como fallback.
+2025-07-14T16:47:23.972Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:24.205Z [warn] Voice ID inválido: en-US-maverick. Usando ElevenLabs como fallback.
+2025-07-14T16:47:24.320Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:24.453Z [warn] Voice ID inválido: en-US-maverick. Usando ElevenLabs como fallback.
+2025-07-14T16:47:24.589Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:24.721Z [warn] Voice ID inválido: en-US-charles. Usando ElevenLabs como fallback.
+2025-07-14T16:47:24.832Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:24.964Z [warn] Voice ID inválido: en-US-ken. Usando ElevenLabs como fallback.
+2025-07-14T16:47:25.071Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:25.388Z [warn] Voice ID inválido: en-US-maverick. Usando ElevenLabs como fallback.
+2025-07-14T16:47:25.498Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:25.632Z [warn] Voice ID inválido: en-US-daniel. Usando ElevenLabs como fallback.
+2025-07-14T16:47:25.742Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:25.875Z [warn] Voice ID inválido: en-US-miles. Usando ElevenLabs como fallback.
+2025-07-14T16:47:26.036Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:26.280Z [warn] Voice ID inválido: en-US-miles. Usando ElevenLabs como fallback.
+2025-07-14T16:47:26.388Z [warn] ElevenLabs error: Request failed with status code 400
+2025-07-14T16:47:26.442Z [error] VoiceService error: concat fail
+2025-07-14T16:47:27.959Z [error] ❌ Error en createVoiceOver: VoiceService failed
+2025-07-14T16:47:27.960Z [error] ❌ Error en runRenderPipeline: VoiceService failed
+2025-07-14T16:47:44.972Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_0_eaed9f.mp4
+2025-07-14T16:48:06.366Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_2_b30f58.mp4
+2025-07-14T16:48:31.422Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_1_a8f78f.mp4
+2025-07-14T16:49:01.003Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_4_b9e64e.mp4
+2025-07-14T16:49:18.991Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_5_87754b.mp4
+2025-07-14T16:49:58.009Z [error] Runway error: An unexpected error occurred.
+2025-07-14T16:52:29.526Z [info] 🎞️  ClipService v6.1 — iniciando…
+2025-07-14T16:52:29.532Z [info] → 9 segmentos de vídeo
+2025-07-14T16:53:09.373Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_2_157791.mp4
+2025-07-14T16:53:28.675Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_0_40e53d.mp4
+2025-07-14T16:53:51.182Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_1_70c8e9.mp4
+2025-07-14T16:54:19.120Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_4_b10ad8.mp4
+2025-07-14T16:54:45.909Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_5_7acd64.mp4
+2025-07-14T16:55:08.292Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_3_40a65f.mp4
+2025-07-14T16:55:32.969Z [error] ❌ Error en generateClips: timeout
+2025-07-14T16:55:42.463Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_8_4276c7.mp4
+2025-07-14T16:56:08.008Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_7_3298c6.mp4
+2025-07-14T16:56:36.888Z [info] ✅ Clip generado y guardado: \tmp\clips_v6\clip_6_cbfe09.mp4
+2025-07-14T16:56:36.889Z [info] ✅  Clips generados: 9
