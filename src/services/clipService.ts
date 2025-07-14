@@ -42,7 +42,7 @@ async function withTimeout<T>(p: Promise<T>, ms = GEN_TIMEOUT_MS) {
 }
 
 const MODEL_MAP = {
-  realistic: 'minimax/video-01:095ea4f',  // SHA / versión estable
+  realistic: 'zeroscope/zeroscope-v2-xl:latest', // text-to-video realista
   anime    : 'tencent/hunyuan-video:latest',
   cartoon  : 'lightricks/ltx-video:latest'
 } as const;
