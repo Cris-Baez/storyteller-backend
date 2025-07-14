@@ -3800,3 +3800,86 @@
 2025-07-14T20:12:43.197Z [info] Verificando assets generados...
 2025-07-14T20:12:43.198Z [error] No se generaron clips de video válidos.
 2025-07-14T20:12:43.199Z [error] ❌ Error en runRenderPipeline: No se generaron clips de video válidos.
+2025-07-14T20:16:57.394Z [info] Storyteller AI backend running on 3000
+2025-07-14T20:17:13.609Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T20:17:13.611Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T20:17:13.613Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T20:17:30.964Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T20:17:30.965Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast, desolate landscape under a stormy sky",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"foreboding",
+     "dialogue":"The w...
+2025-07-14T20:17:30.968Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T20:17:30.968Z [info] 📜 Plan OK (10s)
+2025-07-14T20:17:30.970Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T20:17:30.971Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T20:17:33.920Z [error] FLUX respuesta inesperada: {}
+2025-07-14T20:17:33.920Z [error] FLUX error: FLUX returned invalid response format
+2025-07-14T20:17:33.921Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-14T20:17:38.661Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/D8WbvfDEHNWNG6fQQK42uhQNJRS6h5tIT5scOTFhHW3ifiBqA/out-0.png
+2025-07-14T20:17:39.785Z [info] Archivo temporal creado: t0_4d889f
+2025-07-14T20:17:41.155Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T20:17:41.263Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T20:17:41.264Z [info] ✅  Storyboards listos: 1
+2025-07-14T20:17:41.266Z [info] 🎞️  ClipService v6.2 — iniciando (con subida a CDN)…
+2025-07-14T20:17:41.267Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T20:17:41.298Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T20:17:41.299Z [info] 🎵  Freesound query: cinematic
+2025-07-14T20:17:41.311Z [info] → 3 segmentos de vídeo (limitado)
+2025-07-14T20:17:41.410Z [info] Procesando imagen de storyboard para Runway: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T20:17:41.611Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T20:17:41.612Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.619Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T20:17:41.620Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.623Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T20:17:41.624Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.631Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T20:17:41.632Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.643Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T20:17:41.644Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.648Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T20:17:41.649Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.671Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T20:17:41.673Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.676Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T20:17:41.678Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.699Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T20:17:41.700Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.744Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T20:17:41.745Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.746Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-14T20:17:41.987Z [warn] ⚠️ La función uploadImage no está disponible en RunwayML SDK
+2025-07-14T20:17:41.987Z [warn] 🕳️ usando black frame de reserva
+2025-07-14T20:17:46.515Z [info] ✅  Pista de música lista (1024940 bytes)
+2025-07-14T20:17:47.573Z [error] ❌ Runway falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:17:47.573Z [warn] ⚠️ Reintentando sin promptImage...
+2025-07-14T20:17:52.595Z [error] 🚨 Runway sin imagen también falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:17:52.596Z [warn] ⛑️ Fallback a Replicate activado...
+2025-07-14T20:17:52.601Z [error] 🔥 Fallback también falló: Cannot find module 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\config\env' imported from C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\services\clipService.js
+2025-07-14T20:17:52.603Z [info] Opciones para Runway:
+2025-07-14T20:17:52.603Z [warn] ⚠️ No se pudo generar el video para este segmento. Continuando con el siguiente.
+2025-07-14T20:17:52.606Z [error] ❌ Fallaron todos los modelos para el segmento 0
+2025-07-14T20:17:59.799Z [error] ❌ Runway falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:17:59.800Z [warn] ⚠️ Reintentando sin promptImage...
+2025-07-14T20:18:06.983Z [error] 🚨 Runway sin imagen también falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:18:06.984Z [warn] ⛑️ Fallback a Replicate activado...
+2025-07-14T20:18:06.987Z [error] 🔥 Fallback también falló: Cannot find module 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\config\env' imported from C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\services\clipService.js
+2025-07-14T20:18:06.988Z [info] Opciones para Runway:
+2025-07-14T20:18:06.988Z [warn] ⚠️ No se pudo generar el video para este segmento. Continuando con el siguiente.
+2025-07-14T20:18:06.990Z [error] ❌ Fallaron todos los modelos para el segmento 4
+2025-07-14T20:18:12.238Z [error] ❌ Runway falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:18:12.239Z [warn] ⚠️ Reintentando sin promptImage...
+2025-07-14T20:18:16.828Z [error] 🚨 Runway sin imagen también falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:18:16.828Z [warn] ⛑️ Fallback a Replicate activado...
+2025-07-14T20:18:16.830Z [error] 🔥 Fallback también falló: Cannot find module 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\config\env' imported from C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\services\clipService.js
+2025-07-14T20:18:16.831Z [info] Opciones para Runway:
+2025-07-14T20:18:16.832Z [warn] ⚠️ No se pudo generar el video para este segmento. Continuando con el siguiente.
+2025-07-14T20:18:16.833Z [error] ❌ Fallaron todos los modelos para el segmento 8
+2025-07-14T20:18:16.833Z [info] ✅  Clips generados y subidos: 0
+2025-07-14T20:18:16.833Z [info] Verificando assets generados...
+2025-07-14T20:18:16.833Z [error] No se generaron clips de video válidos.
+2025-07-14T20:18:16.834Z [error] ❌ Error en runRenderPipeline: No se generaron clips de video válidos.

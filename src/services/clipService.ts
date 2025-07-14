@@ -1,361 +1,158 @@
-import sharp from 'sharp';
-import os from 'os';
-import axios from 'axios';
-import Replicate from 'replicate';
-import { spawn } from 'child_process';
-import { v4 as uuid } from 'uuid';
-import fs from 'fs/promises';
-import path from 'path';
-import RunwayML from '@runwayml/sdk';
-import fetch from 'node-fetch';
+/*───────────────────────── clipService.ts ─────────────────────────
+ * Storyteller AI · ClipService v7
+ * -----------------------------------------------------------------
+ * • Genera segmentos de 1‑5 s con Runway Gen‑4 Turbo
+ * • Fallback automático a Replicate (modelo según estilo)
+ * • Descarga el MP4 en streaming → sin llenar la RAM
+ * • Sube cada clip a Google Cloud Storage y devuelve las URLs
+ * • Procesa varios segmentos en paralelo (concurrencia configurable)
+ * -----------------------------------------------------------------*/
 
-type TaskResponse = {
-    output?: string[];
-    [key: string]: any;
-};
+import fs           from 'fs/promises';
+import fss          from 'fs';
+import path         from 'path';
+import { pipeline } from 'stream/promises';
+import { v4 as uuid }  from 'uuid';
+import fetch        from 'node-fetch';
+import axios        from 'axios';
+import pLimit       from 'p-limit';
+import RunwayML     from '@runwayml/sdk';
+import Replicate    from 'replicate';
 
-import { VideoPlan, TimelineSecond } from '../utils/types';
-import { env } from '../config/env.js';
-import { logger } from '../utils/logger.js';
-import { retry } from '../utils/retry.js';
+import { env }              from '../config/env.js';
+import { logger }           from '../utils/logger.js';
+import { retry }            from '../utils/retry.js';
+import type {
+  VideoPlan,
+  TimelineSecond
+} from '../utils/types';
 
 /* ─── Config ─────────────────────────────────────────────── */
-const GEN_CONCURRENCY = Number(env.GEN2_CONCURRENCY ?? 3);
+const CONCURRENCY    = Number(env.GEN2_CONCURRENCY ?? 3);   // clips en paralelo
 const GEN_TIMEOUT_MS = Number(env.GEN2_TIMEOUT_MS ?? 150_000);
-const TMP_CLIPS = '/tmp/clips_v6';
+const TMP_CLIPS      = '/tmp/clips_v7';
+await fs.mkdir(TMP_CLIPS, { recursive: true });
 
-const runwayClient = new RunwayML();
+const runway   = new RunwayML();
+const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
 
-/** Runway Gen-4 Turbo */
-async function runwayGen(prompt: string, frames: number, img?: string): Promise<string | null> {
-  try {
-    const createOpts: any = {
-      model: 'gen4_turbo',
-      promptText: prompt,
-      duration: Math.ceil(frames / 24) <= 5 ? 5 : 10,
-      ratio: '1280:720',
-    };
-
-    if (img) {
-      try {
-        logger.info(`Procesando imagen de storyboard para Runway: ${img}`);
-        // 1. Crear directorio temporal
-        const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'runway-'));
-        const tmpFile = path.join(tmpDir, 'input.jpg');
-        // 2. Descargar y procesar imagen
-        const imageResponse = await axios.get(img, { 
-          responseType: 'arraybuffer',
-          timeout: 10000
-        });
-        // 3. Procesar con Sharp y guardar como JPEG 90 calidad, 512x512
-        await sharp(imageResponse.data)
-          .resize(512, 512, {
-            fit: 'cover', // forzar 512x512 exacto
-          })
-          .jpeg({ quality: 90 })
-          .toFile(tmpFile);
-
-        // Ajuste para RunwayML: Eliminar uso de uploadImage si no está soportado
-        logger.warn('⚠️ La función uploadImage no está disponible en RunwayML SDK');
-
-        // Definir bufVideo en el ámbito correcto
-        let bufVideo: Buffer | null = null;
-
-        // Fallback de frame negro
-        if (!bufVideo) {
-          logger.warn('🕳️ usando black frame de reserva');
-          const generateBlackFrame = async (frames: number, width: number, height: number): Promise<Buffer> => {
-            // Implementación rápida de frame negro
-            const ffmpegCmd = `ffmpeg -f lavfi -i color=c=black:s=${width}x${height} -t ${frames / 24} -r 24 -f mp4 pipe:1`;
-            const { spawn } = await import('child_process');
-            const ffmpeg = spawn(ffmpegCmd, { shell: true });
-            const chunks: Buffer[] = [];
-            for await (const chunk of ffmpeg.stdout) chunks.push(chunk);
-            return Buffer.concat(chunks);
-          };
-          bufVideo = await generateBlackFrame(frames, 1280, 720);
-        }
-      } catch (e) {
-        const errorMessage = e instanceof Error ? e.message : 'Error desconocido';
-        logger.error(`Error procesando imagen para Runway: ${errorMessage}`);
-        if (e instanceof Error && e.stack) {
-          logger.error(`Stack trace: ${e.stack}`);
-        }
-        logger.warn('⚠️ Continuando sin imagen debido a error de procesamiento');
-        delete createOpts.promptImage;
-      }
-    }
-
-    // Validar URL antes de enviar a RunwayML
-    if (createOpts.promptImage) {
-      const isValidUrl = await validateUrl(createOpts.promptImage);
-      if (!isValidUrl) {
-        logger.warn(`URL de imagen no válida para Runway: ${createOpts.promptImage}`);
-        delete createOpts.promptImage;
-      }
-    }
-
-    // 🛡️ VALIDACIÓN MÁXIMA antes de enviar a Runway
-    if (createOpts.promptImage) {
-      const isImageValid = await validateUrl(createOpts.promptImage);
-      const isJPEG = createOpts.promptImage.endsWith('.jpg') || createOpts.promptImage.endsWith('.jpeg');
-      const isFromGoogle = createOpts.promptImage.includes('storage.googleapis.com');
-
-      if (!isImageValid || !isJPEG || !isFromGoogle) {
-        logger.warn(`⚠️ Imagen inválida, se eliminará del prompt: ${createOpts.promptImage}`);
-        delete createOpts.promptImage;
-      }
-    }
-
-    // Captura y fallback automático
-    let videoUrl: string | null = null;
-
-    try {
-      const response = await runwayClient.imageToVideo.create(createOpts).waitForTaskOutput();
-      if (!response?.output || !Array.isArray(response.output) || response.output.length === 0) {
-        throw new Error('Runway no devolvió output válido');
-      }
-      videoUrl = response.output[0];
-    } catch (e: any) {
-      logger.error(`❌ Runway falló: ${e.message}`);
-      if (e.message.includes('promptImage: Invalid input')) {
-        logger.warn('⚠️ Reintentando sin promptImage...');
-        delete createOpts.promptImage;
-        try {
-          const retryRes = await runwayClient.imageToVideo.create(createOpts).waitForTaskOutput();
-          if (retryRes?.output?.[0]) {
-            videoUrl = retryRes.output[0];
-            logger.info('✅ Runway funcionó sin promptImage');
-          }
-        } catch (fallbackErr) {
-          logger.error(`🚨 Runway sin imagen también falló: ${(fallbackErr instanceof Error) ? fallbackErr.message : 'Error desconocido'}`);
-          videoUrl = null;
-        }
-      }
-    }
-
-    // Fallback profesional a Replicate
-    if (!videoUrl) {
-      logger.warn('⛑️ Fallback a Replicate activado...');
-      try {
-        videoUrl = await replicateGen(prompt, frames, createOpts.visualStyle || 'default');
-      } catch (e) {
-        logger.error(`🔥 Fallback también falló: ${(e instanceof Error) ? e.message : 'Error desconocido'}`);
-        videoUrl = null;
-      }
-    }
-
-    // BONUS: Log para debug futuro
-    logger.info('Opciones para Runway:', JSON.stringify(createOpts, null, 2));
-
-    if (!videoUrl) {
-      logger.warn('⚠️ No se pudo generar el video para este segmento. Continuando con el siguiente.');
-      return null; // Manejo limpio del error
-    }
-
-    return videoUrl;
-  } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : 'Error desconocido';
-    logger.error(`Runway error: ${errorMessage}`);
-    if ((e as any).response?.data) {
-      logger.error(`Runway response data: ${JSON.stringify((e as any).response.data, null, 2)}`);
-    }
-    return null;
-  }
-}
-
-/* Helper timeout */
-async function withTimeout<T>(p: Promise<T>, ms = GEN_TIMEOUT_MS): Promise<T> {
+/* ─── Helpers ────────────────────────────────────────────── */
+async function asyncTimeout<T>(p: Promise<T>, ms = GEN_TIMEOUT_MS) {
   return Promise.race([
     p,
-    new Promise<T>((_, rej) => setTimeout(() => rej(new Error('clip timeout')), ms))
+    new Promise<never>((_, rej) => setTimeout(() => rej(new Error('clip timeout')), ms))
   ]);
 }
 
-/* ────────────────────────────────────────────────────────────
- * 1) Segmentación del timeline
- * ────────────────────────────────────────────────────────── */
+const MODEL_MAP = {
+  realistic: 'minimax/video-01',
+  anime:     'tencent/hunyuan-video',
+  cartoon:   'lightricks/ltx-video'
+} as const;
+
+/* ─── Core generators ───────────────────────────────────── */
+async function genWithRunway(prompt: string, frames: number) {
+  const res = await runway.imageToVideo
+    .create({
+      model      : 'gen4_turbo',
+      promptText : prompt.trim(),
+      promptImage: '',
+      duration   : Math.ceil(frames / 24) <= 5 ? 5 : 10,
+      ratio      : '1280:720'
+    })
+    .waitForTaskOutput();
+
+  if (!Array.isArray(res?.output) || !res.output[0])
+    throw new Error('Runway output vacío');
+  return res.output[0] as string;
+}
+
+async function genWithReplicate(prompt: string, frames: number, style: keyof typeof MODEL_MAP) {
+  const duration = Math.min(Math.ceil(frames / 24), 5);
+  const out: any = await replicate.run(MODEL_MAP[style], {
+    input: { prompt, aspect_ratio: '16:9', duration }
+  });
+  return Array.isArray(out) ? out[0] : out.video;
+}
+
+/* ─── Timeline utils ────────────────────────────────────── */
 interface Segment { start: number; end: number; secs: TimelineSecond[] }
 
-const SEGMENT_SIZE = 3; // Tamaño ideal de segmento en segundos
-
 function segmentTimeline(tl: TimelineSecond[]): Segment[] {
-  if (tl.length === 0) return [];
   const segs: Segment[] = [];
-  let current: Segment = { start: 0, end: 0, secs: [tl[0]] };
+  let cur: Segment | null = null;
 
-  for (let i = 1; i < tl.length; i++) {
-    const sec = tl[i];
-    const needSplit = sec.transition !== 'none' || current.secs.length >= SEGMENT_SIZE;
-    if (needSplit) {
-      current.end = i - 1;
-      segs.push(current);
-      current = { start: i, end: i, secs: [sec] };
+  tl.forEach((sec, idx) => {
+    if (!cur || sec.transition !== 'none' || cur.secs.length >= 3) {
+      cur && segs.push(cur);
+      cur = { start: idx, end: idx, secs: [sec] };
     } else {
-      current.secs.push(sec);
-      current.end = i;
+      cur.secs.push(sec);
+      cur.end = idx;
     }
-  }
-  segs.push(current);
+  });
+  cur && segs.push(cur);
   return segs;
 }
 
-/* ────────────────────────────────────────────────────────────
- * 2) Prompt builder
- * ────────────────────────────────────────────────────────── */
-function buildPrompt(
-  seg: Segment,
-  style: VideoPlan['metadata']['visualStyle']
-): string {
-  const first = seg.secs[0];
-  const last  = seg.secs[seg.secs.length - 1];
-  const mainVisuals = [first.visual];
-  if (seg.secs.length > 1) mainVisuals.push(last.visual);
-
+function buildPrompt(seg: Segment, style: VideoPlan['metadata']['visualStyle']) {
+  const f = seg.secs[0], l = seg.secs[seg.secs.length - 1];
   return [
-    mainVisuals.join(', '),
-    `camera ${first.camera.shot} ${first.camera.movement}`,
+    [f.visual, seg.secs.length > 1 ? l.visual : ''].filter(Boolean).join(', '),
+    `camera ${f.camera.shot} ${f.camera.movement}`,
     `style ${style}`,
-    (first.sceneMood || '') + ' cinematic lighting',
-    'ultra-smooth camera, 24 fps, no watermark'
+    (f.sceneMood || '') + ' cinematic lighting',
+    '24 fps, ultra‑smooth, no watermark'
   ].filter(Boolean).join(', ');
 }
 
-/* ────────────────────────────────────────────────────────────
- * 3) Proveedores
- * ────────────────────────────────────────────────────────── */
+/* ─── Public API ─────────────────────────────────────────── */
+export async function generateClips(
+  plan: VideoPlan, storyboardUrls: string[]
+): Promise<string[]> {
 
-/** Mapas de modelo Replicate - Actualizados 2025 */
-const MODEL_MAP = {
-  realistic: 'minimax/video-01',         // Modelo más reciente para video realista
-  anime:     'tencent/hunyuan-video',    // Modelo especializado en anime
-  cartoon:   'lightricks/ltx-video'      // Modelo para contenido cartoon/animated
-} as const;
+  logger.info('🎞️ ClipService v7 – iniciando…');
 
-/** Replicate fallback */
-async function replicateGen(
-  prompt: string,
-  frames: number,
-  style: VideoPlan['metadata']['visualStyle']
-): Promise<string> {
-  const model = MODEL_MAP[style as keyof typeof MODEL_MAP];
-  const { env } = await import('../config/env');
-  const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
-  
-  // Parámetros actualizados para modelos 2025
-  const duration = Math.min(Math.ceil(frames / 24), 5); // Max 5 segundos
-  
-  const output = await withTimeout(
-    retry(
-      () => replicate.run(model, {
-        input: { 
-          prompt, 
-          aspect_ratio: '16:9',
-          duration: duration
-        }
-      }),
-      2 /* reintentos */
-    )
-  );
-  /* algunos modelos devuelven string[], otros { video } */
-  if (Array.isArray(output)) return output[0] as string;
-  if (output && typeof output === 'object' && (output as any).video) return (output as any).video;
-  throw new Error('Unexpected Replicate response');
-}
+  const segments = segmentTimeline(plan.timeline).slice(0, 3); // máx 3
+  logger.info(`→ Generando ${segments.length} segmentos…`);
 
-/* ────────────────────────────────────────────────────────────
- * 4) generateClips — API pública
- * ────────────────────────────────────────────────────────── */
-export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): Promise<string[]> {
-  logger.info('🎞️  ClipService v6.2 — iniciando (con subida a CDN)…');
-  await fs.mkdir(TMP_CLIPS, { recursive: true });
+  const limit = pLimit(CONCURRENCY);
+  const clipUrls: string[] = [];
 
-  let segments = segmentTimeline(plan.timeline);
-  // Limitar a máximo 3 segmentos para reducir recursos
-  if (segments.length > 3) {
-    const first = segments[0];
-    const last = segments[segments.length - 1];
-    const middle = segments[Math.floor(segments.length / 2)];
-    segments = [first, middle, last].filter((v, i, arr) => arr.indexOf(v) === i);
-  }
-  logger.info(`→ ${segments.length} segmentos de vídeo (limitado)`);
+  await Promise.all(
+    segments.map(seg => limit(async () => {
+      const prompt = buildPrompt(seg, plan.metadata.visualStyle);
+      const frames = (seg.end - seg.start + 1) * 24;
 
-  const cdnUrls: string[] = [];
-
-  for (const seg of segments) {
-    const prompt = buildPrompt(seg, plan.metadata.visualStyle);
-    const frames = (seg.end - seg.start + 1) * 24;
-    let imgUrl: string | undefined = undefined;
-    let videoUrl: string | null = null;
-    let bufVideo: Buffer | null = null;
-
-    // 1. Subir imagen a CDN y esperar que esté lista
-    try {
-      if (storyboardUrls?.[seg.start]) {
-        const imgCandidate = storyboardUrls[seg.start];
-        if (
-          typeof imgCandidate === 'string' &&
-          /^https:\/\//.test(imgCandidate) &&
-          imgCandidate.includes('storage.googleapis.com') &&
-          (await validateUrl(imgCandidate))
-        ) {
-          imgUrl = imgCandidate;
-        } else {
-          logger.warn(`Storyboard no accesible en CDN para segmento ${seg.start}: ${imgCandidate}`);
-        }
-      }
-    } catch (imgErr) {
-      logger.warn(`Error validando storyboard CDN para segmento ${seg.start}: ${imgErr}`);
-    }
-
-    // 2. Intenta con Runway SOLO si la imagen está en CDN y es válida
-    try {
-      videoUrl = await withTimeout(runwayGen(prompt, frames, imgUrl));
-      if (videoUrl) {
-        bufVideo = await fetch(videoUrl).then(r => r.arrayBuffer()).then(b => Buffer.from(b));
-      }
-    } catch (err) {
-      logger.warn(`⚠️ Runway falló para segmento ${seg.start}: ${err}`);
-      videoUrl = null; // Asegurar que está limpio para fallback
-    }
-
-    // 3. Si falla, intenta con Replicate
-    if (!bufVideo) {
+      let videoUrl: string | null = null;
       try {
-        videoUrl = await replicateGen(prompt, frames, plan.metadata.visualStyle);
-        if (videoUrl) {
-          bufVideo = await fetch(videoUrl).then(r => r.arrayBuffer()).then(b => Buffer.from(b));
+        videoUrl = await asyncTimeout(genWithRunway(prompt, frames));
+      } catch (e: any) {
+        logger.warn(`Runway falla (seg ${seg.start}): ${e.message}`);
+        try {
+          videoUrl = await asyncTimeout(
+            genWithReplicate(prompt, frames, plan.metadata.visualStyle as "realistic" | "anime" | "cartoon")
+          );
+        } catch (re) {
+          logger.error(`Replicate también falla (seg ${seg.start})`);
+          return; // omite segmento
         }
-      } catch (err) {
-        logger.error(`❌ Fallaron todos los modelos para el segmento ${seg.start}`);
-        continue;
       }
-    }
 
-    // 4. Guardar temporal y subir a CDN
-    const filename = `clip_${seg.start}_${uuid().slice(0, 8)}.mp4`;
-    const localPath = path.join(TMP_CLIPS, filename);
-    try {
-      await fs.writeFile(localPath, bufVideo!);
-      // Usar el servicio centralizado de subida a CDN
+      /* stream → archivo */
+      const filename  = `clip_${seg.start}_${uuid().slice(0, 8)}.mp4`;
+      const localPath = path.join(TMP_CLIPS, filename);
+      const resp = await fetch(videoUrl!);
+      await pipeline(resp.body!, fss.createWriteStream(localPath));
+
+      /* subir a CDN */
       const { uploadToCDN } = await import('./cdnService.js');
       const cdnUrl = await uploadToCDN(localPath, `clips/${filename}`);
-      cdnUrls.push(cdnUrl);
-      logger.info(`✅ Clip subido a CDN: ${cdnUrl}`);
-    } catch (uploadError) {
-      logger.error(`📤 Error al subir a CDN: ${uploadError}`);
-    }
-  }
+      clipUrls.push(cdnUrl);
+      logger.info(`✅ Clip listo: ${cdnUrl}`);
+    }))
+  );
 
-  logger.info(`✅  Clips generados y subidos: ${cdnUrls.length}`);
-  return cdnUrls;
-}
-
-async function validateUrl(url: string): Promise<boolean> {
-  try {
-    const response = await axios.head(url);
-    return response.status === 200;
-  } catch {
-    return false;
-  }
+  logger.info(`✅ Total clips subidos: ${clipUrls.length}`);
+  return clipUrls;
 }

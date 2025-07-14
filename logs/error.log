@@ -1134,3 +1134,29 @@
 2025-07-14T20:12:43.195Z [error] ❌ Fallaron todos los modelos para el segmento 9
 2025-07-14T20:12:43.198Z [error] No se generaron clips de video válidos.
 2025-07-14T20:12:43.199Z [error] ❌ Error en runRenderPipeline: No se generaron clips de video válidos.
+2025-07-14T20:17:33.920Z [error] FLUX respuesta inesperada: {}
+2025-07-14T20:17:33.920Z [error] FLUX error: FLUX returned invalid response format
+2025-07-14T20:17:41.612Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.620Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.624Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.632Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.644Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.649Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.673Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.678Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.700Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:41.745Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T20:17:47.573Z [error] ❌ Runway falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:17:52.595Z [error] 🚨 Runway sin imagen también falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:17:52.601Z [error] 🔥 Fallback también falló: Cannot find module 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\config\env' imported from C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\services\clipService.js
+2025-07-14T20:17:52.606Z [error] ❌ Fallaron todos los modelos para el segmento 0
+2025-07-14T20:17:59.799Z [error] ❌ Runway falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:18:06.983Z [error] 🚨 Runway sin imagen también falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:18:06.987Z [error] 🔥 Fallback también falló: Cannot find module 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\config\env' imported from C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\services\clipService.js
+2025-07-14T20:18:06.990Z [error] ❌ Fallaron todos los modelos para el segmento 4
+2025-07-14T20:18:12.238Z [error] ❌ Runway falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:18:16.828Z [error] 🚨 Runway sin imagen también falló: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T20:18:16.830Z [error] 🔥 Fallback también falló: Cannot find module 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\config\env' imported from C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\services\clipService.js
+2025-07-14T20:18:16.833Z [error] ❌ Fallaron todos los modelos para el segmento 8
+2025-07-14T20:18:16.833Z [error] No se generaron clips de video válidos.
+2025-07-14T20:18:16.834Z [error] ❌ Error en runRenderPipeline: No se generaron clips de video válidos.
