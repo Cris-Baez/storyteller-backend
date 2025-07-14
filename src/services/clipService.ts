@@ -1,62 +1,138 @@
-import Replicate from 'replicate';
-import axios from 'axios';
 import sharp from 'sharp';
-// Generador de video con Replicate (antes en providers/replicateFallback)
-export async function generateReplicateClip(sec: import('../utils/types').TimelineSecond): Promise<Buffer> {
-  const { env } = await import('../config/env');
-  const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
-  // Usa modelo realista más actualizado (2025)
-  const model = 'minimax/video-01';
-  const output = await replicate.run(model, {
-    input: {
-      prompt: sec.visual,
-      aspect_ratio: '16:9',
-      duration: 5
-    }
-  });
-
-  let url = '';
-  if (Array.isArray(output) && output.length > 0) {
-    url = output[0];
-  } else if (output && typeof output === 'object' && (output as any).video) {
-    url = (output as any).video;
-  } else {
-    throw new Error('Respuesta inesperada de Replicate');
-  }
-
-  const res = await axios.get(url, { responseType: 'arraybuffer' });
-  return Buffer.from(res.data);
-}
-// src/services/clipService.ts
-/**
- * Clip Service v6.1 — 2025-07-13
- * ------------------------------
- * ▸ Segmenta el timeline en bloques de 2 s (o cuando hay transición).
- * ▸ Para cada bloque construye un prompt cinematográfico.
- * ▸ Pipeline de generación (orden de preferencia):
- *     1. Runway Gen-4 Turbo        → /v1/image_to_video
- *     2. Replicate (modelo según estilo visual)
- * ▸ Control de concurrencia (GEN_CONCURRENCY) y timeout (GEN_TIMEOUT_MS).
- * ▸ Descarga cada clip .mp4 a /tmp y devuelve paths locales.
- */
-
-import { TimelineSecond, VideoPlan } from '../utils/types';
-import { env }     from '../config/env.js';
-import { logger }  from '../utils/logger.js';
-import { retry }   from '../utils/retry.js';
-
-import fetch       from 'node-fetch';
-import fs          from 'fs/promises';
-import path        from 'path';
+import os from 'os';
+import axios from 'axios';
+import Replicate from 'replicate';
+import { spawn } from 'child_process';
 import { v4 as uuid } from 'uuid';
-import RunwayML    from '@runwayml/sdk';
+import fs from 'fs/promises';
+import path from 'path';
+import RunwayML from '@runwayml/sdk';
+import fetch from 'node-fetch';
+
+type TaskResponse = {
+    output?: string[];
+    [key: string]: any;
+};
+
+import { VideoPlan, TimelineSecond } from '../utils/types';
+import { env } from '../config/env.js';
+import { logger } from '../utils/logger.js';
+import { retry } from '../utils/retry.js';
 
 /* ─── Config ─────────────────────────────────────────────── */
 const GEN_CONCURRENCY = Number(env.GEN2_CONCURRENCY ?? 3);
-const GEN_TIMEOUT_MS  = Number(env.GEN2_TIMEOUT_MS  ?? 150_000);
-const TMP_CLIPS       = '/tmp/clips_v6';
+const GEN_TIMEOUT_MS = Number(env.GEN2_TIMEOUT_MS ?? 150_000);
+const TMP_CLIPS = '/tmp/clips_v6';
 
 const runwayClient = new RunwayML();
+
+/** Runway Gen-4 Turbo */
+async function runwayGen(prompt: string, frames: number, img?: string): Promise<string | null> {
+  try {
+    const createOpts: any = {
+      model: 'gen4_turbo',
+      promptText: prompt,
+      duration: Math.ceil(frames / 24) <= 5 ? 5 : 10,
+      ratio: '1280:720',
+    };
+
+    if (img) {
+      try {
+        logger.info(`Procesando imagen de storyboard para Runway: ${img}`);
+        
+        // 1. Crear directorio temporal
+        const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'runway-'));
+        const tmpFile = path.join(tmpDir, 'input.png');
+        
+        // 2. Descargar y procesar imagen
+        const imageResponse = await axios.get(img, { 
+          responseType: 'arraybuffer',
+          timeout: 10000
+        });
+
+        // 3. Procesar con Sharp y guardar
+        await sharp(imageResponse.data)
+          .resize(1024, 1024, {
+            fit: 'inside',
+            withoutEnlargement: true
+          })
+          .png()
+          .toFile(tmpFile);
+
+        // 4. Leer la imagen procesada y validar tamaño
+        const processedImage = await fs.readFile(tmpFile);
+        if (processedImage.length === 0) {
+          throw new Error('Imagen procesada está vacía');
+        }
+        
+        // 5. Crear Data URI con validación
+        const base64Image = processedImage.toString('base64');
+        if (!base64Image) {
+          throw new Error('Error al convertir imagen a base64');
+        }
+        
+        // 6. Validar longitud del base64
+        if (base64Image.length < 100) { // Asegurar que tenemos datos válidos
+          throw new Error('Base64 demasiado corto, posible error en la conversión');
+        }
+        
+        // 7. Crear el Data URI con el formato correcto
+        createOpts.promptImage = `data:image/png;base64,${base64Image}`;
+        
+        // Log detallado
+        logger.info(`✅ Imagen procesada y guardada: ${tmpFile}`);
+        logger.info(`Tamaño de imagen procesada: ${processedImage.length} bytes`);
+        logger.info(`Longitud de base64: ${base64Image.length} caracteres`);
+        logger.info(`Primeros 100 caracteres del Data URI: ${createOpts.promptImage.substring(0, 100)}...`);
+
+        // 8. Limpiar
+        await fs.rm(tmpDir, { recursive: true, force: true }).catch(e => 
+          logger.warn(`Error limpiando directorio temporal: ${e instanceof Error ? e.message : 'Unknown error'}`)
+        );
+      } catch (e) {
+        const errorMessage = e instanceof Error ? e.message : 'Error desconocido';
+        logger.error(`Error procesando imagen para Runway: ${errorMessage}`);
+        if (e instanceof Error && e.stack) {
+          logger.error(`Stack trace: ${e.stack}`);
+        }
+        logger.warn('⚠️ Continuando sin imagen debido a error de procesamiento');
+        delete createOpts.promptImage; // Asegurar que no enviamos una imagen inválida
+      }
+    }
+
+    // Verificar y loggear las opciones antes de enviar
+    const optsLog = { ...createOpts };
+    if (optsLog.promptImage) {
+      optsLog.promptImage = `${optsLog.promptImage.substring(0, 50)}... (truncated)`;
+    }
+    logger.info('Opciones para Runway:', JSON.stringify(optsLog, null, 2));
+    
+    logger.info('Enviando solicitud a Runway...');
+    const task = await withTimeout(
+      retry(
+        async () => {
+          const response = await runwayClient.imageToVideo.create(createOpts).waitForTaskOutput();
+          return response as TaskResponse;
+        },
+        2
+      ),
+      120000 // 2 minutos de timeout
+    );
+
+    if (!task || !Array.isArray(task.output) || task.output.length === 0) {
+      throw new Error('Runway no devolvió output válido');
+    }
+
+    return task.output[0];
+  } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : 'Error desconocido';
+    logger.error(`Runway error: ${errorMessage}`);
+    if ((e as any).response?.data) {
+      logger.error(`Runway response data: ${JSON.stringify((e as any).response.data, null, 2)}`);
+    }
+    return null;
+  }
+}
 
 /* Helper timeout */
 async function withTimeout<T>(p: Promise<T>, ms = GEN_TIMEOUT_MS): Promise<T> {
@@ -118,79 +194,6 @@ function buildPrompt(
 /* ────────────────────────────────────────────────────────────
  * 3) Proveedores
  * ────────────────────────────────────────────────────────── */
-
-/** Runway Gen-4 Turbo */
-async function runwayGen(prompt: string, frames: number, img?: string): Promise<string | null> {
-  try {
-    const createOpts: any = {
-      model: 'gen4_turbo',
-      promptText: prompt,
-      duration: Math.ceil(frames / 24) <= 5 ? 5 : 10,
-      ratio: '1280:720',
-    };
-
-    if (img) {
-      try {
-        logger.info(`Procesando imagen de storyboard para Runway: ${img}`);
-        
-        // 1. Obtener la imagen
-        const imageResponse = await axios.get(img, { 
-          responseType: 'arraybuffer',
-          timeout: 10000,
-          maxContentLength: 10 * 1024 * 1024
-        });
-
-        // 2. Procesar la imagen con Sharp
-        const processedImageBuffer = await sharp(imageResponse.data)
-          // Convertir a PNG y asegurar dimensiones adecuadas
-          .png()
-          .resize(1024, 1024, {
-            fit: 'inside',
-            withoutEnlargement: true
-          })
-          // Asegurar espacio de color y canal alpha
-          .ensureAlpha()
-          .toBuffer();
-
-        logger.info(`✅ Imagen procesada: ${processedImageBuffer.length} bytes`);
-
-        // 3. Convertir a base64 y crear Data URI
-        const base64Image = processedImageBuffer.toString('base64');
-        const dataUri = `data:image/png;base64,${base64Image}`;
-
-        // 4. Agregar a las opciones de Runway
-        createOpts.promptImage = dataUri;
-        logger.info('✅ Imagen procesada y añadida a opciones de Runway');
-
-      } catch (e) {
-        const errorMessage = e instanceof Error ? e.message : 'Error desconocido';
-        logger.error(`Error procesando imagen para Runway: ${errorMessage}`);
-        if (e instanceof Error && e.stack) {
-          logger.error(`Stack trace: ${e.stack}`);
-        }
-        logger.warn('⚠️ Continuando sin imagen debido a error de procesamiento');
-      }
-    }
-
-    logger.info('Enviando solicitud a Runway...');
-    const task = await withTimeout(
-      retry(() => runwayClient.imageToVideo.create(createOpts).waitForTaskOutput(), 2)
-    );
-
-    if (!task?.output?.length) {
-      throw new Error('Runway no devolvió output válido');
-    }
-
-    return task.output[0];
-  } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : 'Error desconocido';
-    logger.error(`Runway error: ${errorMessage}`);
-    if ((e as any).response?.data) {
-      logger.error(`Runway response data: ${JSON.stringify((e as any).response.data, null, 2)}`);
-    }
-    return null;
-  }
-}
 
 /** Mapas de modelo Replicate - Actualizados 2025 */
 const MODEL_MAP = {
