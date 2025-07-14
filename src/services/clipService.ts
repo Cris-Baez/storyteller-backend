@@ -11,7 +11,7 @@
  * ▸ Descarga cada clip .mp4 a /tmp y devuelve paths locales.
  */
 
-import { VideoPlan, TimelineSecond } from '../utils/types.js';
+import { TimelineSecond, VideoPlan } from '../utils/types';
 import { env }     from '../config/env.js';
 import { logger }  from '../utils/logger.js';
 import { retry }   from '../utils/retry.js';
@@ -82,7 +82,7 @@ function buildPrompt(
 
   return [
     mainVisuals.join(', '),
-    `camera ${first.camera} shot movement`,
+    `camera ${first.camera.shot} ${first.camera.movement}`,
     `style ${style}`,
     (first.sceneMood || '') + ' cinematic lighting',
     'ultra-smooth camera, 24 fps, no watermark'
@@ -131,7 +131,7 @@ async function replicateGen(
   frames: number,
   style: VideoPlan['metadata']['visualStyle']
 ): Promise<string> {
-  const model = MODEL_MAP[style];
+  const model = MODEL_MAP[style as keyof typeof MODEL_MAP];
   const output = await withTimeout(
     retry(
       () => replicate.run(model, {

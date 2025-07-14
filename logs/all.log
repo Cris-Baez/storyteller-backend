@@ -1862,3 +1862,51 @@
 2025-07-14T14:41:41.687Z [info] 🎵  Buscar música de fondo para "cinematic"
 2025-07-14T14:41:41.689Z [info] 🎵  Freesound query: cinematic
 2025-07-14T14:41:42.427Z [error] Unhandled Rejection: Error: 400 {"error":"videoUri: Failed to fetch asset. Received HTTP response code \"404\".","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T14:58:51.730Z [info] Storyteller AI backend running on 3000
+2025-07-14T14:59:02.577Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T14:59:02.579Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T14:59:02.582Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T15:00:12.597Z [warn] ❌ LLM openai/gpt-4o falló: LLM timeout
+2025-07-14T15:00:12.600Z [warn] ❌ Stack trace: Error: LLM timeout
+    at Timeout._onTimeout (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:29:54)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+2025-07-14T15:00:12.601Z [info] 🤖 Intentando modelo: openai/gpt-4-turbo
+2025-07-14T15:01:22.613Z [warn] ❌ LLM openai/gpt-4-turbo falló: LLM timeout
+2025-07-14T15:01:22.615Z [warn] ❌ Stack trace: Error: LLM timeout
+    at Timeout._onTimeout (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:29:54)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+2025-07-14T15:01:22.616Z [info] 🤖 Intentando modelo: anthropic/claude-3-sonnet
+2025-07-14T15:02:21.430Z [info] ✅ Respuesta recibida de anthropic/claude-3-sonnet
+2025-07-14T15:02:21.431Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A desolate cityscape in ruins, smoke billowing",
+     "camera":{"shot":"wide","movement":"static"},
+     "emotion":"despair",
+     "dialogue":"",
+     "...
+2025-07-14T15:02:21.433Z [warn] ❌ LLM anthropic/claude-3-sonnet falló: La respuesta contiene texto explicativo en lugar de JSON
+2025-07-14T15:02:21.434Z [warn] ❌ Stack trace: Error: La respuesta contiene texto explicativo en lugar de JSON
+    at fixJson (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:59:19)
+    at createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:210:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/utils/retry.js:5:20)
+    at async runRenderPipeline (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/pipelines/renderPipeline.js:38:22)
+    at async Immediate.<anonymous> (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/jobs/jobQueue.js:11:28)
+2025-07-14T15:02:22.944Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T15:02:22.944Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T15:03:32.957Z [warn] ❌ LLM openai/gpt-4o falló: LLM timeout
+2025-07-14T15:03:32.958Z [warn] ❌ Stack trace: Error: LLM timeout
+    at Timeout._onTimeout (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:29:54)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+2025-07-14T15:03:32.959Z [info] 🤖 Intentando modelo: openai/gpt-4-turbo
+2025-07-14T15:04:42.972Z [warn] ❌ LLM openai/gpt-4-turbo falló: LLM timeout
+2025-07-14T15:04:42.973Z [warn] ❌ Stack trace: Error: LLM timeout
+    at Timeout._onTimeout (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:29:54)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+2025-07-14T15:04:42.974Z [info] 🤖 Intentando modelo: anthropic/claude-3-sonnet

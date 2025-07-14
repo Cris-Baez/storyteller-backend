@@ -168,7 +168,8 @@ const timeline: TimelineSecond[] = [
     soundCue: 'quiet',
     highlight: true,
     sceneMood: 'dramatic',
-    camera: { shot: 'close-up', movement: 'pan' } // Ajustar para que sea de tipo CameraSpec
+    camera: { shot: 'close-up', movement: 'pan' },
+    transition: 'cut' // Agregado para cumplir con el tipo TimelineSecond
   }
 ];
 const size = '1024x1024';

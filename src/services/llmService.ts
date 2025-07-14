@@ -9,14 +9,7 @@
  */
 
 import { OpenAI }      from 'openai';
-import {
-  RenderRequest,
-  VideoPlan,
-  TimelineSecond,
-  AllowedDuration,
-  CameraSpec,
-  CharacterVoiceSpec
-} from '../utils/types.js';
+import { AudioSpec, RenderRequest, VideoPlan, TimelineSecond, AllowedDuration, CameraSpec, CharacterVoiceSpec } from '../utils/types';
 import { env }     from '../config/env.js';
 import { logger }  from '../utils/logger.js';
 import { retry }   from '../utils/retry.js';
@@ -30,7 +23,13 @@ const client = new OpenAI({
   }
 });
 
-const MODELS      = ['openai/gpt-4o', 'openai/gpt-4-turbo', 'anthropic/claude-3-sonnet'];
+const MODELS = [
+  'openai/gpt-4o',
+  'openai/gpt-4o-mini',
+  'openai/gpt-4-turbo',
+  'anthropic/claude-3-sonnet',
+  'openai/gpt-3.5-turbo'
+];
 const TIMEOUT_MS  = 70_000;
 const RETRIES     = 3;
 
@@ -59,14 +58,7 @@ async function fixJson(raw: string, model: string): Promise<string> {
   } catch {
     // Si no es JSON, intentar extraer JSON del texto
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      try {
-        JSON.parse(jsonMatch[0]);
-        return jsonMatch[0];
-      } catch {
-        // Si el JSON extraído también falla, intentar repararlo
-      }
-    }
+    if (jsonMatch) return jsonMatch[0];
     
     // Si el texto contiene respuestas en español, rechazarlo directamente
     if (raw.includes('Lo siento') || raw.includes('Parece que') || raw.includes('error')) {
@@ -110,7 +102,7 @@ function sanitizeSecond(s: any, t: number): TimelineSecond {
   return {
     t,
     visual: String(s.visual ?? '…'),
-    camera: sanitizeCamera(s.camera ?? {}), // Ajustar para que sea de tipo CameraSpec
+    camera: sanitizeCamera(s.camera ?? {}),
     emotion: String(s.emotion ?? 'neutral'),
     dialogue: s.dialogue ? String(s.dialogue) : undefined,
     voiceLine: s.voiceLine ? String(s.voiceLine) : undefined,
@@ -156,10 +148,12 @@ export async function createVideoPlan(req: RenderRequest): Promise<VideoPlan> {
       completed.push({
         ...lastItem,
         t: i,
-        visual: `${lastItem.visual} (continued)`
+        visual: `${lastItem.visual} (continued)`,
+        camera: { ...lastItem.camera }
       });
     }
     
+    logger.info(`🛠️  Timeline auto-completado a ${targetDuration}s`);
     return completed;
   }
 
@@ -263,7 +257,7 @@ REMEMBER: timeline.length MUST equal ${duration}. No extra text, no markdown.`;
           mode,
           visualStyle,
           duration,
-          voice: audio?.voice,
+          characters: audio?.characters,
           music: audio?.music
         }
       };
