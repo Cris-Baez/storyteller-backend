@@ -50,13 +50,32 @@ async function withTimeout<T>(p: Promise<T>, ms = GEN_TIMEOUT_MS) {
 }
 
 /* ── Core generators ─────────────────────────────────────────────── */
+import { createReadStream } from 'fs';
+
+async function fetchImageBuffer(imagePathOrUrl: string): Promise<Buffer> {
+  if (imagePathOrUrl.startsWith('file://')) {
+    // Local file
+    const localPath = imagePathOrUrl.replace('file://', '');
+    return await fs.readFile(localPath);
+  } else if (imagePathOrUrl.startsWith('http')) {
+    // Remote URL
+    const resp = await fetch(imagePathOrUrl);
+    if (!resp.ok) throw new Error('No se pudo descargar la imagen para RunwayML');
+    return Buffer.from(await resp.arrayBuffer());
+  } else {
+    // Asume path local
+    return await fs.readFile(imagePathOrUrl);
+  }
+}
+
 async function genRunway(prompt: string, frames: number, promptImage: string): Promise<string> {
   // Runway SOLO acepta 5 o 10 (seconds)
   const dur: 5 | 10 = (Math.ceil(frames / 24) <= 5 ? 5 : 10);
+  const imageBuffer = await fetchImageBuffer(promptImage);
   const out = await runway.imageToVideo
     .create({
       model      : 'gen4_turbo',
-      promptImage: promptImage,
+      promptImage: imageBuffer as any, // forzar tipo para evitar warning
       promptText : prompt.trim(),
       duration   : dur,
       ratio      : '1280:720'
@@ -145,12 +164,8 @@ export async function generateClips(
     // 1. Buscar imagen de storyboard local (si existe), luego CDN, luego dummy
     let promptImage = DUMMY_IMAGE;
     if (Array.isArray(storyboardUrls) && storyboardUrls[seg.start]) {
-      // Si la URL es file:// usa local, si es http(s) usa CDN
-      if (storyboardUrls[seg.start].startsWith('file://')) {
-        promptImage = storyboardUrls[seg.start].replace('file://', '');
-      } else {
-        promptImage = storyboardUrls[seg.start];
-      }
+      // Pasa la ruta tal cual, con file:// si es local
+      promptImage = storyboardUrls[seg.start];
     }
 
     // 2. RunwayML: probar primero local, si falla probar CDN, si falla dummy

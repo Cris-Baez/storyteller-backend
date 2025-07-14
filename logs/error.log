@@ -1218,3 +1218,15 @@
 2025-07-14T21:14:12.178Z [error] Replicate también fallo (seg 0)
 2025-07-14T21:14:12.525Z [error] Replicate también fallo (seg 1)
 2025-07-14T21:14:13.960Z [error] Replicate también fallo (seg 2)
+2025-07-14T21:31:01.085Z [error] FLUX respuesta inesperada: {}
+2025-07-14T21:31:01.086Z [error] FLUX error: FLUX returned invalid response format
+2025-07-14T21:31:09.071Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.096Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.114Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.130Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.179Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.184Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.189Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.199Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.204Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.211Z [error] Error generando voz: No se pudo generar la voz

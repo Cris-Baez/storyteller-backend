@@ -4113,3 +4113,68 @@
 2025-07-14T21:14:13.662Z [warn] Runway fallo (seg 2): 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
 2025-07-14T21:14:13.960Z [error] Replicate también fallo (seg 2)
 2025-07-14T21:14:13.960Z [info] ✅ Total clips subidos: 0
+2025-07-14T21:30:28.769Z [info] Storyteller AI backend running on 3000
+2025-07-14T21:30:36.281Z [info] 🚀 Pipeline v7 – inicio
+2025-07-14T21:30:36.283Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T21:30:36.285Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T21:30:57.698Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T21:30:57.699Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast cityscape at dawn, skyscrapers silhouetted against the rising sun.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"anticip...
+2025-07-14T21:30:57.700Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T21:30:57.700Z [info] 📜 VideoPlan listo (10s)
+2025-07-14T21:30:57.701Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T21:30:57.702Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T21:31:01.085Z [error] FLUX respuesta inesperada: {}
+2025-07-14T21:31:01.086Z [error] FLUX error: FLUX returned invalid response format
+2025-07-14T21:31:01.087Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-14T21:31:05.952Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/seT4L25fAksqh0JbsTOoTff1XeqeFl8JgTLXTmSBdjPQGpMQF/out-0.png
+2025-07-14T21:31:07.051Z [info] Archivo temporal creado: t0_700f3c
+2025-07-14T21:31:08.560Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T21:31:08.690Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T21:31:08.691Z [info] ✅  Storyboards listos: 1
+2025-07-14T21:31:08.693Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-14T21:31:08.695Z [info] → Generando 3 segmentos…
+2025-07-14T21:31:08.704Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T21:31:08.780Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T21:31:08.782Z [info] 🎵  Freesound query: cinematic
+2025-07-14T21:31:09.070Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T21:31:09.071Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.095Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T21:31:09.096Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.113Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T21:31:09.114Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.129Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T21:31:09.130Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.178Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T21:31:09.179Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.183Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T21:31:09.184Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.189Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T21:31:09.189Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.198Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T21:31:09.199Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.203Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T21:31:09.204Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.209Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T21:31:09.211Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T21:31:09.214Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-14T21:31:13.697Z [warn] Runway fallo (seg 2) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T21:31:15.112Z [warn] Runway fallo (seg 1) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T21:31:15.274Z [warn] Runway fallo (seg 0) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T21:31:16.254Z [info] ✅  Pista de música lista (1024940 bytes)
+2025-07-14T21:31:19.738Z [warn] Runway fallo (seg 2) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T21:31:21.044Z [warn] Runway fallo (seg 1) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T21:31:21.246Z [warn] Runway fallo (seg 0) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T21:32:20.959Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-14T21:32:20.960Z [info] → Generando 3 segmentos…
+2025-07-14T21:32:26.311Z [warn] Runway fallo (seg 2) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T21:32:26.433Z [warn] Runway fallo (seg 1) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T21:32:27.181Z [warn] Runway fallo (seg 0) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T21:32:31.506Z [warn] Runway fallo (seg 2) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T21:32:32.771Z [warn] Runway fallo (seg 0) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T21:32:33.163Z [warn] Runway fallo (seg 1) con imagen https://dummyimage.com/1280x720/222/fff.png: 400 {"error":"promptImage: Content-Length not provided","docUrl":"https://docs.dev.runwayml.com/api"}
