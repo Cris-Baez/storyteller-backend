@@ -98,18 +98,21 @@ async function fetchFromArtlist(style: string): Promise<Buffer | null> {
  * ───────────────────────────── */
 async function normalise(buf: Buffer): Promise<Buffer> {
   return new Promise((res, rej) => {
-    const ff = spawn(ffmpegPath!, [
+    if (typeof ffmpegPath !== 'string') {
+      return rej(new Error('ffmpeg path not found'));
+    }
+    const ff = spawn(ffmpegPath, [
       '-i', 'pipe:0',
       '-af', 'loudnorm=I=-20:TP=-1.0',
       '-ar', '48000',
       '-f', 'mp3', 'pipe:1'
-    ]);
+    ], { stdio: ['pipe', 'pipe', 'pipe'] });
     const chunks: Buffer[] = [];
-    ff.stdout.on('data', (d) => chunks.push(d));
+    ff.stdout?.on('data', (d: Buffer) => chunks.push(d));
     ff.on('error', rej);
     ff.on('close', () => res(Buffer.concat(chunks)));
-    ff.stdin.write(buf);
-    ff.stdin.end();
+    ff.stdin?.write(buf);
+    ff.stdin?.end();
   });
 }
 

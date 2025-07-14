@@ -165,8 +165,11 @@ async function elevenTTS(text: string, voiceId: string): Promise<Buffer | null> 
  * 3) Generar silencio MP3 de n segundos
  * ────────────────────────────────────────────────────────── */
 async function silence(seconds: number, file: string) {
-  await new Promise((res, rej) => {
-    spawn(ffmpegPath!, [
+  await new Promise<void>((res, rej) => {
+    if (typeof ffmpegPath !== 'string') {
+      return rej(new Error('ffmpeg path not found'));
+    }
+    const proc = spawn(ffmpegPath, [
       '-f',
       'lavfi',
       '-i',
@@ -178,7 +181,8 @@ async function silence(seconds: number, file: string) {
       '-acodec',
       'libmp3lame',
       file
-    ]).on('close', c => (c === 0 ? res(null) : rej(new Error('ffmpeg silence'))));
+    ]);
+    proc.on('close', (code: number) => (code === 0 ? res() : rej(new Error('ffmpeg silence'))));
   });
 }
 
@@ -186,8 +190,11 @@ async function silence(seconds: number, file: string) {
  * 4) Normaliza loudness a –16 LUFS
  * ────────────────────────────────────────────────────────── */
 async function normalise(input: string, output: string) {
-  await new Promise((res, rej) => {
-    spawn(ffmpegPath!, [
+  await new Promise<void>((res, rej) => {
+    if (typeof ffmpegPath !== 'string') {
+      return rej(new Error('ffmpeg path not found'));
+    }
+    const proc = spawn(ffmpegPath, [
       '-i',
       input,
       '-af',
@@ -197,7 +204,8 @@ async function normalise(input: string, output: string) {
       '-q:a',
       '2',
       output
-    ]).on('close', c => (c === 0 ? res(null) : rej(new Error('loudnorm fail'))));
+    ]);
+    proc.on('close', (code: number) => (code === 0 ? res() : rej(new Error('loudnorm fail'))));
   });
 }
 

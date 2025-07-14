@@ -9,7 +9,7 @@
  */
 
 import { OpenAI }      from 'openai';
-import { AudioSpec, RenderRequest, VideoPlan, TimelineSecond, AllowedDuration, CameraSpec, CharacterVoiceSpec } from '../utils/types';
+import { AudioSpec, RenderRequest, VideoPlan, TimelineSecond, AllowedDuration, CameraSpec, CharacterVoiceSpec } from '../utils/types.js';
 import { env }     from '../config/env.js';
 import { logger }  from '../utils/logger.js';
 import { retry }   from '../utils/retry.js';

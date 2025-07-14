@@ -2,8 +2,21 @@
  * Storyteller AI · ClipService
  * --------------------------------------------------------------------
  * • Genera clips con Runway Gen‑4 Turbo. Fallback a Replicate.
- * • Descarga en streaming  → /tmp  → sube a Google Cloud Storage.
- * • Concurrencia limitada por ENV GEN2_CONCURRENCY.
+ * • Descarga en streaming  → /tmp  → sube a Google Cloud Storage.function buildPrompt(seg: Segment, style: VideoPlan['metadata']['visualStyle']) {
+  const f = seg.secs[0];
+  const l = seg.secs[seg.secs.length - 1];
+  
+  // Construir comando de cámara específico para Director
+  const cameraCommand = `[${f.camera.shot} shot, ${f.camera.movement}]`;
+  
+  return [
+    cameraCommand,  // Comando de cámara al inicio para Director
+    [f.visual, seg.secs.length > 1 ? l.visual : ''].filter(Boolean).join(', '),
+    `style ${style}`,
+    (f.sceneMood || '') + ' cinematic lighting',
+    '24 fps, ultra‑smooth, no watermark'
+  ].filter(Boolean).join(', ');
+}rrencia limitada por ENV GEN2_CONCURRENCY.
  * -------------------------------------------------------------------*/
 
 import fs              from 'fs/promises';
@@ -22,7 +35,7 @@ import { retry }     from '../utils/retry.js';
 import type {
   VideoPlan,
   TimelineSecond
-} from '../utils/types';
+} from '../utils/types.js';
 
 /* ── Config ───────────────────────────────────────────────────────── */
 const CONCURRENCY    = Number(env.GEN2_CONCURRENCY ?? 3);
@@ -36,9 +49,17 @@ const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
 const DUMMY_IMAGE = 'https://dummyimage.com/1280x720/222/fff.png'; // Puedes poner tu propio PNG CDN
 
 const MODEL_MAP = {
-  realistic: 'zeroscope/zeroscope-v2-xl:latest', // text-to-video realista
-  anime    : 'tencent/hunyuan-video:latest',
-  cartoon  : 'lightricks/ltx-video:latest'
+  realistic: 'google/veo-3-fast',           // Google Veo 3 Fast - mejor calidad y más rápido
+  anime    : 'bytedance/seedance-1-pro',    // Seedance Pro - excelente para anime/cartoon
+  cartoon  : 'pixverse/pixverse-v4.5',     // PixVerse v4.5 - muy bueno para cartoon/estilizado
+  cinematic: 'minimax/video-01-director'   // Director - perfecto para movimientos de cámara complejos
+} as const;
+
+// Modelos de fallback adicionales
+const FALLBACK_MODELS = {
+  backup1: 'bytedance/seedance-1-lite',     // Seedance Lite - más rápido, menor calidad
+  backup2: 'minimax/hailuo-02',             // Hailuo 2 - robusto, buena física
+  backup3: 'minimax/video-01-director'     // Director como fallback para cualquier estilo
 } as const;
 
 /* ── Helpers ──────────────────────────────────────────────────────── */
@@ -56,6 +77,15 @@ import os from 'os';
 // Siempre descarga la imagen a un archivo temporal local y la lee como buffer
 async function fetchImageBuffer(imagePathOrUrl: string): Promise<Buffer> {
   let tempPath = '';
+  
+  if (imagePathOrUrl === DUMMY_IMAGE) {
+    // Para la imagen dummy, crear un buffer simple
+    const resp = await fetch(imagePathOrUrl);
+    if (!resp.ok) throw new Error('No se pudo descargar la imagen dummy');
+    const buffer = Buffer.from(await resp.arrayBuffer());
+    return buffer;
+  }
+  
   if (imagePathOrUrl.startsWith('file://')) {
     // Local file
     const localPath = imagePathOrUrl.replace('file://', '');
@@ -68,25 +98,50 @@ async function fetchImageBuffer(imagePathOrUrl: string): Promise<Buffer> {
     tempPath = path.join(os.tmpdir(), `img_${uuid().slice(0,8)}.png`);
     await fs.writeFile(tempPath, arr);
   } else {
-    // Asume path local
+    // Asumir que es una ruta local
     tempPath = imagePathOrUrl;
   }
-  // Lee el archivo como buffer
-  const buf = await fs.readFile(tempPath);
-  return buf;
+
+  // Leer el archivo como buffer
+  const buffer = await fs.readFile(tempPath);
+  
+  // Limpiar archivos temporales si los creamos
+  if (imagePathOrUrl.startsWith('http') && tempPath) {
+    try {
+      await fs.unlink(tempPath);
+    } catch {}
+  }
+  
+  return buffer;
 }
 
 async function genRunway(prompt: string, frames: number, promptImage: string): Promise<string> {
   // Runway SOLO acepta 5 o 10 (seconds)
   const dur: 5 | 10 = (Math.ceil(frames / 24) <= 5 ? 5 : 10);
+  
   const imageBuffer = await fetchImageBuffer(promptImage);
+  
+  // Crear un Blob con el Content-Length correcto
+  const imageBlob = new Blob([imageBuffer], { type: 'image/png' });
+  
+  // Crear un File object con propiedades correctas para la API
+  const imageFile = new File([imageBlob], 'prompt_image.png', { 
+    type: 'image/png'
+  });
+  
+  // Asegurar que el File tenga el tamaño correcto
+  Object.defineProperty(imageFile, 'size', {
+    value: imageBuffer.length,
+    writable: false
+  });
+  
   const out = await runway.imageToVideo
     .create({
-      model      : 'gen4_turbo',
-      promptImage: imageBuffer as any, // forzar tipo para evitar warning
-      promptText : prompt.trim(),
-      duration   : dur,
-      ratio      : '1280:720'
+      model: 'gen4_turbo',
+      promptImage: imageFile as any,
+      promptText: prompt.trim(),
+      duration: dur,
+      ratio: '1280:720'
     })
     .waitForTaskOutput();
 
@@ -95,30 +150,157 @@ async function genRunway(prompt: string, frames: number, promptImage: string): P
   return out.output[0] as string;
 }
 
+async function genReplicateFallback(
+  prompt: string,
+  frames: number,
+  modelName: string,
+  referenceImages?: string[]
+): Promise<string> {
+  const dur = Math.min(Math.ceil(frames / 24), 10);
+  
+  let input: any = {
+    prompt: prompt.trim(),
+    duration: dur
+  };
+
+  // Configuración para modelos de fallback
+  if (modelName === 'bytedance/seedance-1-lite') {
+    input = {
+      prompt: prompt.trim(),
+      duration: dur,
+      resolution: '720p',
+      aspect_ratio: '16:9'
+    };
+    
+    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
+      input.input_image = referenceImages[0];
+    }
+    
+  } else if (modelName === 'minimax/hailuo-02') {
+    input = {
+      prompt: prompt.trim(),
+      duration: Math.min(dur, 6), // Hailuo máximo 6s
+      resolution: 'standard'      // 720p
+    };
+    
+    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
+      input.image = referenceImages[0];
+    }
+    
+  } else if (modelName === 'minimax/video-01-director') {
+    // Director como fallback - especializado en movimientos de cámara
+    input = {
+      prompt: prompt.trim(),
+      duration: Math.min(dur, 6) // Director máximo 6s
+    };
+    
+    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
+      input.first_frame_image = referenceImages[0];
+    }
+  }
+
+  logger.info(`🔄 Usando modelo fallback: ${modelName}`);
+  
+  const res: any = await replicate.run(modelName as any, { input });
+  
+  // Manejar diferentes formatos de respuesta
+  if (typeof res === 'string') {
+    return res;
+  } else if (Array.isArray(res)) {
+    return res[0];
+  } else if (res && typeof res === 'object') {
+    return res.video || res.output || res.url || res[0];
+  }
+  
+  throw new Error(`Formato de respuesta inesperado de ${modelName}`);
+}
+
 async function genReplicate(
   prompt: string,
   frames: number,
   style: keyof typeof MODEL_MAP,
   referenceImages?: string[]
 ): Promise<string> {
-  const dur = Math.min(Math.ceil(frames / 24), 5);
-  let model: string = MODEL_MAP[style];
-  let input: any = { prompt, duration: dur };
-  // Para realismo, usar Veo-3-fast si no hay imágenes, o zeroscope si no
-  if (style === 'realistic') {
-    if (referenceImages && referenceImages.length > 0) {
-      model = 'runwayml/gen4-image';
-      input = { prompt, reference_images: referenceImages, aspect_ratio: '16:9', duration: dur };
-    } else {
-      model = 'google/veo-3-fast';
-      input = { prompt, duration: dur };
+  const dur = Math.min(Math.ceil(frames / 24), 10); // Aumentar a máximo 10s
+  const model = MODEL_MAP[style];
+  
+  let input: any = {
+    prompt: prompt.trim(),
+    duration: dur
+  };
+
+  // Configuración específica por modelo
+  if (model === 'google/veo-3-fast') {
+    // Google Veo 3 Fast - text-to-video y image-to-video
+    input = {
+      prompt: prompt.trim(),
+      duration: dur,
+      aspect_ratio: '16:9'
+    };
+    
+    // Si hay imagen de referencia, usarla como input_image
+    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
+      input.input_image = referenceImages[0];
     }
-  } else if (referenceImages && referenceImages.length > 0) {
-    input.reference_images = referenceImages;
+    
+  } else if (model === 'bytedance/seedance-1-pro') {
+    // Seedance Pro - muy bueno para anime/cartoon
+    input = {
+      prompt: prompt.trim(),
+      duration: dur,
+      resolution: '1080p',
+      aspect_ratio: '16:9'
+    };
+    
+    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
+      input.input_image = referenceImages[0];
+    }
+    
+  } else if (model === 'pixverse/pixverse-v4.5') {
+    // PixVerse v4.5 - excelente para cartoon
+    input = {
+      prompt: prompt.trim(),
+      duration: Math.min(dur, 8), // PixVerse máximo 8s
+      resolution: '1080p'
+    };
+    
+    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
+      input.input_image = referenceImages[0];
+    }
+    
+  } else if (model === 'minimax/video-01-director') {
+    // Director - especializado en movimientos de cámara complejos
+    input = {
+      prompt: prompt.trim(),
+      duration: Math.min(dur, 6) // Director máximo 6s
+    };
+    
+    // Para Director, usar first_frame_image en lugar de input_image
+    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
+      input.first_frame_image = referenceImages[0];
+    }
   }
-  if (!input.aspect_ratio) input.aspect_ratio = '16:9';
-  const res: any = await replicate.run(model as any, { input });
-  return Array.isArray(res) ? res[0] : res.video;
+
+  logger.info(`🎬 Generando con ${model} - dur:${dur}s - style:${style}`);
+  
+  try {
+    const res: any = await replicate.run(model as any, { input });
+    
+    // Manejar diferentes formatos de respuesta
+    if (typeof res === 'string') {
+      return res;
+    } else if (Array.isArray(res)) {
+      return res[0];
+    } else if (res && typeof res === 'object') {
+      return res.video || res.output || res.url || res[0];
+    }
+    
+    throw new Error(`Formato de respuesta inesperado de ${model}`);
+    
+  } catch (error) {
+    logger.error(`❌ Error con ${model}: ${(error as Error).message}`);
+    throw error;
+  }
 }
 
 interface Segment { start: number; end: number; secs: TimelineSecond[] }
@@ -189,20 +371,65 @@ export async function generateClips(
       }
     }
     if (!url) {
-      // Si hay imagen válida, pásala como reference_images a Replicate
+      // Fallback con múltiples modelos de Replicate
       let referenceImages: string[] = [];
       if (promptImage && promptImage !== DUMMY_IMAGE && promptImage.startsWith('http')) {
         referenceImages = [promptImage];
       }
-      try {
-        url = await withTimeout(genReplicate(
-          prompt, frames,
-          plan.metadata.visualStyle as keyof typeof MODEL_MAP,
-          referenceImages
-        ));
-      } catch {
-        logger.error(`Replicate también fallo (seg ${seg.start})`);
-        return;                                   // omite segmento
+      
+      // Lista de modelos para probar en orden de preferencia
+      const baseStyle = plan.metadata.visualStyle as keyof typeof MODEL_MAP;
+      
+      // Si hay movimientos complejos de cámara, priorizar Director
+      const hasComplexMovement = seg.secs.some(s => 
+        s.camera.movement !== 'none' && 
+        ['dolly-in', 'dolly-out', 'pan', 'tilt', 'zoom'].includes(s.camera.movement)
+      );
+      
+      const fallbackModels: Array<keyof typeof MODEL_MAP> = hasComplexMovement 
+        ? ['cinematic', baseStyle, 'realistic', 'cartoon']  // Director primero si hay movimiento complejo
+        : [baseStyle, 'realistic', 'cinematic', 'cartoon']; // Estilo base primero normalmente
+      
+      // Eliminar duplicados
+      const uniqueModels = [...new Set(fallbackModels)];
+      
+      for (const modelStyle of uniqueModels) {
+        try {
+          logger.info(`🔄 Probando ${MODEL_MAP[modelStyle]} para seg ${seg.start}`);
+          url = await withTimeout(genReplicate(
+            prompt, frames, modelStyle, referenceImages
+          ));
+          if (url) {
+            logger.info(`✅ Éxito con ${MODEL_MAP[modelStyle]} para seg ${seg.start}`);
+            break;
+          }
+        } catch (err) {
+          logger.warn(`❌ ${MODEL_MAP[modelStyle]} falló para seg ${seg.start}: ${(err as Error).message}`);
+        }
+      }
+      
+      // Si aún no hay URL, probar modelos de fallback adicionales
+      if (!url) {
+        const backupModels = Object.values(FALLBACK_MODELS);
+        for (const backupModel of backupModels) {
+          try {
+            logger.info(`🆘 Probando modelo de emergencia ${backupModel} para seg ${seg.start}`);
+            url = await withTimeout(genReplicateFallback(
+              prompt, frames, backupModel, referenceImages
+            ));
+            if (url) {
+              logger.info(`✅ Éxito con modelo de emergencia ${backupModel} para seg ${seg.start}`);
+              break;
+            }
+          } catch (err) {
+            logger.warn(`❌ Modelo de emergencia ${backupModel} falló para seg ${seg.start}: ${(err as Error).message}`);
+          }
+        }
+      }
+      
+      if (!url) {
+        logger.error(`❌ Todos los modelos fallaron para seg ${seg.start}`);
+        return; // omite segmento
       }
     }
 

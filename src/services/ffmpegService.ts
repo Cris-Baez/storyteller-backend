@@ -30,7 +30,9 @@ const TMP_DIR  = '/tmp/ffmpeg_v6';
 const TIMEOUT = Number(env.FFMPEG_TIMEOUT_MS ?? 180_000);
 const RETRIES  = 2;
 
-ffmpeg.setFfmpegPath(ffmpegPath!);
+if (typeof ffmpegPath === 'string') {
+  ffmpeg.setFfmpegPath(ffmpegPath);
+}
 
 /* ---- Helper run with timeout ---- */
 function execFF(cmd: ffmpeg.FfmpegCommand, out: string): Promise<void> {
