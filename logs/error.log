@@ -1011,3 +1011,4 @@
 2025-07-14T16:49:58.009Z [error] Runway error: An unexpected error occurred.
 2025-07-14T16:55:32.969Z [error] ❌ Error en generateClips: timeout
 2025-07-14T17:05:54.353Z [error] Unhandled Rejection: Error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T17:10:48.463Z [error] Unhandled Rejection: Error: 400 {"error":"promptImage: Invalid input"}

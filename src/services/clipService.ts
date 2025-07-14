@@ -98,10 +98,12 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
   try {
     let validImg: string | undefined = undefined;
     if (img && typeof img === 'string' && img.length > 0) {
-      if (await validateUrl(img)) {
+      // Solo aceptar URLs HTTPS válidas
+      const isValidUrl = /^https:\/\//.test(img);
+      if (isValidUrl && await validateUrl(img)) {
         validImg = img;
       } else {
-        logger.warn(`promptImage inválido, ignorando: ${img}`);
+        logger.warn(`promptImage inválido (no https o inaccesible), ignorando: ${img}`);
       }
     }
 
@@ -111,7 +113,7 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
     if (seconds <= 5) durationSec = 5;
     else durationSec = 10;
 
-    // Solo incluir promptImage si es válido
+    // Solo incluir promptImage si es https válido
     const createOpts: any = {
       model: 'gen4_turbo',
       promptText: prompt,
