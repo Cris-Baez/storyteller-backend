@@ -50,17 +50,24 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
         // 3. Procesar con Sharp y guardar como JPEG 90 calidad, 512x512
         await sharp(imageResponse.data)
           .resize(512, 512, {
-            fit: 'inside',
-            withoutEnlargement: true
+            fit: 'cover', // forzar 512x512 exacto
           })
           .jpeg({ quality: 90 })
           .toFile(tmpFile);
-        // 4. Subir la imagen procesada a CDN
+
+        // 🔧 2. Asegúrate que la imagen subida al CDN esté marcada como pública
         const { uploadToCDN } = await import('./cdnService.js');
         const cdnUrl = await uploadToCDN(tmpFile, `runway-prompts/${uuid()}.jpg`);
         logger.info(`✅ Imagen procesada y subida a CDN: ${cdnUrl}`);
-        // 5. Usar la URL pública como promptImage
-        createOpts.promptImage = cdnUrl;
+
+        // 🔧 3. Valida que la URL funcione desde Runway
+        const isValidUrl = await validateUrl(cdnUrl);
+        if (!isValidUrl) {
+          logger.warn(`URL de imagen no válida para Runway: ${cdnUrl}`);
+          delete createOpts.promptImage;
+        } else {
+          createOpts.promptImage = cdnUrl;
+        }
         // 6. Limpiar
         await fs.rm(tmpDir, { recursive: true, force: true }).catch(e => 
           logger.warn(`Error limpiando directorio temporal: ${e instanceof Error ? e.message : 'Unknown error'}`)
@@ -76,30 +83,56 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
       }
     }
 
-    // Verificar y loggear las opciones antes de enviar
-    const optsLog = { ...createOpts };
-    if (optsLog.promptImage) {
-      optsLog.promptImage = `${optsLog.promptImage.substring(0, 50)}... (truncated)`;
-    }
-    logger.info('Opciones para Runway:', JSON.stringify(optsLog, null, 2));
-    
-    logger.info('Enviando solicitud a Runway...');
-    const task = await withTimeout(
-      retry(
-        async () => {
-          const response = await runwayClient.imageToVideo.create(createOpts).waitForTaskOutput();
-          return response as TaskResponse;
-        },
-        2
-      ),
-      120000 // 2 minutos de timeout
-    );
-
-    if (!task || !Array.isArray(task.output) || task.output.length === 0) {
-      throw new Error('Runway no devolvió output válido');
+    // Validar URL antes de enviar a RunwayML
+    if (createOpts.promptImage) {
+      const isValidUrl = await validateUrl(createOpts.promptImage);
+      if (!isValidUrl) {
+        logger.warn(`URL de imagen no válida para Runway: ${createOpts.promptImage}`);
+        delete createOpts.promptImage;
+      }
     }
 
-    return task.output[0];
+    // Intentar con RunwayML
+    let videoUrl: string | null = null;
+    try {
+      const taskResponse = await withTimeout(
+        retry(
+          async () => {
+            const response = await runwayClient.imageToVideo.create(createOpts).waitForTaskOutput();
+            return response as TaskResponse;
+          },
+          2
+        ),
+        120000 // 2 minutos de timeout
+      );
+
+      if (!taskResponse || !Array.isArray(taskResponse.output) || taskResponse.output.length === 0) {
+        throw new Error('Runway no devolvió output válido');
+      }
+
+      videoUrl = taskResponse.output[0];
+    } catch (e) {
+      logger.error(`Runway error: ${e instanceof Error ? e.message : 'Error desconocido'}`);
+      videoUrl = null; // Asegurar que está limpio para fallback
+    }
+
+    // Fallback a Replicate si RunwayML falla
+    if (!videoUrl) {
+      try {
+        const visualStyle = createOpts.visualStyle || 'default'; // Usar visualStyle desde createOpts o un valor por defecto
+        videoUrl = await replicateGen(prompt, frames, visualStyle);
+      } catch (err) {
+        logger.error(`❌ Fallaron todos los modelos para el segmento actual`);
+        videoUrl = null; // Asegurar que está limpio
+      }
+    }
+
+    if (!videoUrl) {
+      logger.warn('⚠️ No se pudo generar el video para este segmento. Continuando con el siguiente.');
+      return null; // Manejo limpio del error
+    }
+
+    return videoUrl;
   } catch (e) {
     const errorMessage = e instanceof Error ? e.message : 'Error desconocido';
     logger.error(`Runway error: ${errorMessage}`);

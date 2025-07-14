@@ -3572,3 +3572,74 @@
 2025-07-14T19:40:15.434Z [error] ❌ Fallaron todos los modelos para el segmento 5
 2025-07-14T19:40:15.435Z [info] Opciones para Runway:
 2025-07-14T19:40:15.436Z [info] Enviando solicitud a Runway...
+2025-07-14T19:46:20.551Z [info] Storyteller AI backend running on 3000
+2025-07-14T19:46:47.378Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T19:46:47.383Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T19:46:47.384Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T19:47:09.576Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T19:47:09.578Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "Sunrise over a devastated cityscape.",
+      "camera": {"shot": "wide", "movement": "dolly-in"},
+      "emotion": "hope",
+      "dialogue": "The ...
+2025-07-14T19:47:09.579Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-14T19:47:09.580Z [info] 📜 Plan OK (10s)
+2025-07-14T19:47:09.581Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T19:47:09.582Z [info] → Se generarán 1 frames de storyboard
+2025-07-14T19:47:12.753Z [error] FLUX respuesta inesperada: {}
+2025-07-14T19:47:12.754Z [error] FLUX error: FLUX returned invalid response format
+2025-07-14T19:47:12.754Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-14T19:47:17.854Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/Nr0diABZVFYDB554IzlD40xhSuBcXtl1qqfr1vP6FJ1ihYgKA/out-0.png
+2025-07-14T19:47:18.828Z [info] Archivo temporal creado: t0_b10913
+2025-07-14T19:47:20.548Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T19:47:20.624Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T19:47:20.626Z [info] ✅  Storyboards listos: 1
+2025-07-14T19:47:20.627Z [info] 🎞️  ClipService v6.2 — iniciando (con subida a CDN)…
+2025-07-14T19:47:20.629Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T19:47:20.673Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T19:47:20.675Z [info] 🎵  Freesound query: cinematic
+2025-07-14T19:47:20.686Z [info] → 3 segmentos de vídeo (limitado)
+2025-07-14T19:47:20.752Z [info] Procesando imagen de storyboard para Runway: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-14T19:47:20.926Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:47:20.928Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:47:20.961Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:47:20.962Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:47:20.969Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:47:20.971Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:47:20.980Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:47:20.983Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:47:20.986Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:47:20.987Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:47:20.990Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:47:20.991Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:47:21.003Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:47:21.004Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:47:21.010Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:47:21.012Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:47:21.018Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:47:21.019Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:47:21.025Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-14T19:47:21.027Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:47:21.029Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-14T19:47:21.756Z [info] Archivo subido correctamente al CDN: runway-prompts/b007a138-dcd3-4168-b383-1cece624fc90.jpg → https://storage.googleapis.com/storyteller-ai-cdn/runway-prompts/b007a138-dcd3-4168-b383-1cece624fc90.jpg
+2025-07-14T19:47:21.756Z [info] ✅ Imagen procesada y subida a CDN: https://storage.googleapis.com/storyteller-ai-cdn/runway-prompts/b007a138-dcd3-4168-b383-1cece624fc90.jpg
+2025-07-14T19:47:21.768Z [info] Opciones para Runway:
+2025-07-14T19:47:21.769Z [info] Enviando solicitud a Runway...
+2025-07-14T19:47:25.824Z [info] ✅  Pista de música lista (1024940 bytes)
+2025-07-14T19:47:50.806Z [info] Archivo subido correctamente al CDN: clips/clip_0_3abe23fa.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/clips/clip_0_3abe23fa.mp4
+2025-07-14T19:47:50.807Z [info] ✅ Clip subido a CDN: https://storage.googleapis.com/storyteller-ai-cdn/clips/clip_0_3abe23fa.mp4
+2025-07-14T19:47:50.807Z [info] Opciones para Runway:
+2025-07-14T19:47:50.808Z [info] Enviando solicitud a Runway...
+2025-07-14T19:48:05.035Z [error] Runway error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T19:48:05.040Z [error] ❌ Fallaron todos los modelos para el segmento 5
+2025-07-14T19:48:05.041Z [info] Opciones para Runway:
+2025-07-14T19:48:05.041Z [info] Enviando solicitud a Runway...
+2025-07-14T19:48:18.741Z [error] Runway error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T19:48:18.746Z [error] ❌ Fallaron todos los modelos para el segmento 9
+2025-07-14T19:48:18.747Z [info] ✅  Clips generados y subidos: 1
+2025-07-14T19:48:18.749Z [info] Verificando assets generados...
+2025-07-14T19:48:18.751Z [error] No se generó la pista de voz.
+2025-07-14T19:48:18.754Z [error] ❌ Error en runRenderPipeline: No se generó la pista de voz.
