@@ -39,53 +39,29 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
     if (img) {
       try {
         logger.info(`Procesando imagen de storyboard para Runway: ${img}`);
-        
         // 1. Crear directorio temporal
         const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'runway-'));
-        const tmpFile = path.join(tmpDir, 'input.png');
-        
+        const tmpFile = path.join(tmpDir, 'input.jpg');
         // 2. Descargar y procesar imagen
         const imageResponse = await axios.get(img, { 
           responseType: 'arraybuffer',
           timeout: 10000
         });
-
-        // 3. Procesar con Sharp y guardar
+        // 3. Procesar con Sharp y guardar como JPEG 90 calidad, 512x512
         await sharp(imageResponse.data)
-          .resize(1024, 1024, {
+          .resize(512, 512, {
             fit: 'inside',
             withoutEnlargement: true
           })
-          .png()
+          .jpeg({ quality: 90 })
           .toFile(tmpFile);
-
-        // 4. Leer la imagen procesada y validar tamaño
-        const processedImage = await fs.readFile(tmpFile);
-        if (processedImage.length === 0) {
-          throw new Error('Imagen procesada está vacía');
-        }
-        
-        // 5. Crear Data URI con validación
-        const base64Image = processedImage.toString('base64');
-        if (!base64Image) {
-          throw new Error('Error al convertir imagen a base64');
-        }
-        
-        // 6. Validar longitud del base64
-        if (base64Image.length < 100) { // Asegurar que tenemos datos válidos
-          throw new Error('Base64 demasiado corto, posible error en la conversión');
-        }
-        
-        // 7. Crear el Data URI con el formato correcto
-        createOpts.promptImage = `data:image/png;base64,${base64Image}`;
-        
-        // Log detallado
-        logger.info(`✅ Imagen procesada y guardada: ${tmpFile}`);
-        logger.info(`Tamaño de imagen procesada: ${processedImage.length} bytes`);
-        logger.info(`Longitud de base64: ${base64Image.length} caracteres`);
-        logger.info(`Primeros 100 caracteres del Data URI: ${createOpts.promptImage.substring(0, 100)}...`);
-
-        // 8. Limpiar
+        // 4. Subir la imagen procesada a CDN
+        const { uploadToCDN } = await import('./cdnService.js');
+        const cdnUrl = await uploadToCDN(tmpFile, `runway-prompts/${uuid()}.jpg`);
+        logger.info(`✅ Imagen procesada y subida a CDN: ${cdnUrl}`);
+        // 5. Usar la URL pública como promptImage
+        createOpts.promptImage = cdnUrl;
+        // 6. Limpiar
         await fs.rm(tmpDir, { recursive: true, force: true }).catch(e => 
           logger.warn(`Error limpiando directorio temporal: ${e instanceof Error ? e.message : 'Unknown error'}`)
         );
@@ -96,7 +72,7 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
           logger.error(`Stack trace: ${e.stack}`);
         }
         logger.warn('⚠️ Continuando sin imagen debido a error de procesamiento');
-        delete createOpts.promptImage; // Asegurar que no enviamos una imagen inválida
+        delete createOpts.promptImage;
       }
     }
 

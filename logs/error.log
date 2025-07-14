@@ -1056,3 +1056,17 @@
 2025-07-14T19:30:55.453Z [error] ❌ Fallaron todos los modelos para el segmento 8
 2025-07-14T19:30:55.455Z [error] No se generó la pista de voz.
 2025-07-14T19:30:55.456Z [error] ❌ Error en runRenderPipeline: No se generó la pista de voz.
+2025-07-14T19:39:27.339Z [error] FLUX respuesta inesperada: {}
+2025-07-14T19:39:27.340Z [error] FLUX error: FLUX returned invalid response format
+2025-07-14T19:39:34.767Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:39:34.769Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:39:34.773Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:39:34.793Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:39:34.805Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:39:34.807Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:39:34.825Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:39:34.837Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:39:34.842Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:39:34.847Z [error] Error generando voz: No se pudo generar la voz
+2025-07-14T19:40:15.430Z [error] Runway error: 400 {"error":"promptImage: Invalid input"}
+2025-07-14T19:40:15.434Z [error] ❌ Fallaron todos los modelos para el segmento 5
