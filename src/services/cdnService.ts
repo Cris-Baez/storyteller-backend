@@ -3,6 +3,7 @@ import { Storage } from '@google-cloud/storage';
 import path from 'path';
 import fs from 'fs/promises';
 import { env } from '../config/env.js';
+import { logger } from '../utils/logger.js';
 
 const storage = new Storage({
   projectId: env.GCP_PROJECT_ID,
@@ -28,5 +29,7 @@ export async function uploadToCDN(localFilePath: string, cdnPath: string): Promi
     },
   });
 
-  return `https://storage.googleapis.com/${env.GCP_BUCKET_NAME}/${cdnPath}`;
+  const url = `https://storage.googleapis.com/${env.GCP_BUCKET_NAME}/${cdnPath}`;
+  logger.info(`Archivo subido correctamente al CDN: ${cdnPath} → ${url}`);
+  return url;
 }
