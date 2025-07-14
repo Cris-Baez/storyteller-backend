@@ -1,3 +1,31 @@
+import Replicate from 'replicate';
+import axios from 'axios';
+// Generador de video con Replicate (antes en providers/replicateFallback)
+export async function generateReplicateClip(sec: import('../utils/types').TimelineSecond): Promise<Buffer> {
+  const { env } = await import('../config/env');
+  const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
+  // Usa modelo realista por defecto (puedes cambiarlo por otro de tu preferencia)
+  const model = 'kwaivgi/kling-v1.6-standard';
+  const output = await replicate.run(model, {
+    input: {
+      prompt: sec.visual,
+      seed: 42,
+      fps: 24
+    }
+  });
+
+  let url = '';
+  if (Array.isArray(output) && output.length > 0) {
+    url = output[0];
+  } else if (output && typeof output === 'object' && (output as any).video) {
+    url = (output as any).video;
+  } else {
+    throw new Error('Respuesta inesperada de Replicate');
+  }
+
+  const res = await axios.get(url, { responseType: 'arraybuffer' });
+  return Buffer.from(res.data);
+}
 // src/services/clipService.ts
 /**
  * Clip Service v6.1 — 2025-07-13
@@ -20,16 +48,13 @@ import fetch       from 'node-fetch';
 import fs          from 'fs/promises';
 import path        from 'path';
 import { v4 as uuid } from 'uuid';
-import Replicate   from 'replicate';
 import RunwayML    from '@runwayml/sdk';
-import axios       from 'axios';
 
 /* ─── Config ─────────────────────────────────────────────── */
 const GEN_CONCURRENCY = Number(env.GEN2_CONCURRENCY ?? 3);
 const GEN_TIMEOUT_MS  = Number(env.GEN2_TIMEOUT_MS  ?? 150_000);
 const TMP_CLIPS       = '/tmp/clips_v6';
 
-const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
 const runwayClient = new RunwayML();
 
 /* Helper timeout */
@@ -143,6 +168,8 @@ async function replicateGen(
   style: VideoPlan['metadata']['visualStyle']
 ): Promise<string> {
   const model = MODEL_MAP[style as keyof typeof MODEL_MAP];
+  const { env } = await import('../config/env');
+  const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
   const output = await withTimeout(
     retry(
       () => replicate.run(model, {
@@ -161,60 +188,68 @@ async function replicateGen(
  * 4) generateClips — API pública
  * ────────────────────────────────────────────────────────── */
 export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): Promise<string[]> {
-  logger.info('🎞️  ClipService v6.1 — iniciando…');
+  logger.info('🎞️  ClipService v6.2 — iniciando (con subida a CDN)…');
   await fs.mkdir(TMP_CLIPS, { recursive: true });
 
   let segments = segmentTimeline(plan.timeline);
   // Limitar a máximo 3 segmentos para reducir recursos
   if (segments.length > 3) {
-    // Tomar solo el primero, el del medio y el último
     const first = segments[0];
     const last = segments[segments.length - 1];
     const middle = segments[Math.floor(segments.length / 2)];
-    segments = [first, middle, last].filter((v, i, arr) => arr.indexOf(v) === i); // evitar duplicados
+    segments = [first, middle, last].filter((v, i, arr) => arr.indexOf(v) === i);
   }
   logger.info(`→ ${segments.length} segmentos de vídeo (limitado)`);
 
-  const paths: string[] = [];
+  const cdnUrls: string[] = [];
 
-  for (let i = 0; i < segments.length; i += GEN_CONCURRENCY) {
-    const batch = segments.slice(i, i + GEN_CONCURRENCY);
+  for (const seg of segments) {
+    const prompt = buildPrompt(seg, plan.metadata.visualStyle);
+    const frames = (seg.end - seg.start + 1) * 24;
+    const imgUrl = storyboardUrls?.[seg.start];
+    let videoUrl: string | null = null;
+    let bufVideo: Buffer | null = null;
 
-    const proms = batch.map(async (seg) => {
-      const prompt = buildPrompt(seg, plan.metadata.visualStyle);
-      const frames = (seg.end - seg.start + 1) * 24;
-      const imgUrl = storyboardUrls?.[seg.start];
-
-      // Generar el video clip usando Runway o Replicate
-      const videoUrl =
-        (await runwayGen(prompt, frames, imgUrl)) ??
-        (await replicateGen(prompt, frames, plan.metadata.visualStyle));
-
-      if (!videoUrl) {
-        logger.error(`❌ No se pudo generar el clip para el segmento ${seg.start}`);
-        throw new Error('no clip url');
+    // 1. Intenta con Runway
+    try {
+      videoUrl = await runwayGen(prompt, frames, imgUrl);
+      if (videoUrl) {
+        bufVideo = await fetch(videoUrl).then(r => r.arrayBuffer()).then(b => Buffer.from(b));
       }
+    } catch (err) {
+      logger.warn(`⚠️ Runway falló para segmento ${seg.start}: ${err}`);
+    }
 
-      const destVideo = path.join(TMP_CLIPS, `clip_${seg.start}_${uuid().slice(0, 6)}.mp4`);
-      const bufVideo = await fetch(videoUrl).then(r => r.arrayBuffer()).then(b => Buffer.from(b));
-      await fs.writeFile(destVideo, bufVideo);
-      // Validar que el archivo existe
+    // 2. Si falla, intenta con Replicate
+    if (!bufVideo) {
       try {
-        await fs.access(destVideo);
-      } catch (e) {
-        logger.error(`❌ Clip no se guardó correctamente: ${destVideo}`);
-        throw new Error('No se pudo guardar el clip de video');
+        videoUrl = await replicateGen(prompt, frames, plan.metadata.visualStyle);
+        if (videoUrl) {
+          bufVideo = await fetch(videoUrl).then(r => r.arrayBuffer()).then(b => Buffer.from(b));
+        }
+      } catch (err) {
+        logger.error(`❌ Fallaron todos los modelos para el segmento ${seg.start}`);
+        continue;
       }
-      // Validar accesibilidad si se sube a CDN en el futuro
-      logger.info(`✅ Clip generado y guardado: ${destVideo}`);
-      return destVideo;
-    });
+    }
 
-    paths.push(...(await Promise.all(proms)));
+    // 3. Guardar temporal y subir a CDN
+    const filename = `clip_${seg.start}_${uuid().slice(0, 8)}.mp4`;
+    const localPath = path.join(TMP_CLIPS, filename);
+    try {
+      await fs.writeFile(localPath, bufVideo!);
+      // Usar el servicio centralizado de subida a CDN
+      const { uploadToCDN } = await import('./cdnService.js');
+      const cdnUrl = await uploadToCDN(localPath, `clips/${filename}`);
+      cdnUrls.push(cdnUrl);
+      logger.info(`✅ Clip subido a CDN: ${cdnUrl}`);
+    } catch (uploadError) {
+      logger.error(`📤 Error al subir a CDN: ${uploadError}`);
+    }
   }
 
-  logger.info(`✅  Clips generados: ${paths.length}`);
-  return paths;
+  logger.info(`✅  Clips generados y subidos: ${cdnUrls.length}`);
+  return cdnUrls;
 }
 
 async function validateUrl(url: string): Promise<boolean> {
