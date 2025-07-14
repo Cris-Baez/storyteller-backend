@@ -18,11 +18,12 @@ import { generateClips }      from '../services/clipService.js';
 import { createVoiceOver }    from '../services/voiceService.js';
 import { getBackgroundMusic } from '../services/musicService.js';
 import { assembleVideo }      from '../services/ffmpegService.js';
+import { createVideoUpscaleTask } from '../services/runwayService.js';
 
 import { logger }   from '../utils/logger.js';
 import { retry }    from '../utils/retry.js';
 
-const TIMEOUT = 300_000;   // 5 minutos para todo el pipeline
+const TIMEOUT = 500_000;   // 5 minutos para todo el pipeline
 
 /* Helper timeout */
 function withTimeout<T>(p: Promise<T>, ms = TIMEOUT): Promise<T> {
@@ -45,12 +46,7 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
     logger.info(`📜 Plan OK (${plan.timeline.length}s)`);
 
     /* 2️⃣  Storyboards · Clips · VO · Música (paralelo) */
-    const [
-      storyboardUrls,
-      clips,
-      voiceOver,
-      music
-    ] = await Promise.all([
+    const results = await Promise.all([
       withTimeout(retry(()=>generateStoryboards(plan))).catch(err => {
         logger.error(`❌ Error en generateStoryboards: ${err.message}`);
         throw err;
@@ -66,10 +62,20 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
       withTimeout(retry(()=>getBackgroundMusic(plan.metadata.music?.mood ?? req.mode))).catch(err => {
         logger.error(`❌ Error en getBackgroundMusic: ${err.message}`);
         throw err;
+      }),
+      withTimeout(retry(()=>createVideoUpscaleTask('upscale_v1', 'https://example.com/bunny.mp4'))).catch(err => {
+        logger.error(`❌ Error en createVideoUpscaleTask: ${err.message}`);
+        throw err;
       })
     ]);
 
-    logger.info(`Assets → SB:${storyboardUrls.length}  Clips:${clips.length}  VO:${voiceOver.length}B  BGM:${music.length}B`);
+    const storyboardUrls: string[] = results[0] as string[];
+    const clips: string[] = results[1] as string[];
+    const voiceOver: Buffer = results[2] as Buffer;
+    const music: Buffer = results[3] as Buffer;
+    const upscaleResult = results[4];
+
+    logger.info(`Assets → SB:${storyboardUrls.length}  Clips:${clips.length}  VO:${voiceOver.length}B  BGM:${music.length}B  Upscale:${JSON.stringify(upscaleResult)}`);
 
     /* 3️⃣  Ensamblado final */
     const url = await withTimeout(

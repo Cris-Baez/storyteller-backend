@@ -22,6 +22,7 @@ import path        from 'path';
 import { v4 as uuid } from 'uuid';
 import Replicate   from 'replicate';
 import RunwayML    from '@runwayml/sdk';
+import axios       from 'axios';
 
 /* ─── Config ─────────────────────────────────────────────── */
 const GEN_CONCURRENCY = Number(env.GEN2_CONCURRENCY ?? 3);
@@ -93,14 +94,14 @@ function buildPrompt(
  * ────────────────────────────────────────────────────────── */
 
 /** Runway Gen-4 Turbo */
-async function runwayGen(prompt: string, frames: number, promptImage: string): Promise<string | null> {
+async function runwayGen(prompt: string, frames: number, promptImage?: string): Promise<string | null> {
   try {
     const durationSec: 10 | 5 | undefined = Math.min(10, Math.ceil(frames / 24)) as 10 | 5;
     const task = await runwayClient.imageToVideo
       .create({
         model: 'gen4_turbo',
         promptText: prompt,
-        promptImage: promptImage, // Imagen específica del storyboard
+        promptImage: promptImage ?? '', // Manejar caso de imagen opcional
         duration: durationSec,
         ratio: '1280:720',
       })
@@ -111,8 +112,9 @@ async function runwayGen(prompt: string, frames: number, promptImage: string): P
     }
 
     return task.output[0];
-  } catch (e: any) {
-    logger.warn(`Runway fail: ${e.message}`);
+  } catch (e: unknown) {
+    const error = e instanceof Error ? e : new Error(String(e));
+    logger.warn(`Runway fail: ${error.message}`);
     return null;
   }
 }
@@ -145,48 +147,6 @@ async function replicateGen(
   throw new Error('Unexpected Replicate response');
 }
 
-// Integración de Murf para generación de voces
-// Manejo explícito de null en respuestas
-async function generateVoiceMurf(prompt: string): Promise<string | null> {
-  try {
-    const res = await fetch('https://api.murf.ai/v1/voice', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${env.MURF_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ prompt })
-    });
-    if (!res.ok) throw new Error(`Murf HTTP ${res.status}`);
-    const data = await res.json();
-    if (data && typeof data === 'object' && 'audioUrl' in data) {
-      return (data as { audioUrl?: string }).audioUrl || null;
-    }
-    throw new Error('Respuesta inesperada de Murf API');
-  } catch (e: unknown) {
-    const error = e as Error;
-    logger.warn(`Murf fail: ${error.message}`);
-    return null;
-  }
-}
-
-async function fetchSoundFreesound(query: string): Promise<string | null> {
-  try {
-    const res = await fetch(`https://freesound.org/api/sounds/search?q=${query}&token=${env.FREESOUND_API_KEY}`);
-    if (!res.ok) throw new Error(`Freesound HTTP ${res.status}`);
-    const data = await res.json();
-    if (data && typeof data === 'object' && 'results' in data) {
-      const results = (data as { results?: { previewUrl?: string }[] }).results;
-      return results?.[0]?.previewUrl || null;
-    }
-    throw new Error('Respuesta inesperada de Freesound API');
-  } catch (e: unknown) {
-    const error = e as Error;
-    logger.warn(`Freesound fail: ${error.message}`);
-    return null;
-  }
-}
-
 /* ────────────────────────────────────────────────────────────
  * 4) generateClips — API pública
  * ────────────────────────────────────────────────────────── */
@@ -206,29 +166,22 @@ export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): 
       const prompt = buildPrompt(seg, plan.metadata.visualStyle);
       const frames = (seg.end - seg.start + 1) * 24;
 
-      const promptImage = storyboardUrls[seg.start] ?? undefined;
+      const imageUrl = storyboardUrls?.[seg.start];
+      if (!imageUrl || !imageUrl.startsWith('http')) {
+        logger.warn(`📸 Imagen inválida para el clip ${seg.start}, se usará modelo Replicate`);
+        return await replicateGen(prompt, frames, plan.metadata.visualStyle);
+      }
 
-      const videoUrl = await runwayGen(prompt, frames, promptImage) ?? await replicateGen(prompt, frames, plan.metadata.visualStyle);
-      const voiceUrl = await generateVoiceMurf(`Narración para segmento ${seg.start}`);
-      const soundUrl = await fetchSoundFreesound('ambient space');
+      const videoUrl = await runwayGen(prompt, frames, imageUrl) ?? await replicateGen(prompt, frames, plan.metadata.visualStyle);
 
-      if (!videoUrl) throw new Error('no clip url');
+      if (!videoUrl) {
+        logger.error(`❌ No se pudo generar el clip para el segmento ${seg.start}`);
+        throw new Error('no clip url');
+      }
 
       const destVideo = path.join(TMP_CLIPS, `clip_${seg.start}_${uuid().slice(0, 6)}.mp4`);
       const bufVideo = await fetch(videoUrl).then(r => r.arrayBuffer()).then(b => Buffer.from(b));
       await fs.writeFile(destVideo, bufVideo);
-
-      if (voiceUrl) {
-        const destVoice = path.join(TMP_CLIPS, `voice_${seg.start}_${uuid().slice(0, 6)}.mp3`);
-        const bufVoice = await fetch(voiceUrl).then(r => r.arrayBuffer()).then(b => Buffer.from(b));
-        await fs.writeFile(destVoice, bufVoice);
-      }
-
-      if (soundUrl) {
-        const destSound = path.join(TMP_CLIPS, `sound_${seg.start}_${uuid().slice(0, 6)}.mp3`);
-        const bufSound = await fetch(soundUrl).then(r => r.arrayBuffer()).then(b => Buffer.from(b));
-        await fs.writeFile(destSound, bufSound);
-      }
 
       return destVideo;
     });
@@ -238,4 +191,13 @@ export async function generateClips(plan: VideoPlan, storyboardUrls: string[]): 
 
   logger.info(`✅  Clips generados: ${paths.length}`);
   return paths;
+}
+
+async function validateUrl(url: string): Promise<boolean> {
+  try {
+    const response = await axios.head(url);
+    return response.status === 200;
+  } catch {
+    return false;
+  }
 }

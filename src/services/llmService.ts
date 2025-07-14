@@ -31,8 +31,8 @@ const client = new OpenAI({
 });
 
 const MODELS      = ['openai/gpt-4o', 'openai/gpt-4-turbo', 'anthropic/claude-3-sonnet'];
-const TIMEOUT_MS  = 60_000;
-const RETRIES     = 2;
+const TIMEOUT_MS  = 70_000;
+const RETRIES     = 3;
 
 /* ——————————————————————————————————————————— */
 function withTimeout<T>(p: Promise<T>, ms = TIMEOUT_MS): Promise<T> {

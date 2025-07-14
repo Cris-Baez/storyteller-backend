@@ -1768,3 +1768,97 @@
 2025-07-14T13:27:20.592Z [error] Murf API error: Request failed with status code 400
 2025-07-14T13:27:20.741Z [error] Murf API error: Request failed with status code 400
 2025-07-14T13:27:20.809Z [error] VoiceService error: concat fail
+2025-07-14T14:04:20.357Z [info] Storyteller AI backend running on 3000
+2025-07-14T14:05:01.797Z [error] Server error: Expected double-quoted property name in JSON at position 192
+2025-07-14T14:19:22.761Z [info] Storyteller AI backend running on 3000
+2025-07-14T14:20:12.915Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T14:20:12.919Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T14:20:12.920Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T14:21:06.009Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T14:21:06.010Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A wide view of a bustling city at sunset.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"Citizens unaw...
+2025-07-14T14:21:06.012Z [info] 🎞️  VideoPlan listo (60s) via openai/gpt-4o
+2025-07-14T14:21:06.013Z [info] 📜 Plan OK (60s)
+2025-07-14T14:21:06.013Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T14:21:06.014Z [info] → Se generarán 42 frames de storyboard
+2025-07-14T14:21:06.020Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T14:21:06.022Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T14:21:06.024Z [info] 🎵  Freesound query: cinematic
+2025-07-14T14:21:06.883Z [error] Murf API error: Request failed with status code 400
+2025-07-14T14:21:07.058Z [error] Murf API error: Request failed with status code 400
+2025-07-14T14:21:07.231Z [error] Unhandled Rejection: Error: 400 {"error":"videoUri: Failed to fetch asset. Received HTTP response code \"404\".","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T14:26:53.002Z [info] Storyteller AI backend running on 3000
+2025-07-14T14:27:06.788Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T14:27:06.790Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T14:27:06.791Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T14:28:06.796Z [warn] ❌ LLM openai/gpt-4o falló: LLM timeout
+2025-07-14T14:28:06.800Z [warn] ❌ Stack trace: Error: LLM timeout
+    at Timeout._onTimeout (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:29:54)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+2025-07-14T14:28:06.801Z [info] 🤖 Intentando modelo: openai/gpt-4-turbo
+2025-07-14T14:29:06.803Z [warn] ❌ LLM openai/gpt-4-turbo falló: LLM timeout
+2025-07-14T14:29:06.804Z [warn] ❌ Stack trace: Error: LLM timeout
+    at Timeout._onTimeout (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:29:54)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+2025-07-14T14:29:06.805Z [info] 🤖 Intentando modelo: anthropic/claude-3-sonnet
+2025-07-14T14:29:50.826Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T14:29:50.827Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T14:29:50.829Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T14:30:01.138Z [info] ✅ Respuesta recibida de anthropic/claude-3-sonnet
+2025-07-14T14:30:01.140Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A dark, ominous sky looms over a city skyline",
+     "camera":{"shot":"wide","movement":"static"},
+     "emotion":"foreboding",
+     "dialogue":"",
+    ...
+2025-07-14T14:30:33.598Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T14:30:33.599Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast city skyline under a dark, stormy sky.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"foreboding",
+     "dialogue":"The w...
+2025-07-14T14:30:33.603Z [info] 🎞️  VideoPlan listo (60s) via openai/gpt-4o
+2025-07-14T14:30:33.604Z [info] 📜 Plan OK (60s)
+2025-07-14T14:30:33.605Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T14:30:33.606Z [info] → Se generarán 39 frames de storyboard
+2025-07-14T14:30:33.619Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T14:30:33.623Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T14:30:33.625Z [info] 🎵  Freesound query: cinematic
+2025-07-14T14:30:34.486Z [error] Murf API error: Request failed with status code 400, Código de estado: 400, Respuesta: {"errorCode":400,"errorMessage":"Invalid voice_id en-US-will. Use the GET /v1/speech/voices endpoint to retrieve the full list of supported voices, or visit: https://murf.ai/api/docs/voices-styles/voice-library, to view the voice library in our API docs."}
+2025-07-14T14:30:34.648Z [error] Murf API error: Request failed with status code 400, Código de estado: 400, Respuesta: {"errorMessage":"Invalid voice_id en-US-will. Use the GET /v1/speech/voices endpoint to retrieve the full list of supported voices, or visit: https://murf.ai/api/docs/voices-styles/voice-library, to view the voice library in our API docs.","errorCode":400}
+2025-07-14T14:30:34.836Z [error] Unhandled Rejection: Error: 400 {"error":"videoUri: Failed to fetch asset. Received HTTP response code \"404\".","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T14:40:22.663Z [info] Storyteller AI backend running on 3000
+2025-07-14T14:40:31.968Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T14:40:31.971Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T14:40:31.974Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T14:41:41.666Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T14:41:41.667Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "A bustling city at sunrise.",
+      "camera": {"shot": "wide", "movement": "static"},
+      "emotion": "anticipation",
+      "dialogue": "The wor...
+2025-07-14T14:41:41.670Z [info] 🎞️  VideoPlan listo (60s) via openai/gpt-4o
+2025-07-14T14:41:41.671Z [info] 📜 Plan OK (60s)
+2025-07-14T14:41:41.673Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T14:41:41.674Z [info] → Se generarán 38 frames de storyboard
+2025-07-14T14:41:41.685Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T14:41:41.687Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T14:41:41.689Z [info] 🎵  Freesound query: cinematic
+2025-07-14T14:41:42.427Z [error] Unhandled Rejection: Error: 400 {"error":"videoUri: Failed to fetch asset. Received HTTP response code \"404\".","docUrl":"https://docs.dev.runwayml.com/api"}

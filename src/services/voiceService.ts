@@ -79,20 +79,31 @@ async function murfTTS(text: string, voiceId: string): Promise<Buffer | null> {
       )
     );
 
-    // - Si recibimos audio inline ↓
-    if (data.encodedAudio) return Buffer.from(data.encodedAudio, 'base64');
+    // Validación estricta de la respuesta
+    if (data.encodedAudio) {
+      logger.info('Murf API: Audio inline recibido correctamente.');
+      return Buffer.from(data.encodedAudio, 'base64');
+    }
 
-    // - Si solo viene la URL ↓
     if (data.audioFile) {
+      logger.info('Murf API: URL de audio recibida correctamente.');
       const audio = await axios.get(data.audioFile, {
         responseType: 'arraybuffer'
       });
       return Buffer.from(audio.data);
     }
 
+    logger.error('Murf API: Respuesta inesperada, faltan campos esperados.');
     throw new Error('Murf: respuesta inesperada');
   } catch (e: any) {
-    logger.error(`Murf API error: ${e.message}`);
+    // Registro detallado del error
+    if (e.response) {
+      logger.error(
+        `Murf API error: ${e.message}, Código de estado: ${e.response.status}, Respuesta: ${JSON.stringify(e.response.data)}`
+      );
+    } else {
+      logger.error(`Murf API error: ${e.message}`);
+    }
     return null;
   }
 }
