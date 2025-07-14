@@ -1931,3 +1931,87 @@
 2025-07-14T15:14:55.839Z [info] 🎵  Buscar música de fondo para "cinematic"
 2025-07-14T15:14:55.840Z [info] 🎵  Freesound query: cinematic
 2025-07-14T15:14:56.638Z [error] Unhandled Rejection: Error: 400 {"error":"videoUri: Failed to fetch asset. Received HTTP response code \"404\".","docUrl":"https://docs.dev.runwayml.com/api"}
+2025-07-14T15:20:12.491Z [info] Storyteller AI backend running on 3000
+2025-07-14T15:20:21.029Z [info] 🚀 Pipeline v6 — inicio render
+2025-07-14T15:20:21.031Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T15:20:21.032Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T15:21:07.119Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T15:21:07.120Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast deserted city skyline at dawn.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The world stands ...
+2025-07-14T15:21:07.121Z [warn] ❌ LLM openai/gpt-4o falló: Expected ',' or '}' after property value in JSON at position 15981
+2025-07-14T15:21:07.122Z [warn] ❌ Stack trace: SyntaxError: Expected ',' or '}' after property value in JSON at position 15981
+    at JSON.parse (<anonymous>)
+    at createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:212:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/utils/retry.js:5:20)
+    at async runRenderPipeline (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/pipelines/renderPipeline.js:38:22)
+    at async Immediate.<anonymous> (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/jobs/jobQueue.js:11:28)
+2025-07-14T15:21:07.122Z [info] 🤖 Intentando modelo: openai/gpt-4o-mini
+2025-07-14T15:22:17.136Z [warn] ❌ LLM openai/gpt-4o-mini falló: LLM timeout
+2025-07-14T15:22:17.137Z [warn] ❌ Stack trace: Error: LLM timeout
+    at Timeout._onTimeout (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:35:54)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+2025-07-14T15:22:17.138Z [info] 🤖 Intentando modelo: openai/gpt-4-turbo
+2025-07-14T15:23:27.150Z [warn] ❌ LLM openai/gpt-4-turbo falló: LLM timeout
+2025-07-14T15:23:27.153Z [warn] ❌ Stack trace: Error: LLM timeout
+    at Timeout._onTimeout (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:35:54)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+2025-07-14T15:23:27.154Z [info] 🤖 Intentando modelo: anthropic/claude-3-sonnet
+2025-07-14T15:24:26.802Z [info] ✅ Respuesta recibida de anthropic/claude-3-sonnet
+2025-07-14T15:24:26.803Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"Apocalyptic scene of a desolate city in ruins",
+     "camera":{"shot":"wide","movement":"static"},
+     "emotion":"dread",
+     "dialogue":"The world is...
+2025-07-14T15:24:26.804Z [warn] ❌ LLM anthropic/claude-3-sonnet falló: Expected ',' or ']' after array element in JSON at position 13302
+2025-07-14T15:24:26.804Z [warn] ❌ Stack trace: SyntaxError: Expected ',' or ']' after array element in JSON at position 13302
+    at JSON.parse (<anonymous>)
+    at createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:212:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/utils/retry.js:5:20)
+    at async runRenderPipeline (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/pipelines/renderPipeline.js:38:22)
+    at async Immediate.<anonymous> (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/jobs/jobQueue.js:11:28)
+2025-07-14T15:24:26.804Z [info] 🤖 Intentando modelo: openai/gpt-3.5-turbo
+2025-07-14T15:24:32.095Z [warn] ❌ LLM openai/gpt-3.5-turbo falló: 404 No endpoints found for openai/gpt-3.5-turbo.
+2025-07-14T15:24:32.096Z [warn] ❌ Stack trace: Error: 404 No endpoints found for openai/gpt-3.5-turbo.
+    at APIError.generate (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/node_modules/openai/core/error.mjs:50:20)
+    at OpenAI.makeStatusError (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/node_modules/openai/client.mjs:156:32)
+    at OpenAI.makeRequest (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/node_modules/openai/client.mjs:301:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/utils/retry.js:5:20)
+    at async createVideoPlan (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/services/llmService.js:192:25)
+    at async retry (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/utils/retry.js:5:20)
+    at async runRenderPipeline (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/pipelines/renderPipeline.js:38:22)
+    at async Immediate.<anonymous> (file:///C:/Users/crist/OneDrive/Desktop/storyteller-backend/dist/jobs/jobQueue.js:11:28)
+2025-07-14T15:24:33.598Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-14T15:24:33.598Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-14T15:25:14.113Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-14T15:25:14.114Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A darkened city skyline under stormy clouds",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"foreboding",
+     "dialogue":"The wor...
+2025-07-14T15:25:14.116Z [info] 🎞️  VideoPlan listo (60s) via openai/gpt-4o
+2025-07-14T15:25:14.116Z [info] 📜 Plan OK (60s)
+2025-07-14T15:25:14.117Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-14T15:25:14.117Z [info] → Se generarán 48 frames de storyboard
+2025-07-14T15:25:14.121Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-14T15:25:14.122Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-14T15:25:14.123Z [info] 🎵  Freesound query: cinematic
+2025-07-14T15:25:15.253Z [error] Murf API error: Request failed with status code 400, Código de estado: 400, Respuesta: {"errorMessage":"Invalid voice_id en-US-will. Use the GET /v1/speech/voices endpoint to retrieve the full list of supported voices, or visit: https://murf.ai/api/docs/voices-styles/voice-library, to view the voice library in our API docs.","errorCode":400}
+2025-07-14T15:25:15.442Z [error] Murf API error: Request failed with status code 400, Código de estado: 400, Respuesta: {"errorCode":400,"errorMessage":"Invalid voice_id en-US-will. Use the GET /v1/speech/voices endpoint to retrieve the full list of supported voices, or visit: https://murf.ai/api/docs/voices-styles/voice-library, to view the voice library in our API docs."}
+2025-07-14T15:25:15.555Z [error] Unhandled Rejection: Error: 400 {"error":"videoUri: Failed to fetch asset. Received HTTP response code \"404\".","docUrl":"https://docs.dev.runwayml.com/api"}

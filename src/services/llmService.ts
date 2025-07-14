@@ -30,7 +30,7 @@ const MODELS = [
   'anthropic/claude-3-sonnet',
   'openai/gpt-3.5-turbo'
 ];
-const TIMEOUT_MS  = 70_000;
+const TIMEOUT_MS  = 120_000; // Aumentado para evitar timeouts frecuentes
 const RETRIES     = 3;
 
 /* ——————————————————————————————————————————— */
@@ -47,38 +47,31 @@ function temperatureByDur(d: AllowedDuration) {
 
 /* Self-heal JSON malformado */
 async function fixJson(raw: string, model: string): Promise<string> {
-  // Si el raw está vacío, devolver un JSON vacío por defecto
   if (!raw || raw.trim() === '') {
     return '{}';
   }
-  
+
   try {
     JSON.parse(raw);
     return raw;
   } catch {
-    // Si no es JSON, intentar extraer JSON del texto
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
     if (jsonMatch) return jsonMatch[0];
-    
-    // Si el texto contiene respuestas en español, rechazarlo directamente
-    if (raw.includes('Lo siento') || raw.includes('Parece que') || raw.includes('error')) {
-      throw new Error('La respuesta contiene texto explicativo en lugar de JSON');
-    }
-    
+
     try {
       const { choices } = await client.chat.completions.create({
         model,
         temperature: 0,
         messages: [
           { role: 'system', content: 'Fix this JSON to be syntactically valid. Return ONLY valid JSON, no explanations.' },
-          { role: 'user',   content: raw.slice(0, 7000) }
+          { role: 'user', content: raw.slice(0, 7000) }
         ]
       });
-      
+
       if (!choices || choices.length === 0 || !choices[0].message.content) {
         return '{}';
       }
-      
+
       return choices[0].message.content;
     } catch {
       return '{}';

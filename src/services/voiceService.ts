@@ -178,6 +178,18 @@ async function normalise(input: string, output: string) {
   });
 }
 
+/* ────────────────────────────────────────────────────────────
+ * 5) Validar si el voiceId existe en Murf
+ * ────────────────────────────────────────────────────────── */
+async function validateVoiceId(voiceId: string): Promise<boolean> {
+  try {
+    const voices = await axios.get('https://murf.ai/api/docs/voices-styles/voice-library');
+    return voices.data.some((voice: any) => voice.id === voiceId);
+  } catch {
+    return false;
+  }
+}
+
 /* ════════════════════════════════════════════════════════════
  * createVoiceOver – API pública
  * ═══════════════════════════════════════════════════════════ */

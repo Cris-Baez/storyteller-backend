@@ -18,7 +18,6 @@ import { generateClips }      from '../services/clipService.js';
 import { createVoiceOver }    from '../services/voiceService.js';
 import { getBackgroundMusic } from '../services/musicService.js';
 import { assembleVideo }      from '../services/ffmpegService.js';
-import { createVideoUpscaleTask } from '../services/runwayService.js';
 
 import { logger }   from '../utils/logger.js';
 import { retry }    from '../utils/retry.js';
@@ -62,10 +61,6 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
       withTimeout(retry(()=>getBackgroundMusic(plan.metadata.music?.mood ?? req.mode))).catch(err => {
         logger.error(`❌ Error en getBackgroundMusic: ${err.message}`);
         throw err;
-      }),
-      withTimeout(retry(()=>createVideoUpscaleTask('upscale_v1', 'https://example.com/bunny.mp4'))).catch(err => {
-        logger.error(`❌ Error en createVideoUpscaleTask: ${err.message}`);
-        throw err;
       })
     ]);
 
@@ -73,9 +68,8 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
     const clips: string[] = results[1] as string[];
     const voiceOver: Buffer = results[2] as Buffer;
     const music: Buffer = results[3] as Buffer;
-    const upscaleResult = results[4];
 
-    logger.info(`Assets → SB:${storyboardUrls.length}  Clips:${clips.length}  VO:${voiceOver.length}B  BGM:${music.length}B  Upscale:${JSON.stringify(upscaleResult)}`);
+    logger.info(`Assets → SB:${storyboardUrls.length}  Clips:${clips.length}  VO:${voiceOver.length}B  BGM:${music.length}B`);
 
     /* 3️⃣  Ensamblado final */
     const url = await withTimeout(
