@@ -92,40 +92,58 @@ async function runwayGen(prompt: string, frames: number, img?: string): Promise<
       }
     }
 
-    // Intentar con RunwayML
-    let videoUrl: string | null = null;
-    try {
-      const taskResponse = await withTimeout(
-        retry(
-          async () => {
-            const response = await runwayClient.imageToVideo.create(createOpts).waitForTaskOutput();
-            return response as TaskResponse;
-          },
-          2
-        ),
-        120000 // 2 minutos de timeout
-      );
+    // 🛡️ VALIDACIÓN MÁXIMA antes de enviar a Runway
+    if (createOpts.promptImage) {
+      const isImageValid = await validateUrl(createOpts.promptImage);
+      const isJPEG = createOpts.promptImage.endsWith('.jpg') || createOpts.promptImage.endsWith('.jpeg');
+      const isFromGoogle = createOpts.promptImage.includes('storage.googleapis.com');
 
-      if (!taskResponse || !Array.isArray(taskResponse.output) || taskResponse.output.length === 0) {
+      if (!isImageValid || !isJPEG || !isFromGoogle) {
+        logger.warn(`⚠️ Imagen inválida, se eliminará del prompt: ${createOpts.promptImage}`);
+        delete createOpts.promptImage;
+      }
+    }
+
+    // Captura y fallback automático
+    let videoUrl: string | null = null;
+
+    try {
+      const response = await runwayClient.imageToVideo.create(createOpts).waitForTaskOutput();
+      if (!response?.output || !Array.isArray(response.output) || response.output.length === 0) {
         throw new Error('Runway no devolvió output válido');
       }
-
-      videoUrl = taskResponse.output[0];
-    } catch (e) {
-      logger.error(`Runway error: ${e instanceof Error ? e.message : 'Error desconocido'}`);
-      videoUrl = null; // Asegurar que está limpio para fallback
-    }
-
-    // Fallback a Replicate si RunwayML falla
-    if (!videoUrl) {
-      try {
-        const visualStyle = createOpts.visualStyle || 'default'; // Usar visualStyle desde createOpts o un valor por defecto
-        videoUrl = await replicateGen(prompt, frames, visualStyle);
-      } catch (err) {
-        logger.error(`❌ Fallaron todos los modelos para el segmento actual`);
-        videoUrl = null; // Asegurar que está limpio
+      videoUrl = response.output[0];
+    } catch (e: any) {
+      logger.error(`❌ Runway falló: ${e.message}`);
+      if (e.message.includes('promptImage: Invalid input')) {
+        logger.warn('⚠️ Reintentando sin promptImage...');
+        delete createOpts.promptImage;
+        try {
+          const retryRes = await runwayClient.imageToVideo.create(createOpts).waitForTaskOutput();
+          if (retryRes?.output?.[0]) {
+            videoUrl = retryRes.output[0];
+            logger.info('✅ Runway funcionó sin promptImage');
+          }
+        } catch (fallbackErr) {
+          logger.error(`🚨 Runway sin imagen también falló: ${(fallbackErr instanceof Error) ? fallbackErr.message : 'Error desconocido'}`);
+          videoUrl = null;
+        }
       }
     }
+
+    // Fallback profesional a Replicate
+    if (!videoUrl) {
+      logger.warn('⛑️ Fallback a Replicate activado...');
+      try {
+        videoUrl = await replicateGen(prompt, frames, createOpts.visualStyle || 'default');
+      } catch (e) {
+        logger.error(`🔥 Fallback también falló: ${(e instanceof Error) ? e.message : 'Error desconocido'}`);
+        videoUrl = null;
+      }
+    }
+
+    // BONUS: Log para debug futuro
+    logger.info('Opciones para Runway:', JSON.stringify(createOpts, null, 2));
 
     if (!videoUrl) {
       logger.warn('⚠️ No se pudo generar el video para este segmento. Continuando con el siguiente.');
