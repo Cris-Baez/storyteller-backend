@@ -72,13 +72,13 @@ function promptOf(seg: Segment, style: string) {
 }
 
 
-// Polling para esperar job Replicate
-async function pollReplicateJob(model: string, input: Record<string, any>, maxWaitMs = 180_000, pollIntervalMs = 3500) {
-  logger.debug(`↳ POST ${model}  ${JSON.stringify(input)}`);
+// Polling robusto para esperar job Replicate y obtener la URL del video
+async function pollReplicateJob(model: string, input: Record<string, any>, maxWaitMs = 600_000, pollIntervalMs = 3500) {
+  logger.info(`🚦 Solicitando generación a Replicate (${model})...`);
   let prediction;
   try {
     prediction = await replicate.predictions.create({
-      version: undefined, // let Replicate infer latest
+      version: undefined, // usar última versión
       model,
       input,
       webhook: undefined,
@@ -88,32 +88,64 @@ async function pollReplicateJob(model: string, input: Record<string, any>, maxWa
     logger.error(`❌ Error creando predicción Replicate: ${(err as Error).message}`);
     throw err;
   }
-  logger.debug(`↳ prediction id: ${prediction.id}`);
+  logger.info(`🕒 Esperando job Replicate: ${prediction.id}`);
   const started = Date.now();
   let status = prediction.status;
   let output = prediction.output;
   let lastErr = '';
+  let pollCount = 0;
+  let url: string | undefined = undefined;
   while (status !== 'succeeded' && status !== 'failed' && status !== 'canceled') {
     if (Date.now() - started > maxWaitMs) {
+      logger.error(`⏰ Timeout esperando job Replicate (${model}) tras ${(Date.now()-started)/1000}s`);
+      // Si hay una URL válida, permítele continuar aunque haya timeout
+      {
+        const maybeUrl = extractVideoUrl(output);
+        url = maybeUrl === null ? undefined : maybeUrl;
+      }
+      if (url) {
+        logger.warn(`⚠️ Timeout, pero se detectó video generado. Continuando con la URL: ${url}`);
+        break;
+      }
       throw new Error(`Timeout esperando job Replicate (${model})`);
     }
     await new Promise(r => setTimeout(r, pollIntervalMs));
+    pollCount++;
     try {
       const poll = await replicate.predictions.get(prediction.id);
       status = poll.status;
       output = poll.output;
       lastErr = typeof poll.error === 'string' ? poll.error : (poll.error ? JSON.stringify(poll.error) : '');
-      logger.debug(`↳ polling ${model} status: ${status}`);
+      logger.info(`🔄 [${model}] Poll #${pollCount}: status=${status}`);
+      if (status === 'processing' || status === 'starting') {
+        if (poll.logs) logger.debug(`   Progreso: ${poll.logs}`);
+        // Si ya hay una URL de video válida, permítele continuar
+        {
+          const maybeUrl = extractVideoUrl(output);
+          url = maybeUrl === null ? undefined : maybeUrl;
+        }
+        if (url) {
+          logger.warn(`⚠️  Status aún en '${status}', pero se detectó video generado. Continuando con la URL: ${url}`);
+          break;
+        }
+      }
     } catch (err) {
       logger.warn(`⚠️  Error polling Replicate: ${(err as Error).message}`);
     }
   }
-  if (status !== 'succeeded') {
+  if (status !== 'succeeded' && !url) {
+    logger.error(`❌ Job Replicate falló (${model}): ${lastErr || status}`);
     throw new Error(`Job Replicate falló (${model}): ${lastErr || status}`);
   }
-  logger.debug(`↳ raw response ${model}: ${JSON.stringify(output).slice(0,400)}`);
-  const url = extractVideoUrl(output);
-  if (!url) throw new Error('respuesta sin URL');
+  if (!url) {
+    const maybeUrl = extractVideoUrl(output);
+    url = maybeUrl === null ? undefined : maybeUrl;
+  }
+  if (!url) {
+    logger.error(`❌ Respuesta Replicate sin URL de video (${model})`);
+    throw new Error('respuesta sin URL');
+  }
+  logger.info(`🎬 URL de video lista para descargar (${model}): ${url}`);
   return url;
 }
 
@@ -142,7 +174,10 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
 
     let src: string|undefined;
     for (const m of tryModels) {
-      if (!supports(m, seg.dur)) continue; // descartar duraciones ilegales
+      if (!supports(m, seg.dur)) {
+        logger.info(`⏩ Modelo ${m} no soporta duración ${seg.dur}s, se omite.`);
+        continue;
+      }
       try {
         src = await pollReplicateJob(m, { prompt: promptOf(seg, style), duration: seg.dur });
         logger.info(`✅ ${m} OK (seg${seg.start})`);
@@ -151,7 +186,10 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
         logger.warn(`❌ ${m} ${e.message}`);
       }
     }
-    if (!src) { logger.error(`× sin clip seg${seg.start}`); return; }
+    if (!src) {
+      logger.error(`× sin clip seg${seg.start}`);
+      return;
+    }
 
     /* stream‑download → /tmp (con reintentos) */
     const fn = path.join(TMP, `clip_${seg.start}_${uuid().slice(0,8)}.mp4`);
