@@ -244,18 +244,26 @@ async function genReplicate(
   
   try {
     const res: any = await replicate.run(model as any, { input });
-    
+
     // Manejar diferentes formatos de respuesta
     if (typeof res === 'string') {
       return res;
     } else if (Array.isArray(res)) {
       return res[0];
     } else if (res && typeof res === 'object') {
-      return res.video || res.output || res.url || res[0];
+      if (res.video || res.output || res.url || res[0]) {
+        return res.video || res.output || res.url || res[0];
+      } else {
+        logger.error(`⚠️ Respuesta sin URL válida de ${model}: ${JSON.stringify(res)}`);
+      }
+    } else {
+      logger.error(`⚠️ Respuesta inesperada de ${model}: ${JSON.stringify(res)}`);
     }
-    
+
+    // Si llegamos aquí, no se obtuvo una URL válida
+    logger.error(`❌ No se obtuvo URL válida de ${model}. Respuesta completa: ${JSON.stringify(res)}`);
     throw new Error(`Formato de respuesta inesperado de ${model}`);
-    
+
   } catch (error) {
     logger.error(`❌ Error con ${model}: ${(error as Error).message}`);
     throw error;
