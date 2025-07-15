@@ -1398,3 +1398,28 @@
 2025-07-15T13:42:02.723Z [error] ⚠️ Fallback sin URL válida (luma/ray-flash-2-540p): {}
 2025-07-15T13:45:10.421Z [error] ⚠️ Fallback sin URL válida (minimax/video-01-director): {}
 2025-07-15T13:45:10.423Z [error] ❌ Todos los modelos Replicate fallaron para seg 0
+2025-07-15T14:55:21.862Z [error] FLUX respuesta inesperada: {}
+2025-07-15T14:55:21.862Z [error] FLUX error: FLUX returned invalid response format
+2025-07-15T14:55:39.125Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T14:55:39.149Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T14:55:39.156Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T14:55:39.161Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T14:55:39.169Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T14:55:39.175Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T14:55:39.179Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T14:55:39.189Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T14:55:39.420Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T14:55:41.437Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T14:58:33.350Z [error] ⚠️ Respuesta sin URL válida de luma/ray-2-720p: {}
+2025-07-15T14:58:33.350Z [error] ❌ No se obtuvo URL válida de luma/ray-2-720p. Respuesta completa: {}
+2025-07-15T14:58:33.350Z [error] ❌ Error con luma/ray-2-720p: Formato de respuesta inesperado de luma/ray-2-720p
+2025-07-15T15:00:02.436Z [error] ⚠️ Respuesta sin URL válida de google/veo-3: {}
+2025-07-15T15:00:02.437Z [error] ❌ No se obtuvo URL válida de google/veo-3. Respuesta completa: {}
+2025-07-15T15:00:02.437Z [error] ❌ Error con google/veo-3: Formato de respuesta inesperado de google/veo-3
+2025-07-15T15:00:39.344Z [error] ⚠️ Respuesta sin URL válida de pixverse/pixverse-v4.5: {}
+2025-07-15T15:00:39.344Z [error] ❌ No se obtuvo URL válida de pixverse/pixverse-v4.5. Respuesta completa: {}
+2025-07-15T15:00:39.345Z [error] ❌ Error con pixverse/pixverse-v4.5: Formato de respuesta inesperado de pixverse/pixverse-v4.5
+2025-07-15T15:01:43.918Z [error] ⚠️ Fallback sin URL válida (bytedance/seedance-1-lite): {}
+2025-07-15T15:02:28.260Z [error] ⚠️ Fallback sin URL válida (luma/ray-flash-2-540p): {}
+2025-07-15T15:05:36.792Z [error] ⚠️ Fallback sin URL válida (minimax/video-01-director): {}
+2025-07-15T15:05:36.793Z [error] ❌ Todos los modelos Replicate fallaron para seg 0
