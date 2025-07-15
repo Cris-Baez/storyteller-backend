@@ -5053,3 +5053,73 @@
 2025-07-15T15:05:36.793Z [error] ❌ Todos los modelos Replicate fallaron para seg 0
 2025-07-15T15:05:36.795Z [info] ✅ Total clips subidos: 0
 2025-07-15T15:35:19.257Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-15T15:55:28.035Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-15T15:59:43.018Z [info] ::1 - - [15/Jul/2025:15:59:43 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-15T15:59:43.023Z [info] 🚀 Pipeline v7 – inicio
+2025-07-15T15:59:43.027Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-15T15:59:43.028Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-15T15:59:59.474Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-15T15:59:59.475Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast city skyline at dawn.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The world awaits a hero.",...
+2025-07-15T15:59:59.476Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-15T15:59:59.476Z [info] 📜 VideoPlan listo (10s)
+2025-07-15T15:59:59.477Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-15T15:59:59.477Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-15T16:00:02.956Z [error] FLUX respuesta inesperada: {}
+2025-07-15T16:00:02.957Z [error] FLUX error: FLUX returned invalid response format
+2025-07-15T16:00:02.958Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-15T16:00:14.940Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/Rf8C9uEAGOUuLS05z7DSDpfHPaIx1TlnRaqpDkHnaWoO0CBVA/out-0.png
+2025-07-15T16:00:15.977Z [info] Archivo temporal creado: t0_e50355
+2025-07-15T16:00:17.985Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-15T16:00:18.112Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-15T16:00:18.113Z [info] ✅  Storyboards listos: 1
+2025-07-15T16:00:18.114Z [info] 🎞️ ClipService v7.3 – start
+2025-07-15T16:00:18.115Z [info] → 2 segmentos de 5 s
+2025-07-15T16:00:18.116Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-15T16:00:18.142Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-15T16:00:18.143Z [info] 🎵  Freesound query: cinematic
+2025-07-15T16:00:18.444Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T16:00:18.445Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T16:00:18.471Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T16:00:18.471Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T16:00:18.475Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T16:00:18.475Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T16:00:18.485Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T16:00:18.486Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T16:00:18.488Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T16:00:18.488Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T16:00:18.497Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T16:00:18.498Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T16:00:18.502Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T16:00:18.503Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T16:00:18.551Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T16:00:18.552Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T16:00:18.824Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T16:00:18.825Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T16:00:19.267Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T16:00:19.268Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T16:00:19.268Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-15T16:00:23.429Z [info] ✅  Pista de música lista (976940 bytes)
+2025-07-15T16:01:47.108Z [warn] ❌ google/veo-3 respuesta sin URL
+2025-07-15T16:01:47.775Z [warn] ❌ google/veo-3 respuesta sin URL
+2025-07-15T16:03:20.590Z [warn] ❌ google/veo-3 respuesta sin URL
+2025-07-15T16:03:20.691Z [warn] ❌ google/veo-3 respuesta sin URL
+2025-07-15T16:03:59.708Z [warn] ❌ bytedance/seedance-1-lite respuesta sin URL
+2025-07-15T16:04:00.220Z [warn] ❌ bytedance/seedance-1-lite respuesta sin URL
+2025-07-15T16:04:00.224Z [warn] ❌ minimax/hailuo-02 Request to https://api.replicate.com/v1/models/minimax/hailuo-02/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 6, 10\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 6, 10"}]}
+.
+2025-07-15T16:04:00.407Z [warn] ❌ minimax/hailuo-02 Request to https://api.replicate.com/v1/models/minimax/hailuo-02/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 6, 10\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 6, 10"}]}
+.
+2025-07-15T16:04:32.374Z [warn] ❌ luma/ray-flash-2-540p respuesta sin URL
+2025-07-15T16:04:32.379Z [warn] ❌ luma/ray-flash-2-540p respuesta sin URL
+2025-07-15T16:08:10.271Z [warn] ❌ minimax/video-01-director respuesta sin URL
+2025-07-15T16:08:10.272Z [error] × sin clip seg5
+2025-07-15T16:10:15.315Z [warn] ❌ minimax/video-01-director respuesta sin URL
+2025-07-15T16:10:15.317Z [error] × sin clip seg0
+2025-07-15T16:10:15.317Z [info] ✅ Total clips: 0

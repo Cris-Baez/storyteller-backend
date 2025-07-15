@@ -77,6 +77,8 @@ async function call(model: string, input: Record<string,any>) {
   const url = extractVideoUrl(raw);
   if (!url) throw new Error('respuesta sin URL');
   return url;
+  logger.debug(`↳ raw response ${model}: ${JSON.stringify(raw).slice(0,400)}`);
+  if (!url) throw new Error('no video url');
 }
 
 // API principal
