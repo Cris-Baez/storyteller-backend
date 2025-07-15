@@ -24,7 +24,7 @@ import type {
 
 /* ── Config ───────────────────────────────────────────────────────── */
 const CONCURRENCY    = Number(env.GEN2_CONCURRENCY ?? 3);
-const GEN_TIMEOUT_MS = Number(env.GEN2_TIMEOUT_MS ?? 150_000);
+const GEN_TIMEOUT_MS = Number(env.GEN2_TIMEOUT_MS ?? 300_000); // 5 minutos por defecto
 const TMP_CLIPS      = '/tmp/clips_v7';
 await fs.mkdir(TMP_CLIPS, { recursive: true });
 
