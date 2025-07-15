@@ -59,13 +59,42 @@ function segment(tl: TimelineSecond[]): Segment[] {
   return out;
 }
 
-// prompt
-function promptOf(seg: Segment, style: string) {
+
+// prompt avanzado: usa todos los campos de la plantilla
+function promptOf(seg: Segment, style: string, plan: VideoPlan) {
   const a = seg.secs[0], b = seg.secs[seg.secs.length-1];
+  const env = (plan as any).environment || {};
+  const grading = (plan as any).grading || {};
+  const shotList = (plan as any).shot_list || [];
+  const characters = plan.metadata?.characters || [];
+  let shotDesc = '';
+  if (shotList.length) {
+    const shotIdx = shotList.findIndex((s:any) => s.TCIn === a.t || s.TCIn === a.scene);
+    if (shotIdx >= 0) {
+      const shot = shotList[shotIdx];
+      shotDesc = [shot.Plano, shot.Lens, shot.Move].filter(Boolean).join(', ');
+    }
+  }
+  let charDesc = '';
+  if (characters.length) {
+    const char = characters[0];
+    charDesc = [char.name, char.gender, char.age, char.language].filter(Boolean).join(', ');
+  }
   return [
+    env.ext_int ? `escena: ${env.ext_int}` : '',
+    env.location ? `lugar: ${env.location}` : '',
+    env.timeOfDay ? `hora: ${env.timeOfDay}` : '',
+    env.weather ? `clima: ${env.weather}` : '',
+    env.setDressing ? `decorado: ${Array.isArray(env.setDressing) ? env.setDressing.join(', ') : env.setDressing}` : '',
+    env.lighting ? `luz: ${JSON.stringify(env.lighting)}` : '',
+    env.cameraRig ? `cámara: ${JSON.stringify(env.cameraRig)}` : '',
     [a.visual, seg.secs.length>1?b.visual:''].filter(Boolean).join(', '),
-    `camera ${a.camera.shot} ${a.camera.movement}`,
-    `style ${style}`,
+    shotDesc,
+    `cámara ${a.camera.shot} ${a.camera.movement}`,
+    charDesc,
+    `estilo: ${style}`,
+    grading.lut ? `LUT: ${grading.lut}` : '',
+    grading.grain ? `grano: ${grading.grain}` : '',
     (a.sceneMood||'')+' cinematic lighting',
     '24 fps, no watermark'
   ].filter(Boolean).join(', ');
@@ -164,12 +193,13 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
     const style = plan.metadata.visualStyle;
     const pref   = MODEL[style as keyof typeof MODEL] ?? MODEL.realistic;
 
-    // Priorizar minimax/video-01-director para realistic y cinematic
+    // Priorizar minimax/video-01-director para realistic y cinematic, y poner google/veo-2 como última opción
     let tryModels: string[] = [];
+    const GOOGLE_VEO = 'google/veo-2';
     if (style === 'realistic' || style === 'cinematic') {
-      tryModels = [MINIMAX_DIRECTOR, pref, MODEL.realistic, MODEL.cinematic, ...BACKUP];
+      tryModels = [MINIMAX_DIRECTOR, pref, MODEL.realistic, MODEL.cinematic, ...BACKUP, GOOGLE_VEO];
     } else {
-      tryModels = [pref, MODEL.realistic, ...BACKUP];
+      tryModels = [pref, MODEL.realistic, ...BACKUP, GOOGLE_VEO];
     }
 
     let src: string|undefined;
@@ -178,8 +208,67 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
         logger.info(`⏩ Modelo ${m} no soporta duración ${seg.dur}s, se omite.`);
         continue;
       }
+      // Construir input según modelo
+      let input: Record<string, any> = {};
+      if (m.startsWith('bytedance/seedance-1-pro')) {
+        input = {
+          fps: 24,
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          resolution: '1080p',
+          aspect_ratio: '16:9',
+          camera_fixed: false
+        };
+      } else if (m.startsWith('minimax/hailuo-02')) {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          resolution: '1080p',
+          prompt_optimizer: false
+        };
+      } else if (m.startsWith('minimax/video-01-director')) {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          prompt_optimizer: true
+        };
+      } else if (m.startsWith('minimax/video-01')) {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          prompt_optimizer: true
+        };
+      } else if (m.startsWith('luma/ray-flash-2-720p')) {
+        input = {
+          loop: false,
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          aspect_ratio: '16:9'
+        };
+      } else if (m.startsWith('luma/ray-2-720p') || m.startsWith('luma/ray-2')) {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          aspect_ratio: '16:9'
+        };
+      } else if (m === GOOGLE_VEO) {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          aspect_ratio: '16:9'
+        };
+      } else if (m === 'pixverse/pixverse-v4.5') {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          aspect_ratio: '16:9'
+        };
+      } else {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur
+        };
+      }
       try {
-        src = await pollReplicateJob(m, { prompt: promptOf(seg, style), duration: seg.dur });
+        src = await pollReplicateJob(m, input);
         logger.info(`✅ ${m} OK (seg${seg.start})`);
         break;
       } catch (e:any) {

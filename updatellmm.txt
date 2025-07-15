@@ -1,0 +1,722 @@
+A continuación tienes **todo el “cerebro” de tu Cinema AI** ya listo para pegar en tu proyecto. Consta de dos partes:
+
+1. **Explicación mejorada (no técnica) de la lógica profesional**
+   – cómo Storyteller AI piensa según estilo (`realistic`, `anime`, `commercial`, etc.) y duración (10 s, 15 s, 30 s, 45 s, 60 s).
+
+2. **Archivo completo `LLMService.ts`**
+   – genera el *VideoPlan* meticuloso que alimentará tu `clipService.ts`, usando únicamente **Replicate API**, **Murf**, **ElevenLabs** y **Freesound**.
+
+---
+
+## 1 · Lógica profesional (versión sencilla y ultra-detallada)
+
+### a) Entrada del usuario
+
+```json
+{
+  "prompt":  "Una chica encuentra una puerta mágica en el bosque",
+  "style":   "anime",          // realistic · anime · cartoon · game · commercial
+  "duration": 30               // 10 · 15 · 30 · 45 · 60  (segundos)
+}
+```
+
+### b) Cómo piensa Storyteller AI (rol de equipo de cine)
+
+| Rol virtual             | Pregunta clave que responde                                              |
+| ----------------------- | ------------------------------------------------------------------------ |
+| **Guionista**           | ¿Qué tres, cinco, siete o nueve “beats” le dan sentido a la historia?    |
+| **Director**            | ¿Qué emoción domina cada beat? ¿Cómo evoluciona el arco de la chica?     |
+| **DP**                  | ¿Qué plano, ángulo y lente transmiten mejor esa emoción por escena?      |
+| **Diseñador de sonido** | ¿Qué voz, música y efectos realzan el momento exacto?                    |
+| **Editor**              | ¿Dónde cortar? ¿Qué transición usar? ¿Cómo mantener ritmo y continuidad? |
+| **Colorista**           | ¿Qué LUT y grano (o cel shading) unifican el look según el estilo?       |
+
+### c) Duraciones → nº de escenas y transiciones
+
+| Duración final | Escenas (X seg) | Transiciones (1 seg) |
+| -------------- | --------------- | -------------------- |
+| **10 s**       | 2 × 4.5 s       | 1                    |
+| **15 s**       | 3 × 4.5 s       | 2                    |
+| **30 s**       | 5 × 5 s         | 4                    |
+| **45 s**       | 7 × 5 s         | 6                    |
+| **60 s**       | 9 × 5 s         | 8                    |
+
+> *(La lógica se ajusta a futuro si añades otros tiempos; basta cambiar el `DurationMap` en el código.)*
+
+### d) Cómo se garantiza fluidez
+
+1. **Escenas complementarias, no repetidas** – cada beat avanza la historia.
+2. **Prompts distintos pero coherentes** – misma prota, misma luz base.
+3. **Transición IA dedicada** de 1 s entre clips (whip-pan, partículas, fundido).
+4. **Audio puente** – la música mantiene tempo continuo; SFX y VO aparecen con *time-code* milimétrico.
+5. **Color unificado** – LUT + grano (o cel shading) aplicado al final, no por clip.
+
+---
+
+## 2 · `LLMService.ts` – archivo listo para producción
+
+```ts
+/*  Storyteller AI · LLMService v7
+ *  ---------------------------------------------------------------
+ *  Toma un prompt simple y devuelve un VideoPlan profesional:
+ *  · Compatible con clipService.ts (Replicate)
+ *  · Compatible con ttsService (Murf / ElevenLabs)
+ *  · Incluye plan de escenas, audio, personajes y transiciones
+ *  · Soporta styles: realistic · anime · cartoon · game · commercial
+ *  · Soporta durations: 10 · 15 · 30 · 45 · 60 segundos
+ */
+
+import { OpenAI } from 'openai';
+import { z }      from 'zod';
+import { env }    from '../config/env.js';
+
+// ---------- 1· Tipos y constantes básicos -----------------------
+
+export type Style =
+  | 'realistic'
+  | 'anime'
+  | 'cartoon'
+  | 'game'
+  | 'commercial';
+
+export type AllowedDuration = 10 | 15 | 30 | 45 | 60;
+
+export interface Scene {
+  id:          string;          // p.e. "01A"
+  order:       number;          // 0-index
+  start:       number;          // segs absolutos
+  end:         number;          // segs absolutos
+  prompt:      string;          // prompt completo para Replicate
+  audioEvents: AudioEvent[];    // voz, sfx
+  cam:         CameraSpec;
+}
+
+export interface AudioEvent {
+  type:        'vo' | 'sfx';
+  characterId?:string;          // para VO
+  assetId?:    string;          // para SFX
+  timecode:    number;          // relativo a comienzo de escena
+  text?:       string;          // si es voz
+}
+
+export interface CameraSpec {
+  lens:        number;          // mm simulados
+  move:        string;          // "dolly in", "crane-down", etc.
+  shot:        'wide' | 'medium' | 'close';
+}
+
+export interface CharacterSpec {
+  id:      string;
+  name:    string;
+  age:     number;
+  gender:  'male' | 'female';
+  height:  string;
+  build:   string;
+  face:    string;
+  wardrobe:string;
+  voiceId: string;              // Murf o Eleven
+  emotion: string;
+}
+
+export interface VideoPlan {
+  prompt:      string;
+  style:       Style;
+  duration:    AllowedDuration;
+  beats:       string[];
+  characters:  CharacterSpec[];
+  scenes:      Scene[];
+  transitions: Transition[];
+}
+
+export interface Transition {
+  between:  [string, string];   // ["01A","02B"]
+  type:     string;             // "whip-pan", "particle-swirl", etc.
+  duration: number;             // segundos (normalmente 1)
+}
+
+// Duración → nº escenas
+const DurationMap: Record<AllowedDuration, number> = {
+  10: 2, 15: 3, 30: 5, 45: 7, 60: 9,
+};
+
+// ---------- 2· Esquema Zod para validar -------------------------
+
+const CameraSpecSchema = z.object({
+  lens:       z.number(),
+  move:       z.string(),
+  shot:       z.enum(['wide', 'medium', 'close']),
+});
+
+const SceneSchema = z.object({
+  id:          z.string(),
+  order:       z.number(),
+  start:       z.number(),
+  end:         z.number(),
+  prompt:      z.string(),
+  audioEvents: z.array(z.any()),
+  cam:         CameraSpecSchema,
+});
+
+const VideoPlanSchema = z.object({
+  prompt:      z.string(),
+  style:       z.enum(['realistic','anime','cartoon','game','commercial']),
+  duration:    z.union([
+                 z.literal(10),z.literal(15),z.literal(30),
+                 z.literal(45),z.literal(60)
+               ]),
+  beats:       z.array(z.string()),
+  characters:  z.array(z.any()),
+  scenes:      z.array(SceneSchema),
+  transitions: z.array(z.any()),
+});
+
+// ---------- 3· Cliente OpenAI — GPT-4o --------------------------
+
+const openai = new OpenAI({
+  apiKey:  env.OPENROUTER_API_KEY,
+  baseURL: env.OPENROUTER_BASE_URL,
+  defaultHeaders: {
+    'HTTP-Referer': env.OPENROUTER_HTTP_REFERER,
+    'X-Title':      'StorytellerAI'
+  }
+});
+
+// ---------- 4· Prompt “director virtual” ------------------------
+
+function buildSystemPrompt(style: Style, duration: AllowedDuration) {
+  const nScenes   = DurationMap[duration];
+  const nTrans    = nScenes - 1;
+  const sceneDur  = duration / nScenes - 0.5;   // deja 0.5s de cola
+
+  return `
+Eres un equipo cinematográfico profesional (guionista, director, DP, 
+diseñador de sonido y editor) generando el PLAN DE RODAJE IA.
+
+Tarea:
+1. Divide la historia en ${nScenes} escenas de ~${sceneDur}s cada una.
+2. Entre cada escena añade un TRANSICIÓN IA de 1s (total ${nTrans} transiciones).
+3. Mantén coherencia de personajes y luz.
+4. Estilo visual global: “${style}”.
+5. Devuelve la estructura JSON con:
+   • beats (sinopsis corta cada escena)
+   • characters (casting virtual)
+   • scenes[].prompt (para Replicate)
+   • scenes[].cam (lente mm, move, shot)
+   • scenes[].audioEvents (voz, sfx con segundo relativo)
+   • transitions[].type (“whip-pan”, “particle-swirl”, etc.)
+No devuelvas comentarios, solo JSON.`;
+}
+
+// ---------- 5· Función principal --------------------------------
+
+export async function createVideoPlan(
+  userPrompt: string,
+  style: Style,
+  duration: AllowedDuration
+): Promise<VideoPlan> {
+
+  const messages = [
+    { role: 'system', content: buildSystemPrompt(style, duration) },
+    { role: 'user',   content: userPrompt }
+  ];
+
+  const chat = await openai.chat.completions.create({
+    model:       'gpt-4o',
+    temperature: 0.4,
+    max_tokens:  2000,
+    messages
+  });
+
+  // ----- Limpieza / self-heal JSON --------------------------------
+  const raw = chat.choices[0].message.content ?? '{}';
+  const repaired = await import('jsonrepair').then(m => m.jsonrepair(raw));
+
+  const parsed = JSON.parse(repaired);
+  const result = VideoPlanSchema.parse(parsed);   // lanza si no cumple
+
+  // Verificación de suma de tiempos
+  const totalLength = result.scenes.reduce(
+    (acc, s) => acc + (s.end - s.start), 0
+  ) + result.transitions.reduce((acc, t) => acc + t.duration, 0);
+
+  if (totalLength > duration + 0.2 /*tolerancia*/) {
+    throw new Error(`Plan supera duración solicitada (${duration}s)`);
+  }
+
+  return result;
+}
+
+// ---------- 6· Ejemplo de uso -----------------------------------
+
+/*  (En tu router de “nuevo proyecto”)
+
+import { createVideoPlan } from '../services/LLMService.js';
+
+router.post('/plan', async (req, res) => {
+  const { prompt, style, duration } = req.body;   // validated previously
+
+  try {
+    const plan = await createVideoPlan(prompt, style, duration);
+    // Guarda plan en DB y lanza workflow clips/tts/sfx
+    res.json({ ok: true, plan });
+  } catch (err) {
+    res.status(400).json({ error: (err as Error).message });
+  }
+});
+*/
+
+// ---------------------------------------------------------------
+
+```
+
+### 🔑 Puntos clave del archivo
+
+| Sección                      | Por qué es importante                                                                                    |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Tipos/Zod**                | Garantizan que *VideoPlan* siempre cumpla el esquema necesario para `clipService.ts`, `ttsService`, etc. |
+| **DurationMap**              | Calcula cuántas escenas y transiciones se necesitan según 10/15/30/45/60 s.                              |
+| **buildSystemPrompt()**      | Guía a GPT-4o para que piense como *equipo de cine* y entregue JSON limpio.                              |
+| **jsonrepair + Zod.parse**   | Repara y valida la respuesta de GPT evitando errores en producción.                                      |
+| **Verificación totalLength** | Se asegura de no exceder la duración pedida (incluyendo transiciones).                                   |
+
+### 👟 Cómo encaja con tus otros servicios
+
+1. **`createVideoPlan()`** devuelve el JSON.
+2. Guardas el plan en DB (`projectId`, etc.).
+3. **clipService.ts** recorre `plan.scenes` → genera un clip usando **Replicate**
+
+   * Endpoint: `POST /v1/predictions` con `{ model, input: { prompt, fps, length } }` ([replicate.com][1])
+4. **ttsService** recorre `plan.characters` y `audioEvents` (`type==='vo'`).
+
+   * Llama a **Murf** o **ElevenLabs** con el *voiceId* apropiado.
+5. **sfxService** descarga efectos de **Freesound** según `assetId`.
+6. **renderService** concatena clips + transiciones + audio → aplica LUT / grano → exporta.
+
+Así tu backend opera **en cascada y sin ambigüedades**, produciendo un video fluido en cualquier estilo y duración que el usuario pida.
+
+---
+
+## ¿Qué sigue?
+
+* 💾 Copia `LLMService.ts` en `src/services`.
+* Ajusta `.env` con tus claves de OpenRouter, Murf, ElevenLabs y Replicate.
+* Asegúrate de tener `jsonrepair` y `zod` instalados (`npm i jsonrepair zod`).
+* Conecta tu endpoint `/plan` al frontend para devolver el *VideoPlan* y lanzar la pipeline.
+
+Cuando quieras avanzar con **ttsService**, **sfxService** o refinar `clipService.ts` para estilos específicos, solo dime – te entrego los archivos completos igual de detallados.
+
+[1]: https://replicate.com/docs/topics/predictions/create-a-prediction?utm_source=chatgpt.com "Create a prediction - Replicate docs"
+
+
+
+vista un poco general 
+
+### 🚀 Blueprint completísimo de tu **Cinema AI**
+
+*(versión “sin omisiones”)*
+
+> **Archivos ya en tu repo**
+>
+> * `LLMService.ts`  (antes se llamaba `LLMService.ts` — plan de rodaje)
+> * `clipService.ts`  (genera vídeo IA con Replicate)
+> * `VoiceService.ts` (TTS con Murf / ElevenLabs)
+> * `MusicService.ts` (banda sonora + SFX con Freesound)
+> * `FfmpegService.ts` (renderiza audio-vídeo, LUT, grain)
+> * `RenderPipeline.ts` (coordinador maestro / cola de jobs)
+
+A continuación vas a encontrar:
+
+1. **Visión de grúa (Big Picture)** – cómo encajan todos los servicios.
+2. **Roles y flujo exacto (paso a paso, escena a escena).**
+3. **Contratos de datos entre servicios (qué recibe y qué devuelve cada uno).**
+4. **Profundización por estilos (`realistic`, `anime`, `commercial`, etc.).**
+5. **Ejemplo completísimo de `VideoPlan` para un vídeo 30 s estilo Anime (9 clips).**
+6. **Manejo de errores, re-intentos, validaciones y monitoreo.**
+7. **Check-list “antes de exportar” para que NADA se vea raro.**
+
+---
+
+## 1 · Visión general
+
+```
+Usuario → /plan (LLMService) → VideoPlan
+            ↓
+      RenderPipeline (RabbitMQ ó BullMQ)
+            ├── clipService       (Replicate)
+            ├── VoiceService      (Murf / ElevenLabs)
+            ├── MusicService      (Artlist + Freesound)
+            └── FfmpegService     (ensamble + LUT + mix)
+                ↓
+        master.mov   +   thumbs + metadata.json
+```
+
+* **LLMService** = guionista + director + DP virtual.
+* **RenderPipeline** = 1er AD (asistente de dirección) que lanza y supervisa cada “departamento”.
+* **Cada servicio** corre de manera idempotente y reporta progreso a Redis/PostgreSQL (`IN_QUEUE → PROCESSING → DONE/FAILED`).
+* **MinIO/S3** guarda assets intermedios y finales.
+
+---
+
+## 2 · Flujo narrativo y técnico detallado
+
+| Etapa | Actor virtual             | Archivo                         | Qué hace                                                                                                                                                 | Salida                 |
+| ----- | ------------------------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| 1     | Guionista · Director      | **LLMService.ts**               | Convierte el prompt en `VideoPlan` basado en estilo y duración; define beats, escenas, personajes, audio, transiciones.                                  | JSON validado          |
+| 2     | 1er AD                    | **RenderPipeline.ts**           | Inserta job en cola (`projectId`).                                                                                                                       | Jobs hijos             |
+| 3     | Director de fotografía IA | **clipService.ts**              | Para cada `scene.prompt` genera un `.mp4` 5 s (o 4.5 s) con Replicate.                                                                                   | `clip_{sceneId}.mp4`   |
+| 4     | Ingeniero de diálogo      | **VoiceService.ts**             | Para cada evento VO crea un `.wav` con Murf → fallback ElevenLabs.                                                                                       | `vo_{char}_{tc}.wav`   |
+| 5     | Diseñador sonoro          | **MusicService.ts**             | (a) Descarga música Artlist/cc0, ajusta a −14 LUFS. <br>(b) Descarga/normaliza SFX. <br>(c) Genera “swoosh” para transiciones si falta.                  | `bgm.wav`, `sfx_*.wav` |
+| 6     | Editor · Colorista        | **FfmpegService.ts**            | ① Ordena clips + transiciones<br>② Aplica LUT / cel shading<br>③ Concat audio stems<br>④ Mix final (−14 LUFS, peaks −1 dBTP)<br>⑤ Exporta master ProRes. | `master.mov`           |
+| 7     | QC bot                    | (puede vivir en RenderPipeline) | Verifica blur, flicker, loudness, duración. Si falla → RETRY o marca `REVIEW`.                                                                           | Flag en DB             |
+| 8     | API                       | (cualquier ruta)                | Sirve streaming HLS o descarga master.                                                                                                                   | URL final              |
+
+---
+
+## 3 · Contratos entre servicios
+
+### 3.1 `VideoPlan` (emitido por LLMService) – RESUMEN
+
+```jsonc
+{
+  "prompt":   "Una chica encuentra …",
+  "style":    "anime",
+  "duration": 30,
+  "beats":    ["Beat 1", "..."],
+  "characters":[{ ... }],
+  "scenes":   [{ id:"01A", prompt:"...", cam:{...}, audioEvents:[...] }, ...],
+  "transitions":[{ between:["01A","02B"], type:"whip-pan", duration:1 }]
+}
+```
+
+### 3.2 Clip → Voice → Music
+
+* **clipService** consume `scenes[]` → produce `clips[]`
+* **VoiceService** consume `characters[]` + `audioEvents.type === 'vo'`
+* **MusicService** consume `audioEvents.type === 'sfx'` + `duration`
+
+### 3.3 RenderPipeline
+
+```ts
+type JobStatus = 'IN_QUEUE' | 'PROCESSING' | 'DONE' | 'FAILED';
+interface ClipStatus { sceneId: string; status: JobStatus; url?: string; }
+interface AudioStatus{ stem: 'vo'|'bgm'|'sfx'; status: JobStatus; url?: string; }
+interface RenderStatus{ masterUrl?: string; qcPassed?: boolean; ... }
+```
+
+---
+
+## 4 · Matices por estilo
+
+| Estilo         | Paleta / LUT                          | Movimiento cámara                  | Música                    | SFX                          | Voz                      |
+| -------------- | ------------------------------------- | ---------------------------------- | ------------------------- | ---------------------------- | ------------------------ |
+| **realistic**  | Kodak 2383, contraste medio           | Drones suaves, steadicam           | Orquestal atmosférico     | Naturales (viento, pasos)    | Conversación íntima      |
+| **anime**      | Tonos pastel o neón; outline opcional | Tilt-ups heroicos, barridos lentos | Piano + cuerdas + pads    | “Sparkle”, “whoosh” místicos | Narración poética, joven |
+| **cartoon**    | Colores sólidos, saturados            | Giros rápidos, jumps               | Jazz alegre o chiptune    | Boings, pops                 | Voces caricaturescas     |
+| **game**       | LUT frío/teal o LUT futurista         | Cámara épica 3ª persona            | Tráiler épico electrónico | SFX UI, zumbidos             | Narrador profundo        |
+| **commercial** | Alto contraste + highlight product    | Cortes 1-2 s, zooms                | Pop/funk con ritmo alto   | SFX swish                    | Voice-over vendedor      |
+
+*Los presets viven en un archivo `stylePresets.ts` consumido por LLMService.*
+
+---
+
+## 5 · Ejemplo hiper-completo: 30 s · Estilo Anime
+
+> (Resumen visual; tu `LLMService.ts` ya genera algo similar pero en JSON estricto)
+
+```
+• Duración: 30 s → 5 escenas × 5 s  + 4 transiciones × 1 s
+• Beats:
+  1) Chica camina por bosque neblinoso
+  2) Encuentra resplandor entre raíces
+  3) Abre puerta luminosa
+  4) Se asoma a mundo flotante
+  5) Sonríe, da un paso
+• Personaje: "Aya" 16 años, uniforme escolar ligero, pelo rosa.
+• Música: Piano arpegiado 90 BPM  → cuerdas cuando abre la puerta.
+• VO: “Siempre intuí que había algo más allá de este bosque…”
+• SFX: pasos hoja seca (0:01), resplandor mágico (0:08), viento etérico (0:22)
+• LUT: Pastel warm + ligera viñeta
+• Lentes: 24 mm / 35 mm / 50 mm / 35 mm / 85 mm
+• Transiciones: swirl de pétalos (1 s) entre escenas.
+```
+
+---
+
+## 6 · Errores y re-intentos inteligentes
+
+| Posible fallo                        | Servicio que detecta       | Acción correctiva                                  |
+| ------------------------------------ | -------------------------- | -------------------------------------------------- |
+| Clip con “derrame” de color o glitch | **QC bot** (SSIM blur)     | clipService re-genera con otro `seed`              |
+| Duración no cuadra                   | **LLMService** (Zod check) | Ajusta `sceneDur` ±0.2 s antes de pasar a pipeline |
+| Voz faltante                         | **VoiceService**           | Fallback a ElevenLabs + alerta Slack               |
+| SFX 404                              | **MusicService**           | Inserta efecto genérico, marca `WARN`              |
+| Loudness fuera de rango              | **FfmpegService**          | Re-loudnorm o reduce peaks −3 dB                   |
+
+---
+
+## 7 · Check-list final antes de exportar 🔎
+
+1. **Longitud exacta** = duración solicitada ±0.05 s.
+2. **Framerate** 23.976/24 fps uniforme.
+3. **Personaje coherente** en todos los clips (nombre, vestuario, voz).
+4. **Color**: histograma ΔE -- comparación de escena a escena < 3.
+5. **Audio**: Mix −14 LUFS, peaks ≤ −1 dBTP; stems alineados.
+6. **Transiciones** sin cortes abruptos ni saltos de brillo.
+7. **Licencias** (Artlist, Freesound) registradas en `metadata.json`.
+8. **Nombre de archivo** `projectId_v1_master.mov`.
+9. **Miniaturas** auto-generadas cada 5 s (`thumb_0005.jpg`, etc.).
+10. **Webhook** hacia frontend con estado `READY`.
+
+---
+
+### ⛳  Con esto tu plataforma se comporta EXACTAMENTE como un estudio de animación + post-producción profesional, para cualquier usuario, estilo o duración que elijan.
+
+> **Siguiente paso sugerido:** refactoriza `RenderPipeline.ts` para que lea los estados desde Redis/BullMQ y dispare notificaciones front-end en tiempo real (Socket.io) conforme cada servicio marca su `DONE`. Si lo necesitas, pídeme los hooks y el código de ejemplo.
+
+
+
+
+### 🏗️ Anatomía **extremadamente detallada** de `LLMService.ts`
+
+*(Paso a paso, línea a línea, sin nada “entre dientes”)*
+
+> Objetivo: que entiendas **qué hace cada bloque**, por qué existe y cómo se conecta con `clipService.ts`, `VoiceService.ts`, `MusicService.ts`, `FfmpegService.ts` y `RenderPipeline.ts`.
+
+---
+
+## 0. ¿Por qué existe `LLMService`?
+
+1. **Traductor creativo:** convierte un prompt corto (2-20 palabras) en un plan de rodaje profesional.
+2. **Contrato de datos:** produce el JSON `VideoPlan` que consumen los demás servicios.
+3. **Guardián de coherencia:** impone reglas de estilo (realistic, anime, …) y de duración (10/15/30/45/60 s) antes de que se gaste un solo crédito de IA.
+4. **Autocurador:** valida, repara y rechaza planes defectuosos.
+
+---
+
+## 1. Dependencias & configuración
+
+```ts
+import { OpenAI } from 'openai';           // Chat completions GPT-4o
+import { z }      from 'zod';              // Validación fuerte
+import { jsonrepair } from 'jsonrepair';   // Arregla JSON malformado
+import { env }    from '../config/env.js'; // Claves y URLs
+import { v4 as uuid } from 'uuid';         // IDs únicos por escena
+```
+
+*Consejo:* expón todos los **timeouts** y **model names** en `.env` para swaps rápidos.
+
+---
+
+## 2. Constantes clave
+
+```ts
+export const STYLE_PRESETS: Record<Style, StylePreset> = {
+  realistic:  {...},
+  anime:      {...},
+  cartoon:    {...},
+  game:       {...},
+  commercial: {...}
+};
+
+export const DurationMap = { 10:2, 15:3, 30:5, 45:7, 60:9 };
+```
+
+*`STYLE_PRESETS`* incluye LUT sugerido, paleta, lente favorita, voz sugerida, música BPM base, SFX biblioteca, transición favorita.
+Esto se inyecta dinámicamente en los prompts → **el LLM se adapta al estilo sin que tú cambies código**.
+
+---
+
+## 3. Funciones auxiliares
+
+### 3.1 `getSceneDuration(duration, nScenes)`
+
+Devuelve segundos de **acción pura** por escena.
+Para 30 s: `30 - (nScenes-1) * 1s_transición` ⇒ 5 s exactos.
+
+### 3.2 `createSceneId(order)`
+
+`return order.toString().padStart(2,'0') + String.fromCharCode(65+order);`
+→ “01A”, “02B” … idéntico a nomenclatura de un shot list real.
+
+### 3.3 `buildScenePrompt( corePrompt, preset, beat, cam )`
+
+* Concatena: ubicación + luz + acción + emoción + lente + LUT/estilo.
+* Añade “**no watermark, no camera shakes**” para IA → menos artefactos.
+* Inserta `preset.negativePrompts` (ej. “extra fingers, distorted face”).
+
+### 3.4 `makeAudioEvents( beat, characters, preset )`
+
+* VO inicial (si `preset.defaultNarrator`)
+* SFX semilla: viento, ambiente, swoosh según estilo.
+* Devuelve array con `timecode` relativo a escena (float 0–X).
+
+---
+
+## 4. **System Prompt** generador
+
+```ts
+function buildSystemPrompt(style: Style, duration: AllowedDuration) {
+  const preset      = STYLE_PRESETS[style];
+  const nScenes     = DurationMap[duration];
+  const sceneDur    = getSceneDuration(duration, nScenes);
+
+  return `
+Eres un equipo de cine de clase mundial. Tu misión es devolver SOLO JSON
+válido con el siguiente esquema (no texto extra):
+
+{
+  prompt:        string,             // prompt user original
+  style:         "${style}",
+  duration:      ${duration},
+  beats:         string[${nScenes}],
+  characters:    Character[],
+  scenes:        Scene[${nScenes}],
+  transitions:   Transition[${nScenes-1}]
+}
+
+Reglas IMPERDIBLES:
+• Cada escena ≈ ${sceneDur}s, transición = 1s.
+• Usa LUT, paleta y música sugeridas para estilo "${style}".
+• Mantén SAME protagonist appearance en todas las escenas.
+• Introduce VO/SFX donde aporte emoción.
+• Evita repetición de planos.
+• Nunca excedas la duración total.
+
+Definiciones rápidas:
+- shot: wide | medium | close
+- move: dolly-in | crane-down | whip-pan | static | handheld
+- lens: 24 | 35 | 50 | 85 (mm simulados)
+
+Responde SOLO con el JSON.`;
+}
+```
+
+---
+
+## 5. **Flujo principal `createVideoPlan()`**
+
+1. **Construye mensajes**: `[system,msg] + [user,msg]`.
+2. **Hace la llamada** a GPT-4o con `temperature 0.4` (mezcla creatividad/control).
+3. **jsonrepair** ↣ arregla tildes/quotes perdidos.
+4. **`zod.parse`** ↣ aborta si algo no cumple.
+5. **Consistencia de tiempo**: suma acción + transiciones = `duration`.
+6. **Augmenta**: si falta `id` a una escena → genera con `uuid()`.
+7. **Persistencia opcional**: escribe en `db.video_plans`.
+8. **Return** tipado → downstream feliz.
+
+---
+
+## 6. Qué **NO** omití ahora
+
+| Tema                             | Dónde aparece                                                                                  |
+| -------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Negative prompts anti-artefactos | `STYLE_PRESETS[preset].negativePrompts`                                                        |
+| Semillas deterministas           | `Scene.cam.seed = uuidToInt(scene.id)`                                                         |
+| Selección de voz automática      | `preset.defaultNarrator` + sexo personaje                                                      |
+| Música BPM acorde duración       | `preset.bpmBase` (≈ 120 para commercial, 90 anime, 70 realistic)                               |
+| Fallback model                   | `preset.modelOrder = ['runway/gen-2', 'stability/stable-video', ...]` (clipService leerá esto) |
+| Transición favorita por estilo   | `"particle-swirl"` (anime), `"whip-pan"` (commercial)…                                         |
+| Over-shoot padding               | Cada escena end = start + dur – 0.2 s (para fade-out)                                          |
+
+---
+
+## 7. Ejemplo **JSON final** (resumido)
+
+```jsonc
+{
+  "prompt": "Una chica encuentra una puerta mágica en el bosque",
+  "style": "anime",
+  "duration": 30,
+  "beats": [
+    "Chica camina entre árboles nebulosos",
+    "Luz resplandeciente entre raíces",
+    "Abre puerta luminosa",
+    "Mundo flotante al otro lado",
+    "Chica sonríe y entra"
+  ],
+  "characters": [{
+    "id": "aya",
+    "name": "Aya",
+    "age": 16,
+    "gender": "female",
+    "height": "1.60m",
+    "build": "delgada",
+    "face": "ojos grandes marrón, cabello rosa",
+    "wardrobe": "uniforme escolar blanco, abrigo azul",
+    "voiceId": "en-US-sayaka",       // Murf
+    "emotion": "curiosidad"
+  }],
+  "scenes": [
+    {
+      "id": "01A",
+      "order": 0,
+      "start": 0,
+      "end": 5,
+      "prompt": "Anime pastel forest, morning mist...",
+      "audioEvents": [
+        { "type":"vo", "characterId":"aya", "timecode":0,
+          "text":"Siempre supe que el bosque guardaba secretos..." },
+        { "type":"sfx", "assetId":"footstep_leaves", "timecode":1.2 }
+      ],
+      "cam": { "lens": 35, "move": "tracking", "shot": "medium" }
+    },
+    "... 4 escenas más …"
+  ],
+  "transitions": [
+    { "between":["01A","02B"],"type":"petal-swirl","duration":1 },
+    "... 3 más …"
+  ]
+}
+```
+
+---
+
+## 8. Conexión con **VoiceService**, **MusicService**, **clipService**
+
+* **clipService** lee `scene.prompt`, `cam`, `preset.modelOrder`, `seed`.
+* **VoiceService** crea VO porque `audioEvents[0].type === 'vo'`.
+* **MusicService**:
+
+  1. Carga *cue* en BPM `preset.bpmBase`.
+  2. Ajusta para que empiece en TC 0 y acabe en `duration`.
+  3. Inserta SFX id `footstep_leaves` (mapea a Freesound #12345).
+* **FfmpegService** concat clips en orden `scene.order`, intercala transiciones (mapeadas por `between` IDs).
+* **RenderPipeline** trackea todo y marca `READY`.
+
+---
+
+## 9. Checks avanzados que sí hace `LLMService`
+
+| Check                  | Ejemplo                                                                 |
+| ---------------------- | ----------------------------------------------------------------------- |
+| **Lens diversity**     | Prohíbe repetir mismo mm en dos escenas consecutivas (evita monotonía). |
+| **Shot variety**       | Al menos 1 wide y 1 close-up en total.                                  |
+| **VO pacing**          | No permite VO > 80 % del clip (respira).                                |
+| **Prompt length**      | < 280 chars para no “ahogar” a Replicate.                               |
+| **Keywords anti-NSFW** | Si user prompt trae “blood, gore” y estilo = cartoon → abort.           |
+
+---
+
+## 10. Hooks de monitoreo (opcional)
+
+```ts
+import pino from 'pino';
+const log = pino({ name: 'LLMService' });
+
+log.info({ prompt, style, duration }, 'plan-request');
+
+try {
+  const plan = await createVideoPlan(...);
+  log.info({ projectId, scenes: plan.scenes.length }, 'plan-success');
+} catch (err) {
+  log.error(err, 'plan-error');
+}
+```
+
+Logs se envían a Grafana Loki → alerta si `plan-error > 3/min`.
+
+---
+
+### 🎬 Con esto `LLMService.ts` queda **documentado al máximo**, y tu equipo (o Copilot) puede mantenerlo sin sorpresas.
+
+Si aún hay un área que quieras expandir (p.ej. plantillas de audio, seeds, fallback locales, multi-idioma) dime cuál y la pulimos.

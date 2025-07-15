@@ -1,0 +1,174 @@
+minimax / hailuo-02
+
+More by this author
+Hailuo 2 is a text-to-video and image-to-video model that can make 6s or 10s videos at 720p (standard) or 1080p (pro). It excels at real world physics.
+
+const input = {
+  prompt: "a dog speed climbs up a climbing wall at the olympics",
+  duration: 6,
+  resolution: "1080p",
+  prompt_optimizer: false
+};
+
+const output = await replicate.run("minimax/hailuo-02", { input });
+
+// To access the file URL:
+console.log(output.url()); //=> "http://example.com"
+
+// To write the file to disk:
+fs.writeFile("my-image.png", output);
+
+bytedance / seedance-1-pro
+
+More by this author
+A pro version of Seedance that offers text-to-video and image-to-video support for 5s or 10s videos, at 480p and 1080p resolution
+const input = {
+  fps: 24,
+  prompt: "The sun rises slowly between tall buildings. [Ground-level follow shot] Bicycle tires roll over a dew-covered street at dawn. The cyclist passes through dappled light under a bridge as the entire city gradually wakes up.",
+  duration: 5,
+  resolution: "1080p",
+  aspect_ratio: "16:9",
+  camera_fixed: false
+};
+
+const output = await replicate.run("bytedance/seedance-1-pro", { input });
+
+// To access the file URL:
+console.log(output.url()); //=> "http://example.com"
+
+// To write the file to disk:
+fs.writeFile("my-image.png", output);
+
+
+
+kwaivgi / kling-v2.1-master
+
+More by this author
+A premium version of Kling v2.1 with superb dynamics and prompt adherence. Generate 1080p 5s and 10s videos from text or an image
+
+
+
+minimax / video-01
+
+More by this author
+Generate 6s videos with prompts or images. (Also known as Hailuo). Use a subject reference to make a video with a character and the S2V-01 model.
+
+const input = {
+  prompt: "a woman is walking through a busy Tokyo street at night, she is wearing dark sunglasses",
+  prompt_optimizer: true
+};
+
+const output = await replicate.run("minimax/video-01", { input });
+
+// To access the file URL:
+console.log(output.url()); //=> "http://example.com"
+
+// To write the file to disk:
+fs.writeFile("my-image.png", output);
+
+
+minimax / video-01-director
+
+More by this author
+Generate videos with specific camera movements
+
+const input = {
+  prompt: "[truck left, pan right, tracking shot] bullet time effect",
+  prompt_optimizer: true,
+  first_frame_image: "https://replicate.delivery/pbxt/MYlgrLz3fkaOdsOpAY4H0ugeGkhJaZj2AM3LrzChrRA2FSyt/MemeLoveTriangle_297886754.webp"
+};
+
+const output = await replicate.run("minimax/video-01-director", { input });
+
+// To access the file URL:
+console.log(output.url()); //=> "http://example.com"
+
+// To write the file to disk:
+fs.writeFile("my-image.png", output);
+
+
+luma / ray-flash-2-720p
+
+More by this author
+Generate 5s and 9s 720p videos, faster and cheaper than Ray 2
+
+const input = {
+  loop: false,
+  prompt: "A cinematic anime character intimate closeup, she is sitting at a cafe on a busy city street in the morning, it is cold",
+  duration: 5,
+  aspect_ratio: "16:9"
+};
+
+const output = await replicate.run("luma/ray-flash-2-720p", { input });
+
+// To access the file URL:
+console.log(output.url()); //=> "http://example.com"
+
+// To write the file to disk:
+fs.writeFile("my-image.png", output);
+
+
+luma / ray
+
+More by this author
+Fast, high quality text-to-video and image-to-video (Also known as Dream Machine)
+
+import { writeFile } from "fs/promises";
+import Replicate from "replicate";
+const replicate = new Replicate();
+
+const input = {
+    prompt: "This video shows the majestic beauty of a waterfall cascading down a cliff into a serene lake. The waterfall, with its powerful flow, is the central focus of the video. The surrounding landscape is lush and green, with trees and foliage adding to the natural beauty of the scene"
+};
+
+const output = await replicate.run("luma/ray", { input });
+await writeFile("output.mp4", output);
+//=> output.mp4 written to disk
+
+
+
+wavespeedai / wan-2.1-t2v-720p
+
+More by this author
+Accelerated inference for Wan 2.1 14B text to video with high resolution, a comprehensive and open suite of video foundation models that pushes the boundaries of video generation.
+
+
+const input = {
+  prompt: "A smiling woman walking in London at night",
+  fast_mode: "Balanced",
+  lora_scale: 1,
+  num_frames: 81,
+  aspect_ratio: "16:9",
+  sample_shift: 5,
+  sample_steps: 30,
+  frames_per_second: 16,
+  sample_guide_scale: 5
+};
+
+const output = await replicate.run("wavespeedai/wan-2.1-t2v-720p", { input });
+
+// To access the file URL:
+console.log(output.url()); //=> "http://example.com"
+
+// To write the file to disk:
+
+
+google / veo-2
+
+More by this author
+State of the art video generation model. Veo 2 can faithfully follow simple and complex instructions, and convincingly simulates real-world physics as well as a wide range of visual styles.
+
+
+const input = {
+  prompt: "a dog riding a skateboard",
+  duration: 5,
+  aspect_ratio: "16:9"
+};
+
+const output = await replicate.run("google/veo-2", { input });
+
+// To access the file URL:
+console.log(output.url()); //=> "http://example.com"
+
+// To write the file to disk:
+fs.writeFile("my-image.png", output);

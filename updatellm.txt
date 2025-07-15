@@ -1,0 +1,273 @@
+Below encontrarás una **guía exhaustiva, sin omisiones, que describe (1) la plantilla de pre‑producción “grade‑streaming‑premium” bloque por bloque y (2) el flujo completo de backend en cascada, desde el prompt del usuario hasta el máster ProRes terminado.** Todo se alinea con estándares reales (Netflix, SMPTE, ACES, YouTube loudness, StudioBinder, etc.) para que tu resultado nunca parezca “raro” y siempre cumpla especificaciones profesionales.
+
+---
+
+## 1 · Plantilla de pre‑producción extremadamente detallada
+
+> **Formato:** JSON con los bloques que siguen. Cada campo incluye **qué captura, por qué es crítico y en qué estándar se basa.**
+
+### 1.1 METADATA — “La Biblia técnica”
+
+| Campo           | Valor de ejemplo                        | Justificación / Estándar                                                             |
+| --------------- | --------------------------------------- | ------------------------------------------------------------------------------------ |
+| `projectId`     | `dragAncient_001`                       | Slug único → ruta de clips, stems y renders.                                         |
+| `resolution`    | `3840×2160`                             | UHD 4 K mínimo para Netflix/Amazon.([partnerhelp.netflixstudios.com][1])             |
+| `fps`           | `23.976`                                | Framerate cinematográfico; evita “jitter” al convertir a 24 fps exactos.             |
+| `aspectRatio`   | `16:9`                                  | Formato broadcast y OTT.                                                             |
+| `colorPipeline` | `ACEScg → Rec.709 BT.1886`              | ACES 1.3 garantiza concordancia de color entre CG, IA y grading.([toadstorm.com][2]) |
+| `lut`           | `Kodak 2383 print emu`                  | Emula film‑stock clásico; refuerza “look de celuloide”.                              |
+| `codec`         | `ProRes 422 HQ`                         | Mezzanine aceptado por Netflix/Prime.([partnerhelp.netflixstudios.com][1])           |
+| `audioFormat`   | `PCM 48 kHz 24‑bit, stereo, –14 LUFS I` | Targets oficiales de YouTube y TVOD; evita re‑ganancia.([Reddit][3])                 |
+| `duration`      | `00:00:15:00`                           | Time‑code SMPTE hh\:mm\:ss\:ff.([Wikipedia][4])                                      |
+
+---
+
+### 1.2 STORY BEATS — “Estructura de guion condensada”
+
+1. **Setup** – El dragón rompe la capa de nubes al ocaso.
+2. **Confrontación** – Sobrevuela torres; aldeanos se asombran.
+3. **Resolución** – Aterriza en el acantilado; la guardiana revela la profecía.
+
+*Por qué:* los LLM tienden a “divagar” si solo reciben un prompt general; estos tres beats marcan el arco dramático que debe respetar cada servicio.
+
+---
+
+### 1.3 ENVIRONMENT — “Diseño de producción”
+
+```jsonc
+{
+  "ext_int": "EXT",
+  "location": "Ciudad bizantina tallada en acantilados",
+  "timeOfDay": "Golden Hour 18:45",
+  "weather": "Viento F2, cirros rojos",
+  "setDressing": [
+    "Antorchas 3000 K",
+    "Estandartes carmesí con emblema de dragón"
+  ],
+  "lighting": {
+    "key":  { "position": "¾ back", "temp": 5500, "intensity": 1.0 },
+    "fill": { "modifier": "silver bounce", "ratio": -1 },
+    "back": { "source": "sun rim", "hardness": "hard" }
+  },
+  "cameraRig": {
+    "body": "DJI Inspire 3",
+    "sensor": "Full‑frame 8 K",
+    "lenses": [24, 35, 85],
+    "shutter": "180°"
+  }
+}
+```
+
+*Referencias:* Inspire 3 es full‑frame y soporta DL lenses 18–75 mm.([DJI Official][5])
+
+---
+
+### 1.4 CHARACTERS — “Casting virtual fotogramable”
+
+```jsonc
+[
+  {
+    "id": "erya",
+    "age": 28,
+    "sex": "female",
+    "height": "1.70 m",
+    "build": "atlética",
+    "skinTone": "Pantone 14‑1108 TPX",
+    "face": {
+      "eyes": "azules almendrados",
+      "hair": "plata ondulado",
+      "jaw": "delicada"
+    },
+    "wardrobe": {
+      "primary": "Túnica azul noche con runas luminosas",
+      "props": ["báculo de obsidiana 90 cm"]
+    },
+    "baselineEmotion": "serena‑épica",
+    "voice": { "vendor": "Murf", "id": "en‑US‑natalie" }
+  }
+]
+```
+
+*Cada atributo se incluye en los prompts de video para estabilizar coherencia facial y de vestuario en clip 1, 2 y 3.*
+
+---
+
+### 1.5 AUDIO PLAN — “Stem sheet industrial”
+
+| TC In             | Stem | Contenido                   | Vendor/ID            | Licencia  |
+| ----------------- | ---- | --------------------------- | -------------------- | --------- |
+| 00:00:00:00       | VO   | “In an age before memory…”  | Murf `en-US-natalie` | Comercial |
+| 00:00:02:00       | SFX  | `dragon_wings_flap_heavy`   | Sonniss GDC #3456    | CC0       |
+| 00:00:06:12       | SFX  | `crowd_gasp_small`          | Soundly FX           | Pro       |
+| 00:00:00:00–15:00 | BGM  | “Epic Fantasy 110 bpm Cmin” | Artlist AF‑9912      | Unlimited |
+
+**Loudness target:** –14 LUFS I, peaks ≤ –1 dBTP, siguiendo práctica de OTT.([Reddit][3])
+
+---
+
+### 1.6 SHOT LIST — “Tabla de rodaje”
+
+| #   | Esc | TC In–Out | Plano        | Lens  | Move                 | Audio dir.   |
+| --- | --- | --------- | ------------ | ----- | -------------------- | ------------ |
+| 01A | 1   | 00:00–05  | Extreme Wide | 24 mm | Crane‑down + tilt‑up | MOS          |
+| 02B | 2   | 05:00–10  | Medium Wide  | 35 mm | Dolly L→R            | Murmur aldea |
+| 03C | 3   | 10:00–15  | Close‑Up     | 85 mm | Slow push‑in         | Dragon growl |
+
+Formato coincide con la plantilla 2024 de StudioBinder (columnas Shot‑ID, Lens, CameraMove, etc.).([StudioBinder][6])
+
+---
+
+### 1.7 TRANSITIONS — “Puentes VFX”
+
+```jsonc
+[
+  { "between": ["01A","02B"], "type": "whip‑pan match", "duration": 0.7, "model": "kling‑v2" },
+  { "between": ["02B","03C"], "type": "particle‑swirl", "duration": 1.0, "model": "animateDiff‑transition" }
+]
+```
+
+`blendMode: screen`, `motionBlur: true` evitan “saltos” duros entre IA‑clips.
+
+---
+
+### 1.8 GRADING — “Look‑dev y delivery”
+
+```jsonc
+{
+  "aces": "Input → ACEScg → RRT → OD Rec.709 100 cd/m²",
+  "lut": "Kodak 2383",
+  "grain": "35 mm light",
+  "export": {
+    "container": "MOV",
+    "codec": "ProRes 422 HQ",
+    "bitrate": "≈ 800 Mb/s @ UHD 24 fps",
+    "audio": "PCM 48 kHz 24‑bit stereo"
+  }
+}
+```
+
+Para HDR, cambiar `OD` a `PQ P3‑D65 1000 nits` + metadatos Dolby Vision 4.0 (Netflix).([partnerhelp.netflixstudios.com][1])
+
+---
+
+### 1.9 LICENSING — “Safe harbor legal”
+
+```jsonc
+{
+  "music": { "cueId": "AF‑9912", "license": "Artlist Unlimited" },
+  "sfx": [
+    { "id": "3456", "lib": "Sonniss GDC25", "license": "CC0" },
+    { "id": "crowd_gasp_small", "lib": "Soundly", "license": "Pro" }
+  ],
+  "tts": { "provider": "Murf", "commercial": true }
+}
+```
+
+---
+
+### 1.10 VALIDACIÓN AUTOMÁTICA
+
+1. **Duración**: Σ `shot_list` = `metadata.duration`.
+2. **FPS/Res** uniformes en clips.
+3. **Audio** –14 LUFS I verificado (`ffmpeg -af loudnorm`).
+4. **Color** todos los frames en ACEScg antes del LUT.
+5. **Licencias** presentes.
+6. **Fallback models**: Gen‑4 Turbo → Veo‑3 → Stable‑Video → AnimateDiff.
+
+---
+
+
+### 2.1 llMService
+
+**Entrada:** Prompt corto del usuario (“dragón sobre ciudad antigua”).
+**Proceso:**
+
+1. Llama a GPT‑4o con una *system prompt* que incluye reglas de la plantilla.
+2. Salida: JSON anterior.
+3. Valida con `ajv`; si falla, re‑intenta con temperature 0.3 y logs.
+4. Encola trabajo `generate_clips(projectId)` en RabbitMQ.
+
+### 2.2 clipService
+
+**Input:** `shot_list`, `environment`, `grading`.
+**Para cada shot:**
+
+1. Componer prompt: *location + timeOfDay + shot.desc + lens + lighting + LUT + grain.*
+2. Seleccionar modelo en orden de preferencia (`metadata.modelOrder`).
+3. Solicitar clip 5 s (`step=1/24`) → descarga .mp4.
+4. Convierte a ProRes Proxy para edición offline; guarda en `minio://clips/{shotId}.mov`.
+
+*Sincroniza* `status=completed` en DB; último clip pone mensaje `tts_queue`.
+
+### 2.3 voicesService
+
+Procesa `audio_plan.voiceover`.
+
+1. Murf API; fallback ElevenLabs si HTTP 4xx.
+2. Guarda stem .wav 48 kHz, nombra `vo_{character}_{tc}.wav`.
+3. Loudnorm (`ffmpeg loudnorm=I=-24:LRA=7:TP=-2`) para dejar headroom.
+4. Encola `bgm_queue`.
+
+### 2.4 musicService
+
+1. Descarga cue de Freesound via API key; convierte a .wav 24‑bit.
+2. Ajusta a –14 LUFS I (YouTube).
+3. Recorta/loop si < duración proyecto.
+4. Encola `sfx_queue`.
+
+### 2.5 sfxService
+
+Itera `audio_plan.sfx`.
+
+1. Descarga efecto (Sonniss, Soundly).
+2. Normaliza a –18 LUFS I (efectos suelen mezclarse bajo).
+3. Offseta en timeline según TC.
+4. Encola `render_queue`.
+
+### 2.6 renderService
+
+**Pipeline FFmpeg (pseudocode):**
+
+```bash
+ffmpeg \
+  -i 01A.mov -i 02B.mov -i 03C.mov \
+  -filter_complex "[0:v][1:v][2:v]concat=n=3:v=1:a=0[vid]" \
+  -i vo_mix.wav -i bgm.wav -i sfx_mix.wav \
+  -filter_complex "[vo][bgm][sfx]amix=3[a]" \
+  -vf "lut3d=kodak2383.cube,grain=0.05" \
+  -map "[vid]" -map "[a]" \
+  -c:v prores_ks -profile:v 3 -c:a pcm_s24le \
+  final_master.mov
+```
+
+1. Aplica LUT y grano usando `lut3d`.
+2. Usa concat VFX para transiciones generadas (añade antes del concat principal).
+3. Verifica loudness final (`ffmpeg loudnorm print_format=summary`).
+4. Carga a MinIO `masters/{projectId}_v1.mov`.
+5. Actualiza estado `DONE` en DB.
+
+### 2.7 watchdog / QC‑bot
+
+* Extrae 3 frames por shot → pasa `blur-detect`, `banding-test`.
+* Si falla, marca `needs_review`; se envía alerta Slack.
+* Calcula histograma de color por clip → compara desviación < ΔE 3 entre shots; si > 3, sugiere reagrupar LUT.
+
+---
+
+\## 3 · Cómo se evita que “salgan vídeos raros”
+
+| Problema potencial            | Dónde se corrige                           | Mecanismo                                    |
+| ----------------------------- | ------------------------------------------ | -------------------------------------------- |
+| Estilos de lente incoherentes | `shot_list.lens` + prompt compuesto        | Pasar siempre mm y DOF; limita rango focal.  |
+| Cambios de color/brinco       | `colorPipeline` ACEScg + LUT global        | Todos los clips norm. a ACEScg antes de LUT. |
+| Faces inconsistentes          | `characters[].face` + `seed` por personaje | Reusa same‑seed por personaje en cada shot.  |
+| Audio desbalanceado           | Loudnorm en stems + mezcla final –14 LUFS  | Evita compresión agresiva de plataforma.     |
+| Transición brusca             | `transitions` generadas 1 s + motionBlur   | Se renderiza clip puente, no mero corte.     |
+| Artefactos IA (flicker)       | QC‑bot blur/banding test                   | Re‑genera shot si métricas > umbral.         |
+
+---
+
+\## 4 · Conclusión y siguiente paso
+
+Con esta plantilla + pipeline las IA reciben **parámetros inequívocos**: lente, luz, LUT, TC, loudness, licencias, etc. El resultado es un máster de calidad broadcast, libre de “saltos raros” y apto para OTT.
+
