@@ -5052,3 +5052,4 @@
 2025-07-15T15:05:36.793Z [warn] ❌ Modelo de emergencia minimax/video-01-director falló para seg 0: Formato de respuesta inesperado de minimax/video-01-director
 2025-07-15T15:05:36.793Z [error] ❌ Todos los modelos Replicate fallaron para seg 0
 2025-07-15T15:05:36.795Z [info] ✅ Total clips subidos: 0
+2025-07-15T15:35:19.257Z [info] 🚀  Storyteller AI backend listening on port 3000
