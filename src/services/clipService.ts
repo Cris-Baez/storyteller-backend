@@ -262,22 +262,25 @@ async function genReplicate(
   }
 }
 
-interface Segment { start: number; end: number; secs: TimelineSecond[] }
+interface Segment { start: number; end: number; secs: TimelineSecond[]; duration: number }
 
+// Divide el timeline en segmentos de 5 o 9 segundos (preferir 5)
 function segment(tl: TimelineSecond[]): Segment[] {
   const segs: Segment[] = [];
-  let cur: Segment | null = null;
-
-  tl.forEach((sec, idx) => {
-    if (!cur || sec.transition !== 'none' || cur.secs.length >= 3) {
-      cur && segs.push(cur);
-      cur = { start: idx, end: idx, secs: [sec] };
-    } else {
-      cur.secs.push(sec);
-      cur.end = idx;
+  let i = 0;
+  while (i < tl.length) {
+    // Preferir segmentos de 9 si el resto es 9, si no, de 5
+    let dur = (tl.length - i >= 9) ? 9 : (tl.length - i >= 5 ? 5 : tl.length - i);
+    // Si el resto es menor a 5, agruparlo al anterior si existe
+    if (dur < 5 && segs.length > 0) {
+      segs[segs.length - 1].end = tl.length - 1;
+      segs[segs.length - 1].secs = tl.slice(segs[segs.length - 1].start, tl.length);
+      segs[segs.length - 1].duration = segs[segs.length - 1].secs.length;
+      break;
     }
-  });
-  cur && segs.push(cur);
+    segs.push({ start: i, end: i + dur - 1, secs: tl.slice(i, i + dur), duration: dur });
+    i += dur;
+  }
   return segs;
 }
 
@@ -300,8 +303,8 @@ export async function generateClips(
 
   logger.info('🎞️ ClipService v7.2 – iniciando…');
 
-  const segments = segment(plan.timeline).slice(0, 3);
-  logger.info(`→ Generando ${segments.length} segmentos…`);
+  const segments = segment(plan.timeline);
+  logger.info(`→ Generando ${segments.length} segmentos de 5 o 9s…`);
 
   const limit = pLimit(CONCURRENCY);
   const clipUrls: string[] = [];
@@ -309,7 +312,7 @@ export async function generateClips(
 
   await Promise.all(segments.map(async (seg, idx) => {
     const prompt = buildPrompt(seg, plan.metadata.visualStyle);
-    const frames = (seg.end - seg.start + 1) * 24;
+    const frames = seg.duration * 24;
 
     // Buscar imagen de storyboard local (si existe), luego dummy
     let referenceImages: string[] = [];
@@ -335,9 +338,12 @@ export async function generateClips(
         url = await withTimeout(genReplicate(
           prompt, frames, modelStyle, referenceImages
         ));
-        if (url) {
+        // Validar que la URL es string y válida
+        if (typeof url === 'string' && url.startsWith('http')) {
           logger.info(`✅ Éxito con ${MODEL_MAP[modelStyle]} para seg ${seg.start}`);
           break;
+        } else {
+          url = null;
         }
       } catch (err) {
         logger.warn(`❌ ${MODEL_MAP[modelStyle]} falló para seg ${seg.start}: ${(err as Error).message}`);
@@ -366,6 +372,14 @@ export async function generateClips(
     if (!url) {
       logger.error(`❌ Todos los modelos Replicate fallaron para seg ${seg.start}`);
       return; // omite segmento
+    }
+
+    // Validar URL antes de descargar
+    try {
+      new URL(url);
+    } catch {
+      logger.error(`❌ URL inválida para seg ${seg.start}: ${url}`);
+      return;
     }
 
     // Descargar en streaming → /tmp
