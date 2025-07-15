@@ -32,12 +32,13 @@ const MODEL = {
   cinematic : 'luma/ray-2-720p',
 } as const;
 
+const MINIMAX_DIRECTOR = 'minimax/video-01-director';
+
 const BACKUP = [
   'bytedance/seedance-1-lite',
   'minimax/hailuo-02',
   'luma/ray-flash-2-540p',
-  'minimax/video-01-director',
-] as const;
+];
 
 // util duración
 function supports(m: string, d: number) {
@@ -70,19 +71,56 @@ function promptOf(seg: Segment, style: string) {
   ].filter(Boolean).join(', ');
 }
 
-// llamada Replicate genérica
-async function call(model: string, input: Record<string,any>) {
-  logger.debug(`↳ POST ${model}  ${JSON.stringify(input)}`);
-  const raw = await replicate.run(model as any,{ input });
-  logger.debug(`↳ raw response ${model}: ${JSON.stringify(raw).slice(0,400)}`);
-  const url = extractVideoUrl(raw);
+
+// Polling para esperar job Replicate
+async function pollReplicateJob(model: string, input: Record<string, any>, maxWaitMs = 180_000, pollIntervalMs = 3500) {
+  logger.debug(`↳ POST ${model}  ${JSON.stringify(input)}`);
+  let prediction;
+  try {
+    prediction = await replicate.predictions.create({
+      version: undefined, // let Replicate infer latest
+      model,
+      input,
+      webhook: undefined,
+      stream: false,
+    });
+  } catch (err) {
+    logger.error(`❌ Error creando predicción Replicate: ${(err as Error).message}`);
+    throw err;
+  }
+  logger.debug(`↳ prediction id: ${prediction.id}`);
+  const started = Date.now();
+  let status = prediction.status;
+  let output = prediction.output;
+  let lastErr = '';
+  while (status !== 'succeeded' && status !== 'failed' && status !== 'canceled') {
+    if (Date.now() - started > maxWaitMs) {
+      throw new Error(`Timeout esperando job Replicate (${model})`);
+    }
+    await new Promise(r => setTimeout(r, pollIntervalMs));
+    try {
+      const poll = await replicate.predictions.get(prediction.id);
+      status = poll.status;
+      output = poll.output;
+      lastErr = typeof poll.error === 'string' ? poll.error : (poll.error ? JSON.stringify(poll.error) : '');
+      logger.debug(`↳ polling ${model} status: ${status}`);
+    } catch (err) {
+      logger.warn(`⚠️  Error polling Replicate: ${(err as Error).message}`);
+    }
+  }
+  if (status !== 'succeeded') {
+    throw new Error(`Job Replicate falló (${model}): ${lastErr || status}`);
+  }
+  logger.debug(`↳ raw response ${model}: ${JSON.stringify(output).slice(0,400)}`);
+  const url = extractVideoUrl(output);
   if (!url) throw new Error('respuesta sin URL');
   return url;
 }
 
 // API principal
+
 export async function generateClips(plan: VideoPlan): Promise<string[]> {
-  logger.info('🎞️ ClipService v7.3 – start');
+  logger.info('🎞️ ClipService v7.4 – start');
   const lim  = pLimit(Number(env.GEN2_CONCURRENCY ?? 3));
   const segs = segment(plan.timeline);
   logger.info(`→ ${segs.length} segmentos de 5 s`);
@@ -91,15 +129,22 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
 
   await Promise.all(segs.map(seg => lim(async () => {
     const frames = seg.dur*24;
-    const pref   = MODEL[plan.metadata.visualStyle as keyof typeof MODEL] ?? MODEL.realistic;
+    const style = plan.metadata.visualStyle;
+    const pref   = MODEL[style as keyof typeof MODEL] ?? MODEL.realistic;
 
-    const tryModels = [pref, MODEL.realistic, ...BACKUP];
+    // Priorizar minimax/video-01-director para realistic y cinematic
+    let tryModels: string[] = [];
+    if (style === 'realistic' || style === 'cinematic') {
+      tryModels = [MINIMAX_DIRECTOR, pref, MODEL.realistic, MODEL.cinematic, ...BACKUP];
+    } else {
+      tryModels = [pref, MODEL.realistic, ...BACKUP];
+    }
 
     let src: string|undefined;
     for (const m of tryModels) {
-      if (!supports(m, seg.dur)) continue;          // descartar duraciones ilegales
+      if (!supports(m, seg.dur)) continue; // descartar duraciones ilegales
       try {
-        src = await call(m,{ prompt:promptOf(seg,plan.metadata.visualStyle), duration: seg.dur });
+        src = await pollReplicateJob(m, { prompt: promptOf(seg, style), duration: seg.dur });
         logger.info(`✅ ${m} OK (seg${seg.start})`);
         break;
       } catch (e:any) {
