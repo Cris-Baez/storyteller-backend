@@ -26,7 +26,7 @@ import { retry }      from '../utils/retry.js';
 import { VideoPlan }  from '../utils/types.js';
 
 /* ─── Config ───────────────────────────────────────────── */
-const TMP_DIR  = '/tmp/ffmpeg_v6';
+const TMP_DIR  = path.join(process.cwd(), 'tmp', 'ffmpeg_v6');
 const TIMEOUT = Number(env.FFMPEG_TIMEOUT_MS ?? 180_000);
 const RETRIES  = 2;
 

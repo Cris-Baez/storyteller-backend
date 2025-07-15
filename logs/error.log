@@ -1463,3 +1463,15 @@
 2025-07-15T17:09:05.400Z [error] Error generando voz: No se pudo generar la voz
 2025-07-15T17:12:07.452Z [error] ⏰ Timeout esperando job Replicate (minimax/video-01-director) tras 182.206s
 2025-07-15T17:12:07.960Z [error] ⏰ Timeout esperando job Replicate (minimax/video-01-director) tras 182.401s
+2025-07-15T21:53:07.259Z [error] FLUX respuesta inesperada: {}
+2025-07-15T21:53:07.260Z [error] FLUX error: FLUX returned invalid response format
+2025-07-15T21:53:15.720Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T21:53:15.723Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T21:53:15.724Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T21:53:15.728Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T21:53:15.733Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T21:53:15.735Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T21:53:15.736Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T21:53:15.747Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T21:53:15.777Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T21:53:15.813Z [error] Error generando voz: No se pudo generar la voz
