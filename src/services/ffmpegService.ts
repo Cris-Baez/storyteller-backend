@@ -135,7 +135,9 @@ export async function assembleVideo(opts:{
   }
 
   /* 1️⃣ concat clips (24→1080p60) */
-  const listContent = clips.map(c=>`file '${toPosix(c).replace(/'/g, "'\\''")}'`).join('\n');
+  const listContent = clips
+    .map(c => `file '${toPosix(path.resolve(c)).replace(/'/g, "'\\''")}'`)
+    .join('\n');
   await fs.writeFile(list, listContent);
   // Validar que el archivo de lista existe antes de llamar a FFmpeg
   try {
