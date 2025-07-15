@@ -74,11 +74,10 @@ function promptOf(seg: Segment, style: string) {
 async function call(model: string, input: Record<string,any>) {
   logger.debug(`↳ POST ${model}  ${JSON.stringify(input)}`);
   const raw = await replicate.run(model as any,{ input });
+  logger.debug(`↳ raw response ${model}: ${JSON.stringify(raw).slice(0,400)}`);
   const url = extractVideoUrl(raw);
   if (!url) throw new Error('respuesta sin URL');
   return url;
-  logger.debug(`↳ raw response ${model}: ${JSON.stringify(raw).slice(0,400)}`);
-  if (!url) throw new Error('no video url');
 }
 
 // API principal
@@ -109,10 +108,43 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
     }
     if (!src) { logger.error(`× sin clip seg${seg.start}`); return; }
 
-    /* stream‑download → /tmp */
+    /* stream‑download → /tmp (con reintentos) */
     const fn = path.join(TMP, `clip_${seg.start}_${uuid().slice(0,8)}.mp4`);
-    const r  = await fetch(src);
-    await pipeline(r.body as any, fss.createWriteStream(fn));
+    let ok = false;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      logger.info(`⬇️  Descargando video (intento ${attempt}/3): ${src}`);
+      try {
+        const r = await fetch(src);
+        if (!r.ok) {
+          logger.error(`❌ Error descargando video: ${src} - status: ${r.status}`);
+          continue;
+        }
+        await pipeline(r.body as any, fss.createWriteStream(fn));
+        let stats;
+        try {
+          stats = fss.statSync(fn);
+        } catch (err) {
+          logger.error(`❌ No se pudo leer el archivo descargado: ${fn}`);
+          continue;
+        }
+        if (stats.size < 100_000) {
+          logger.error(`❌ Archivo de video muy pequeño o vacío: ${fn} (${stats.size} bytes)`);
+          // Elimina archivo corrupto
+          try { fss.unlinkSync(fn); } catch {}
+          continue;
+        }
+        logger.info(`✅ Video descargado: ${fn} (${stats.size} bytes)`);
+        ok = true;
+        break;
+      } catch (err) {
+        logger.error(`❌ Error inesperado al descargar video: ${(err as Error).message}`);
+        try { fss.unlinkSync(fn); } catch {}
+      }
+    }
+    if (!ok) {
+      logger.error(`❌ Fallaron todos los intentos de descarga para: ${src}`);
+      return;
+    }
 
     /* subir a CDN */
     const { uploadToCDN } = await import('./cdnService.js');
