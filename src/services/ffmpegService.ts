@@ -38,10 +38,35 @@ if (typeof ffmpegPath === 'string') {
 /* ---- Helper run with timeout ---- */
 function execFF(cmd: ffmpeg.FfmpegCommand, out: string): Promise<void> {
   return new Promise((res, rej) => {
-    let done=false;
-    const t = setTimeout(()=>{ if(!done){done=true;cmd.kill('SIGKILL');rej(new Error('ff timeout'));}}, TIMEOUT);
-    cmd.on('end',()=>{ if(!done){done=true;clearTimeout(t);res();}});
-    cmd.on('error',(e)=>{ if(!done){done=true;clearTimeout(t);rej(e);}});
+    let done = false;
+    let stderr = '';
+    const t = setTimeout(() => {
+      if (!done) {
+        done = true;
+        cmd.kill('SIGKILL');
+        logger.error('⏰ FFmpeg timeout. Última salida de error:\n' + stderr);
+        rej(new Error('ff timeout'));
+      }
+    }, TIMEOUT);
+    cmd.on('stderr', (line: string) => {
+      stderr += line + '\n';
+    });
+    cmd.on('end', () => {
+      if (!done) {
+        done = true;
+        clearTimeout(t);
+        if (stderr) logger.info('FFmpeg terminó. Stderr:\n' + stderr);
+        res();
+      }
+    });
+    cmd.on('error', (e: any) => {
+      if (!done) {
+        done = true;
+        clearTimeout(t);
+        logger.error('❌ FFmpeg error:\n' + stderr);
+        rej(e);
+      }
+    });
     cmd.save(out);
   });
 }
@@ -87,17 +112,27 @@ export async function assembleVideo(opts:{
   music: Buffer;
 }): Promise<string>{
   logger.info('🎬  FFmpegService v6 — ensamblando 1080p60…');
-  await fs.mkdir(TMP_DIR,{recursive:true});
+  await fs.mkdir(TMP_DIR, { recursive: true });
 
   const { plan, clips, voiceOver, music } = opts;
-  const id   = uuid();
+  const id = uuid();
   const list = path.join(TMP_DIR, `${id}.txt`);
   const concat = path.join(TMP_DIR, `${id}_concat.mp4`);
   const voiceFile = path.join(TMP_DIR, `${id}_voice.mp3`);
   const musicFile = path.join(TMP_DIR, `${id}_music.mp3`);
   const avFile = path.join(TMP_DIR, `${id}_av.mp4`);
-  const hlsDir  = path.join(TMP_DIR, `hls_${id}`);
-  const hlsIndex = path.join(hlsDir,'index.m3u8');
+  const hlsDir = path.join(TMP_DIR, `hls_${id}`);
+  const hlsIndex = path.join(hlsDir, 'index.m3u8');
+
+  // Validar existencia de todos los clips antes de continuar
+  for (const c of clips) {
+    try {
+      await fs.access(c);
+    } catch {
+      logger.error(`❌ Clip no encontrado o inaccesible: ${c}`);
+      throw new Error(`Clip no encontrado o inaccesible: ${c}`);
+    }
+  }
 
   /* 1️⃣ concat clips (24→1080p60) */
   const listContent = clips.map(c=>`file '${toPosix(c).replace(/'/g, "'\\''")}'`).join('\n');
@@ -111,17 +146,19 @@ export async function assembleVideo(opts:{
     throw new Error('No se pudo crear el archivo de lista para FFmpeg');
   }
   logger.info(`✅ Archivo de lista para FFmpeg creado: ${list}`);
-  await retry(()=>execFF(
-    ffmpeg().input(toPosix(list)).inputOptions(['-f','concat','-safe','0'])
+  logger.info('🟡 [FFmpeg] Iniciando concat clips → ' + concat);
+  await retry(() => execFF(
+    ffmpeg().input(toPosix(list)).inputOptions(['-f', 'concat', '-safe', '0'])
       .videoFilters([
         'scale=1920:1080:force_original_aspect_ratio=decrease',
         'pad=1920:1080:(ow-iw)/2:(oh-ih)/2',
         'setsar=1',
         'minterpolate=fps=60'
       ])
-      .outputOptions(['-c:v','libx264','-preset','veryfast','-movflags','+faststart']),
+      .outputOptions(['-c:v', 'libx264', '-preset', 'veryfast', '-movflags', '+faststart']),
     concat
   ), RETRIES);
+  logger.info('🟢 [FFmpeg] Concat clips OK → ' + concat);
 
   /* 2️⃣ write audio temp files */
   if (voiceOver.length) await fs.writeFile(voiceFile, voiceOver);
@@ -133,41 +170,47 @@ export async function assembleVideo(opts:{
 
   /* 4️⃣ mix audio with ducking */
   const audioMix = path.join(TMP_DIR, `${id}_mix.mp3`);
-  await retry(()=>execFF(
+  logger.info('🟡 [FFmpeg] Iniciando mezcla audio (ducking) → ' + audioMix);
+  await retry(() => execFF(
     ffmpeg()
-      .input(voiceOver.length? voiceFile: 'anullsrc')
-      .inputOptions(voiceOver.length?[]:['-f','lavfi'])
-      .input(music.length? musicFile: 'anullsrc')
-      .inputOptions(music.length?[]:['-f','lavfi'])
+      .input(voiceOver.length ? voiceFile : 'anullsrc')
+      .inputOptions(voiceOver.length ? [] : ['-f', 'lavfi'])
+      .input(music.length ? musicFile : 'anullsrc')
+      .inputOptions(music.length ? [] : ['-f', 'lavfi'])
       .complexFilter([
         `[1:a]${musicFilter}[bgm]`,
         '[0:a][bgm]sidechaincompress=threshold=0.25:ratio=8:release=150:attack=20[aout]'
       ])
-      .outputOptions(['-map','[aout]','-c:a','aac']),
+      .outputOptions(['-map', '[aout]', '-c:a', 'aac']),
     audioMix
   ), RETRIES);
+  logger.info('🟢 [FFmpeg] Mezcla audio OK → ' + audioMix);
 
   /* 5️⃣ multiplex AV */
   const final1080 = path.join(TMP_DIR, `${id}_1080p.mp4`);
-  await retry(()=>execFF(
+  logger.info('🟡 [FFmpeg] Iniciando multiplex AV → ' + final1080);
+  await retry(() => execFF(
     ffmpeg().input(concat).input(audioMix)
-      .outputOptions(['-c:v','copy','-c:a','copy','-shortest']),
+      .outputOptions(['-c:v', 'copy', '-c:a', 'copy', '-shortest']),
     final1080
   ), RETRIES);
+  logger.info('🟢 [FFmpeg] Multiplex AV OK → ' + final1080);
 
   /* 6️⃣ HLS 720p */
-  await fs.mkdir(hlsDir,{recursive:true});
-  await retry(()=>execFF(
+  await fs.mkdir(hlsDir, { recursive: true });
+  logger.info('🟡 [FFmpeg] Iniciando HLS 720p → ' + hlsIndex);
+  await retry(() => execFF(
     ffmpeg().input(final1080)
       .videoFilters(['scale=1280:-2'])
       .outputOptions([
-        '-c:v','libx264','-c:a','aac',
-        '-hls_time','5',
-        '-hls_playlist_type','vod',
-        '-hls_segment_filename',path.join(hlsDir,'seg_%03d.ts')
+        '-c:v', 'libx264', '-c:a', 'aac',
+        '-hls_time', '5',
+        '-hls_playlist_type', 'vod',
+        '-hls_segment_filename', path.join(hlsDir, 'seg_%03d.ts')
       ]),
     hlsIndex
   ), RETRIES);
+  logger.info('🟢 [FFmpeg] HLS 720p OK → ' + hlsIndex);
 
   /* 7️⃣ Subida real a CDN */
   try {

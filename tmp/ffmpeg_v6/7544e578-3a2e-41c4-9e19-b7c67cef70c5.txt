@@ -1,0 +1,2 @@
+file '/tmp/pipeline_v7/clip_5_5122ec22.mp4'
+file '/tmp/pipeline_v7/clip_0_99e21f23.mp4'
