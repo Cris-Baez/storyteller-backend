@@ -107,6 +107,18 @@ async function fetchImageBuffer(imagePathOrUrl: string): Promise<Buffer> {
   return buffer;
 }
 
+// Valida si una imagen es accesible y es realmente una imagen
+async function isValidImageUrl(url: string): Promise<boolean> {
+  try {
+    const resp = await fetch(url, { method: 'HEAD' });
+    if (!resp.ok) return false;
+    const type = resp.headers.get('content-type') || '';
+    return type.startsWith('image/');
+  } catch {
+    return false;
+  }
+}
+
 async function genReplicate(
   prompt: string,
   frames: number,
@@ -117,39 +129,51 @@ async function genReplicate(
   const model = MODEL_MAP[style];
   let input: any = { prompt: prompt.trim() };
 
+  // Validar imagen si existe y es diferente a dummy
+  let validImage: string | undefined = undefined;
+  if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
+    const imgUrl = referenceImages[0];
+    if (await isValidImageUrl(imgUrl)) {
+      validImage = imgUrl;
+    } else {
+      logger.warn(`⚠️ Imagen de referencia no válida o inaccesible: ${imgUrl}. Se omitirá.`);
+    }
+  }
+
   // Ajuste por modelo según doc oficial
   if (model === 'luma/ray-2-720p' || model === 'luma/ray-flash-2-540p') {
     // Solo prompt y duration (5 o 9)
     dur = dur >= 9 ? 9 : 5;
     input.duration = dur;
+    // Estos modelos NO aceptan imagen, nunca la incluyas
   } else if (model === 'google/veo-3') {
     input.duration = Math.max(1, Math.min(dur, 10));
     input.aspect_ratio = '16:9';
-    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
-      input.input_image = referenceImages[0];
+    if (validImage) {
+      input.input_image = validImage;
     }
   } else if (model === 'bytedance/seedance-1-pro') {
     input.duration = Math.max(1, Math.min(dur, 10));
     input.resolution = '1080p';
     input.aspect_ratio = '16:9';
-    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
-      input.input_image = referenceImages[0];
+    if (validImage) {
+      input.input_image = validImage;
     }
   } else if (model === 'pixverse/pixverse-v4.5') {
     input.duration = Math.max(1, Math.min(dur, 8));
     input.resolution = '1080p';
-    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
-      input.input_image = referenceImages[0];
+    if (validImage) {
+      input.input_image = validImage;
     }
   } else if (model === 'minimax/video-01-director') {
     input.duration = Math.max(1, Math.min(dur, 6));
-    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
-      input.first_frame_image = referenceImages[0];
+    if (validImage) {
+      input.first_frame_image = validImage;
     }
   } else if (model === 'kwaivgi/kling-v2.1') {
     // Kling acepta start_image
-    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
-      input.start_image = referenceImages[0];
+    if (validImage) {
+      input.start_image = validImage;
     }
   }
 

@@ -4866,3 +4866,96 @@
       return new URL(url);
     }
 2025-07-15T13:20:33.697Z [info] ✅ Total clips subidos: 0
+2025-07-15T13:34:36.641Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-15T13:34:41.259Z [info] ::1 - - [15/Jul/2025:13:34:41 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-15T13:34:41.264Z [info] 🚀 Pipeline v7 – inicio
+2025-07-15T13:34:41.272Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-15T13:34:41.275Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-15T13:35:01.420Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-15T13:35:01.421Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast city skyline at dawn",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"anticipation",
+     "dialogue":"The world holds its b...
+2025-07-15T13:35:01.424Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-15T13:35:01.425Z [info] 📜 VideoPlan listo (10s)
+2025-07-15T13:35:01.427Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-15T13:35:01.428Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-15T13:35:04.823Z [error] FLUX respuesta inesperada: {}
+2025-07-15T13:35:04.824Z [error] FLUX error: FLUX returned invalid response format
+2025-07-15T13:35:04.825Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-15T13:35:11.480Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/YhIxAteI0DRGZCIoQfb4T3gsLkGdg7nlwFWoJpfWBHEewCEUB/out-0.png
+2025-07-15T13:35:12.531Z [info] Archivo temporal creado: t0_253353
+2025-07-15T13:35:14.493Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-15T13:35:14.608Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-15T13:35:14.609Z [info] ✅  Storyboards listos: 1
+2025-07-15T13:35:14.609Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-15T13:35:14.610Z [info] → Generando 1 segmentos de 5 o 9s…
+2025-07-15T13:35:14.612Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 0
+2025-07-15T13:35:14.613Z [info] 🎬 Generando con luma/ray-2-720p - dur:9s - style:cinematic
+2025-07-15T13:35:14.614Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-15T13:35:14.648Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-15T13:35:14.649Z [info] 🎵  Freesound query: cinematic
+2025-07-15T13:35:14.961Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T13:35:14.962Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T13:35:14.965Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T13:35:14.967Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T13:35:14.992Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T13:35:14.993Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T13:35:14.997Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T13:35:14.999Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T13:35:15.003Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T13:35:15.004Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T13:35:15.017Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T13:35:15.019Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T13:35:15.026Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T13:35:15.027Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T13:35:15.036Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T13:35:15.038Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T13:35:15.042Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T13:35:15.043Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T13:35:15.045Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T13:35:15.046Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T13:35:15.047Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-15T13:35:20.540Z [info] ✅  Pista de música lista (976940 bytes)
+2025-07-15T13:38:03.813Z [error] ⚠️ Respuesta sin URL válida de luma/ray-2-720p: {}
+2025-07-15T13:38:03.815Z [error] ❌ No se obtuvo URL válida de luma/ray-2-720p. Respuesta completa: {}
+2025-07-15T13:38:03.818Z [error] ❌ Error con luma/ray-2-720p: Formato de respuesta inesperado de luma/ray-2-720p
+2025-07-15T13:38:03.819Z [warn] ❌ luma/ray-2-720p falló para seg 0: Formato de respuesta inesperado de luma/ray-2-720p
+2025-07-15T13:38:03.819Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 0
+2025-07-15T13:38:03.820Z [info] 🎬 Generando con google/veo-3 - dur:10s - style:realistic
+2025-07-15T13:39:37.621Z [error] ⚠️ Respuesta sin URL válida de google/veo-3: {}
+2025-07-15T13:39:37.623Z [error] ❌ No se obtuvo URL válida de google/veo-3. Respuesta completa: {}
+2025-07-15T13:39:37.624Z [error] ❌ Error con google/veo-3: Formato de respuesta inesperado de google/veo-3
+2025-07-15T13:39:37.625Z [warn] ❌ google/veo-3 falló para seg 0: Formato de respuesta inesperado de google/veo-3
+2025-07-15T13:39:37.626Z [info] 🎬 Probando modelo Replicate: pixverse/pixverse-v4.5 para seg 0
+2025-07-15T13:39:37.627Z [info] 🎬 Generando con pixverse/pixverse-v4.5 - dur:8s - style:cartoon
+2025-07-15T13:40:14.895Z [error] ⚠️ Respuesta sin URL válida de pixverse/pixverse-v4.5: {}
+2025-07-15T13:40:14.896Z [error] ❌ No se obtuvo URL válida de pixverse/pixverse-v4.5. Respuesta completa: {}
+2025-07-15T13:40:14.897Z [error] ❌ Error con pixverse/pixverse-v4.5: Formato de respuesta inesperado de pixverse/pixverse-v4.5
+2025-07-15T13:40:14.897Z [warn] ❌ pixverse/pixverse-v4.5 falló para seg 0: Formato de respuesta inesperado de pixverse/pixverse-v4.5
+2025-07-15T13:40:14.898Z [info] 🆘 Probando modelo de emergencia bytedance/seedance-1-lite para seg 0
+2025-07-15T13:40:14.900Z [info] 🔄 Usando modelo fallback: bytedance/seedance-1-lite
+2025-07-15T13:41:13.040Z [error] ⚠️ Fallback sin URL válida (bytedance/seedance-1-lite): {}
+2025-07-15T13:41:13.041Z [warn] ❌ Modelo de emergencia bytedance/seedance-1-lite falló para seg 0: Formato de respuesta inesperado de bytedance/seedance-1-lite
+2025-07-15T13:41:13.041Z [info] 🆘 Probando modelo de emergencia minimax/hailuo-02 para seg 0
+2025-07-15T13:41:13.041Z [info] 🔄 Usando modelo fallback: minimax/hailuo-02
+2025-07-15T13:41:13.518Z [warn] ❌ Modelo de emergencia minimax/hailuo-02 falló para seg 0: Request to https://api.replicate.com/v1/models/minimax/hailuo-02/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.resolution: resolution must be one of the following: \"768p\", \"1080p\"\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.resolution","description":"resolution must be one of the following: \"768p\", \"1080p\""}]}
+.
+2025-07-15T13:41:13.519Z [info] 🆘 Probando modelo de emergencia kwaivgi/kling-v2.1 para seg 0
+2025-07-15T13:41:13.519Z [info] 🔄 Usando modelo fallback: kwaivgi/kling-v2.1
+2025-07-15T13:41:13.908Z [warn] ❌ Modelo de emergencia kwaivgi/kling-v2.1 falló para seg 0: Request to https://api.replicate.com/v1/models/kwaivgi/kling-v2.1/predictions failed with status 422 Unprocessable Entity: {"detail":"- input: start_image is required\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"required","field":"input","description":"start_image is required"}]}
+.
+2025-07-15T13:41:13.908Z [info] 🆘 Probando modelo de emergencia luma/ray-flash-2-540p para seg 0
+2025-07-15T13:41:13.908Z [info] 🔄 Usando modelo fallback: luma/ray-flash-2-540p
+2025-07-15T13:42:02.723Z [error] ⚠️ Fallback sin URL válida (luma/ray-flash-2-540p): {}
+2025-07-15T13:42:02.724Z [warn] ❌ Modelo de emergencia luma/ray-flash-2-540p falló para seg 0: Formato de respuesta inesperado de luma/ray-flash-2-540p
+2025-07-15T13:42:02.725Z [info] 🆘 Probando modelo de emergencia minimax/video-01-director para seg 0
+2025-07-15T13:42:02.726Z [info] 🔄 Usando modelo fallback: minimax/video-01-director
+2025-07-15T13:45:10.421Z [error] ⚠️ Fallback sin URL válida (minimax/video-01-director): {}
+2025-07-15T13:45:10.422Z [warn] ❌ Modelo de emergencia minimax/video-01-director falló para seg 0: Formato de respuesta inesperado de minimax/video-01-director
+2025-07-15T13:45:10.423Z [error] ❌ Todos los modelos Replicate fallaron para seg 0
+2025-07-15T13:45:10.424Z [info] ✅ Total clips subidos: 0
