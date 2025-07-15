@@ -19,6 +19,7 @@ import path           from 'path';
 import fs             from 'fs/promises';
 import { v4 as uuid } from 'uuid';
 import { uploadToCDN } from './cdnService.js';
+import { toPosix } from '../utils/paths.js';
 
 import { env }        from '../config/env.js';
 import { logger }     from '../utils/logger.js';
@@ -99,9 +100,19 @@ export async function assembleVideo(opts:{
   const hlsIndex = path.join(hlsDir,'index.m3u8');
 
   /* 1️⃣ concat clips (24→1080p60) */
-  await fs.writeFile(list, clips.map(c=>`file '${c.replace(/'/g,"'\\''")}'`).join('\n'));
+  const listContent = clips.map(c=>`file '${toPosix(c).replace(/'/g, "'\\''")}'`).join('\n');
+  await fs.writeFile(list, listContent);
+  // Validar que el archivo de lista existe antes de llamar a FFmpeg
+  try {
+    await fs.access(list);
+  } catch (err) {
+    logger.error(`❌ El archivo de lista para FFmpeg no existe: ${list}`);
+    logger.error(`Contenido que se intentó escribir:\n${listContent}`);
+    throw new Error('No se pudo crear el archivo de lista para FFmpeg');
+  }
+  logger.info(`✅ Archivo de lista para FFmpeg creado: ${list}`);
   await retry(()=>execFF(
-    ffmpeg().input(list).inputOptions(['-f','concat','-safe','0'])
+    ffmpeg().input(toPosix(list)).inputOptions(['-f','concat','-safe','0'])
       .videoFilters([
         'scale=1920:1080:force_original_aspect_ratio=decrease',
         'pad=1920:1080:(ow-iw)/2:(oh-ih)/2',

@@ -5534,3 +5534,182 @@
 2025-07-15T21:57:01.267Z [info] 🎬  FFmpegService v6 — ensamblando 1080p60…
 2025-07-15T21:57:06.362Z [info] 🎬  FFmpegService v6 — ensamblando 1080p60…
 2025-07-15T21:57:11.148Z [info] 🎬  FFmpegService v6 — ensamblando 1080p60…
+2025-07-15T22:04:29.176Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-15T22:04:38.468Z [info] ::1 - - [15/Jul/2025:22:04:38 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-15T22:04:38.475Z [info] 🚀 Pipeline v7 – inicio
+2025-07-15T22:04:38.479Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-15T22:04:38.480Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-15T22:04:55.688Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-15T22:04:55.689Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast cityscape at dusk, skyscrapers glowing.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue":"The city...
+2025-07-15T22:04:55.690Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-15T22:04:55.691Z [info] 📜 VideoPlan listo (10s)
+2025-07-15T22:04:55.691Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-15T22:04:55.692Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-15T22:04:58.740Z [error] FLUX respuesta inesperada: {}
+2025-07-15T22:04:58.741Z [error] FLUX error: FLUX returned invalid response format
+2025-07-15T22:04:58.742Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-15T22:05:03.958Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/Q1ky7lRcMYJ7J5kFfFpINGt2XfXJQjOY1sXw9r71wTmPKIBVA/out-0.png
+2025-07-15T22:05:05.502Z [info] Archivo temporal creado: t0_fc2146
+2025-07-15T22:05:07.485Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-15T22:05:07.596Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-15T22:05:07.597Z [info] ✅  Storyboards listos: 1
+2025-07-15T22:05:07.598Z [info] 🎞️ ClipService v7.4 – start
+2025-07-15T22:05:07.599Z [info] → 2 segmentos de 5 s
+2025-07-15T22:05:07.600Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-15T22:05:07.631Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-15T22:05:07.632Z [info] 🎵  Freesound query: cinematic
+2025-07-15T22:05:07.639Z [info] 🚦 Solicitando generación a Replicate (minimax/video-01-director)...
+2025-07-15T22:05:07.640Z [info] 🚦 Solicitando generación a Replicate (minimax/video-01-director)...
+2025-07-15T22:05:07.910Z [info] 🕒 Esperando job Replicate: 3acrk6e20hrm80cr20fb4t6ghm
+2025-07-15T22:05:07.916Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T22:05:07.917Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T22:05:07.919Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T22:05:07.920Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T22:05:07.932Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T22:05:07.932Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T22:05:07.934Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T22:05:07.935Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T22:05:07.936Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T22:05:07.937Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T22:05:07.946Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T22:05:07.947Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T22:05:07.949Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T22:05:07.949Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T22:05:07.954Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T22:05:07.954Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T22:05:07.957Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T22:05:07.957Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T22:05:08.025Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T22:05:08.026Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T22:05:08.026Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-15T22:05:08.474Z [info] 🕒 Esperando job Replicate: xa85dae46hrma0cr20f8z5rs2c
+2025-07-15T22:05:11.592Z [info] 🔄 [minimax/video-01-director] Poll #1: status=processing
+2025-07-15T22:05:12.125Z [info] 🔄 [minimax/video-01-director] Poll #1: status=processing
+2025-07-15T22:05:15.326Z [info] 🔄 [minimax/video-01-director] Poll #2: status=processing
+2025-07-15T22:05:15.741Z [info] ✅  Pista de música lista (976940 bytes)
+2025-07-15T22:05:15.837Z [info] 🔄 [minimax/video-01-director] Poll #2: status=processing
+2025-07-15T22:05:19.127Z [info] 🔄 [minimax/video-01-director] Poll #3: status=processing
+2025-07-15T22:05:19.526Z [info] 🔄 [minimax/video-01-director] Poll #3: status=processing
+2025-07-15T22:05:22.893Z [info] 🔄 [minimax/video-01-director] Poll #4: status=processing
+2025-07-15T22:05:23.232Z [info] 🔄 [minimax/video-01-director] Poll #4: status=processing
+2025-07-15T22:05:26.685Z [info] 🔄 [minimax/video-01-director] Poll #5: status=processing
+2025-07-15T22:05:26.955Z [info] 🔄 [minimax/video-01-director] Poll #5: status=processing
+2025-07-15T22:05:30.377Z [info] 🔄 [minimax/video-01-director] Poll #6: status=processing
+2025-07-15T22:05:30.685Z [info] 🔄 [minimax/video-01-director] Poll #6: status=processing
+2025-07-15T22:05:34.062Z [info] 🔄 [minimax/video-01-director] Poll #7: status=processing
+2025-07-15T22:05:34.370Z [info] 🔄 [minimax/video-01-director] Poll #7: status=processing
+2025-07-15T22:05:37.851Z [info] 🔄 [minimax/video-01-director] Poll #8: status=processing
+2025-07-15T22:05:38.070Z [info] 🔄 [minimax/video-01-director] Poll #8: status=processing
+2025-07-15T22:05:41.595Z [info] 🔄 [minimax/video-01-director] Poll #9: status=processing
+2025-07-15T22:05:42.704Z [info] 🔄 [minimax/video-01-director] Poll #9: status=processing
+2025-07-15T22:05:45.430Z [info] 🔄 [minimax/video-01-director] Poll #10: status=processing
+2025-07-15T22:05:46.393Z [info] 🔄 [minimax/video-01-director] Poll #10: status=processing
+2025-07-15T22:05:49.118Z [info] 🔄 [minimax/video-01-director] Poll #11: status=processing
+2025-07-15T22:05:50.141Z [info] 🔄 [minimax/video-01-director] Poll #11: status=processing
+2025-07-15T22:05:52.909Z [info] 🔄 [minimax/video-01-director] Poll #12: status=processing
+2025-07-15T22:05:53.829Z [info] 🔄 [minimax/video-01-director] Poll #12: status=processing
+2025-07-15T22:05:56.694Z [info] 🔄 [minimax/video-01-director] Poll #13: status=processing
+2025-07-15T22:05:57.520Z [info] 🔄 [minimax/video-01-director] Poll #13: status=processing
+2025-07-15T22:06:00.464Z [info] 🔄 [minimax/video-01-director] Poll #14: status=processing
+2025-07-15T22:06:01.185Z [info] 🔄 [minimax/video-01-director] Poll #14: status=processing
+2025-07-15T22:06:04.170Z [info] 🔄 [minimax/video-01-director] Poll #15: status=processing
+2025-07-15T22:06:04.885Z [info] 🔄 [minimax/video-01-director] Poll #15: status=processing
+2025-07-15T22:06:07.972Z [info] 🔄 [minimax/video-01-director] Poll #16: status=processing
+2025-07-15T22:06:08.574Z [info] 🔄 [minimax/video-01-director] Poll #16: status=processing
+2025-07-15T22:06:11.651Z [info] 🔄 [minimax/video-01-director] Poll #17: status=processing
+2025-07-15T22:06:12.260Z [info] 🔄 [minimax/video-01-director] Poll #17: status=processing
+2025-07-15T22:06:15.335Z [info] 🔄 [minimax/video-01-director] Poll #18: status=processing
+2025-07-15T22:06:15.946Z [info] 🔄 [minimax/video-01-director] Poll #18: status=processing
+2025-07-15T22:06:19.016Z [info] 🔄 [minimax/video-01-director] Poll #19: status=processing
+2025-07-15T22:06:19.635Z [info] 🔄 [minimax/video-01-director] Poll #19: status=processing
+2025-07-15T22:06:22.702Z [info] 🔄 [minimax/video-01-director] Poll #20: status=processing
+2025-07-15T22:06:23.320Z [info] 🔄 [minimax/video-01-director] Poll #20: status=processing
+2025-07-15T22:06:26.404Z [info] 🔄 [minimax/video-01-director] Poll #21: status=processing
+2025-07-15T22:06:27.005Z [info] 🔄 [minimax/video-01-director] Poll #21: status=processing
+2025-07-15T22:06:30.179Z [info] 🔄 [minimax/video-01-director] Poll #22: status=processing
+2025-07-15T22:06:30.691Z [info] 🔄 [minimax/video-01-director] Poll #22: status=processing
+2025-07-15T22:06:33.848Z [info] 🔄 [minimax/video-01-director] Poll #23: status=processing
+2025-07-15T22:06:34.340Z [info] 🔄 [minimax/video-01-director] Poll #23: status=processing
+2025-07-15T22:06:37.653Z [info] 🔄 [minimax/video-01-director] Poll #24: status=processing
+2025-07-15T22:06:38.063Z [info] 🔄 [minimax/video-01-director] Poll #24: status=processing
+2025-07-15T22:06:41.339Z [info] 🔄 [minimax/video-01-director] Poll #25: status=processing
+2025-07-15T22:06:41.750Z [info] 🔄 [minimax/video-01-director] Poll #25: status=processing
+2025-07-15T22:06:45.025Z [info] 🔄 [minimax/video-01-director] Poll #26: status=processing
+2025-07-15T22:06:45.435Z [info] 🔄 [minimax/video-01-director] Poll #26: status=processing
+2025-07-15T22:06:48.728Z [info] 🔄 [minimax/video-01-director] Poll #27: status=processing
+2025-07-15T22:06:49.138Z [info] 🔄 [minimax/video-01-director] Poll #27: status=processing
+2025-07-15T22:06:52.400Z [info] 🔄 [minimax/video-01-director] Poll #28: status=processing
+2025-07-15T22:06:52.809Z [info] 🔄 [minimax/video-01-director] Poll #28: status=processing
+2025-07-15T22:06:56.050Z [info] 🔄 [minimax/video-01-director] Poll #29: status=processing
+2025-07-15T22:06:56.453Z [info] 🔄 [minimax/video-01-director] Poll #29: status=processing
+2025-07-15T22:06:59.771Z [info] 🔄 [minimax/video-01-director] Poll #30: status=processing
+2025-07-15T22:07:00.121Z [info] 🔄 [minimax/video-01-director] Poll #30: status=processing
+2025-07-15T22:07:03.459Z [info] 🔄 [minimax/video-01-director] Poll #31: status=processing
+2025-07-15T22:07:03.777Z [info] 🔄 [minimax/video-01-director] Poll #31: status=processing
+2025-07-15T22:07:07.146Z [info] 🔄 [minimax/video-01-director] Poll #32: status=processing
+2025-07-15T22:07:07.452Z [info] 🔄 [minimax/video-01-director] Poll #32: status=processing
+2025-07-15T22:07:10.832Z [info] 🔄 [minimax/video-01-director] Poll #33: status=processing
+2025-07-15T22:07:11.140Z [info] 🔄 [minimax/video-01-director] Poll #33: status=processing
+2025-07-15T22:07:14.519Z [info] 🔄 [minimax/video-01-director] Poll #34: status=processing
+2025-07-15T22:07:14.825Z [info] 🔄 [minimax/video-01-director] Poll #34: status=processing
+2025-07-15T22:07:18.204Z [info] 🔄 [minimax/video-01-director] Poll #35: status=processing
+2025-07-15T22:07:18.512Z [info] 🔄 [minimax/video-01-director] Poll #35: status=processing
+2025-07-15T22:07:21.992Z [info] 🔄 [minimax/video-01-director] Poll #36: status=processing
+2025-07-15T22:07:22.197Z [info] 🔄 [minimax/video-01-director] Poll #36: status=processing
+2025-07-15T22:07:25.680Z [info] 🔄 [minimax/video-01-director] Poll #37: status=processing
+2025-07-15T22:07:25.885Z [info] 🔄 [minimax/video-01-director] Poll #37: status=processing
+2025-07-15T22:07:29.362Z [info] 🔄 [minimax/video-01-director] Poll #38: status=processing
+2025-07-15T22:07:29.566Z [info] 🔄 [minimax/video-01-director] Poll #38: status=processing
+2025-07-15T22:07:33.093Z [info] 🔄 [minimax/video-01-director] Poll #39: status=processing
+2025-07-15T22:07:33.867Z [info] 🔄 [minimax/video-01-director] Poll #39: status=processing
+2025-07-15T22:07:36.837Z [info] 🔄 [minimax/video-01-director] Poll #40: status=processing
+2025-07-15T22:07:37.554Z [info] 🔄 [minimax/video-01-director] Poll #40: status=processing
+2025-07-15T22:07:40.523Z [info] 🔄 [minimax/video-01-director] Poll #41: status=processing
+2025-07-15T22:07:41.254Z [info] 🔄 [minimax/video-01-director] Poll #41: status=processing
+2025-07-15T22:07:44.414Z [info] 🔄 [minimax/video-01-director] Poll #42: status=processing
+2025-07-15T22:07:44.926Z [info] 🔄 [minimax/video-01-director] Poll #42: status=processing
+2025-07-15T22:07:48.100Z [info] 🔄 [minimax/video-01-director] Poll #43: status=processing
+2025-07-15T22:07:48.613Z [info] 🔄 [minimax/video-01-director] Poll #43: status=processing
+2025-07-15T22:07:51.787Z [info] 🔄 [minimax/video-01-director] Poll #44: status=processing
+2025-07-15T22:07:52.299Z [info] 🔄 [minimax/video-01-director] Poll #44: status=processing
+2025-07-15T22:07:55.475Z [info] 🔄 [minimax/video-01-director] Poll #45: status=processing
+2025-07-15T22:07:55.988Z [info] 🔄 [minimax/video-01-director] Poll #45: status=processing
+2025-07-15T22:07:59.162Z [info] 🔄 [minimax/video-01-director] Poll #46: status=processing
+2025-07-15T22:07:59.775Z [info] 🔄 [minimax/video-01-director] Poll #46: status=processing
+2025-07-15T22:08:02.826Z [info] 🔄 [minimax/video-01-director] Poll #47: status=processing
+2025-07-15T22:08:03.433Z [info] 🔄 [minimax/video-01-director] Poll #47: status=processing
+2025-07-15T22:08:06.572Z [info] 🔄 [minimax/video-01-director] Poll #48: status=processing
+2025-07-15T22:08:07.103Z [info] 🔄 [minimax/video-01-director] Poll #48: status=processing
+2025-07-15T22:08:10.238Z [info] 🔄 [minimax/video-01-director] Poll #49: status=processing
+2025-07-15T22:08:10.776Z [info] 🔄 [minimax/video-01-director] Poll #49: status=processing
+2025-07-15T22:08:14.008Z [info] 🔄 [minimax/video-01-director] Poll #50: status=processing
+2025-07-15T22:08:14.492Z [info] 🔄 [minimax/video-01-director] Poll #50: status=processing
+2025-07-15T22:08:17.697Z [info] 🔄 [minimax/video-01-director] Poll #51: status=succeeded
+2025-07-15T22:08:17.698Z [info] 🎬 URL de video lista para descargar (minimax/video-01-director): https://replicate.delivery/xezq/DRff1UWGJtrsGk4EYI2XOurPsHfaA6BLCk4oI0XmNrxcaQCqA/tmp_sf1qn7n.mp4
+2025-07-15T22:08:17.698Z [info] ✅ minimax/video-01-director OK (seg5)
+2025-07-15T22:08:17.699Z [info] ⬇️  Descargando video (intento 1/3): https://replicate.delivery/xezq/DRff1UWGJtrsGk4EYI2XOurPsHfaA6BLCk4oI0XmNrxcaQCqA/tmp_sf1qn7n.mp4
+2025-07-15T22:08:18.214Z [info] 🔄 [minimax/video-01-director] Poll #51: status=succeeded
+2025-07-15T22:08:18.215Z [info] 🎬 URL de video lista para descargar (minimax/video-01-director): https://replicate.delivery/xezq/M8YH79fyYuQhWqe7LvOLQRBNwAuUjx5ZXEMmb8Ghfkye0gEUB/tmp1mcs2o14.mp4
+2025-07-15T22:08:18.215Z [info] ✅ minimax/video-01-director OK (seg0)
+2025-07-15T22:08:18.216Z [info] ⬇️  Descargando video (intento 1/3): https://replicate.delivery/xezq/M8YH79fyYuQhWqe7LvOLQRBNwAuUjx5ZXEMmb8Ghfkye0gEUB/tmp1mcs2o14.mp4
+2025-07-15T22:08:18.759Z [info] ✅ Video descargado: \tmp\clips_v7\clip_5_f1a3c1bc.mp4 (1134854 bytes)
+2025-07-15T22:08:18.760Z [info] ⬆️  Subiendo a CDN: \tmp\clips_v7\clip_5_f1a3c1bc.mp4
+2025-07-15T22:08:19.325Z [info] ✅ Video descargado: \tmp\clips_v7\clip_0_5b7bfdc7.mp4 (4327504 bytes)
+2025-07-15T22:08:19.326Z [info] ⬆️  Subiendo a CDN: \tmp\clips_v7\clip_0_5b7bfdc7.mp4
+2025-07-15T22:08:20.378Z [info] Archivo subido correctamente al CDN: clip_5_f1a3c1bc.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/clip_5_f1a3c1bc.mp4
+2025-07-15T22:08:20.508Z [info] ✅ Archivo accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/clip_5_f1a3c1bc.mp4
+2025-07-15T22:08:20.509Z [info] ☁️ subido: https://storage.googleapis.com/storyteller-ai-cdn/clip_5_f1a3c1bc.mp4
+2025-07-15T22:08:21.901Z [info] Archivo subido correctamente al CDN: clip_0_5b7bfdc7.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/clip_0_5b7bfdc7.mp4
+2025-07-15T22:08:22.033Z [info] ✅ Archivo accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/clip_0_5b7bfdc7.mp4
+2025-07-15T22:08:22.033Z [info] ☁️ subido: https://storage.googleapis.com/storyteller-ai-cdn/clip_0_5b7bfdc7.mp4
+2025-07-15T22:08:22.034Z [info] ✅ Total clips: 2
+2025-07-15T22:08:23.881Z [info] 🎬  FFmpegService v6 — ensamblando 1080p60…
+2025-07-15T22:08:30.614Z [info] 🎬  FFmpegService v6 — ensamblando 1080p60…
+2025-07-15T22:08:35.268Z [info] 🎬  FFmpegService v6 — ensamblando 1080p60…
