@@ -147,10 +147,32 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
     }
 
     /* subir a CDN */
-    const { uploadToCDN } = await import('./cdnService.js');
-    const cdn = await uploadToCDN(fn, path.basename(fn));
-    urls.push(cdn);
-    logger.info(`☁️ subido: ${cdn}`);
+    logger.info(`⬆️  Subiendo a CDN: ${fn}`);
+    let cdn: string | undefined;
+    try {
+      const { uploadToCDN } = await import('./cdnService.js');
+      cdn = await uploadToCDN(fn, path.basename(fn));
+      if (!cdn || typeof cdn !== 'string' || !cdn.startsWith('http')) {
+        logger.error(`❌ uploadToCDN no devolvió URL válida para: ${fn}`);
+        return;
+      }
+      // Verifica que el archivo subido sea accesible (opcional, si tienes fetch disponible)
+      try {
+        const resp = await fetch(cdn, { method: 'HEAD' });
+        if (!resp.ok) {
+          logger.error(`❌ El archivo subido no es accesible en CDN: ${cdn} (status: ${resp.status})`);
+        } else {
+          logger.info(`✅ Archivo accesible en CDN: ${cdn}`);
+        }
+      } catch (err) {
+        logger.warn(`⚠️  No se pudo verificar acceso CDN por red: ${(err as Error).message}`);
+      }
+      urls.push(cdn);
+      logger.info(`☁️ subido: ${cdn}`);
+    } catch (err) {
+      logger.error(`❌ Error subiendo a CDN: ${(err as Error).message}`);
+      return;
+    }
   })));
 
   logger.info(`✅ Total clips: ${urls.length}`);
