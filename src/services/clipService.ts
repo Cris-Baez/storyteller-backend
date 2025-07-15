@@ -107,7 +107,75 @@ async function fetchImageBuffer(imagePathOrUrl: string): Promise<Buffer> {
   return buffer;
 }
 
-// ...existing code...
+async function genReplicate(
+  prompt: string,
+  frames: number,
+  style: keyof typeof MODEL_MAP,
+  referenceImages?: string[]
+): Promise<string> {
+  let dur = Math.min(Math.ceil(frames / 24), 10);
+  const model = MODEL_MAP[style];
+  let input: any = { prompt: prompt.trim() };
+
+  // Ajuste por modelo según doc oficial
+  if (model === 'luma/ray-2-720p' || model === 'luma/ray-flash-2-540p') {
+    // Solo prompt y duration (5 o 9)
+    dur = dur >= 9 ? 9 : 5;
+    input.duration = dur;
+  } else if (model === 'google/veo-3') {
+    input.duration = Math.max(1, Math.min(dur, 10));
+    input.aspect_ratio = '16:9';
+    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
+      input.input_image = referenceImages[0];
+    }
+  } else if (model === 'bytedance/seedance-1-pro') {
+    input.duration = Math.max(1, Math.min(dur, 10));
+    input.resolution = '1080p';
+    input.aspect_ratio = '16:9';
+    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
+      input.input_image = referenceImages[0];
+    }
+  } else if (model === 'pixverse/pixverse-v4.5') {
+    input.duration = Math.max(1, Math.min(dur, 8));
+    input.resolution = '1080p';
+    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
+      input.input_image = referenceImages[0];
+    }
+  } else if (model === 'minimax/video-01-director') {
+    input.duration = Math.max(1, Math.min(dur, 6));
+    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
+      input.first_frame_image = referenceImages[0];
+    }
+  } else if (model === 'kwaivgi/kling-v2.1') {
+    // Kling acepta start_image
+    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
+      input.start_image = referenceImages[0];
+    }
+  }
+
+  logger.info(`🎬 Generando con ${model} - dur:${input.duration ?? '-'}s - style:${style}`);
+  try {
+    const res: any = await replicate.run(model as any, { input });
+    if (typeof res === 'string' && res.startsWith('http')) {
+      return res;
+    } else if (Array.isArray(res) && typeof res[0] === 'string' && res[0].startsWith('http')) {
+      return res[0];
+    } else if (res && typeof res === 'object') {
+      if (typeof res.video === 'string' && res.video.startsWith('http')) return res.video;
+      if (typeof res.output === 'string' && res.output.startsWith('http')) return res.output;
+      if (typeof res.url === 'string' && res.url.startsWith('http')) return res.url;
+      if (typeof res[0] === 'string' && res[0].startsWith('http')) return res[0];
+      logger.error(`⚠️ Respuesta sin URL válida de ${model}: ${JSON.stringify(res)}`);
+    } else {
+      logger.error(`⚠️ Respuesta inesperada de ${model}: ${JSON.stringify(res)}`);
+    }
+    logger.error(`❌ No se obtuvo URL válida de ${model}. Respuesta completa: ${JSON.stringify(res)}`);
+    throw new Error(`Formato de respuesta inesperado de ${model}`);
+  } catch (error) {
+    logger.error(`❌ Error con ${model}: ${(error as Error).message}`);
+    throw error;
+  }
+}
 
 async function genReplicateFallback(
   prompt: string,
@@ -115,176 +183,74 @@ async function genReplicateFallback(
   modelName: string,
   referenceImages?: string[]
 ): Promise<string> {
-  const dur = Math.min(Math.ceil(frames / 24), 10);
-  
-  let input: any = {
-    prompt: prompt.trim(),
-    duration: dur
-  };
+  let dur = Math.min(Math.ceil(frames / 24), 10);
+  let input: any = { prompt: prompt.trim() };
 
-  // Configuración para modelos de fallback
+  // Ajuste por modelo según doc oficial
   if (modelName === 'bytedance/seedance-1-lite') {
-    input = {
-      prompt: prompt.trim(),
-      duration: dur,
-      resolution: '720p',
-      aspect_ratio: '16:9'
-    };
-    
-    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
+    input.duration = Math.max(1, Math.min(dur, 10));
+    input.resolution = '720p';
+    input.aspect_ratio = '16:9';
+    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
       input.input_image = referenceImages[0];
     }
-    
   } else if (modelName === 'minimax/hailuo-02') {
-    input = {
-      prompt: prompt.trim(),
-      duration: Math.min(dur, 6), // Hailuo máximo 6s
-      resolution: 'standard'      // 720p
-    };
-    
-    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
+    input.duration = Math.max(1, Math.min(dur, 6));
+    input.resolution = 'standard';
+    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
       input.image = referenceImages[0];
     }
-    
   } else if (modelName === 'minimax/video-01-director') {
-    // Director como fallback - especializado en movimientos de cámara
-    input = {
-      prompt: prompt.trim(),
-      duration: Math.min(dur, 6) // Director máximo 6s
-    };
-    
-    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
+    input.duration = Math.max(1, Math.min(dur, 6));
+    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
       input.first_frame_image = referenceImages[0];
     }
+  } else if (modelName === 'kwaivgi/kling-v2.1') {
+    if (referenceImages && referenceImages[0] && referenceImages[0] !== DUMMY_IMAGE) {
+      input.start_image = referenceImages[0];
+    }
+  } else if (modelName === 'luma/ray-2-720p' || modelName === 'luma/ray-flash-2-540p') {
+    dur = dur >= 9 ? 9 : 5;
+    input.duration = dur;
   }
 
   logger.info(`🔄 Usando modelo fallback: ${modelName}`);
-  
   const res: any = await replicate.run(modelName as any, { input });
-  
-  // Manejar diferentes formatos de respuesta
-  if (typeof res === 'string') {
+  if (typeof res === 'string' && res.startsWith('http')) {
     return res;
-  } else if (Array.isArray(res)) {
+  } else if (Array.isArray(res) && typeof res[0] === 'string' && res[0].startsWith('http')) {
     return res[0];
   } else if (res && typeof res === 'object') {
-    return res.video || res.output || res.url || res[0];
+    if (typeof res.video === 'string' && res.video.startsWith('http')) return res.video;
+    if (typeof res.output === 'string' && res.output.startsWith('http')) return res.output;
+    if (typeof res.url === 'string' && res.url.startsWith('http')) return res.url;
+    if (typeof res[0] === 'string' && res[0].startsWith('http')) return res[0];
+    logger.error(`⚠️ Fallback sin URL válida (${modelName}): ${JSON.stringify(res)}`);
+  } else {
+    logger.error(`⚠️ Fallback respuesta inesperada (${modelName}): ${JSON.stringify(res)}`);
   }
-  
   throw new Error(`Formato de respuesta inesperado de ${modelName}`);
-}
-
-async function genReplicate(
-  prompt: string,
-  frames: number,
-  style: keyof typeof MODEL_MAP,
-  referenceImages?: string[]
-): Promise<string> {
-  const dur = Math.min(Math.ceil(frames / 24), 10); // Aumentar a máximo 10s
-  const model = MODEL_MAP[style];
-  
-  let input: any = {
-    prompt: prompt.trim(),
-    duration: dur
-  };
-
-  // Configuración específica por modelo
-  if (model === 'google/veo-3') {
-    // Google Veo 3 - text-to-video y image-to-video
-    input = {
-      prompt: prompt.trim(),
-      duration: dur,
-      aspect_ratio: '16:9'
-    };
-    
-    // Si hay imagen de referencia, usarla como input_image
-    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
-      input.input_image = referenceImages[0];
-    }
-    
-  } else if (model === 'bytedance/seedance-1-pro') {
-    // Seedance Pro - muy bueno para anime/cartoon
-    input = {
-      prompt: prompt.trim(),
-      duration: dur,
-      resolution: '1080p',
-      aspect_ratio: '16:9'
-    };
-    
-    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
-      input.input_image = referenceImages[0];
-    }
-    
-  } else if (model === 'pixverse/pixverse-v4.5') {
-    // PixVerse v4.5 - excelente para cartoon
-    input = {
-      prompt: prompt.trim(),
-      duration: Math.min(dur, 8), // PixVerse máximo 8s
-      resolution: '1080p'
-    };
-    
-    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
-      input.input_image = referenceImages[0];
-    }
-    
-  } else if (model === 'minimax/video-01-director') {
-    // Director - especializado en movimientos de cámara complejos
-    input = {
-      prompt: prompt.trim(),
-      duration: Math.min(dur, 6) // Director máximo 6s
-    };
-    
-    // Para Director, usar first_frame_image en lugar de input_image
-    if (referenceImages && referenceImages.length > 0 && referenceImages[0] !== DUMMY_IMAGE) {
-      input.first_frame_image = referenceImages[0];
-    }
-  }
-
-  logger.info(`🎬 Generando con ${model} - dur:${dur}s - style:${style}`);
-  
-  try {
-    const res: any = await replicate.run(model as any, { input });
-
-    // Manejar diferentes formatos de respuesta
-    if (typeof res === 'string') {
-      return res;
-    } else if (Array.isArray(res)) {
-      return res[0];
-    } else if (res && typeof res === 'object') {
-      if (res.video || res.output || res.url || res[0]) {
-        return res.video || res.output || res.url || res[0];
-      } else {
-        logger.error(`⚠️ Respuesta sin URL válida de ${model}: ${JSON.stringify(res)}`);
-      }
-    } else {
-      logger.error(`⚠️ Respuesta inesperada de ${model}: ${JSON.stringify(res)}`);
-    }
-
-    // Si llegamos aquí, no se obtuvo una URL válida
-    logger.error(`❌ No se obtuvo URL válida de ${model}. Respuesta completa: ${JSON.stringify(res)}`);
-    throw new Error(`Formato de respuesta inesperado de ${model}`);
-
-  } catch (error) {
-    logger.error(`❌ Error con ${model}: ${(error as Error).message}`);
-    throw error;
-  }
 }
 
 interface Segment { start: number; end: number; secs: TimelineSecond[]; duration: number }
 
-// Divide el timeline en segmentos de 5 o 9 segundos (preferir 5)
+// Divide el timeline en segmentos de 5 o 9 segundos (nunca 10)
 function segment(tl: TimelineSecond[]): Segment[] {
   const segs: Segment[] = [];
   let i = 0;
   while (i < tl.length) {
-    // Preferir segmentos de 9 si el resto es 9, si no, de 5
-    let dur = (tl.length - i >= 9) ? 9 : (tl.length - i >= 5 ? 5 : tl.length - i);
-    // Si el resto es menor a 5, agruparlo al anterior si existe
-    if (dur < 5 && segs.length > 0) {
+    let remaining = tl.length - i;
+    let dur = 0;
+    if (remaining === 9) dur = 9;
+    else if (remaining >= 10) dur = 9;
+    else if (remaining >= 5) dur = 5;
+    else if (remaining < 5 && segs.length > 0) {
       segs[segs.length - 1].end = tl.length - 1;
       segs[segs.length - 1].secs = tl.slice(segs[segs.length - 1].start, tl.length);
       segs[segs.length - 1].duration = segs[segs.length - 1].secs.length;
       break;
+    } else {
+      dur = remaining;
     }
     segs.push({ start: i, end: i + dur - 1, secs: tl.slice(i, i + dur), duration: dur });
     i += dur;
@@ -308,26 +274,18 @@ function buildPrompt(seg: Segment, style: VideoPlan['metadata']['visualStyle']) 
 export async function generateClips(
   plan: VideoPlan, storyboardUrls: string[] = []
 ): Promise<string[]> {
-
   logger.info('🎞️ ClipService v7.2 – iniciando…');
-
   const segments = segment(plan.timeline);
   logger.info(`→ Generando ${segments.length} segmentos de 5 o 9s…`);
-
   const limit = pLimit(CONCURRENCY);
   const clipUrls: string[] = [];
-
-
   await Promise.all(segments.map(async (seg, idx) => {
     const prompt = buildPrompt(seg, plan.metadata.visualStyle);
     const frames = seg.duration * 24;
-
-    // Buscar imagen de storyboard local (si existe), luego dummy
     let referenceImages: string[] = [];
     if (Array.isArray(storyboardUrls) && storyboardUrls[seg.start] && storyboardUrls[seg.start].startsWith('http')) {
       referenceImages = [storyboardUrls[seg.start]];
     }
-
     // Lista de modelos para probar en orden de preferencia
     const baseStyle = plan.metadata.visualStyle as keyof typeof MODEL_MAP;
     const hasComplexMovement = seg.secs.some(s =>
@@ -367,9 +325,11 @@ export async function generateClips(
           url = await withTimeout(genReplicateFallback(
             prompt, frames, backupModel, referenceImages
           ));
-          if (url) {
+          if (typeof url === 'string' && url.startsWith('http')) {
             logger.info(`✅ Éxito con modelo de emergencia ${backupModel} para seg ${seg.start}`);
             break;
+          } else {
+            url = null;
           }
         } catch (err) {
           logger.warn(`❌ Modelo de emergencia ${backupModel} falló para seg ${seg.start}: ${(err as Error).message}`);
@@ -379,13 +339,11 @@ export async function generateClips(
 
     if (!url) {
       logger.error(`❌ Todos los modelos Replicate fallaron para seg ${seg.start}`);
-      return; // omite segmento
+      return;
     }
 
     // Validar URL antes de descargar
-    try {
-      new URL(url);
-    } catch {
+    if (typeof url !== 'string' || !url.startsWith('http')) {
       logger.error(`❌ URL inválida para seg ${seg.start}: ${url}`);
       return;
     }
