@@ -4539,3 +4539,260 @@
 2025-07-14T23:27:57.519Z [info] 🎬 Generando con google/veo-3-fast - dur:1s - style:realistic
 2025-07-14T23:28:18.759Z [info] ✅ Éxito con google/veo-3-fast para seg 2
 2025-07-15T02:22:08.389Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-15T02:22:28.042Z [info] ::1 - - [15/Jul/2025:02:22:28 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-15T02:22:28.048Z [info] 🚀 Pipeline v7 – inicio
+2025-07-15T02:22:28.053Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-15T02:22:28.055Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-15T02:22:40.263Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-15T02:22:40.265Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"Sunrise over a devastated city skyline",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"hope",
+     "dialogue":"The world needs a ...
+2025-07-15T02:22:40.266Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-15T02:22:40.267Z [info] 📜 VideoPlan listo (10s)
+2025-07-15T02:22:40.268Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-15T02:22:40.269Z [info] → Se generarán 1 frames de storyboard
+2025-07-15T02:22:43.438Z [error] FLUX respuesta inesperada: {}
+2025-07-15T02:22:43.439Z [error] FLUX error: FLUX returned invalid response format
+2025-07-15T02:22:43.440Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-15T02:22:48.560Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/XKPA2xichA5YLpmWFIXA5G3ET1FUhiGdFMZcTzvd3VLeabgKA/out-0.png
+2025-07-15T02:22:49.586Z [info] Archivo temporal creado: t0_7a6366
+2025-07-15T02:22:51.364Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-15T02:22:51.483Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-15T02:22:51.484Z [info] ✅  Storyboards listos: 1
+2025-07-15T02:22:51.485Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-15T02:22:51.485Z [info] → Generando 3 segmentos…
+2025-07-15T02:22:51.487Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 0
+2025-07-15T02:22:51.489Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:22:51.490Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 1
+2025-07-15T02:22:51.490Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:22:51.491Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 2
+2025-07-15T02:22:51.492Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:22:51.493Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-15T02:22:51.525Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-15T02:22:51.525Z [info] 🎵  Freesound query: cinematic
+2025-07-15T02:22:51.755Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:22:51.756Z [warn] ❌ luma/ray-2-720p falló para seg 1: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:22:51.756Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 1
+2025-07-15T02:22:51.757Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:22:51.843Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:22:51.844Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.845Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:22:51.845Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.848Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:22:51.848Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.856Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:22:51.857Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.863Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:22:51.864Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.866Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:22:51.867Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.870Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:22:51.871Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.881Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:22:51.883Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.885Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:22:51.887Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.893Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:22:51.894Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.895Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-15T02:22:52.093Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:22:52.095Z [warn] ❌ luma/ray-2-720p falló para seg 0: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:22:52.095Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 0
+2025-07-15T02:22:52.096Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:22:58.959Z [info] ✅  Pista de música lista (1024940 bytes)
+2025-07-15T02:24:20.324Z [info] ✅ Éxito con google/veo-3 para seg 1
+2025-07-15T02:24:20.617Z [info] ✅ Éxito con google/veo-3 para seg 2
+2025-07-15T02:24:21.835Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-15T02:24:21.836Z [info] → Generando 3 segmentos…
+2025-07-15T02:24:21.837Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 0
+2025-07-15T02:24:21.837Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:24:21.839Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 1
+2025-07-15T02:24:21.839Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:24:21.840Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 2
+2025-07-15T02:24:21.841Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:24:22.255Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:24:22.256Z [warn] ❌ luma/ray-2-720p falló para seg 0: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:24:22.256Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 0
+2025-07-15T02:24:22.257Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:24:22.739Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:24:22.740Z [warn] ❌ luma/ray-2-720p falló para seg 1: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:24:22.741Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 1
+2025-07-15T02:24:22.742Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:24:24.638Z [info] ✅ Éxito con google/veo-3 para seg 0
+2025-07-15T02:25:54.623Z [info] ✅ Éxito con google/veo-3 para seg 2
+2025-07-15T02:25:55.270Z [info] ✅ Éxito con google/veo-3 para seg 0
+2025-07-15T02:25:55.931Z [info] ✅ Éxito con google/veo-3 para seg 1
+2025-07-15T02:25:56.125Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-15T02:25:56.126Z [info] → Generando 3 segmentos…
+2025-07-15T02:25:56.126Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 0
+2025-07-15T02:25:56.126Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:25:56.128Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 1
+2025-07-15T02:25:56.128Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:25:56.129Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 2
+2025-07-15T02:25:56.130Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:25:56.380Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:25:56.381Z [warn] ❌ luma/ray-2-720p falló para seg 1: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:25:56.381Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 1
+2025-07-15T02:25:56.382Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:25:56.444Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:25:56.445Z [warn] ❌ luma/ray-2-720p falló para seg 0: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:25:56.446Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 0
+2025-07-15T02:25:56.446Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:27:24.884Z [info] ✅ Éxito con google/veo-3 para seg 0
+2025-07-15T02:27:28.847Z [info] ✅ Éxito con google/veo-3 para seg 2
+2025-07-15T02:27:38.046Z [info] ✅ Éxito con google/veo-3 para seg 1
+2025-07-15T02:40:31.185Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-15T02:40:36.875Z [info] ::1 - - [15/Jul/2025:02:40:36 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-15T02:40:36.879Z [info] 🚀 Pipeline v7 – inicio
+2025-07-15T02:40:36.883Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-15T02:40:36.884Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-15T02:40:54.114Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-15T02:40:54.115Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "A vast city skyline at dawn, bathed in golden light.",
+      "camera": {"shot": "wide", "movement": "dolly-in"},
+      "emotion": "wonder",
+     ...
+2025-07-15T02:40:54.117Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-15T02:40:54.118Z [info] 📜 VideoPlan listo (10s)
+2025-07-15T02:40:54.118Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-15T02:40:54.119Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-15T02:40:58.003Z [error] FLUX respuesta inesperada: {}
+2025-07-15T02:40:58.004Z [error] FLUX error: FLUX returned invalid response format
+2025-07-15T02:40:58.004Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-15T02:41:02.917Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/efWKC0Lq6qkrRUQP8DC3OnOpawKGzEw4fUmE19T0pem6bcDUB/out-0.png
+2025-07-15T02:41:04.005Z [info] Archivo temporal creado: t0_83710c
+2025-07-15T02:41:05.829Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-15T02:41:05.934Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-15T02:41:05.935Z [info] ✅  Storyboards listos: 1
+2025-07-15T02:41:05.936Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-15T02:41:05.937Z [info] → Generando 3 segmentos…
+2025-07-15T02:41:05.937Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 0
+2025-07-15T02:41:05.938Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:41:05.939Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 1
+2025-07-15T02:41:05.939Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:41:05.939Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 2
+2025-07-15T02:41:05.939Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:41:05.940Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-15T02:41:05.955Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-15T02:41:05.956Z [info] 🎵  Freesound query: cinematic
+2025-07-15T02:41:06.239Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:41:06.239Z [warn] ❌ luma/ray-2-720p falló para seg 1: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:41:06.239Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 1
+2025-07-15T02:41:06.240Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:41:06.328Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:41:06.329Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.334Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:41:06.334Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.345Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:41:06.346Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.347Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:41:06.348Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.349Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:41:06.349Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.350Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:41:06.351Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.351Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:41:06.352Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.353Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:41:06.354Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.356Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:41:06.356Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.358Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-15T02:41:06.359Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.359Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-15T02:41:06.498Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:41:06.499Z [warn] ❌ luma/ray-2-720p falló para seg 2: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:41:06.499Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 2
+2025-07-15T02:41:06.500Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:41:06.572Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:41:06.572Z [warn] ❌ luma/ray-2-720p falló para seg 0: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:41:06.573Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 0
+2025-07-15T02:41:06.574Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:41:11.298Z [info] ✅  Pista de música lista (1024940 bytes)
+2025-07-15T02:42:35.284Z [info] ✅ Éxito con google/veo-3 para seg 1
+2025-07-15T02:42:35.490Z [info] ✅ Éxito con google/veo-3 para seg 0
+2025-07-15T02:42:36.796Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-15T02:42:36.797Z [info] → Generando 3 segmentos…
+2025-07-15T02:42:36.797Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 0
+2025-07-15T02:42:36.797Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:42:36.798Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 1
+2025-07-15T02:42:36.799Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:42:36.800Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 2
+2025-07-15T02:42:36.801Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:42:36.980Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:42:36.980Z [warn] ❌ luma/ray-2-720p falló para seg 2: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:42:36.980Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 2
+2025-07-15T02:42:36.981Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:42:36.987Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:42:36.988Z [warn] ❌ luma/ray-2-720p falló para seg 1: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:42:36.988Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 1
+2025-07-15T02:42:36.989Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:42:37.025Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:42:37.026Z [warn] ❌ luma/ray-2-720p falló para seg 0: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:42:37.026Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 0
+2025-07-15T02:42:37.026Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:42:43.677Z [info] ✅ Éxito con google/veo-3 para seg 2
+2025-07-15T02:44:05.398Z [info] ✅ Éxito con google/veo-3 para seg 0
+2025-07-15T02:44:05.402Z [info] ✅ Éxito con google/veo-3 para seg 1
+2025-07-15T02:44:06.905Z [info] 🎞️ ClipService v7.2 – iniciando…
+2025-07-15T02:44:06.906Z [info] → Generando 3 segmentos…
+2025-07-15T02:44:06.906Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 0
+2025-07-15T02:44:06.906Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:44:06.907Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 1
+2025-07-15T02:44:06.907Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:44:06.907Z [info] 🎬 Probando modelo Replicate: luma/ray-2-720p para seg 2
+2025-07-15T02:44:06.908Z [info] 🎬 Generando con luma/ray-2-720p - dur:1s - style:cinematic
+2025-07-15T02:44:07.242Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:44:07.243Z [warn] ❌ luma/ray-2-720p falló para seg 0: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:44:07.243Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 0
+2025-07-15T02:44:07.243Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:44:07.254Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:44:07.254Z [warn] ❌ luma/ray-2-720p falló para seg 1: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:44:07.255Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 1
+2025-07-15T02:44:07.255Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:44:07.328Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:44:07.329Z [warn] ❌ luma/ray-2-720p falló para seg 2: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:44:07.329Z [info] 🎬 Probando modelo Replicate: google/veo-3 para seg 2
+2025-07-15T02:44:07.330Z [info] 🎬 Generando con google/veo-3 - dur:1s - style:realistic
+2025-07-15T02:44:09.591Z [info] ✅ Éxito con google/veo-3 para seg 2
+2025-07-15T02:45:35.716Z [info] ✅ Éxito con google/veo-3 para seg 0
+2025-07-15T02:45:39.729Z [info] ✅ Éxito con google/veo-3 para seg 1
+2025-07-15T02:45:39.763Z [info] ✅ Éxito con google/veo-3 para seg 2

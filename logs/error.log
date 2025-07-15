@@ -1302,3 +1302,57 @@
 2025-07-14T23:25:27.482Z [error] Error generando voz: No se pudo generar la voz
 2025-07-14T23:25:27.509Z [error] Error generando voz: No se pudo generar la voz
 2025-07-14T23:25:27.583Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:43.438Z [error] FLUX respuesta inesperada: {}
+2025-07-15T02:22:43.439Z [error] FLUX error: FLUX returned invalid response format
+2025-07-15T02:22:51.755Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:22:51.844Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.845Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.848Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.857Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.864Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.867Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.871Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.883Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.887Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:51.894Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:22:52.093Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:24:22.255Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:24:22.739Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:25:56.380Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:25:56.444Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:40:58.003Z [error] FLUX respuesta inesperada: {}
+2025-07-15T02:40:58.004Z [error] FLUX error: FLUX returned invalid response format
+2025-07-15T02:41:06.239Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:41:06.329Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.334Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.346Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.348Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.349Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.351Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.352Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.354Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.356Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.359Z [error] Error generando voz: No se pudo generar la voz
+2025-07-15T02:41:06.498Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:41:06.572Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:42:36.980Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:42:36.987Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:42:37.025Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:44:07.242Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:44:07.254Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.
+2025-07-15T02:44:07.328Z [error] ❌ Error con luma/ray-2-720p: Request to https://api.replicate.com/v1/models/luma/ray-2-720p/predictions failed with status 422 Unprocessable Entity: {"detail":"- input.duration: duration must be one of the following: 5, 9\n","status":422,"title":"Input validation failed","invalid_fields":[{"type":"enum","field":"input.duration","description":"duration must be one of the following: 5, 9"}]}
+.

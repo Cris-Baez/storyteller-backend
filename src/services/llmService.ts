@@ -94,6 +94,8 @@ function sanitizeCamera(c: any): CameraSpec {
 function sanitizeSecond(s: any, t: number): TimelineSecond {
   return {
     t,
+    scene: typeof s.scene === 'number' ? s.scene : undefined,
+    sceneStart: !!s.sceneStart,
     visual: String(s.visual ?? '…'),
     camera: sanitizeCamera(s.camera ?? {}),
     emotion: String(s.emotion ?? 'neutral'),
@@ -101,6 +103,7 @@ function sanitizeSecond(s: any, t: number): TimelineSecond {
     voiceLine: s.voiceLine ? String(s.voiceLine) : undefined,
     soundCue: ALLOWED_SOUNDCUES.includes(s.soundCue) ? s.soundCue : 'quiet',
     effects: s.effects,
+    assets: Array.isArray(s.assets) ? s.assets : undefined,
     highlight: !!s.highlight,
     sceneMood: ALLOWED_SCENE_MOODS.includes(s.sceneMood) ? s.sceneMood : undefined,
     transition: ['cut','fade','wipe','none'].includes(s.transition) ? s.transition : 'cut'
@@ -244,15 +247,20 @@ REMEMBER: timeline.length MUST equal ${duration}. No extra text, no markdown.`;
 
       const timeline: TimelineSecond[] = fixedParsed.timeline.map((s: any, t: number) => sanitizeSecond(s, t));
 
+      // Adaptar para soportar scenes, referenceImages y música en metadata
+      const metadata: VideoPlan['metadata'] = {
+        mode,
+        visualStyle,
+        duration,
+        characters: audio?.characters,
+        music: fixedParsed.metadata?.music || audio?.music,
+        scenes: fixedParsed.metadata?.scenes || undefined,
+        referenceImages: fixedParsed.metadata?.referenceImages || undefined
+      };
+
       const plan: VideoPlan = {
         timeline,
-        metadata: {
-          mode,
-          visualStyle,
-          duration,
-          characters: audio?.characters,
-          music: audio?.music
-        }
+        metadata
       };
 
       logger.info(`🎞️  VideoPlan listo (${duration}s) via ${model}`);

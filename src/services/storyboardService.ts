@@ -191,15 +191,35 @@ async function upload(buf: Buffer, name: string): Promise<string> {
  * ═════════════════════════════════════════════════════ */
 export async function generateStoryboards(plan: VideoPlan): Promise<string[]> {
   logger.info('🖼️  StoryboardService v6 – iniciando…');
-  const keySecs = pickKeyFrames(plan.timeline);
-  logger.info(`→ Se generarán ${keySecs.length} frames de storyboard`);
+  let keySecs: TimelineSecond[] = pickKeyFrames(plan.timeline);
+  let sceneMode = false;
+  // Si hay scenes en metadata, generar una imagen por escena usando la descripción
+  if (plan.metadata.scenes && Array.isArray(plan.metadata.scenes) && plan.metadata.scenes.length > 0) {
+    sceneMode = true;
+    keySecs = plan.metadata.scenes.map(scene => {
+      // Buscar el primer segundo de la escena en el timeline
+      const sec = plan.timeline.find(s => s.scene === scene.scene && s.sceneStart) || plan.timeline.find(s => s.scene === scene.scene) || plan.timeline[scene.start] || plan.timeline[0];
+      // Usar la descripción de la escena como visual
+      return {
+        ...sec,
+        visual: scene.description || sec.visual,
+        t: scene.start,
+      };
+    });
+    logger.info(`→ Se generarán ${keySecs.length} storyboards (uno por escena)`);
+  } else {
+    logger.info(`→ Se generarán ${keySecs.length} frames de storyboard (por segundos clave)`);
+  }
 
   const urls: string[] = [];
 
-
   await Promise.all(
-    keySecs.map(async (sec) => {
-      const prompt = buildPrompt(sec, plan.metadata.visualStyle);
+    keySecs.map(async (sec, idx) => {
+      let prompt = buildPrompt(sec, plan.metadata.visualStyle);
+      // Si hay referenceImages, agregarlas al prompt
+      if (plan.metadata.referenceImages && Array.isArray(plan.metadata.referenceImages) && plan.metadata.referenceImages.length > 0) {
+        prompt += ` Reference image: ${plan.metadata.referenceImages[idx % plan.metadata.referenceImages.length]}`;
+      }
       let imgUrl: string | null = null;
       try {
         imgUrl = await genWithFLUX(prompt);

@@ -36,7 +36,9 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
   );
   logger.info(`📜 VideoPlan listo (${plan.timeline.length}s)`);
 
-  /* 2. Storyboard (Best effort) */
+  /* 2. Storyboard (Best effort) - Adaptar el procesamiento para soportar VideoPlan.timeline con scene, sceneStart y metadatos enriquecidos */
+  // Procesar cada escena/toma por separado si es necesario (por ejemplo, para llamadas a Replicate)
+  // Usar referenceImages y metadatos de música si están presentes
   const storyboards = await retry(() => generateStoryboards(plan))
     .catch(err => {
       logger.warn(`StoryboardService falló → se continúa sin storyboards (${err.message})`);
@@ -44,6 +46,15 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
     });
 
   /* 3. Clips, Voz, Música en paralelo */
+  // Soportar que music puede ser string o MusicSpec
+  let musicMood: string = req.mode;
+  if (plan.metadata.music) {
+    if (typeof plan.metadata.music === 'string') {
+      musicMood = plan.metadata.music;
+    } else if ('mood' in plan.metadata.music && typeof plan.metadata.music.mood === 'string') {
+      musicMood = plan.metadata.music.mood;
+    }
+  }
   const [
     clipUrlsRaw,
     voiceBufRaw,
@@ -51,7 +62,7 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
   ] = await Promise.all([
     retry(() => generateClips(plan)) as Promise<string[]>,
     retry(() => createVoiceOver(plan)).catch(()=>null) as Promise<Buffer|null>,
-    retry(() => getBackgroundMusic(plan.metadata.music?.mood ?? req.mode)).catch(()=>null) as Promise<Buffer|null>
+    retry(() => getBackgroundMusic(musicMood)).catch(()=>null) as Promise<Buffer|null>
   ]);
 
   const clipUrls: string[] = Array.isArray(clipUrlsRaw) ? clipUrlsRaw : [];

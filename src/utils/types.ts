@@ -44,6 +44,8 @@ export interface MusicSpec {
  * ----------------------------------------------------------------------- */
 export interface TimelineSecond {
   t: number;                 // segundo 0…N-1
+  scene?: number;            // número de escena/toma (opcional)
+  sceneStart?: boolean;      // true si es el inicio de una nueva escena
   visual: string;            // qué se ve exactamente (descripción)
   camera: CameraSpec;        // Unificar tipo como CameraSpec
   emotion: string;           // sentimiento dominante
@@ -51,8 +53,9 @@ export interface TimelineSecond {
   voiceLine?: string;        // narración VO en ese segundo
   soundCue: string;          // cue de sonido
   effects?: string;          // efectos especiales
+  assets?: string[];         // props/elementos visuales (opcional)
   highlight: boolean;        // resaltar este segundo
-  sceneMood?: string;       // estado de ánimo de la escena
+  sceneMood?: string;        // estado de ánimo de la escena
   transition: string;        // tipo de transición
 }
 
@@ -64,7 +67,14 @@ export interface VideoPlan {
     visualStyle: string;       // estilo visual
     duration: AllowedDuration;  // duración del video
     characters?: CharacterVoiceSpec[]; // Lista de personajes con especificaciones de voz
-    music?: MusicSpec;         // especificaciones musicales
+    music?: MusicSpec | string;         // especificaciones musicales o descripción
+    scenes?: Array<{
+      scene: number;
+      start: number;
+      end: number;
+      description: string;
+    }>;
+    referenceImages?: string[];
   };
   storyboard?: string[]; // Agregar propiedad para imágenes generadas por storyboardService
 }
