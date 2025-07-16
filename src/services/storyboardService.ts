@@ -49,14 +49,20 @@ function pickKeyFrames(timeline: TimelineSecond[]): TimelineSecond[] {
 
 /* Genera prompt final para IA */
 function buildPrompt(sec: TimelineSecond, style: VideoPlan['metadata']['visualStyle']): string {
-  const { shot, movement } = sec.camera; // Acceder directamente a las propiedades de CameraSpec
+  const { shot, movement } = sec.camera;
+  // Opción 1: prompt enriquecido (prompt usuario + detalles visuales/técnicos)
+  // Buscar el prompt original del usuario en metadata (si existe)
+  const userPrompt = (sec as any).prompt || (sec as any).userPrompt || '';
+  // Si no está en el segundo, buscar en plan.metadata (requiere acceso al plan, así que lo pasamos como prop extra si hace falta)
+  // Aquí solo usamos el del segundo, pero puedes ajustar para pasar el plan si lo prefieres
   return [
-    `${sec.visual},`,
-    `camera ${shot} ${movement},`,
-    `style ${style},`,
-    `${sec.sceneMood ?? ''} cinematic lighting,`,
+    userPrompt,
+    sec.visual,
+    `camera ${shot} ${movement}`,
+    `style ${style}`,
+    `${sec.sceneMood ?? ''} cinematic lighting`,
     'storyboard frame, line-art, no watermark'
-  ].join(' ');
+  ].filter(Boolean).join(', ');
 }
 
 /* Función de validación de URL */

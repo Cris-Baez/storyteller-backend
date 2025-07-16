@@ -149,7 +149,10 @@ function promptOf(seg: Segment, style: string, plan: VideoPlan) {
     const char = characters[0];
     charDesc = [char.name, char.gender, char.age, char.language].filter(Boolean).join(', ');
   }
+  // Usar el prompt original del usuario como base, y solo agregar detalles si existen
+  const userPrompt = plan.metadata?.prompt || '';
   return [
+    userPrompt,
     env.ext_int ? `escena: ${env.ext_int}` : '',
     env.location ? `lugar: ${env.location}` : '',
     env.timeOfDay ? `hora: ${env.timeOfDay}` : '',
@@ -250,6 +253,11 @@ async function pollReplicateJob(model: string, input: Record<string, any>, maxWa
 // API principal
 
 export async function generateClips(plan: VideoPlan): Promise<string[]> {
+  // Validación estricta: el prompt del usuario debe estar siempre en metadata.prompt
+  if (!plan.metadata || typeof plan.metadata.prompt !== 'string' || !plan.metadata.prompt.trim()) {
+    logger.error('[ClipService] FALTA prompt en plan.metadata.prompt. plan.metadata=' + JSON.stringify(plan.metadata));
+    throw new Error('Falta prompt en metadata.prompt. No se puede generar video sin prompt base.');
+  }
   // Importar Runway solo si es necesario
   let generateRunwayVideo: any = null;
   const runwayStyles = ['realistic', 'cinematic', 'commercial'];
@@ -258,15 +266,15 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
   } catch {}
   logger.info('🎞️ ClipService v8 – start (segmentación óptima)');
   const lim  = pLimit(Number(env.GEN2_CONCURRENCY ?? 3));
-  // Determinar modelos permitidos según estilo
+  // Determinar modelos permitidos según estilo (SOLO modelos baratos, NO veo-3 por defecto)
   const allowedModels = [
     'runway/gen4_turbo',
     'bytedance/seedance-1-pro',
     'luma/ray-2-720p',
     'pixverse/pixverse-v4.5',
     'minimax/video-01-director',
-    ...BACKUP,
-    'google/veo-3', // siempre como último recurso
+    ...BACKUP
+    // 'google/veo-3' // solo si el usuario lo pide explícitamente
   ];
   // Determinar duración total
   const totalSeconds = plan.timeline.length;
@@ -290,12 +298,19 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
 
   const urls: string[] = [];
   await Promise.all(segs.map(({ model: m, seg }) => lim(async () => {
+    // Validación redundante por segmento (debug extremo)
+    if (!plan.metadata || typeof plan.metadata.prompt !== 'string' || !plan.metadata.prompt.trim()) {
+      logger.error(`[ClipService] FALTA prompt en metadata al generar segmento ${seg.start}-${seg.end}. plan.metadata=` + JSON.stringify(plan.metadata));
+      throw new Error(`Falta prompt en metadata.prompt en segmento ${seg.start}-${seg.end}`);
+    }
     const style = plan.metadata.visualStyle;
     const segMeta = seg.secs[0] || {};
     const lora = segMeta.lora ?? plan.metadata.lora;
     const loraScale = segMeta.loraScale ?? plan.metadata.loraScale;
     const seed = segMeta.seed ?? plan.metadata.seed;
     let src: string|undefined;
+    // Log de contexto para depuración avanzada
+    logger.info(`[ClipService] Generando segmento ${seg.start}-${seg.end} modelo=${m} prompt="${plan.metadata.prompt}" estilo=${style}`);
     // Runway
     if (m === 'runway/gen4_turbo' && runwayStyles.includes(style) && generateRunwayVideo) {
       let promptImage = '';
@@ -488,4 +503,4 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
   logger.info(`✅ Total clips: ${urls.length}`);
   return urls;
 }
-    
+
