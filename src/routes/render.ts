@@ -9,8 +9,10 @@ const renderRequestSchema = z.object({
   prompt: z.string().min(1, 'Prompt is required').transform(val => 
     val.replace(/[^\x00-\x7F]/g, "").trim() || "Create a cinematic story"
   ),
-  mode: z.enum(['cinematic', 'videogame', 'anime', 'cartoon', 'story', 'commercial']),
-  visualStyle: z.enum(['realistic', 'anime', 'cartoon']),
+  // Modos soportados por el backend y SYSTEM prompt
+  mode: z.enum(['cinematic', 'videogame', 'anime', 'cartoon', 'story', 'commercial', 'comercial', 'realistic']),
+  // Estilos visuales soportados por llmService.ts
+  visualStyle: z.enum(['realistic', 'anime', 'cartoon', 'cinematic', 'comercial', 'commercial']),
   duration: z.number().min(1).max(300, 'Duration must be between 1 and 300 seconds'),
 });
 
