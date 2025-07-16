@@ -28,7 +28,7 @@ import { VideoPlan }  from '../utils/types.js';
 
 /* ─── Config ───────────────────────────────────────────── */
 const TMP_DIR  = path.join(process.cwd(), 'tmp', 'ffmpeg_v6');
-const TIMEOUT = Number(env.FFMPEG_TIMEOUT_MS ?? 180_000);
+const TIMEOUT = Number(env.FFMPEG_TIMEOUT_MS ?? 600_000); // 10 minutos por defecto para pruebas
 const RETRIES  = 2;
 
 if (typeof ffmpegPath === 'string') {
@@ -149,15 +149,15 @@ export async function assembleVideo(opts:{
   }
   logger.info(`✅ Archivo de lista para FFmpeg creado: ${list}`);
   logger.info('🟡 [FFmpeg] Iniciando concat clips → ' + concat);
+  // OPTIMIZADO PARA PRUEBAS: sin minterpolate y a 720p
   await retry(() => execFF(
     ffmpeg().input(toPosix(list)).inputOptions(['-f', 'concat', '-safe', '0'])
       .videoFilters([
-        'scale=1920:1080:force_original_aspect_ratio=decrease',
-        'pad=1920:1080:(ow-iw)/2:(oh-ih)/2',
-        'setsar=1',
-        'minterpolate=fps=60'
+        'scale=1280:720:force_original_aspect_ratio=decrease',
+        'pad=1280:720:(ow-iw)/2:(oh-ih)/2',
+        'setsar=1'
       ])
-      .outputOptions(['-c:v', 'libx264', '-preset', 'veryfast', '-movflags', '+faststart']),
+      .outputOptions(['-c:v', 'libx264', '-preset', 'ultrafast', '-movflags', '+faststart']),
     concat
   ), RETRIES);
   logger.info('🟢 [FFmpeg] Concat clips OK → ' + concat);
