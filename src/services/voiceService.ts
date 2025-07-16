@@ -279,7 +279,12 @@ export async function createVoiceOver(plan: VideoPlan): Promise<Buffer> {
 
     // Si todos los buffers están vacíos, significa que no se generó ninguna voz
     if (audioBuffers.every((buf: Buffer) => buf.length === 0)) {
-      logger.warn('⚠️ No se pudo generar ninguna voz. El video continuará sin narración.');
+      const hasAnyDialogue = plan.timeline.some(sec => !!sec.dialogue && String(sec.dialogue).trim().length > 0);
+      if (!hasAnyDialogue) {
+        logger.info('ℹ️  No se generó ninguna voz porque ningún segundo tiene diálogo. No se llamará a Murf ni ElevenLabs.');
+      } else {
+        logger.warn('⚠️ No se pudo generar ninguna voz. El video continuará sin narración.');
+      }
       return Buffer.from([]);
     }
 
