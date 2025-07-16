@@ -238,62 +238,107 @@ async function validateVoiceIdBeforeUse(voiceId: string): Promise<boolean> {
 /* ────────────────────────────────────────────────────────────
  * 6) Genera voz para un texto usando ElevenLabs como proveedor principal
  * ────────────────────────────────────────────────────────── */
-async function generateVoice(text: string): Promise<Buffer> {
-  // Usar voz estable de ElevenLabs (Rachel)
-  const STABLE_VOICE_ID = 'EXAVITQu4vr4xnSDxMaL';
-  
+// Google TTS fallback simple (puedes mejorar con API oficial si tienes credenciales)
+async function googleTTS(text: string, lang = 'es'): Promise<Buffer | null> {
   try {
-    const buffer = await elevenTTS(text, STABLE_VOICE_ID);
-    if (buffer) {
-      return buffer;
-    }
-    throw new Error('No se pudo generar la voz');
+    // Usar gtts-cli si está disponible (requiere tenerlo instalado)
+    const tmpFile = path.join(TMP_DIR, `gtts_${uuid()}.mp3`);
+    await new Promise((res, rej) => {
+      const proc = spawn('gtts-cli', ['--lang', lang, '--output', tmpFile, text]);
+      proc.on('close', (code) => code === 0 ? res(true) : rej(new Error('gtts error')));
+    });
+    const buf = await fs.readFile(tmpFile);
+    await fs.unlink(tmpFile);
+    logger.info('Google TTS (gtts-cli) generado correctamente.');
+    return buf;
   } catch (e) {
-    logger.error(`Error generando voz: ${e instanceof Error ? e.message : 'Unknown error'}`);
-    return Buffer.from([]);
+    logger.warn('Google TTS error: ' + (e instanceof Error ? e.message : e));
+    return null;
   }
+}
+
+// Genera un beep de emergencia (1s, 440Hz)
+async function beepFallback(): Promise<Buffer> {
+  const tmpFile = path.join(TMP_DIR, `beep_${uuid()}.mp3`);
+  await new Promise((res, rej) => {
+    if (typeof ffmpegPath !== 'string') return rej(new Error('ffmpeg path not found'));
+    const proc = spawn(ffmpegPath, [
+      '-f', 'lavfi',
+      '-i', 'sine=frequency=440:duration=1',
+      '-ar', '48000',
+      '-ac', '2',
+      '-q:a', '9',
+      '-acodec', 'libmp3lame',
+      tmpFile
+    ]);
+    proc.on('close', (code) => code === 0 ? res(true) : rej(new Error('ffmpeg beep fail')));
+  });
+  const buf = await fs.readFile(tmpFile);
+  await fs.unlink(tmpFile);
+  logger.info('Beep fallback generado.');
+  return buf;
+}
+
+// Fallback robusto: Murf → ElevenLabs → Google TTS → beep
+async function generateVoice(text: string, gender: 'female' | 'male' = 'female'): Promise<Buffer> {
+  // 1. Murf
+  const murfId = gender === 'female' ? MURF_FEMALE[0] : MURF_MALE[0];
+  let buffer = await murfTTS(text, murfId);
+  if (buffer && buffer.length > 0) {
+    logger.info('Voz generada con Murf.');
+    return buffer;
+  }
+  // 2. ElevenLabs
+  const elevenId = gender === 'female' ? ELEVEN_FEMALE[1] : ELEVEN_MALE[1];
+  buffer = await elevenTTS(text, elevenId);
+  if (buffer && buffer.length > 0) {
+    logger.info('Voz generada con ElevenLabs.');
+    return buffer;
+  }
+  // 3. Google TTS
+  buffer = await googleTTS(text, gender === 'female' ? 'es' : 'es');
+  if (buffer && buffer.length > 0) {
+    logger.info('Voz generada con Google TTS.');
+    return buffer;
+  }
+  // 4. Beep de emergencia
+  logger.warn('No se pudo generar voz con ningún TTS. Usando beep de emergencia.');
+  return await beepFallback();
 }
 
 /* ════════════════════════════════════════════════════════════
  * createVoiceOver – API pública
  * ═══════════════════════════════════════════════════════════ */
 export async function createVoiceOver(plan: VideoPlan): Promise<Buffer> {
-  logger.info('🎙️  VoiceService v6.1 – iniciando…');
-  
+  logger.info('🎙️  VoiceService v6.2 – iniciando…');
   try {
-    // Intentar generar la voz
+    // Si el usuario pide un efecto de sonido explícito en el prompt, priorizarlo
+    // (esto requiere que el campo dialogue o un campo especial contenga "[SFX: ...]" o similar)
     const audioBuffers = await Promise.all(
       plan.timeline.map(async (sec) => {
         if (!sec.dialogue) return Buffer.from([]);
+        // Detectar si el usuario pide un efecto de sonido explícito
+        const sfxMatch = typeof sec.dialogue === 'string' && sec.dialogue.match(/\[SFX:([^\]]+)\]/i);
+        if (sfxMatch) {
+          // Aquí podrías mapear a un banco de efectos, por ahora beep
+          logger.info(`Efecto de sonido solicitado: ${sfxMatch[1]}`);
+          return await beepFallback();
+        }
+        // Selección de género (puedes mejorar con más lógica si tienes info de personajes)
+        const gender = (sec as any).gender || (plan.metadata?.characters?.[0]?.gender) || 'female';
         try {
-          return await generateVoice(sec.dialogue);
+          return await generateVoice(sec.dialogue, gender);
         } catch (e) {
-          if ((e as any).response?.status === 403) {
-            logger.error('⚠️ Error de autenticación con ElevenLabs. Verifica tu API key y suscripción.');
-            return Buffer.from([]);
-          }
-          throw e;
+          logger.error('Error generando voz para segmento: ' + (e instanceof Error ? e.message : e));
+          return await beepFallback();
         }
       })
     );
-
-    // Si todos los buffers están vacíos, significa que no se generó ninguna voz
-    if (audioBuffers.every((buf: Buffer) => buf.length === 0)) {
-      const hasAnyDialogue = plan.timeline.some(sec => !!sec.dialogue && String(sec.dialogue).trim().length > 0);
-      if (!hasAnyDialogue) {
-        logger.info('ℹ️  No se generó ninguna voz porque ningún segundo tiene diálogo. No se llamará a Murf ni ElevenLabs.');
-      } else {
-        logger.warn('⚠️ No se pudo generar ninguna voz. El video continuará sin narración.');
-      }
-      return Buffer.from([]);
-    }
-
-    // Concatenar los buffers de audio
+    // Siempre concatenar los buffers (aunque sean beeps)
     return Buffer.concat(audioBuffers);
   } catch (e) {
     logger.error(`VoiceService error: ${e instanceof Error ? e.message : 'Unknown error'}`);
-    // En caso de error, devolver un buffer vacío en lugar de lanzar una excepción
-    logger.warn('⚠️ Continuando sin narración debido a errores en la generación de voz.');
-    return Buffer.from([]);
+    logger.warn('⚠️ Continuando con beep de emergencia debido a errores en la generación de voz.');
+    return await beepFallback();
   }
 }

@@ -176,27 +176,68 @@ export async function assembleVideo(opts:{
   const volExpr = buildVolumeExpr(plan);
   const musicFilter = `volume='${volExpr}':eval=frame`;
 
-  /* 4️⃣ mix audio with ducking */
+  /* 4️⃣ mix audio with ducking o solo música/efecto */
   const audioMix = path.join(TMP_DIR, `${id}_mix.m4a`);
-  logger.info('🟡 [FFmpeg] Iniciando mezcla audio (ducking) → ' + audioMix);
-  await retry(() => execFF(
-    ffmpeg()
-      .input(voiceOver.length ? voiceFile : 'anullsrc')
-      .inputOptions(voiceOver.length ? [] : ['-f', 'lavfi'])
-      .input(music.length ? musicFile : 'anullsrc')
-      .inputOptions(music.length ? [] : ['-f', 'lavfi'])
-      .complexFilter([
-        `[1:a]${musicFilter}[bgm]`,
-        '[0:a][bgm]sidechaincompress=threshold=0.25:ratio=8:release=150:attack=20[aout]'
-      ])
-      .outputOptions([
-        '-map', '[aout]',
-        '-c:a', 'aac',
-        '-movflags', '+faststart'
-      ]),
-    audioMix
-  ), RETRIES);
-  logger.info('🟢 [FFmpeg] Mezcla audio OK → ' + audioMix);
+  logger.info('🟡 [FFmpeg] Iniciando mezcla audio inteligente → ' + audioMix);
+  if (music.length && !voiceOver.length) {
+    // Solo música, sin ducking
+    await retry(() => execFF(
+      ffmpeg()
+        .input(musicFile)
+        .audioFilters([musicFilter])
+        .outputOptions([
+          '-c:a', 'aac',
+          '-movflags', '+faststart'
+        ]),
+      audioMix
+    ), RETRIES);
+    logger.info('🟢 [FFmpeg] Solo música (sin ducking) → ' + audioMix);
+  } else if (!music.length && !voiceOver.length) {
+    // Ni música ni voz: beep de emergencia
+    const beepFile = path.join(TMP_DIR, `${id}_beep.mp3`);
+    await new Promise((res, rej) => {
+      if (typeof ffmpegPath !== 'string') return rej(new Error('ffmpeg path not found'));
+      const proc = spawn(ffmpegPath, [
+        '-f', 'lavfi',
+        '-i', 'sine=frequency=440:duration=3',
+        '-ar', '48000',
+        '-ac', '2',
+        '-q:a', '9',
+        '-acodec', 'libmp3lame',
+        beepFile
+      ]);
+      proc.on('close', (code) => code === 0 ? res(true) : rej(new Error('ffmpeg beep fail')));
+    });
+    await retry(() => execFF(
+      ffmpeg().input(beepFile)
+        .outputOptions([
+          '-c:a', 'aac',
+          '-movflags', '+faststart'
+        ]),
+      audioMix
+    ), RETRIES);
+    logger.info('🟢 [FFmpeg] Solo beep de emergencia → ' + audioMix);
+  } else {
+    // Voz y música: ducking normal
+    await retry(() => execFF(
+      ffmpeg()
+        .input(voiceOver.length ? voiceFile : 'anullsrc')
+        .inputOptions(voiceOver.length ? [] : ['-f', 'lavfi'])
+        .input(music.length ? musicFile : 'anullsrc')
+        .inputOptions(music.length ? [] : ['-f', 'lavfi'])
+        .complexFilter([
+          `[1:a]${musicFilter}[bgm]`,
+          '[0:a][bgm]sidechaincompress=threshold=0.25:ratio=8:release=150:attack=20[aout]'
+        ])
+        .outputOptions([
+          '-map', '[aout]',
+          '-c:a', 'aac',
+          '-movflags', '+faststart'
+        ]),
+      audioMix
+    ), RETRIES);
+    logger.info('🟢 [FFmpeg] Mezcla voz+música (ducking) → ' + audioMix);
+  }
 
   /* 5️⃣ multiplex AV */
   const final1080 = path.join(TMP_DIR, `${id}_1080p.mp4`);

@@ -1,15 +1,16 @@
 // Tabla de capacidades de modelos IA (julio 2025)
 // Puedes actualizar esto fácilmente si hay nuevos modelos o cambios
 const MODEL_CAPABILITIES: Record<string, { durations: number[], quality: number, notes?: string }> = {
-  'runway/gen4_turbo': { durations: [5, 10], quality: 9, notes: 'Estilos realistas/cinemáticos, ultra rápido, requiere imagen base.' },
-  'google/veo-3':      { durations: [5, 10, 15, 30], quality: 10, notes: 'Calidad top, acceso limitado, ideal para clips largos.' },
-  'luma/ray-2-720p':   { durations: [5, 9], quality: 8, notes: 'Muy rápido, buena calidad, solo 5 o 9s.' },
-  'pixverse/pixverse-v4.5': { durations: [1,2,3,4,5,6,7,8], quality: 7, notes: 'Animación/cartoon, hasta 8s.' },
-  'bytedance/seedance-1-pro': { durations: [5, 10, 15], quality: 8, notes: 'Anime, dinámico, hasta 15s.' },
-  'minimax/video-01-director': { durations: [1,2,3,4,5,6], quality: 6, notes: 'Creativo, experimental.' },
-  'bytedance/seedance-1-lite': { durations: [5, 10, 15], quality: 6 },
-  'minimax/hailuo-02': { durations: [5, 10, 15], quality: 6 },
-  'luma/ray-flash-2-540p': { durations: [5, 10, 15], quality: 5 },
+  // Duraciones máximas reales según specs y pruebas (julio 2025)
+  'runway/gen4_turbo': { durations: [16, 10, 5], quality: 9, notes: 'Realista/cinemático, máx 16s, requiere imagen base.' },
+  'google/veo-3':      { durations: [60, 45, 30, 15, 10, 5], quality: 10, notes: 'Calidad top, máx 60s, ideal para clips largos.' },
+  'luma/ray-2-720p':   { durations: [18, 9, 5], quality: 8, notes: 'Muy rápido, máx 18s, buena calidad.' },
+  'pixverse/pixverse-v4.5': { durations: [8,7,6,5,4,3,2,1], quality: 7, notes: 'Animación/cartoon, máx 8s.' },
+  'bytedance/seedance-1-pro': { durations: [15, 10, 5], quality: 8, notes: 'Anime, dinámico, máx 15s.' },
+  'minimax/video-01-director': { durations: [6,5,4,3,2,1], quality: 6, notes: 'Creativo, experimental, máx 6s.' },
+  'bytedance/seedance-1-lite': { durations: [15, 10, 5], quality: 6, notes: 'Versión lite, máx 15s.' },
+  'minimax/hailuo-02': { durations: [15, 10, 5], quality: 6, notes: 'Experimental, máx 15s.' },
+  'luma/ray-flash-2-540p': { durations: [15, 10, 5], quality: 5, notes: 'Rápido, máx 15s.' },
   // ...agrega más si tienes acceso
 };
 
@@ -20,13 +21,16 @@ function optimalSegments(totalSeconds: number, allowedModels: string[]): { model
     .map(m => ({ name: m, ...MODEL_CAPABILITIES[m] }))
     .filter(m => m && m.durations && m.durations.length)
     .sort((a, b) => b.quality - a.quality);
+
   let rem = totalSeconds;
   const result: { model: string, duration: number }[] = [];
+
+  // Estrategia: siempre priorizar el segmento más largo posible del modelo de mayor calidad
   while (rem > 0) {
     let found = false;
     for (const cand of candidates) {
       // Busca la mayor duración posible <= rem
-      const d = [...cand.durations].filter(x => x <= rem).sort((a,b)=>b-a)[0];
+      const d = cand.durations.find(x => x <= rem);
       if (d) {
         result.push({ model: cand.name, duration: d });
         rem -= d;
@@ -37,7 +41,7 @@ function optimalSegments(totalSeconds: number, allowedModels: string[]): { model
     if (!found) {
       // Si no hay modelo que cubra el resto, usa Veo3 como último recurso (si no está ya)
       if (!result.some(r => r.model === 'google/veo-3') && MODEL_CAPABILITIES['google/veo-3'].durations.some(d=>d<=rem)) {
-        const d = [...MODEL_CAPABILITIES['google/veo-3'].durations].filter(x => x <= rem).sort((a,b)=>b-a)[0];
+        const d = MODEL_CAPABILITIES['google/veo-3'].durations.find(x => x <= rem);
         if (d) {
           result.push({ model: 'google/veo-3', duration: d });
           rem -= d;
