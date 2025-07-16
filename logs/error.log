@@ -3117,3 +3117,213 @@ Invalid argument
 2025-07-16T02:43:18.844Z [error] Error generando voz: No se pudo generar la voz
 2025-07-16T02:43:18.861Z [error] Error generando voz: No se pudo generar la voz
 2025-07-16T02:43:18.862Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:46:34.709Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 000002536ea4f480] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\e6c0b40e-44ff-4ac5-983b-4761b8e11400_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+Stream mapping:
+  Stream #0:0 (pcm_u8) -> sidechaincompress
+  Stream #1:0 (mp3float) -> volume:default
+  sidechaincompress:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+[mp3 @ 000002536ea6a580] Invalid audio stream. Exactly one MP3 audio stream is required.
+[out#0/mp3 @ 000002536ea4fbc0] Could not write header (incorrect codec parameters ?): Invalid argument
+[aost#0:0/aac @ 000002536ea50580] Error initializing output stream: 
+[aac @ 000002536ea775c0] Qavg: nan
+Conversion failed!
+
+
+2025-07-16T02:46:36.302Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 000002662994f480] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\e6c0b40e-44ff-4ac5-983b-4761b8e11400_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+Stream mapping:
+  Stream #0:0 (pcm_u8) -> sidechaincompress
+  Stream #1:0 (mp3float) -> volume:default
+  sidechaincompress:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+[mp3 @ 000002662996a580] Invalid audio stream. Exactly one MP3 audio stream is required.
+[out#0/mp3 @ 000002662994fbc0] Could not write header (incorrect codec parameters ?): Invalid argument
+[aost#0:0/aac @ 0000026629950580] Error initializing output stream: 
+[aac @ 00000266299775c0] Qavg: nan
+Conversion failed!
+
+
+2025-07-16T02:46:40.107Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 0000020f29b3f480] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\2fb28962-009c-40c1-ad28-fb925e46b426_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+Stream mapping:
+  Stream #0:0 (pcm_u8) -> sidechaincompress
+  Stream #1:0 (mp3float) -> volume:default
+  sidechaincompress:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+[mp3 @ 0000020f29b5a580] Invalid audio stream. Exactly one MP3 audio stream is required.
+[out#0/mp3 @ 0000020f29b3fbc0] Could not write header (incorrect codec parameters ?): Invalid argument
+[aost#0:0/aac @ 0000020f29b40580] Error initializing output stream: 
+[aac @ 0000020f29b675c0] Qavg: nan
+Conversion failed!
+
+
+2025-07-16T02:46:41.696Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 0000024aaf63f480] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\2fb28962-009c-40c1-ad28-fb925e46b426_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+Stream mapping:
+  Stream #0:0 (pcm_u8) -> sidechaincompress
+  Stream #1:0 (mp3float) -> volume:default
+  sidechaincompress:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+[mp3 @ 0000024aaf65a580] Invalid audio stream. Exactly one MP3 audio stream is required.
+[out#0/mp3 @ 0000024aaf63fbc0] Could not write header (incorrect codec parameters ?): Invalid argument
+[aost#0:0/aac @ 0000024aaf640580] Error initializing output stream: 
+[aac @ 0000024aaf6675c0] Qavg: nan
+Conversion failed!
+
+
+2025-07-16T02:46:45.539Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 0000027a8db3f480] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\637b2f6c-d7a6-4765-b68b-f2680f22b63c_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+Stream mapping:
+  Stream #0:0 (pcm_u8) -> sidechaincompress
+  Stream #1:0 (mp3float) -> volume:default
+  sidechaincompress:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+[mp3 @ 0000027a8db5a580] Invalid audio stream. Exactly one MP3 audio stream is required.
+[out#0/mp3 @ 0000027a8db3fbc0] Could not write header (incorrect codec parameters ?): Invalid argument
+[aost#0:0/aac @ 0000027a8db40580] Error initializing output stream: 
+[aac @ 0000027a8db675c0] Qavg: nan
+Conversion failed!
+
+
+2025-07-16T02:46:47.133Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 000001f5117cf480] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\637b2f6c-d7a6-4765-b68b-f2680f22b63c_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+Stream mapping:
+  Stream #0:0 (pcm_u8) -> sidechaincompress
+  Stream #1:0 (mp3float) -> volume:default
+  sidechaincompress:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+[mp3 @ 000001f5117ea580] Invalid audio stream. Exactly one MP3 audio stream is required.
+[out#0/mp3 @ 000001f5117cfbc0] Could not write header (incorrect codec parameters ?): Invalid argument
+[aost#0:0/aac @ 000001f5117d0580] Error initializing output stream: 
+[aac @ 000001f5117f75c0] Qavg: nan
+Conversion failed!
+
+
+2025-07-16T02:48:50.687Z [error] FLUX respuesta inesperada: {}
+2025-07-16T02:48:50.688Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T02:48:58.450Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:48:58.457Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:48:58.461Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:48:58.467Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:48:58.470Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:48:58.482Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:48:58.493Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:48:58.497Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:48:58.508Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:48:58.513Z [error] Error generando voz: No se pudo generar la voz

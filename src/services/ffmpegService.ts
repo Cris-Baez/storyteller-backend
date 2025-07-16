@@ -177,7 +177,7 @@ export async function assembleVideo(opts:{
   const musicFilter = `volume='${volExpr}':eval=frame`;
 
   /* 4️⃣ mix audio with ducking */
-  const audioMix = path.join(TMP_DIR, `${id}_mix.mp3`);
+  const audioMix = path.join(TMP_DIR, `${id}_mix.m4a`);
   logger.info('🟡 [FFmpeg] Iniciando mezcla audio (ducking) → ' + audioMix);
   await retry(() => execFF(
     ffmpeg()
@@ -189,7 +189,11 @@ export async function assembleVideo(opts:{
         `[1:a]${musicFilter}[bgm]`,
         '[0:a][bgm]sidechaincompress=threshold=0.25:ratio=8:release=150:attack=20[aout]'
       ])
-      .outputOptions(['-map', '[aout]', '-c:a', 'aac']),
+      .outputOptions([
+        '-map', '[aout]',
+        '-c:a', 'aac',
+        '-movflags', '+faststart'
+      ]),
     audioMix
   ), RETRIES);
   logger.info('🟢 [FFmpeg] Mezcla audio OK → ' + audioMix);
