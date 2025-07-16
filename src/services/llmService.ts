@@ -156,7 +156,10 @@ export async function createVideoPlan(req: RenderRequest): Promise<VideoPlan> {
     return completed;
   }
 
-  const SYSTEM = `
+
+  // Construye el prompt SYSTEM con guía profesional según visualStyle
+  function buildSystemPrompt(visualStyle: string, duration: number, mode: string) {
+    const base = `
 You are a world-class film/TV showrunner. You must produce an ULTRA detailed script at 1 second = 1 object in "timeline" array.
 
 CRITICAL REQUIREMENTS:
@@ -193,6 +196,64 @@ STRICT JSON FORMAT:
 }
 
 REMEMBER: timeline.length MUST equal ${duration}. No extra text, no markdown.`;
+
+    // Guías profesionales por estilo visual (actualizadas 2025)
+    const styleGuides: Record<string, string> = {
+      realistic: `
+STYLE_GUIDE:
+- Iluminación física realista (HDRI, exposición, ISO, f-stop, sombras suaves).
+- Movimientos de cámara naturales: slider, micro-jitter ≤0.3, trípode.
+- Lentes 35–85mm, grano sutil, LUT neutro.
+- Diálogos casuales, lenguaje natural, sin SFX estilizados.
+- FX sutiles: lens dirt, flares, aberración cromática.
+- Color fiel a la realidad, evitar sobresaturación.
+- Transiciones: cortes simples, crossfade solo si lo exige la acción.
+`,
+      cinematic: `
+STYLE_GUIDE:
+- Gramática de cine clásico: establishing, hero shot, over-the-shoulder, inserts.
+- Lentes anamórficos 24–35mm, bokeh ovalado, grano fílmico.
+- Iluminación dramática: key/fill/rim, gels, fuentes motivadas.
+- Color grading: teal-orange, curvas S, LUTs cinematográficos.
+- FX: speed-ramps, wipes estilizados, slow motion.
+- Diálogo naturalista, subtexto, ritmo con tensión-clímax-desenlace.
+- Transiciones: wipes, fade, match cut.
+`,
+      anime: `
+STYLE_GUIDE:
+- Personajes cel-shaded, onomatopeyas vibrantes ("バシュン", "ドン").
+- Speedlines, paneles dinámicos, ojos exagerados, fondos en parallax.
+- Cámara multiplano 2D, paneos horizontales, zooms dramáticos.
+- Paletas temáticas (shōnen, shōjo), alto contraste.
+- Diálogo: monólogo interno, pausas "(beats)", frases cortas.
+- FX: partículas, brillos mágicos, ráfagas de energía.
+- Transiciones: wipes, panel manga, efectos de tinta.
+`,
+      cartoon: `
+STYLE_GUIDE:
+- Squash & stretch, timing slapstick (anticipación-acción-reacción).
+- Contornos gruesos, colores planos (#FFD700, #00AEEF, #FF69B4).
+- Cámara: ángulos exagerados, zoom squash-stretch, whip-pans rápidos.
+- FX: estrellas "pop", onomatopeyas ("BOING!", "POOF!"), nubes de humo.
+- Diálogo: cómico, exagerado, SFX en pantalla.
+- Transiciones: star wipes, iris in/out, efectos cartoon.
+`,
+      comercial: `
+STYLE_GUIDE:
+- Visuales de alto impacto: colores de marca vibrantes, mucho espacio negativo (clean luxury).
+- Tipografía animada, overlays de texto grandes y slogans claros.
+- Transiciones rápidas: jump-cuts, wipes modernos, morphing.
+- Elementos gráficos flotantes, iconografía animada, logotipos en movimiento.
+- Ritmo visual dinámico, cambios de plano cada 1-2s.
+- Cámara: primeros planos de producto, macro shots, slider/gimbal, whip-pans.
+- Iluminación de alto contraste, key light fuerte, fondos desenfocados.
+- Mensaje claro y directo, CTA explícito, storytelling ultra condensado (problema→solución→beneficio→CTA).
+- Música energética, SFX UI (whoosh, pop, click), voz en off persuasiva.
+- Branding siempre visible (logo, colores, tipografía).
+`
+    };
+    return base + (styleGuides[visualStyle?.toLowerCase()] ?? '');
+  }
 
   // Validar la estructura de la respuesta antes de procesarla
   function validateAndFixResponse(parsed: any, duration: AllowedDuration): any {
@@ -238,13 +299,15 @@ REMEMBER: timeline.length MUST equal ${duration}. No extra text, no markdown.`;
     try {
       logger.info(`🤖 Intentando modelo: ${model}`);
       
+
+      const systemPrompt = buildSystemPrompt(visualStyle, duration, mode);
       const res = await withTimeout(
         retry(() =>
           client.chat.completions.create({
             model,
             temperature: temp,
             messages: [
-              { role: 'system', content: SYSTEM },
+              { role: 'system', content: systemPrompt },
               { role: 'user',   content: cleanPrompt }
             ]
           }),

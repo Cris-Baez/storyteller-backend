@@ -1,3 +1,72 @@
+// Tabla de capacidades de modelos IA (julio 2025)
+// Puedes actualizar esto fácilmente si hay nuevos modelos o cambios
+const MODEL_CAPABILITIES: Record<string, { durations: number[], quality: number, notes?: string }> = {
+  'runway/gen4_turbo': { durations: [5, 10], quality: 9, notes: 'Estilos realistas/cinemáticos, ultra rápido, requiere imagen base.' },
+  'google/veo-3':      { durations: [5, 10, 15, 30], quality: 10, notes: 'Calidad top, acceso limitado, ideal para clips largos.' },
+  'luma/ray-2-720p':   { durations: [5, 9], quality: 8, notes: 'Muy rápido, buena calidad, solo 5 o 9s.' },
+  'pixverse/pixverse-v4.5': { durations: [1,2,3,4,5,6,7,8], quality: 7, notes: 'Animación/cartoon, hasta 8s.' },
+  'bytedance/seedance-1-pro': { durations: [5, 10, 15], quality: 8, notes: 'Anime, dinámico, hasta 15s.' },
+  'minimax/video-01-director': { durations: [1,2,3,4,5,6], quality: 6, notes: 'Creativo, experimental.' },
+  'bytedance/seedance-1-lite': { durations: [5, 10, 15], quality: 6 },
+  'minimax/hailuo-02': { durations: [5, 10, 15], quality: 6 },
+  'luma/ray-flash-2-540p': { durations: [5, 10, 15], quality: 5 },
+  // ...agrega más si tienes acceso
+};
+
+// Devuelve la lista óptima de segmentos (duraciones) para cubrir totalSeconds, priorizando menos cortes y mayor calidad
+function optimalSegments(totalSeconds: number, allowedModels: string[]): { model: string, duration: number }[] {
+  // Filtra modelos válidos y ordena por calidad descendente
+  const candidates = allowedModels
+    .map(m => ({ name: m, ...MODEL_CAPABILITIES[m] }))
+    .filter(m => m && m.durations && m.durations.length)
+    .sort((a, b) => b.quality - a.quality);
+  let rem = totalSeconds;
+  const result: { model: string, duration: number }[] = [];
+  while (rem > 0) {
+    let found = false;
+    for (const cand of candidates) {
+      // Busca la mayor duración posible <= rem
+      const d = [...cand.durations].filter(x => x <= rem).sort((a,b)=>b-a)[0];
+      if (d) {
+        result.push({ model: cand.name, duration: d });
+        rem -= d;
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      // Si no hay modelo que cubra el resto, usa Veo3 como último recurso (si no está ya)
+      if (!result.some(r => r.model === 'google/veo-3') && MODEL_CAPABILITIES['google/veo-3'].durations.some(d=>d<=rem)) {
+        const d = [...MODEL_CAPABILITIES['google/veo-3'].durations].filter(x => x <= rem).sort((a,b)=>b-a)[0];
+        if (d) {
+          result.push({ model: 'google/veo-3', duration: d });
+          rem -= d;
+          continue;
+        }
+      }
+      // Si ni así, aborta
+      throw new Error(`No hay modelo IA que soporte segmento de ${rem}s`);
+    }
+  }
+  // Ajuste final: si la suma de segmentos sobrepasa o no cubre exacto, corrige el último
+  const sum = result.reduce((a, b) => a + b.duration, 0);
+  if (sum !== totalSeconds && result.length > 0) {
+    const diff = totalSeconds - sum;
+    result[result.length - 1].duration += diff;
+    if (result[result.length - 1].duration <= 0) {
+      throw new Error('Segmentación inválida: duración negativa');
+    }
+  }
+  return result;
+}
+
+// Ejemplo de uso/documentación:
+// optimalSegments(15, ['runway/gen4_turbo','bytedance/seedance-1-pro','google/veo-3'])
+// → [{model:'bytedance/seedance-1-pro',duration:15}]
+// optimalSegments(25, ['runway/gen4_turbo','bytedance/seedance-1-pro','google/veo-3'])
+// → [{model:'google/veo-3',duration:15},{model:'google/veo-3',duration:10}]
+// optimalSegments(10, ['runway/gen4_turbo','google/veo-3'])
+// → [{model:'runway/gen4_turbo',duration:10}]
 /*──────────────────────── clipService.ts v7.2 ────────────────────────
  * Storyteller AI · ClipService
  * --------------------------------------------------------------------
@@ -187,159 +256,169 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
   try {
     generateRunwayVideo = (await import('./runwayService.js')).generateRunwayVideo;
   } catch {}
-  logger.info('🎞️ ClipService v7.4 – start');
+  logger.info('🎞️ ClipService v8 – start (segmentación óptima)');
   const lim  = pLimit(Number(env.GEN2_CONCURRENCY ?? 3));
-  const segs = segment(plan.timeline);
-  logger.info(`→ ${segs.length} segmentos de 5 s`);
+  // Determinar modelos permitidos según estilo
+  const allowedModels = [
+    'runway/gen4_turbo',
+    'bytedance/seedance-1-pro',
+    'luma/ray-2-720p',
+    'pixverse/pixverse-v4.5',
+    'minimax/video-01-director',
+    ...BACKUP,
+    'google/veo-3', // siempre como último recurso
+  ];
+  // Determinar duración total
+  const totalSeconds = plan.timeline.length;
+  // Calcular segmentos óptimos
+  const segments = optimalSegments(totalSeconds, allowedModels);
+  logger.info(`→ Segmentos óptimos: ${segments.map(s=>`${s.model}(${s.duration}s)`).join(' + ')}`);
+
+  // Mapear segmentos a timeline
+  let t = 0;
+  const segs: { model: string, seg: Segment }[] = [];
+  for (const s of segments) {
+    const seg: Segment = {
+      start: t,
+      end: t + s.duration - 1,
+      secs: plan.timeline.slice(t, t + s.duration),
+      dur: s.duration
+    };
+    segs.push({ model: s.model, seg });
+    t += s.duration;
+  }
 
   const urls: string[] = [];
-  // Usar modelOrder avanzado del plan
-  const modelOrder = plan.metadata.modelOrder && Array.isArray(plan.metadata.modelOrder)
-    ? plan.metadata.modelOrder
-    : [MODEL[plan.metadata.visualStyle as keyof typeof MODEL] ?? MODEL.realistic, ...BACKUP];
-
-  await Promise.all(segs.map(seg => lim(async () => {
-    const frames = seg.dur*24;
+  await Promise.all(segs.map(({ model: m, seg }) => lim(async () => {
     const style = plan.metadata.visualStyle;
-    // Permitir override de modelo por escena si existe (en el primer segundo del segmento)
     const segMeta = seg.secs[0] || {};
-    let tryModels: string[] = Array.isArray(segMeta.modelOrder) ? segMeta.modelOrder : modelOrder;
-
+    const lora = segMeta.lora ?? plan.metadata.lora;
+    const loraScale = segMeta.loraScale ?? plan.metadata.loraScale;
+    const seed = segMeta.seed ?? plan.metadata.seed;
     let src: string|undefined;
-    for (const m of tryModels) {
-      if (!supports(m, seg.dur)) {
-        logger.info(`⏩ Modelo ${m} no soporta duración ${seg.dur}s, se omite.`);
-        continue;
-      }
-      // Si el modelo es Runway y el estilo es compatible, usar Runway
-      const lora = segMeta.lora ?? plan.metadata.lora;
-      const loraScale = segMeta.loraScale ?? plan.metadata.loraScale;
-      const seed = segMeta.seed ?? plan.metadata.seed;
-      if (m === 'runway/gen4_turbo' && runwayStyles.includes(style) && generateRunwayVideo) {
-        // Buscar imagen base (promptImage) en el plan o segmento
-        let promptImage = '';
-        if (plan.metadata.referenceImages && plan.metadata.referenceImages.length > 0) {
-          promptImage = plan.metadata.referenceImages[0];
-        // Si se quisiera soportar referenceImage por segundo, agregar al contrato y aquí
-        } else {
-          logger.warn('No se encontró imagen base para Runway, se omite.');
-          continue;
-        }
-        try {
-          src = await generateRunwayVideo({
-            promptImage,
-            promptText: promptOf(seg, style, plan),
-            model: 'gen4_turbo',
-            ratio: '1280:720',
-            duration: seg.dur
-          });
-          logger.info(`✅ Runway OK (seg${seg.start})`);
-          break;
-        } catch (e:any) {
-          logger.warn(`❌ Runway ${e.message}`);
-        }
+    // Runway
+    if (m === 'runway/gen4_turbo' && runwayStyles.includes(style) && generateRunwayVideo) {
+      let promptImage = '';
+      if (plan.metadata.referenceImages && plan.metadata.referenceImages.length > 0) {
+        promptImage = plan.metadata.referenceImages[0];
       } else {
-        // Fallback: Replicate y otros modelos IA
-        let input: Record<string, any> = {};
-        if (m.startsWith('bytedance/seedance-1-pro')) {
-          input = {
-            fps: 24,
-            prompt: promptOf(seg, style, plan),
-            duration: seg.dur,
-            resolution: '1080p',
-            aspect_ratio: '16:9',
-            camera_fixed: false,
-            ...(lora ? { lora_url: lora } : {}),
-            ...(loraScale ? { lora_scale: loraScale } : {}),
-            ...(seed ? { seed } : {})
-          };
-        } else if (m.startsWith('minimax/hailuo-02')) {
-          input = {
-            prompt: promptOf(seg, style, plan),
-            duration: seg.dur,
-            resolution: '1080p',
-            prompt_optimizer: false,
-            ...(lora ? { lora_url: lora } : {}),
-            ...(loraScale ? { lora_scale: loraScale } : {}),
-            ...(seed ? { seed } : {})
-          };
-        } else if (m.startsWith('minimax/video-01-director')) {
-          input = {
-            prompt: promptOf(seg, style, plan),
-            prompt_optimizer: true,
-            ...(lora ? { lora_url: lora } : {}),
-            ...(loraScale ? { lora_scale: loraScale } : {}),
-            ...(seed ? { seed } : {})
-          };
-        } else if (m.startsWith('minimax/video-01')) {
-          input = {
-            prompt: promptOf(seg, style, plan),
-            prompt_optimizer: true,
-            ...(lora ? { lora_url: lora } : {}),
-            ...(loraScale ? { lora_scale: loraScale } : {}),
-            ...(seed ? { seed } : {})
-          };
-        } else if (m.startsWith('luma/ray-flash-2-720p')) {
-          input = {
-            loop: false,
-            prompt: promptOf(seg, style, plan),
-            duration: seg.dur,
-            aspect_ratio: '16:9',
-            ...(lora ? { lora_url: lora } : {}),
-            ...(loraScale ? { lora_scale: loraScale } : {}),
-            ...(seed ? { seed } : {})
-          };
-        } else if (m.startsWith('luma/ray-2-720p') || m.startsWith('luma/ray-2')) {
-          input = {
-            prompt: promptOf(seg, style, plan),
-            duration: seg.dur,
-            aspect_ratio: '16:9',
-            ...(lora ? { lora_url: lora } : {}),
-            ...(loraScale ? { lora_scale: loraScale } : {}),
-            ...(seed ? { seed } : {})
-          };
-        } else if (m === 'google/veo-2' || m === 'google/veo-3') {
-          input = {
-            prompt: promptOf(seg, style, plan),
-            duration: seg.dur,
-            aspect_ratio: '16:9',
-            ...(lora ? { lora_url: lora } : {}),
-            ...(loraScale ? { lora_scale: loraScale } : {}),
-            ...(seed ? { seed } : {})
-          };
-        } else if (m === 'pixverse/pixverse-v4.5') {
-          input = {
-            prompt: promptOf(seg, style, plan),
-            duration: seg.dur,
-            aspect_ratio: '16:9',
-            ...(lora ? { lora_url: lora } : {}),
-            ...(loraScale ? { lora_scale: loraScale } : {}),
-            ...(seed ? { seed } : {})
-          };
-        } else {
-          input = {
-            prompt: promptOf(seg, style, plan),
-            duration: seg.dur,
-            ...(lora ? { lora_url: lora } : {}),
-            ...(loraScale ? { lora_scale: loraScale } : {}),
-            ...(seed ? { seed } : {})
-          };
-        }
-        try {
-          src = await pollReplicateJob(m, input);
-          logger.info(`✅ ${m} OK (seg${seg.start})`);
-          break;
-        } catch (e:any) {
-          logger.warn(`❌ ${m} ${e.message}`);
-        }
+        logger.warn('No se encontró imagen base para Runway, se omite.');
+        return;
+      }
+      try {
+        src = await generateRunwayVideo({
+          promptImage,
+          promptText: promptOf(seg, style, plan),
+          model: 'gen4_turbo',
+          ratio: '1280:720',
+          duration: seg.dur
+        });
+        logger.info(`✅ Runway OK (${seg.start}-${seg.end})`);
+      } catch (e:any) {
+        logger.warn(`❌ Runway ${e.message}`);
+        return;
+      }
+    } else {
+      // Fallback: Replicate y otros modelos IA
+      let input: Record<string, any> = {};
+      if (m.startsWith('bytedance/seedance-1-pro')) {
+        input = {
+          fps: 24,
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          resolution: '1080p',
+          aspect_ratio: '16:9',
+          camera_fixed: false,
+          ...(lora ? { lora_url: lora } : {}),
+          ...(loraScale ? { lora_scale: loraScale } : {}),
+          ...(seed ? { seed } : {})
+        };
+      } else if (m.startsWith('minimax/hailuo-02')) {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          resolution: '1080p',
+          prompt_optimizer: false,
+          ...(lora ? { lora_url: lora } : {}),
+          ...(loraScale ? { lora_scale: loraScale } : {}),
+          ...(seed ? { seed } : {})
+        };
+      } else if (m.startsWith('minimax/video-01-director')) {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          prompt_optimizer: true,
+          ...(lora ? { lora_url: lora } : {}),
+          ...(loraScale ? { lora_scale: loraScale } : {}),
+          ...(seed ? { seed } : {})
+        };
+      } else if (m.startsWith('minimax/video-01')) {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          prompt_optimizer: true,
+          ...(lora ? { lora_url: lora } : {}),
+          ...(loraScale ? { lora_scale: loraScale } : {}),
+          ...(seed ? { seed } : {})
+        };
+      } else if (m.startsWith('luma/ray-flash-2-720p')) {
+        input = {
+          loop: false,
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          aspect_ratio: '16:9',
+          ...(lora ? { lora_url: lora } : {}),
+          ...(loraScale ? { lora_scale: loraScale } : {}),
+          ...(seed ? { seed } : {})
+        };
+      } else if (m.startsWith('luma/ray-2-720p') || m.startsWith('luma/ray-2')) {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          aspect_ratio: '16:9',
+          ...(lora ? { lora_url: lora } : {}),
+          ...(loraScale ? { lora_scale: loraScale } : {}),
+          ...(seed ? { seed } : {})
+        };
+      } else if (m === 'google/veo-2' || m === 'google/veo-3') {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          aspect_ratio: '16:9',
+          ...(lora ? { lora_url: lora } : {}),
+          ...(loraScale ? { lora_scale: loraScale } : {}),
+          ...(seed ? { seed } : {})
+        };
+      } else if (m === 'pixverse/pixverse-v4.5') {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          aspect_ratio: '16:9',
+          ...(lora ? { lora_url: lora } : {}),
+          ...(loraScale ? { lora_scale: loraScale } : {}),
+          ...(seed ? { seed } : {})
+        };
+      } else {
+        input = {
+          prompt: promptOf(seg, style, plan),
+          duration: seg.dur,
+          ...(lora ? { lora_url: lora } : {}),
+          ...(loraScale ? { lora_scale: loraScale } : {}),
+          ...(seed ? { seed } : {})
+        };
+      }
+      try {
+        src = await pollReplicateJob(m, input);
+        logger.info(`✅ ${m} OK (${seg.start}-${seg.end})`);
+      } catch (e:any) {
+        logger.warn(`❌ ${m} ${e.message}`);
+        return;
       }
     }
     if (!src) {
-      logger.error(`× sin clip seg${seg.start}`);
+      logger.error(`× sin clip ${seg.start}-${seg.end}`);
       return;
     }
 
-    /* stream‑download → /tmp (con reintentos) */
+    // stream‑download → /tmp (con reintentos)
     const fn = path.join(TMP, `clip_${seg.start}_${uuid().slice(0,8)}.mp4`);
     let ok = false;
     for (let attempt = 1; attempt <= 3; attempt++) {
@@ -377,7 +456,7 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
       return;
     }
 
-    /* subir a CDN */
+    // subir a CDN
     logger.info(`⬆️  Subiendo a CDN: ${fn}`);
     let cdn: string | undefined;
     try {
