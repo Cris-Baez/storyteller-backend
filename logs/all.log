@@ -9886,3 +9886,192 @@ video:950kB audio:2kB subtitle:0kB other streams:0kB global headers:0kB muxing o
 2025-07-16T19:59:03.202Z [info] ✅  Video final subido al CDN → https://storage.googleapis.com/storyteller-ai-cdn/videos/c51853fc-29b9-4cec-923b-7a724f5f7c00_1080p.mp4
 2025-07-16T19:59:03.403Z [info] ✅  Video final accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/videos/c51853fc-29b9-4cec-923b-7a724f5f7c00_1080p.mp4
 2025-07-16T19:59:03.406Z [info] ✅ Render final OK en 117.3s → https://storage.googleapis.com/storyteller-ai-cdn/videos/c51853fc-29b9-4cec-923b-7a724f5f7c00_1080p.mp4
+2025-07-16T20:34:26.647Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-16T20:35:39.152Z [error] Unhandled Error: Bad control character in string literal in JSON at position 90
+SyntaxError: Bad control character in string literal in JSON at position 90
+    at JSON.parse (<anonymous>)
+    at parse (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\body-parser\lib\types\json.js:92:19)
+    at C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\body-parser\lib\read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+    at invokeCallback (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:238:16)
+    at done (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:227:7)
+    at IncomingMessage.onEnd (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:287:7)
+    at IncomingMessage.emit (node:events:519:28)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+2025-07-16T20:36:46.163Z [error] Unhandled Error: Unexpected token '�', ...""prompt": �An epic s"... is not valid JSON
+SyntaxError: Unexpected token '�', ...""prompt": �An epic s"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at parse (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\body-parser\lib\types\json.js:92:19)
+    at C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\body-parser\lib\read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+    at invokeCallback (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:238:16)
+    at done (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:227:7)
+    at IncomingMessage.onEnd (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:287:7)
+    at IncomingMessage.emit (node:events:519:28)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+2025-07-16T20:37:45.551Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-16T20:37:55.448Z [info] ::1 - - [16/Jul/2025:20:37:55 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-16T20:37:55.453Z [info] 🚀 Pipeline v7 – inicio
+2025-07-16T20:37:55.457Z [info] 🎬 Prompt limpio: An epic sunset on the beach, in slow motion, with a nostalgic atmosphere....
+2025-07-16T20:37:55.458Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-16T20:38:05.932Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-16T20:38:05.933Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"Wide shot of a beach with the sun setting on the horizon.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialogue...
+2025-07-16T20:38:05.934Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-16T20:38:05.935Z [info] 📜 VideoPlan listo (10s)
+2025-07-16T20:38:05.936Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T20:38:05.936Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T20:38:09.105Z [error] FLUX respuesta inesperada: {}
+2025-07-16T20:38:09.106Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T20:38:09.108Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T20:38:14.735Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/R6Ne8O7wKRXHYCAtJJeCckatPRpwRNfneBe6KftrtI48tftgKA/out-0.png
+2025-07-16T20:38:15.856Z [info] Archivo temporal creado: t0_bbe2a7
+2025-07-16T20:38:17.995Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T20:38:18.111Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T20:38:18.112Z [info] ✅  Storyboards listos: 1
+2025-07-16T20:38:18.113Z [error] [ClipService] FALTA prompt en plan.metadata.prompt. plan.metadata={"mode":"cinematic","visualStyle":"realistic","duration":10,"modelOrder":["google/veo-3","minimax/video-01-director","bytedance/seedance-1-lite","minimax/hailuo-02","luma/ray-flash-2-540p","google/veo-2"],"lora":null,"characters":[{"name":"Narrador","voice":"es-ES-AlvaroNeural","text":"Vive la experiencia como si estuvieras allí."}],"music":"energetic_pop"}
+2025-07-16T20:38:18.114Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-16T20:38:18.155Z [info] 🎵  Buscar música de fondo para "energetic_pop"
+2025-07-16T20:38:18.156Z [info] 🎵  Freesound query: energetic_pop
+2025-07-16T20:38:18.566Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:38:18.567Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.573Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:38:18.574Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.577Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:38:18.578Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.579Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:38:18.579Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.583Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:38:18.584Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.592Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:38:18.593Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.595Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:38:18.596Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.598Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:38:18.598Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.601Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:38:18.601Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.608Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:38:18.608Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.609Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-16T20:38:20.617Z [error] [ClipService] FALTA prompt en plan.metadata.prompt. plan.metadata={"mode":"cinematic","visualStyle":"realistic","duration":10,"modelOrder":["google/veo-3","minimax/video-01-director","bytedance/seedance-1-lite","minimax/hailuo-02","luma/ray-flash-2-540p","google/veo-2"],"lora":null,"characters":[{"name":"Narrador","voice":"es-ES-AlvaroNeural","text":"Vive la experiencia como si estuvieras allí."}],"music":"energetic_pop"}
+2025-07-16T20:38:22.118Z [error] [ClipService] FALTA prompt en plan.metadata.prompt. plan.metadata={"mode":"cinematic","visualStyle":"realistic","duration":10,"modelOrder":["google/veo-3","minimax/video-01-director","bytedance/seedance-1-lite","minimax/hailuo-02","luma/ray-flash-2-540p","google/veo-2"],"lora":null,"characters":[{"name":"Narrador","voice":"es-ES-AlvaroNeural","text":"Vive la experiencia como si estuvieras allí."}],"music":"energetic_pop"}
+2025-07-16T20:38:26.779Z [info] ✅  Pista de música lista (1216940 bytes)
+2025-07-16T20:43:14.910Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-16T20:43:31.000Z [info] ::1 - - [16/Jul/2025:20:43:30 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-16T20:43:31.004Z [info] 🚀 Pipeline v7 – inicio
+2025-07-16T20:43:31.011Z [info] 🎬 Prompt limpio: An epic sunset on the beach, in slow motion, with a nostalgic atmosphere....
+2025-07-16T20:43:31.013Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-16T20:43:44.569Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-16T20:43:44.570Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "Golden sun setting on the horizon, waves gently lapping.",
+      "camera": {"shot": "wide", "movement": "dolly-in"},
+      "emotion": "wonder",
+ ...
+2025-07-16T20:43:44.572Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-16T20:43:44.574Z [info] 📜 VideoPlan listo (10s)
+2025-07-16T20:43:44.576Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T20:43:44.577Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T20:43:47.580Z [error] FLUX respuesta inesperada: {}
+2025-07-16T20:43:47.580Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T20:43:47.581Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T20:43:52.437Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/8vmM7qDWPMqecaiGCClwBkz4TSu7ZcJmREjqFYGY9G2ECugKA/out-0.png
+2025-07-16T20:43:53.629Z [info] Archivo temporal creado: t0_adafad
+2025-07-16T20:43:55.741Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T20:43:55.845Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T20:43:55.845Z [info] ✅  Storyboards listos: 1
+2025-07-16T20:43:55.847Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-16T20:43:55.871Z [info] 🎵  Buscar música de fondo para "energetic_pop"
+2025-07-16T20:43:55.872Z [info] 🎵  Freesound query: energetic_pop
+2025-07-16T20:43:56.047Z [info] 🎞️ ClipService v8 – start (segmentación óptima)
+2025-07-16T20:43:56.049Z [info] → Segmentos óptimos: runway/gen4_turbo(10s)
+2025-07-16T20:43:56.051Z [info] [ClipService] Generando segmento 0-9 modelo=runway/gen4_turbo prompt="An epic sunset on the beach, in slow motion, with a nostalgic atmosphere." estilo=realistic
+2025-07-16T20:43:56.051Z [warn] No se encontró imagen base para Runway, se omite.
+2025-07-16T20:43:56.051Z [info] ✅ Total clips: 0
+2025-07-16T20:43:56.379Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:43:56.380Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.387Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:43:56.391Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.396Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:43:56.396Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.397Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:43:56.398Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.400Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:43:56.401Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.408Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:43:56.410Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.411Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:43:56.411Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.413Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:43:56.414Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.416Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:43:56.417Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.418Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-16T20:44:14.868Z [info] ✅  Pista de música lista (1216940 bytes)
+2025-07-16T20:50:02.523Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-16T20:50:12.063Z [info] ::1 - - [16/Jul/2025:20:50:12 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-16T20:50:12.065Z [info] 🚀 Pipeline v7 – inicio
+2025-07-16T20:50:12.069Z [info] 🎬 Prompt limpio: An epic sunset on the beach, in slow motion, with a nostalgic atmosphere....
+2025-07-16T20:50:12.069Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-16T20:50:35.299Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-16T20:50:35.300Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "A wide view of a golden sunset over the ocean horizon.",
+      "camera": {"shot": "wide", "movement": "dolly-in"},
+      "emotion": "wonder",
+   ...
+2025-07-16T20:50:35.302Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-16T20:50:35.304Z [info] 📜 VideoPlan listo (10s)
+2025-07-16T20:50:35.308Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T20:50:35.312Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T20:50:40.318Z [error] FLUX respuesta inesperada: {}
+2025-07-16T20:50:40.319Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T20:50:40.320Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T20:50:45.334Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/e5SEHyr2KuyUZaYjt8HTVeKotdGoTw5UZrnw9TDUfygKV4CqA/out-0.png
+2025-07-16T20:50:46.427Z [info] Archivo temporal creado: t0_f204d5
+2025-07-16T20:50:48.546Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T20:50:48.710Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T20:50:48.711Z [info] ✅  Storyboards listos: 1
+2025-07-16T20:50:48.713Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-16T20:50:48.739Z [info] 🎵  Buscar música de fondo para "energetic_pop"
+2025-07-16T20:50:48.739Z [info] 🎵  Freesound query: energetic_pop
+2025-07-16T20:50:48.857Z [info] 🎞️ ClipService v8 – start (segmentación óptima)
+2025-07-16T20:50:48.859Z [info] → Segmentos óptimos: runway/gen4_turbo(10s)
+2025-07-16T20:50:48.861Z [info] [ClipService] Generando segmento 0-9 modelo=runway/gen4_turbo prompt="An epic sunset on the beach, in slow motion, with a nostalgic atmosphere." estilo=realistic
+2025-07-16T20:50:48.862Z [warn] No se encontró imagen base para Runway, se hace fallback a otro modelo.
+2025-07-16T20:50:48.862Z [info] ✅ Total clips: 0
+2025-07-16T20:50:49.266Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:50:49.267Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.269Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:50:49.269Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.294Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:50:49.294Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.296Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:50:49.297Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.299Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:50:49.299Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.301Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:50:49.302Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.303Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:50:49.304Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.308Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:50:49.308Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.310Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:50:49.311Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.312Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T20:50:49.312Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.313Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-16T20:50:57.292Z [info] ✅  Pista de música lista (1216940 bytes)

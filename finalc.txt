@@ -1,0 +1,99 @@
+Perfecto, te explico en detalle la **diferencia entre tu app (Storyteller AI)** y las principales **competencias** actuales, así como **las nuevas funciones extra que piensas añadir** (producto a video, foto a anime, etc.) y cómo **integrarlas todas en una sola experiencia unificada**, que será clave para diferenciarte.
+
+---
+
+## 🥇 DIFERENCIAS DE **STORYTELLER AI** VS LA COMPETENCIA
+
+| Función Clave                                 | Storyteller AI                         | Competencia Actual                             |
+| --------------------------------------------- | -------------------------------------- | ---------------------------------------------- |
+| 🎬 Guion automático cinematográfico           | ✅ Generado con estructura pro          | ❌ Solo prompts simples o generación libre      |
+| 🧠 Control creativo completo                  | ✅ Emociones, cámara, voz, estilo       | ❌ Prompt plano, sin control detallado          |
+| 🗣️ Voz por personaje inteligente             | ✅ Murf + genderize + multilinguaje     | ⚠️ Voz genérica o solo narrador único          |
+| 🧩 Modularidad por escena                     | ✅ Imagen + audio + LoRA por escena     | ❌ Solo video completo o fragmentado            |
+| 🎞️ Video final estilo Pixar/Ghibli           | ✅ Renderizado profesional por escena   | ⚠️ Básico o limitado a plantillas simples      |
+| 🧑‍🎨 Editor visual final estilo Canva/CapCut | ✅ Línea de tiempo, texto, SFX          | ❌ Ausente o muy limitado                       |
+| 📱 UI amigable para no técnicos               | ✅ Todo desde interfaz visual Bubble    | ❌ En su mayoría herramientas para developers   |
+| 💼 Uso para negocios y agencias               | ✅ Videos comerciales y de producto     | ⚠️ Enfocados solo en arte o entretenimiento    |
+| 💬 Soporte multilingüe de IA                  | ✅ Compatible con cualquier idioma      | ⚠️ Algunos limitados a inglés                  |
+| 💰 Monetización clara (SaaS)                  | ✅ Planes Free, Creator, Studio         | ⚠️ Muchos son APIs o cobros por uso complicado |
+| 🧠 IA adaptada por estilo visual              | ✅ Anime, Cinemático, Realista, Cartoon | ⚠️ Pocos estilos definidos y sin LoRA custom   |
+
+---
+
+## 📦 FUNCIONES ADICIONALES QUE INTEGRARÁS (en la misma app)
+
+### 1. 🧾 Texto a Video (main feature actual)
+
+* Prompt ➝ Guion completo ➝ Video cinematográfico automático
+
+### 2. 🧸 Producto a Video (comercial)
+
+* Usuario sube foto de producto (ej: zapato, joya, cosmético)
+* Selecciona estilo (moderno, elegante, animado)
+* IA crea guion de anuncio + voz + escena + video estilo Apple o Dior
+* **Aplicaciones**: marketing digital, ecommerce, reels
+
+### 3. 👤 Foto a Anime / Cartoon
+
+* Usuario sube una selfie o imagen de persona real
+* IA convierte en estilo anime o cartoon usando LoRA custom
+* Opcional: generar video animado con fondo y voz
+* **Aplicaciones**: avatars, branding personal, intros, TikTok
+
+---
+
+## 🔄 Cómo unificar todo esto en la **misma app visual**
+
+Tu frontend en **Bubble.io** puede mostrar todas las funciones en un solo panel con pestañas o cards de acción. Ejemplo de layout:
+
+```
+👋 Bienvenido a Storyteller AI
+
+[ Crea tu video 🎬 ]
+→ Guion Cinemático desde texto
+
+[ Transforma tu producto 🛍️ ]
+→ Crea un anuncio visual en segundos
+
+[ Convierte tu rostro a anime ✨ ]
+→ Sube una foto y obtén tu versión anime
+
+[ Editor Visual Pro 🎛️ ]
+→ Edita, personaliza y exporta tu video
+
+[ Galería de tus videos 📁 ]
+→ Ver y compartir creaciones anteriores
+```
+
+Cada función llama a los servicios correspondientes (`/parse`, `/tts`, `/image`, `/animate`, `/runway`, `/product`, etc.) y genera su flujo.
+
+---
+
+## 💰 ¿Cómo ganarás dinero?
+
+| Plan               | Público objetivo                    | Qué desbloquea                             | Precio  |
+| ------------------ | ----------------------------------- | ------------------------------------------ | ------- |
+| **Free (Starter)** | Curiosos, estudiantes, uso casual   | 1 video/semana, watermark, sin editor      | \$0     |
+| **Creator**        | Freelancers, creadores de contenido | 30 videos, sin marca, voces pro, editor    | \$29/mo |
+| **Studio Pro**     | Agencias, startups, productoras     | 150 videos, prioridad, comerciales y anime | \$99/mo |
+
+Extras:
+
+* Créditos adicionales a la carta
+* Plantillas de video premium
+* Packs de estilo LoRA exclusivos
+* Branding white-label
+
+---
+
+## 📈 Escalabilidad y ventajas técnicas
+
+* Al usar **Bubble.io + Backend Express + APIs IA**, puedes crecer rápidamente sin crear infraestructura compleja.
+* Acepta pago con Stripe/PayPal y gestionas límites fácilmente.
+* Debajo de **10,000 usuarios activos/día**, Bubble es más que suficiente.
+* Puedes combinar todo en un único proyecto y escalar modularmente.
+
+---
+
+¿Quieres que te lo entregue como PDF + versión para página web o presentación?
+¿O también deseas que armemos la landing final con Bubble desde ya?

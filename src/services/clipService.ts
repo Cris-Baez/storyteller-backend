@@ -78,6 +78,7 @@ function optimalSegments(totalSeconds: number, allowedModels: string[]): { model
 import fs from 'fs/promises';
 import fss from 'fs';
 import path from 'path';
+import { uploadToCDN } from './cdnService.js';
 import { pipeline } from 'stream/promises';
 import { v4 as uuid } from 'uuid';
 import fetch from 'node-fetch';
@@ -298,7 +299,6 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
 
   const urls: string[] = [];
   await Promise.all(segs.map(({ model: m, seg }) => lim(async () => {
-    // Validación redundante por segmento (debug extremo)
     if (!plan.metadata || typeof plan.metadata.prompt !== 'string' || !plan.metadata.prompt.trim()) {
       logger.error(`[ClipService] FALTA prompt en metadata al generar segmento ${seg.start}-${seg.end}. plan.metadata=` + JSON.stringify(plan.metadata));
       throw new Error(`Falta prompt en metadata.prompt en segmento ${seg.start}-${seg.end}`);
@@ -309,123 +309,159 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
     const loraScale = segMeta.loraScale ?? plan.metadata.loraScale;
     const seed = segMeta.seed ?? plan.metadata.seed;
     let src: string|undefined;
-    // Log de contexto para depuración avanzada
-    logger.info(`[ClipService] Generando segmento ${seg.start}-${seg.end} modelo=${m} prompt="${plan.metadata.prompt}" estilo=${style}`);
-    // Runway
-    if (m === 'runway/gen4_turbo' && runwayStyles.includes(style) && generateRunwayVideo) {
-      let promptImage = '';
-      if (plan.metadata.referenceImages && plan.metadata.referenceImages.length > 0) {
-        promptImage = plan.metadata.referenceImages[0];
+    const tryModels = [m, ...allowedModels.filter(mm => mm !== m)];
+    for (const tryModel of tryModels) {
+      logger.info(`[ClipService] Intentando modelo: ${tryModel} para segmento ${seg.start}-${seg.end}`);
+      if (tryModel === 'runway/gen4_turbo' && runwayStyles.includes(style) && generateRunwayVideo) {
+        let promptImage = '';
+        if (plan.metadata.referenceImages && plan.metadata.referenceImages.length > 0) {
+          promptImage = plan.metadata.referenceImages[0];
+        } else {
+          logger.warn('No se encontró imagen base para Runway, probando siguiente modelo.');
+          continue;
+        }
+        const isImageAvailable = await (async () => {
+          try {
+            const res = await fetch(promptImage, { method: 'HEAD' });
+            return res.ok;
+          } catch {
+            return false;
+          }
+        })();
+        if (!isImageAvailable) {
+          logger.warn('La imagen base para Runway no está accesible, probando siguiente modelo.');
+          continue;
+        }
+        let resizedImageUrl = promptImage;
+        try {
+          const sharp = await import('sharp');
+          const url = new URL(promptImage);
+          if (url.protocol.startsWith('http')) {
+            const res = await fetch(promptImage);
+            if (res.ok) {
+              const buf = Buffer.from(await res.arrayBuffer());
+              const meta = await sharp.default(buf).metadata();
+              if (meta.width !== 1280 || meta.height !== 720) {
+                const resizedBuf = await sharp.default(buf).resize(1280, 720).toBuffer();
+                const fs = await import('fs/promises');
+                const path = `./tmp/resized_${Date.now()}_${seg.start}.jpg`;
+                await fs.writeFile(path, resizedBuf);
+                resizedImageUrl = path;
+                logger.info('Imagen redimensionada localmente para Runway: ' + path);
+              }
+            }
+          }
+        } catch (e) {
+          logger.warn('No se pudo redimensionar la imagen para Runway, se usa original. ' + (e && (typeof e === 'object' && 'message' in e) ? (e as any).message : String(e)));
+        }
+        try {
+          src = await generateRunwayVideo({
+            promptImage: resizedImageUrl,
+            promptText: promptOf(seg, style, plan),
+            model: 'gen4_turbo',
+            ratio: '1280:720',
+            duration: seg.dur
+          });
+          logger.info(`✅ Runway OK (${seg.start}-${seg.end})`);
+          break;
+        } catch (e:any) {
+          logger.warn(`❌ Runway ${e.message} – probando siguiente modelo.`);
+          continue;
+        }
       } else {
-        logger.warn('No se encontró imagen base para Runway, se omite.');
-        return;
-      }
-      try {
-        src = await generateRunwayVideo({
-          promptImage,
-          promptText: promptOf(seg, style, plan),
-          model: 'gen4_turbo',
-          ratio: '1280:720',
-          duration: seg.dur
-        });
-        logger.info(`✅ Runway OK (${seg.start}-${seg.end})`);
-      } catch (e:any) {
-        logger.warn(`❌ Runway ${e.message}`);
-        return;
-      }
-    } else {
-      // Fallback: Replicate y otros modelos IA
-      let input: Record<string, any> = {};
-      if (m.startsWith('bytedance/seedance-1-pro')) {
-        input = {
-          fps: 24,
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          resolution: '1080p',
-          aspect_ratio: '16:9',
-          camera_fixed: false,
-          ...(lora ? { lora_url: lora } : {}),
-          ...(loraScale ? { lora_scale: loraScale } : {}),
-          ...(seed ? { seed } : {})
-        };
-      } else if (m.startsWith('minimax/hailuo-02')) {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          resolution: '1080p',
-          prompt_optimizer: false,
-          ...(lora ? { lora_url: lora } : {}),
-          ...(loraScale ? { lora_scale: loraScale } : {}),
-          ...(seed ? { seed } : {})
-        };
-      } else if (m.startsWith('minimax/video-01-director')) {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          prompt_optimizer: true,
-          ...(lora ? { lora_url: lora } : {}),
-          ...(loraScale ? { lora_scale: loraScale } : {}),
-          ...(seed ? { seed } : {})
-        };
-      } else if (m.startsWith('minimax/video-01')) {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          prompt_optimizer: true,
-          ...(lora ? { lora_url: lora } : {}),
-          ...(loraScale ? { lora_scale: loraScale } : {}),
-          ...(seed ? { seed } : {})
-        };
-      } else if (m.startsWith('luma/ray-flash-2-720p')) {
-        input = {
-          loop: false,
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          aspect_ratio: '16:9',
-          ...(lora ? { lora_url: lora } : {}),
-          ...(loraScale ? { lora_scale: loraScale } : {}),
-          ...(seed ? { seed } : {})
-        };
-      } else if (m.startsWith('luma/ray-2-720p') || m.startsWith('luma/ray-2')) {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          aspect_ratio: '16:9',
-          ...(lora ? { lora_url: lora } : {}),
-          ...(loraScale ? { lora_scale: loraScale } : {}),
-          ...(seed ? { seed } : {})
-        };
-      } else if (m === 'google/veo-2' || m === 'google/veo-3') {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          aspect_ratio: '16:9',
-          ...(lora ? { lora_url: lora } : {}),
-          ...(loraScale ? { lora_scale: loraScale } : {}),
-          ...(seed ? { seed } : {})
-        };
-      } else if (m === 'pixverse/pixverse-v4.5') {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          aspect_ratio: '16:9',
-          ...(lora ? { lora_url: lora } : {}),
-          ...(loraScale ? { lora_scale: loraScale } : {}),
-          ...(seed ? { seed } : {})
-        };
-      } else {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          ...(lora ? { lora_url: lora } : {}),
-          ...(loraScale ? { lora_scale: loraScale } : {}),
-          ...(seed ? { seed } : {})
-        };
-      }
-      try {
-        src = await pollReplicateJob(m, input);
-        logger.info(`✅ ${m} OK (${seg.start}-${seg.end})`);
-      } catch (e:any) {
-        logger.warn(`❌ ${m} ${e.message}`);
-        return;
+        let input: Record<string, any> = {};
+        if (tryModel.startsWith('bytedance/seedance-1-pro')) {
+          input = {
+            fps: 24,
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            resolution: '1080p',
+            aspect_ratio: '16:9',
+            camera_fixed: false,
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (tryModel.startsWith('minimax/hailuo-02')) {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            resolution: '1080p',
+            prompt_optimizer: false,
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (tryModel.startsWith('minimax/video-01-director')) {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            prompt_optimizer: true,
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (tryModel.startsWith('minimax/video-01')) {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            prompt_optimizer: true,
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (tryModel.startsWith('luma/ray-flash-2-720p')) {
+          input = {
+            loop: false,
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            aspect_ratio: '16:9',
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (tryModel.startsWith('luma/ray-2-720p') || tryModel.startsWith('luma/ray-2')) {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            aspect_ratio: '16:9',
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (tryModel === 'google/veo-2' || tryModel === 'google/veo-3') {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            aspect_ratio: '16:9',
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (tryModel === 'pixverse/pixverse-v4.5') {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            aspect_ratio: '16:9',
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        }
+        try {
+          src = await pollReplicateJob(tryModel, input);
+          logger.info(`✅ ${tryModel} OK (${seg.start}-${seg.end})`);
+          break;
+        } catch (e:any) {
+          logger.warn(`❌ ${tryModel} ${e.message} – probando siguiente modelo.`);
+          continue;
+        }
       }
     }
     if (!src) {
@@ -454,7 +490,6 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
         }
         if (stats.size < 100_000) {
           logger.error(`❌ Archivo de video muy pequeño o vacío: ${fn} (${stats.size} bytes)`);
-          // Elimina archivo corrupto
           try { fss.unlinkSync(fn); } catch {}
           continue;
         }
@@ -467,21 +502,17 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
       }
     }
     if (!ok) {
-      logger.error(`❌ Fallaron todos los intentos de descarga para: ${src}`);
+      logger.error(`× sin video descargado para ${seg.start}-${seg.end}`);
       return;
     }
 
-    // subir a CDN
-    logger.info(`⬆️  Subiendo a CDN: ${fn}`);
-    let cdn: string | undefined;
+    // Subir a CDN y validar
     try {
-      const { uploadToCDN } = await import('./cdnService.js');
-      cdn = await uploadToCDN(fn, path.basename(fn));
+      const cdn = await uploadToCDN(fn, `clips/${path.basename(fn)}`);
       if (!cdn || typeof cdn !== 'string' || !cdn.startsWith('http')) {
         logger.error(`❌ uploadToCDN no devolvió URL válida para: ${fn}`);
         return;
       }
-      // Verifica que el archivo subido sea accesible (opcional, si tienes fetch disponible)
       try {
         const resp = await fetch(cdn, { method: 'HEAD' });
         if (!resp.ok) {
@@ -499,8 +530,7 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
       return;
     }
   })));
-
-  logger.info(`✅ Total clips: ${urls.length}`);
+  logger.info('✅ Total clips: ' + urls.length);
   return urls;
 }
 

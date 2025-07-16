@@ -3350,3 +3350,65 @@ Conversion failed!
 2025-07-16T19:57:32.168Z [error] Error generando voz: No se pudo generar la voz
 2025-07-16T19:57:32.181Z [error] Error generando voz: No se pudo generar la voz
 2025-07-16T19:57:33.295Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:35:39.152Z [error] Unhandled Error: Bad control character in string literal in JSON at position 90
+SyntaxError: Bad control character in string literal in JSON at position 90
+    at JSON.parse (<anonymous>)
+    at parse (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\body-parser\lib\types\json.js:92:19)
+    at C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\body-parser\lib\read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+    at invokeCallback (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:238:16)
+    at done (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:227:7)
+    at IncomingMessage.onEnd (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:287:7)
+    at IncomingMessage.emit (node:events:519:28)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+2025-07-16T20:36:46.163Z [error] Unhandled Error: Unexpected token '�', ...""prompt": �An epic s"... is not valid JSON
+SyntaxError: Unexpected token '�', ...""prompt": �An epic s"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at parse (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\body-parser\lib\types\json.js:92:19)
+    at C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\body-parser\lib\read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+    at invokeCallback (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:238:16)
+    at done (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:227:7)
+    at IncomingMessage.onEnd (C:\Users\crist\OneDrive\Desktop\storyteller-backend\node_modules\raw-body\index.js:287:7)
+    at IncomingMessage.emit (node:events:519:28)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+2025-07-16T20:38:09.105Z [error] FLUX respuesta inesperada: {}
+2025-07-16T20:38:09.106Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T20:38:18.113Z [error] [ClipService] FALTA prompt en plan.metadata.prompt. plan.metadata={"mode":"cinematic","visualStyle":"realistic","duration":10,"modelOrder":["google/veo-3","minimax/video-01-director","bytedance/seedance-1-lite","minimax/hailuo-02","luma/ray-flash-2-540p","google/veo-2"],"lora":null,"characters":[{"name":"Narrador","voice":"es-ES-AlvaroNeural","text":"Vive la experiencia como si estuvieras allí."}],"music":"energetic_pop"}
+2025-07-16T20:38:18.567Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.574Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.578Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.579Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.584Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.593Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.596Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.598Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.601Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:18.608Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:38:20.617Z [error] [ClipService] FALTA prompt en plan.metadata.prompt. plan.metadata={"mode":"cinematic","visualStyle":"realistic","duration":10,"modelOrder":["google/veo-3","minimax/video-01-director","bytedance/seedance-1-lite","minimax/hailuo-02","luma/ray-flash-2-540p","google/veo-2"],"lora":null,"characters":[{"name":"Narrador","voice":"es-ES-AlvaroNeural","text":"Vive la experiencia como si estuvieras allí."}],"music":"energetic_pop"}
+2025-07-16T20:38:22.118Z [error] [ClipService] FALTA prompt en plan.metadata.prompt. plan.metadata={"mode":"cinematic","visualStyle":"realistic","duration":10,"modelOrder":["google/veo-3","minimax/video-01-director","bytedance/seedance-1-lite","minimax/hailuo-02","luma/ray-flash-2-540p","google/veo-2"],"lora":null,"characters":[{"name":"Narrador","voice":"es-ES-AlvaroNeural","text":"Vive la experiencia como si estuvieras allí."}],"music":"energetic_pop"}
+2025-07-16T20:43:47.580Z [error] FLUX respuesta inesperada: {}
+2025-07-16T20:43:47.580Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T20:43:56.380Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.391Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.396Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.398Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.401Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.410Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.411Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.414Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:43:56.417Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:40.318Z [error] FLUX respuesta inesperada: {}
+2025-07-16T20:50:40.319Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T20:50:49.267Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.269Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.294Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.297Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.299Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.302Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.304Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.308Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.311Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T20:50:49.312Z [error] Error generando voz: No se pudo generar la voz
