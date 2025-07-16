@@ -1,0 +1,1056 @@
+[
+  {
+    "id": "cinematic-redemption-v1",
+    "name": "Redención heroica",
+    "style": "cinematic",
+    "duration": 30,
+    "emotion": "esperanza, dolor, renacimiento",
+    "recommendedLora": "STORYAI_SOLDIER",
+    "music": "orchestral_slow_build",
+    "voiceStyle": "grave, narrativo",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      {
+        "second": 0,
+        "action": "Plano general de una ciudad destruida en el atardecer",
+        "camera": "dron alejándose",
+        "emotion": "tristeza",
+        "transition": "fade-in",
+        "sfx": ["wind", "city_ambience"]
+      },
+      {
+        "second": 5,
+        "action": "Primer plano de un hombre cubierto de ceniza mirando al horizonte",
+        "camera": "close-up estático",
+        "emotion": "culpa",
+        "transition": "cut",
+        "sfx": ["rumble_low"]
+      },
+      {
+        "second": 10,
+        "action": "Plano detalle de sus manos abriendo una carta quemada",
+        "camera": "detalle + cámara lenta",
+        "emotion": "nostalgia",
+        "transition": "crossfade",
+        "sfx": ["paper", "heartbeat"]
+      },
+      {
+        "second": 15,
+        "action": "El personaje se pone de pie en medio de la ruina, luz cálida en su rostro",
+        "camera": "dolly-in con contraluz",
+        "emotion": "esperanza",
+        "transition": "cut",
+        "sfx": ["wind", "hope_chime"]
+      },
+      {
+        "second": 25,
+        "action": "Corte a negro con texto blanco: 'Este no es el fin'",
+        "camera": "texto",
+        "emotion": "determinación",
+        "transition": "fade-out",
+        "sfx": ["bass_drop"]
+      }
+    ]
+  },
+  {
+    "id": "cinematic-la-carta-v1",
+    "name": "La carta",
+    "style": "cinematic",
+    "duration": 30,
+    "emotion": "curiosidad, impacto, esperanza",
+    "recommendedLora": "STORYAI_WOMAN",
+    "music": "piano_soft_to_rising",
+    "voiceStyle": "suave, reflexiva",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      {
+        "second": 0,
+        "action": "Interior de una casa antigua, rayos de sol filtrados por la ventana",
+        "camera": "plano general con luz cálida",
+        "emotion": "tranquilidad",
+        "transition": "fade-in",
+        "sfx": ["birds", "floor_creak"]
+      },
+      {
+        "second": 5,
+        "action": "Mujer abre un cajón polvoriento y encuentra una carta con cinta roja",
+        "camera": "plano medio con enfoque en manos",
+        "emotion": "curiosidad",
+        "transition": "cut",
+        "sfx": ["paper_rustle", "soft gasp"]
+      },
+      {
+        "second": 10,
+        "action": "Primer plano de su rostro mientras lee, expresión cambia lentamente",
+        "camera": "close-up, foco en ojos",
+        "emotion": "impacto silencioso",
+        "transition": "cut",
+        "sfx": ["heartbeat slow", "ambient swell"]
+      },
+      {
+        "second": 18,
+        "action": "Flashback breve de una niña corriendo en un campo",
+        "camera": "plano detalle con filtros cálidos",
+        "emotion": "recuerdo feliz",
+        "transition": "crossfade",
+        "sfx": ["child laugh", "wind"]
+      },
+      {
+        "second": 25,
+        "action": "Mujer mira por la ventana con una leve sonrisa",
+        "camera": "contraplano con fondo desenfocado",
+        "emotion": "esperanza",
+        "transition": "fade-out",
+        "sfx": ["soft piano chord"]
+      }
+    ]
+  },
+
+  
+  {
+    "id": "cinematic-chase-night-v1",
+    "name": "Persecución nocturna",
+    "style": "cinematic",
+    "duration": 30,
+    "emotion": "tensión, adrenalina, peligro",
+    "recommendedLora": "STORYAI_CAR",
+    "music": "synthwave_fast",
+    "voiceStyle": "urgente, narrativo",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      { "second": 0, "action": "Autos aceleran en una avenida iluminada por neón", "camera": "plano general aéreo", "emotion": "tensión", "transition": "fade-in", "sfx": ["engine_rev", "city_night"] },
+      { "second": 6, "action": "Primer plano de conductor sudando, mira por el retrovisor", "camera": "close-up", "emotion": "adrenalina", "transition": "cut", "sfx": ["heartbeat", "tire_screech"] },
+      { "second": 12, "action": "Choque leve, chispas y giro brusco", "camera": "cámara en movimiento", "emotion": "peligro", "transition": "shake", "sfx": ["crash", "glass"] },
+      { "second": 20, "action": "Auto escapa por un callejón oscuro", "camera": "dron descendente", "emotion": "alivio", "transition": "crossfade", "sfx": ["engine_fade", "sirens"] }
+    ]
+  },
+
+  
+  {
+    "id": "cinematic-farewell-rain-v1",
+    "name": "Despedida bajo la lluvia",
+    "style": "cinematic",
+    "duration": 25,
+    "emotion": "tristeza, amor, resignación",
+    "recommendedLora": "STORYAI_LOVERS",
+    "music": "piano_sad",
+    "voiceStyle": "suave, emotivo",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      { "second": 0, "action": "Dos personajes bajo la lluvia, mirándose en silencio", "camera": "plano general", "emotion": "tristeza", "transition": "fade-in", "sfx": ["rain_heavy", "distant_thunder"] },
+      { "second": 7, "action": "Plano detalle de manos soltándose lentamente", "camera": "detalle", "emotion": "dolor", "transition": "slow-motion", "sfx": ["rain", "heartbeat"] },
+      { "second": 15, "action": "Uno de ellos se aleja, el otro queda de pie bajo la lluvia", "camera": "travelling lateral", "emotion": "resignación", "transition": "cut", "sfx": ["footsteps_water"] },
+      { "second": 22, "action": "Funde a negro", "camera": "negro", "emotion": "soledad", "transition": "fade-out", "sfx": ["piano_last_note"] }
+    ]
+  },
+
+  
+  {
+    "id": "cinematic-mirror-reveal-v1",
+    "name": "Revelación en el espejo",
+    "style": "cinematic",
+    "duration": 20,
+    "emotion": "sorpresa, introspección, miedo",
+    "recommendedLora": "STORYAI_REFLECTION",
+    "music": "ambient_suspense",
+    "voiceStyle": "susurrante, reflexivo",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      { "second": 0, "action": "Personaje se observa en el espejo, expresión seria", "camera": "plano medio", "emotion": "introspección", "transition": "fade-in", "sfx": ["bathroom_ambience"] },
+      { "second": 6, "action": "Reflejo parece moverse diferente, tensión creciente", "camera": "detalle en el espejo", "emotion": "sorpresa", "transition": "distort", "sfx": ["mirror_distort", "heartbeat"] },
+      { "second": 14, "action": "Personaje retrocede asustado", "camera": "travelling atrás", "emotion": "miedo", "transition": "cut", "sfx": ["gasp", "echo"] }
+    ]
+  },
+
+  
+  {
+    "id": "cinematic-epic-battle-dawn-v1",
+    "name": "Batalla épica al amanecer",
+    "style": "cinematic",
+    "duration": 40,
+    "emotion": "valentía, miedo, gloria",
+    "recommendedLora": "STORYAI_WARRIOR",
+    "music": "orchestral_epic",
+    "voiceStyle": "heroico, intenso",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      { "second": 0, "action": "Ejércitos alineados bajo la luz del amanecer", "camera": "plano general", "emotion": "tensión", "transition": "fade-in", "sfx": ["wind", "armor_clink"] },
+      { "second": 10, "action": "Carga de caballería, gritos y choque de espadas", "camera": "travelling rápido", "emotion": "miedo", "transition": "cut", "sfx": ["horses", "battle_cries"] },
+      { "second": 25, "action": "Plano detalle de un guerrero levantándose entre el polvo", "camera": "close-up", "emotion": "gloria", "transition": "slow-motion", "sfx": ["breathing", "cheer"] },
+      { "second": 38, "action": "Sol naciente ilumina el campo tras la batalla", "camera": "plano general", "emotion": "esperanza", "transition": "fade-out", "sfx": ["wind", "orchestra_final"] }
+    ]
+  },
+
+  
+  {
+    "id": "cinematic-train-meeting-v1",
+    "name": "Encuentro en el tren",
+    "style": "cinematic",
+    "duration": 22,
+    "emotion": "curiosidad, atracción, timidez",
+    "recommendedLora": "STORYAI_STRANGERS",
+    "music": "jazz_soft",
+    "voiceStyle": "cálido, narrativo",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      { "second": 0, "action": "Interior de vagón, dos personas se miran tímidamente", "camera": "plano general", "emotion": "curiosidad", "transition": "fade-in", "sfx": ["train_ambience"] },
+      { "second": 7, "action": "Plano detalle de manos rozándose accidentalmente", "camera": "detalle", "emotion": "atracción", "transition": "slow-motion", "sfx": ["heartbeat", "fabric_rustle"] },
+      { "second": 15, "action": "Ambos sonríen, tren sigue su marcha", "camera": "plano medio", "emotion": "timidez", "transition": "cut", "sfx": ["jazz_note"] }
+    ]
+  },
+
+  
+  {
+    "id": "cinematic-space-exploration-v1",
+    "name": "Exploración espacial",
+    "style": "cinematic",
+    "duration": 35,
+    "emotion": "asombro, soledad, esperanza",
+    "recommendedLora": "STORYAI_ASTRONAUT",
+    "music": "ambient_space",
+    "voiceStyle": "calmado, científico",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      { "second": 0, "action": "Nave espacial sobrevuela un planeta azul", "camera": "plano general exterior", "emotion": "asombro", "transition": "fade-in", "sfx": ["space_ambience"] },
+      { "second": 10, "action": "Astronauta flota fuera de la nave, observa el vacío", "camera": "travelling circular", "emotion": "soledad", "transition": "cut", "sfx": ["radio_static", "breathing"] },
+      { "second": 25, "action": "Vista de la Tierra desde el espacio, silencio absoluto", "camera": "plano general", "emotion": "esperanza", "transition": "fade-out", "sfx": ["silence"] }
+    ]
+  },
+
+  
+  {
+    "id": "cinematic-cafe-confession-v1",
+    "name": "Confesión en la cafetería",
+    "style": "cinematic",
+    "duration": 18,
+    "emotion": "nerviosismo, sinceridad, alivio",
+    "recommendedLora": "STORYAI_CAFE",
+    "music": "acoustic_guitar",
+    "voiceStyle": "suave, sincero",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      { "second": 0, "action": "Dos personas sentadas frente a frente, ambiente cálido", "camera": "plano general", "emotion": "nerviosismo", "transition": "fade-in", "sfx": ["cafe_ambience"] },
+      { "second": 6, "action": "Plano detalle de tazas y manos temblorosas", "camera": "detalle", "emotion": "sinceridad", "transition": "cut", "sfx": ["spoon_cup"] },
+      { "second": 12, "action": "Confesión, reacción emotiva, música suave de fondo", "camera": "close-up", "emotion": "alivio", "transition": "fade-out", "sfx": ["guitar_strum"] }
+    ]
+  },
+
+  
+  {
+    "id": "cinematic-fire-rescue-v1",
+    "name": "Rescate en el incendio",
+    "style": "cinematic",
+    "duration": 28,
+    "emotion": "urgencia, miedo, alivio",
+    "recommendedLora": "STORYAI_FIRE",
+    "music": "orchestral_tense",
+    "voiceStyle": "fuerte, dramático",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      { "second": 0, "action": "Bombero entra al edificio en llamas", "camera": "plano general", "emotion": "urgencia", "transition": "fade-in", "sfx": ["fire", "alarm"] },
+      { "second": 8, "action": "Rescata a una persona entre el humo", "camera": "travelling rápido", "emotion": "miedo", "transition": "cut", "sfx": ["cough", "crash"] },
+      { "second": 18, "action": "Salida triunfal, aplausos y sirenas de fondo", "camera": "plano general exterior", "emotion": "alivio", "transition": "fade-out", "sfx": ["applause", "sirens"] }
+    ]
+  },
+
+  
+  {
+    "id": "cinematic-airport-reunion-v1",
+    "name": "Reencuentro en el aeropuerto",
+    "style": "cinematic",
+    "duration": 20,
+    "emotion": "alegría, alivio, amor",
+    "recommendedLora": "STORYAI_AIRPORT",
+    "music": "pop_uplifting",
+    "voiceStyle": "alegre, emotivo",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      { "second": 0, "action": "Llegada de vuelo, personajes corren a abrazarse", "camera": "plano general", "emotion": "alegría", "transition": "fade-in", "sfx": ["airport_ambience"] },
+      { "second": 8, "action": "Plano detalle de lágrimas y sonrisas", "camera": "detalle", "emotion": "alivio", "transition": "slow-motion", "sfx": ["tears", "hug"] },
+      { "second": 16, "action": "Funde a blanco, música emotiva", "camera": "blanco", "emotion": "amor", "transition": "fade-out", "sfx": ["music_rise"] }
+    ]
+  },
+
+  
+  {
+    "id": "cinematic-archaeology-discovery-v1",
+    "name": "Descubrimiento arqueológico",
+    "style": "cinematic",
+    "duration": 25,
+    "emotion": "asombro, misterio, triunfo",
+    "recommendedLora": "STORYAI_ARCHAEO",
+    "music": "ethnic_mystery",
+    "voiceStyle": "narrativo, asombrado",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "2.39:1",
+    "timeline": [
+      { "second": 0, "action": "Exploradores con linternas entran a una tumba polvorienta", "camera": "plano general", "emotion": "misterio", "transition": "fade-in", "sfx": ["dust", "footsteps"] },
+      { "second": 10, "action": "Hallazgo de artefacto antiguo, reacción de asombro", "camera": "detalle", "emotion": "asombro", "transition": "cut", "sfx": ["artifact", "gasp"] },
+      { "second": 20, "action": "Plano general del grupo celebrando el hallazgo", "camera": "plano general", "emotion": "triunfo", "transition": "fade-out", "sfx": ["cheer", "music_final"] }
+    ]
+  },
+
+  {
+    "id": "realistic-morning-family-v1",
+    "name": "Mañana en familia",
+    "style": "realistic",
+    "duration": 20,
+    "emotion": "calidez, rutina, alegría",
+    "recommendedLora": "STORYAI_FAMILY",
+    "music": "acoustic_morning",
+    "voiceStyle": "natural, cotidiano",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Padres y niños sentados desayunando en la cocina", "camera": "plano general", "emotion": "calidez", "transition": "fade-in", "sfx": ["birds", "plates"] },
+      { "second": 7, "action": "Niño derrama jugo, todos ríen", "camera": "detalle", "emotion": "alegría", "transition": "cut", "sfx": ["laugh", "liquid"] },
+      { "second": 15, "action": "Padre besa a los niños antes de salir", "camera": "close-up", "emotion": "amor", "transition": "fade-out", "sfx": ["door", "kiss"] }
+    ]
+  },
+
+  {
+    "id": "realistic-office-routine-v1",
+    "name": "Rutina de oficina",
+    "style": "realistic",
+    "duration": 18,
+    "emotion": "concentración, rutina, profesionalismo",
+    "recommendedLora": "STORYAI_OFFICE",
+    "music": "soft_electronic",
+    "voiceStyle": "neutral, profesional",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Personas tecleando en computadoras, ambiente de oficina", "camera": "plano general", "emotion": "concentración", "transition": "fade-in", "sfx": ["keyboard", "printer"] },
+      { "second": 6, "action": "Alguien sirve café, charla breve entre colegas", "camera": "detalle", "emotion": "rutina", "transition": "cut", "sfx": ["coffee", "murmur"] },
+      { "second": 14, "action": "Reunión rápida junto a una pizarra", "camera": "plano medio", "emotion": "profesionalismo", "transition": "fade-out", "sfx": ["marker", "steps"] }
+    ]
+  },
+
+  {
+    "id": "realistic-city-commute-v1",
+    "name": "Tránsito en la ciudad",
+    "style": "realistic",
+    "duration": 20,
+    "emotion": "prisa, rutina, observación",
+    "recommendedLora": "STORYAI_CITY",
+    "music": "urban_ambience",
+    "voiceStyle": "neutral, observador",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Personas suben al metro, ambiente concurrido", "camera": "plano general", "emotion": "prisa", "transition": "fade-in", "sfx": ["metro", "crowd"] },
+      { "second": 8, "action": "Plano detalle de manos sujetando el pasamanos", "camera": "detalle", "emotion": "rutina", "transition": "cut", "sfx": ["metal", "voice"] },
+      { "second": 16, "action": "Vista de la ciudad a través de la ventana del bus", "camera": "plano medio", "emotion": "observación", "transition": "fade-out", "sfx": ["engine", "city"] }
+    ]
+  },
+
+  {
+    "id": "realistic-rainy-street-v1",
+    "name": "Calle lluviosa",
+    "style": "realistic",
+    "duration": 18,
+    "emotion": "tranquilidad, introspección, rutina",
+    "recommendedLora": "STORYAI_RAIN",
+    "music": "rain_ambience",
+    "voiceStyle": "calmado, natural",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Personas caminan bajo paraguas, reflejos en el asfalto", "camera": "plano general", "emotion": "tranquilidad", "transition": "fade-in", "sfx": ["rain", "steps"] },
+      { "second": 7, "action": "Plano detalle de gotas cayendo en un charco", "camera": "detalle", "emotion": "introspección", "transition": "cut", "sfx": ["water", "splash"] },
+      { "second": 14, "action": "Tráfico lento, luces de autos desenfocadas", "camera": "plano medio", "emotion": "rutina", "transition": "fade-out", "sfx": ["car", "horn"] }
+    ]
+  },
+
+  {
+    "id": "realistic-market-day-v1",
+    "name": "Día de mercado",
+    "style": "realistic",
+    "duration": 22,
+    "emotion": "alegría, colorido, comunidad",
+    "recommendedLora": "STORYAI_MARKET",
+    "music": "folk_market",
+    "voiceStyle": "alegre, natural",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Vendedores ofrecen frutas y verduras, gente conversando", "camera": "plano general", "emotion": "alegría", "transition": "fade-in", "sfx": ["market", "voices"] },
+      { "second": 10, "action": "Plano detalle de intercambio de dinero y productos", "camera": "detalle", "emotion": "colorido", "transition": "cut", "sfx": ["coins", "bag"] },
+      { "second": 18, "action": "Niños corren entre los puestos, ambiente de comunidad", "camera": "plano medio", "emotion": "comunidad", "transition": "fade-out", "sfx": ["laugh", "music"] }
+    ]
+  },
+
+  {
+    "id": "realistic-park-afternoon-v1",
+    "name": "Tarde en el parque",
+    "style": "realistic",
+    "duration": 20,
+    "emotion": "relajación, alegría, naturaleza",
+    "recommendedLora": "STORYAI_PARK",
+    "music": "acoustic_relax",
+    "voiceStyle": "natural, relajado",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Familias pasean, niños juegan en el césped", "camera": "plano general", "emotion": "relajación", "transition": "fade-in", "sfx": ["birds", "children"] },
+      { "second": 8, "action": "Ciclistas pasan por el sendero, perro corre", "camera": "detalle", "emotion": "alegría", "transition": "cut", "sfx": ["bike", "dog"] },
+      { "second": 16, "action": "Pareja sentada en una banca bajo los árboles", "camera": "plano medio", "emotion": "naturaleza", "transition": "fade-out", "sfx": ["leaves", "wind"] }
+    ]
+  },
+
+  {
+    "id": "realistic-hospital-visit-v1",
+    "name": "Visita al hospital",
+    "style": "realistic",
+    "duration": 18,
+    "emotion": "preocupación, esperanza, contención",
+    "recommendedLora": "STORYAI_HOSPITAL",
+    "music": "soft_piano",
+    "voiceStyle": "calmado, empático",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Familia camina por pasillo de hospital, flores en mano", "camera": "plano general", "emotion": "preocupación", "transition": "fade-in", "sfx": ["steps", "hospital"] },
+      { "second": 7, "action": "Abrazo entre paciente y visitante, emoción contenida", "camera": "detalle", "emotion": "esperanza", "transition": "cut", "sfx": ["hug", "monitor"] },
+      { "second": 14, "action": "Plano de ventana con luz suave, ambiente tranquilo", "camera": "plano medio", "emotion": "contención", "transition": "fade-out", "sfx": ["birds", "wind"] }
+    ]
+  },
+
+  {
+    "id": "realistic-country-road-v1",
+    "name": "Camino rural",
+    "style": "realistic",
+    "duration": 16,
+    "emotion": "paz, libertad, naturaleza",
+    "recommendedLora": "STORYAI_COUNTRY",
+    "music": "folk_guitar",
+    "voiceStyle": "natural, contemplativo",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Carretera entre campos verdes, cielo despejado", "camera": "plano general", "emotion": "paz", "transition": "fade-in", "sfx": ["wind", "birds"] },
+      { "second": 6, "action": "Ciclista avanza por el camino, autos pasan lentamente", "camera": "detalle", "emotion": "libertad", "transition": "cut", "sfx": ["bike", "car"] },
+      { "second": 12, "action": "Vista panorámica del paisaje rural", "camera": "plano medio", "emotion": "naturaleza", "transition": "fade-out", "sfx": ["leaves", "insects"] }
+    ]
+  },
+
+  {
+    "id": "realistic-school-classroom-v1",
+    "name": "Aula escolar",
+    "style": "realistic",
+    "duration": 18,
+    "emotion": "curiosidad, aprendizaje, alegría",
+    "recommendedLora": "STORYAI_SCHOOL",
+    "music": "light_classical",
+    "voiceStyle": "alegre, didáctico",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Niños atentos al maestro, pizarrón al fondo", "camera": "plano general", "emotion": "curiosidad", "transition": "fade-in", "sfx": ["children", "chalk"] },
+      { "second": 7, "action": "Plano detalle de cuadernos y lápices", "camera": "detalle", "emotion": "aprendizaje", "transition": "cut", "sfx": ["paper", "pencil"] },
+      { "second": 14, "action": "Risas y participación en clase", "camera": "plano medio", "emotion": "alegría", "transition": "fade-out", "sfx": ["laugh", "bell"] }
+    ]
+  },
+
+  {
+    "id": "realistic-old-couple-v1",
+    "name": "Pareja mayor en casa",
+    "style": "realistic",
+    "duration": 16,
+    "emotion": "ternura, nostalgia, calma",
+    "recommendedLora": "STORYAI_OLDCOUPLE",
+    "music": "soft_strings",
+    "voiceStyle": "cálido, pausado",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Pareja de ancianos toma té en la sala, luz suave", "camera": "plano general", "emotion": "ternura", "transition": "fade-in", "sfx": ["tea", "clock"] },
+      { "second": 6, "action": "Se miran y sonríen, recuerdos compartidos", "camera": "detalle", "emotion": "nostalgia", "transition": "cut", "sfx": ["laugh", "memory"] },
+      { "second": 12, "action": "Plano de manos entrelazadas sobre la mesa", "camera": "close-up", "emotion": "calma", "transition": "fade-out", "sfx": ["heartbeat", "silence"] }
+    ]
+  },
+
+  {
+    "id": "realistic-beach-day-v1",
+    "name": "Día en la playa",
+    "style": "realistic",
+    "duration": 20,
+    "emotion": "alegría, relajación, verano",
+    "recommendedLora": "STORYAI_BEACH",
+    "music": "beach_vibes",
+    "voiceStyle": "alegre, relajado",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Familias y amigos juegan en la arena, sol brillante", "camera": "plano general", "emotion": "alegría", "transition": "fade-in", "sfx": ["waves", "children"] },
+      { "second": 8, "action": "Niños construyen castillos de arena, risas", "camera": "detalle", "emotion": "verano", "transition": "cut", "sfx": ["sand", "laugh"] },
+      { "second": 16, "action": "Personas nadan y caminan por la orilla", "camera": "plano medio", "emotion": "relajación", "transition": "fade-out", "sfx": ["water", "seagulls"] }
+    ]
+  },
+
+  {
+    "id": "realistic-cafe-moment-v1",
+    "name": "Momento en el café",
+    "style": "realistic",
+    "duration": 16,
+    "emotion": "calma, conversación, cotidianidad",
+    "recommendedLora": "STORYAI_CAFE_REAL",
+    "music": "soft_jazz",
+    "voiceStyle": "natural, conversacional",
+    "model": "kling-2.1-master",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Personas conversan en una cafetería, luz natural", "camera": "plano general", "emotion": "calma", "transition": "fade-in", "sfx": ["cafe_ambience", "cups"] },
+      { "second": 6, "action": "Plano detalle de tazas y manos gesticulando", "camera": "detalle", "emotion": "conversación", "transition": "cut", "sfx": ["spoon", "voice"] },
+      { "second": 12, "action": "Risas y miradas, ambiente relajado", "camera": "plano medio", "emotion": "cotidianidad", "transition": "fade-out", "sfx": ["laugh", "music"] }
+    ]
+  },
+
+  {
+    "id": "commercial-soft-drink-v1",
+    "name": "Refresco en verano",
+    "style": "commercial",
+    "duration": 15,
+    "emotion": "alegría, frescura, diversión",
+    "recommendedLora": "STORYAI_SOFTDRINK",
+    "music": "pop_summer",
+    "voiceStyle": "joven, entusiasta",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Jóvenes corren hacia el mar con botellas de refresco", "camera": "plano general", "emotion": "alegría", "transition": "fade-in", "sfx": ["waves", "laugh"] },
+      { "second": 6, "action": "Primer plano de bebida burbujeante, gotas en la botella", "camera": "detalle", "emotion": "frescura", "transition": "cut", "sfx": ["bubbles", "ice"] },
+      { "second": 12, "action": "Brindis y risas en la playa, logo de la marca", "camera": "plano medio", "emotion": "diversión", "transition": "fade-out", "sfx": ["cheers", "music"] }
+    ]
+  },
+
+  {
+    "id": "commercial-car-luxury-v1",
+    "name": "Auto de lujo",
+    "style": "commercial",
+    "duration": 18,
+    "emotion": "elegancia, poder, deseo",
+    "recommendedLora": "STORYAI_LUXCAR",
+    "music": "electro_luxury",
+    "voiceStyle": "profundo, sofisticado",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "21:9",
+    "timeline": [
+      { "second": 0, "action": "Auto de lujo recorre ciudad iluminada de noche", "camera": "plano general", "emotion": "elegancia", "transition": "fade-in", "sfx": ["engine", "city_night"] },
+      { "second": 8, "action": "Detalle de faros, llantas y logo", "camera": "detalle", "emotion": "poder", "transition": "cut", "sfx": ["lights", "zoom"] },
+      { "second": 15, "action": "Auto se detiene frente a edificio moderno, logo en pantalla", "camera": "plano medio", "emotion": "deseo", "transition": "fade-out", "sfx": ["music", "door"] }
+    ]
+  },
+
+  {
+    "id": "commercial-tech-gadget-v1",
+    "name": "Lanzamiento de gadget",
+    "style": "commercial",
+    "duration": 15,
+    "emotion": "innovación, sorpresa, deseo",
+    "recommendedLora": "STORYAI_GADGET",
+    "music": "tech_modern",
+    "voiceStyle": "moderno, claro",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Manos sacan smartphone de caja, fondo blanco", "camera": "detalle", "emotion": "innovación", "transition": "fade-in", "sfx": ["box", "plastic"] },
+      { "second": 5, "action": "Pantalla encendida, interfaz fluida, gestos rápidos", "camera": "close-up", "emotion": "sorpresa", "transition": "cut", "sfx": ["swipe", "beep"] },
+      { "second": 12, "action": "Logo y eslogan del producto, fondo minimalista", "camera": "plano general", "emotion": "deseo", "transition": "fade-out", "sfx": ["music", "shine"] }
+    ]
+  },
+
+  {
+    "id": "commercial-fastfood-burger-v1",
+    "name": "Hamburguesa irresistible",
+    "style": "commercial",
+    "duration": 12,
+    "emotion": "hambre, antojo, satisfacción",
+    "recommendedLora": "STORYAI_BURGER",
+    "music": "rock_fastfood",
+    "voiceStyle": "joven, divertido",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Close-up de hamburguesa jugosa, ingredientes cayendo", "camera": "detalle", "emotion": "hambre", "transition": "fade-in", "sfx": ["sizzle", "lettuce"] },
+      { "second": 5, "action": "Persona muerde la hamburguesa, expresión de placer", "camera": "close-up", "emotion": "antojo", "transition": "cut", "sfx": ["bite", "yum"] },
+      { "second": 10, "action": "Logo y eslogan, fondo rojo", "camera": "plano general", "emotion": "satisfacción", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "commercial-family-car-v1",
+    "name": "Auto familiar",
+    "style": "commercial",
+    "duration": 15,
+    "emotion": "seguridad, unión, alegría",
+    "recommendedLora": "STORYAI_FAMCAR",
+    "music": "happy_family",
+    "voiceStyle": "cálido, confiable",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Familia sube al auto, niños riendo", "camera": "plano general", "emotion": "alegría", "transition": "fade-in", "sfx": ["door", "laugh"] },
+      { "second": 6, "action": "Auto en carretera, paisaje verde, música alegre", "camera": "plano medio", "emotion": "unión", "transition": "cut", "sfx": ["engine", "music"] },
+      { "second": 12, "action": "Plano de seguridad: cinturones, airbags, logo", "camera": "detalle", "emotion": "seguridad", "transition": "fade-out", "sfx": ["seatbelt", "voice"] }
+    ]
+  },
+
+  {
+    "id": "commercial-beauty-cosmetics-v1",
+    "name": "Belleza natural",
+    "style": "commercial",
+    "duration": 14,
+    "emotion": "confianza, frescura, autoestima",
+    "recommendedLora": "STORYAI_BEAUTY",
+    "music": "soft_pop",
+    "voiceStyle": "suave, inspirador",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Primer plano de rostro aplicando maquillaje suave", "camera": "detalle", "emotion": "confianza", "transition": "fade-in", "sfx": ["brush", "voice"] },
+      { "second": 6, "action": "Sonrisa al espejo, luz natural", "camera": "close-up", "emotion": "frescura", "transition": "cut", "sfx": ["mirror", "music"] },
+      { "second": 11, "action": "Logo y mensaje de autoestima", "camera": "plano general", "emotion": "autoestima", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "commercial-sportswear-v1",
+    "name": "Ropa deportiva",
+    "style": "commercial",
+    "duration": 13,
+    "emotion": "energía, superación, motivación",
+    "recommendedLora": "STORYAI_SPORTSWEAR",
+    "music": "electro_sport",
+    "voiceStyle": "enérgico, motivador",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Jóvenes corren y entrenan en parque urbano", "camera": "plano general", "emotion": "energía", "transition": "fade-in", "sfx": ["steps", "music"] },
+      { "second": 5, "action": "Plano detalle de ropa deportiva, sudor, esfuerzo", "camera": "detalle", "emotion": "superación", "transition": "cut", "sfx": ["fabric", "breath"] },
+      { "second": 10, "action": "Celebración y logo de la marca", "camera": "plano medio", "emotion": "motivación", "transition": "fade-out", "sfx": ["cheer", "voice"] }
+    ]
+  },
+
+  {
+    "id": "commercial-cleaning-product-v1",
+    "name": "Limpieza total",
+    "style": "commercial",
+    "duration": 12,
+    "emotion": "satisfacción, orden, tranquilidad",
+    "recommendedLora": "STORYAI_CLEANING",
+    "music": "happy_clean",
+    "voiceStyle": "alegre, confiable",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Madre limpia la mesa, niños juegan alrededor", "camera": "plano general", "emotion": "orden", "transition": "fade-in", "sfx": ["spray", "laugh"] },
+      { "second": 5, "action": "Superficie reluciente, reflejo de luz", "camera": "detalle", "emotion": "satisfacción", "transition": "cut", "sfx": ["shine", "music"] },
+      { "second": 10, "action": "Logo y mensaje de tranquilidad", "camera": "plano medio", "emotion": "tranquilidad", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "commercial-insurance-family-v1",
+    "name": "Seguro familiar",
+    "style": "commercial",
+    "duration": 15,
+    "emotion": "protección, amor, tranquilidad",
+    "recommendedLora": "STORYAI_INSURANCE",
+    "music": "soft_family",
+    "voiceStyle": "cálido, seguro",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Familia abrazada en el jardín, niños sonríen", "camera": "plano general", "emotion": "amor", "transition": "fade-in", "sfx": ["birds", "laugh"] },
+      { "second": 6, "action": "Plano detalle de manos entrelazadas, mirada de tranquilidad", "camera": "detalle", "emotion": "protección", "transition": "cut", "sfx": ["heartbeat", "music"] },
+      { "second": 12, "action": "Logo y mensaje de seguridad", "camera": "plano medio", "emotion": "tranquilidad", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "commercial-travel-agency-v1",
+    "name": "Agencia de viajes",
+    "style": "commercial",
+    "duration": 16,
+    "emotion": "aventura, felicidad, descubrimiento",
+    "recommendedLora": "STORYAI_TRAVEL",
+    "music": "world_travel",
+    "voiceStyle": "alegre, inspirador",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Pareja observa paisaje exótico desde mirador", "camera": "plano general", "emotion": "aventura", "transition": "fade-in", "sfx": ["wind", "birds"] },
+      { "second": 7, "action": "Amigos en actividades acuáticas, risas y saltos", "camera": "detalle", "emotion": "felicidad", "transition": "cut", "sfx": ["water", "laugh"] },
+      { "second": 13, "action": "Logo y mensaje de descubrimiento", "camera": "plano medio", "emotion": "descubrimiento", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "commercial-pet-food-v1",
+    "name": "Alimento para mascotas",
+    "style": "commercial",
+    "duration": 13,
+    "emotion": "cuidado, alegría, salud",
+    "recommendedLora": "STORYAI_PETFOOD",
+    "music": "happy_pets",
+    "voiceStyle": "alegre, familiar",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Perro y gato corren hacia su plato de comida", "camera": "plano general", "emotion": "alegría", "transition": "fade-in", "sfx": ["bark", "meow"] },
+      { "second": 5, "action": "Dueño sirve alimento, mascotas comen felices", "camera": "detalle", "emotion": "cuidado", "transition": "cut", "sfx": ["pour", "chew"] },
+      { "second": 10, "action": "Logo y mensaje de salud animal", "camera": "plano medio", "emotion": "salud", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "commercial-bank-app-v1",
+    "name": "Banca móvil",
+    "style": "commercial",
+    "duration": 12,
+    "emotion": "facilidad, seguridad, modernidad",
+    "recommendedLora": "STORYAI_BANKAPP",
+    "music": "tech_soft",
+    "voiceStyle": "moderno, confiable",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Persona revisa su app bancaria en el móvil", "camera": "plano general", "emotion": "facilidad", "transition": "fade-in", "sfx": ["tap", "beep"] },
+      { "second": 5, "action": "Pagos y transferencias rápidas, interfaz clara", "camera": "detalle", "emotion": "modernidad", "transition": "cut", "sfx": ["swipe", "music"] },
+      { "second": 10, "action": "Logo y mensaje de seguridad", "camera": "plano medio", "emotion": "seguridad", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "commercial-eco-friendly-v1",
+    "name": "Producto ecológico",
+    "style": "commercial",
+    "duration": 14,
+    "emotion": "sostenibilidad, esperanza, futuro",
+    "recommendedLora": "STORYAI_ECO",
+    "music": "nature_soft",
+    "voiceStyle": "natural, inspirador",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Persona usa producto ecológico en casa, plantas alrededor", "camera": "plano general", "emotion": "sostenibilidad", "transition": "fade-in", "sfx": ["leaves", "water"] },
+      { "second": 6, "action": "Familia sonríe en jardín verde, niños juegan", "camera": "detalle", "emotion": "esperanza", "transition": "cut", "sfx": ["laugh", "birds"] },
+      { "second": 11, "action": "Logo y mensaje de futuro verde", "camera": "plano medio", "emotion": "futuro", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "commercial-coffee-brand-v1",
+    "name": "Café premium",
+    "style": "commercial",
+    "duration": 13,
+    "emotion": "placer, aroma, sofisticación",
+    "recommendedLora": "STORYAI_COFFEE",
+    "music": "jazz_coffee",
+    "voiceStyle": "suave, elegante",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Barista muele granos y prepara espresso", "camera": "plano general", "emotion": "placer", "transition": "fade-in", "sfx": ["grind", "steam"] },
+      { "second": 5, "action": "Cliente prueba café, aroma y sonrisa", "camera": "detalle", "emotion": "aroma", "transition": "cut", "sfx": ["sip", "music"] },
+      { "second": 10, "action": "Logo y ambiente de cafetería elegante", "camera": "plano medio", "emotion": "sofisticación", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "commercial-online-course-v1",
+    "name": "Curso en línea",
+    "style": "commercial",
+    "duration": 14,
+    "emotion": "motivación, aprendizaje, futuro",
+    "recommendedLora": "STORYAI_ONLINECOURSE",
+    "music": "uplifting_modern",
+    "voiceStyle": "joven, motivador",
+    "model": "kling-2.1-master",
+    "fps": 30,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Joven estudia en laptop, videollamada en pantalla", "camera": "plano general", "emotion": "motivación", "transition": "fade-in", "sfx": ["keyboard", "voice"] },
+      { "second": 6, "action": "Plano detalle de apuntes y materiales digitales", "camera": "detalle", "emotion": "aprendizaje", "transition": "cut", "sfx": ["paper", "music"] },
+      { "second": 11, "action": "Logo y mensaje de futuro brillante", "camera": "plano medio", "emotion": "futuro", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "anime-school-morning-v1",
+    "name": "Mañana escolar",
+    "style": "anime",
+    "duration": 18,
+    "emotion": "energía, juventud, prisa",
+    "recommendedLora": "STORYAI_SCHOOL",
+    "music": "anime_upbeat",
+    "voiceStyle": "joven, animado",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Estudiantes corren por la calle con mochilas", "camera": "plano general", "emotion": "prisa", "transition": "fade-in", "sfx": ["steps", "birds"] },
+      { "second": 7, "action": "Plano detalle de reloj marcando la hora", "camera": "detalle", "emotion": "tensión", "transition": "cut", "sfx": ["clock", "heartbeat"] },
+      { "second": 14, "action": "Llegan a la puerta de la escuela, risas y saludo", "camera": "plano medio", "emotion": "alegría", "transition": "fade-out", "sfx": ["laugh", "bell"] }
+    ]
+  },
+
+  {
+    "id": "anime-cherry-blossom-v1",
+    "name": "Cerezos en flor",
+    "style": "anime",
+    "duration": 16,
+    "emotion": "nostalgia, romance, belleza",
+    "recommendedLora": "STORYAI_SAKURA",
+    "music": "anime_romantic",
+    "voiceStyle": "suave, emotivo",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Personajes caminan bajo cerezos en flor, pétalos caen", "camera": "plano general", "emotion": "belleza", "transition": "fade-in", "sfx": ["wind", "petals"] },
+      { "second": 6, "action": "Plano detalle de manos rozándose tímidamente", "camera": "detalle", "emotion": "romance", "transition": "cut", "sfx": ["heartbeat", "music"] },
+      { "second": 12, "action": "Mirada y sonrisa, ambiente nostálgico", "camera": "close-up", "emotion": "nostalgia", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "anime-rooftop-confession-v1",
+    "name": "Confesión en la azotea",
+    "style": "anime",
+    "duration": 15,
+    "emotion": "nerviosismo, amor, esperanza",
+    "recommendedLora": "STORYAI_CONFESSION",
+    "music": "anime_emotional",
+    "voiceStyle": "tímido, sincero",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Dos estudiantes en la azotea al atardecer", "camera": "plano general", "emotion": "nerviosismo", "transition": "fade-in", "sfx": ["wind", "heartbeat"] },
+      { "second": 6, "action": "Confesión, plano detalle de manos temblorosas", "camera": "detalle", "emotion": "amor", "transition": "cut", "sfx": ["voice", "music"] },
+      { "second": 12, "action": "Respuesta y sonrisa, esperanza en el ambiente", "camera": "close-up", "emotion": "esperanza", "transition": "fade-out", "sfx": ["music", "wind"] }
+    ]
+  },
+
+  {
+    "id": "anime-battle-shonen-v1",
+    "name": "Batalla shonen",
+    "style": "anime",
+    "duration": 20,
+    "emotion": "adrenalina, rivalidad, poder",
+    "recommendedLora": "STORYAI_SHONEN",
+    "music": "anime_battle",
+    "voiceStyle": "intenso, épico",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Héroe y villano se enfrentan, poderes brillan", "camera": "plano general", "emotion": "adrenalina", "transition": "fade-in", "sfx": ["power", "shout"] },
+      { "second": 8, "action": "Golpes y explosiones, cámara dinámica", "camera": "detalle", "emotion": "rivalidad", "transition": "shake", "sfx": ["impact", "music"] },
+      { "second": 16, "action": "Ambos exhaustos, mirada desafiante", "camera": "close-up", "emotion": "poder", "transition": "fade-out", "sfx": ["breath", "music"] }
+    ]
+  },
+
+  {
+    "id": "anime-train-journey-v1",
+    "name": "Viaje en tren",
+    "style": "anime",
+    "duration": 14,
+    "emotion": "reflexión, calma, nostalgia",
+    "recommendedLora": "STORYAI_TRAIN",
+    "music": "anime_mellow",
+    "voiceStyle": "suave, introspectivo",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Personaje mira por la ventana del tren, paisaje pasa", "camera": "plano general", "emotion": "reflexión", "transition": "fade-in", "sfx": ["train", "wind"] },
+      { "second": 6, "action": "Plano detalle de gotas en el cristal, música suave", "camera": "detalle", "emotion": "calma", "transition": "cut", "sfx": ["rain", "music"] },
+      { "second": 11, "action": "Plano de rostro pensativo, nostalgia", "camera": "close-up", "emotion": "nostalgia", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "anime-festival-night-v1",
+    "name": "Festival nocturno",
+    "style": "anime",
+    "duration": 16,
+    "emotion": "alegría, amistad, asombro",
+    "recommendedLora": "STORYAI_FESTIVAL",
+    "music": "anime_festival",
+    "voiceStyle": "alegre, juvenil",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Grupo de amigos en festival, yukatas y faroles", "camera": "plano general", "emotion": "alegría", "transition": "fade-in", "sfx": ["crowd", "music"] },
+      { "second": 7, "action": "Fuegos artificiales iluminan el cielo, asombro", "camera": "detalle", "emotion": "asombro", "transition": "cut", "sfx": ["fireworks", "cheer"] },
+      { "second": 13, "action": "Risas y miradas, ambiente de amistad", "camera": "plano medio", "emotion": "amistad", "transition": "fade-out", "sfx": ["laugh", "music"] }
+    ]
+  },
+
+  {
+    "id": "anime-rainy-day-v1",
+    "name": "Día lluvioso",
+    "style": "anime",
+    "duration": 13,
+    "emotion": "melancolía, soledad, introspección",
+    "recommendedLora": "STORYAI_RAINYDAY",
+    "music": "anime_sad",
+    "voiceStyle": "suave, melancólico",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Personaje camina bajo la lluvia con paraguas", "camera": "plano general", "emotion": "melancolía", "transition": "fade-in", "sfx": ["rain", "steps"] },
+      { "second": 5, "action": "Plano detalle de gotas en el cristal, mirada triste", "camera": "detalle", "emotion": "soledad", "transition": "cut", "sfx": ["water", "music"] },
+      { "second": 10, "action": "Plano de rostro pensativo, introspección", "camera": "close-up", "emotion": "introspección", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "anime-cafe-friends-v1",
+    "name": "Café con amigos",
+    "style": "anime",
+    "duration": 14,
+    "emotion": "amistad, alegría, cotidianidad",
+    "recommendedLora": "STORYAI_CAFE_ANIME",
+    "music": "anime_cafe",
+    "voiceStyle": "alegre, natural",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Grupo de amigos conversa y ríe en cafetería", "camera": "plano general", "emotion": "amistad", "transition": "fade-in", "sfx": ["cafe_ambience", "laugh"] },
+      { "second": 6, "action": "Plano detalle de tazas y postres, ambiente cálido", "camera": "detalle", "emotion": "alegría", "transition": "cut", "sfx": ["spoon", "music"] },
+      { "second": 11, "action": "Risas y miradas, cotidianidad", "camera": "plano medio", "emotion": "cotidianidad", "transition": "fade-out", "sfx": ["laugh", "music"] }
+    ]
+  },
+
+  {
+    "id": "anime-magic-girl-v1",
+    "name": "Transformación mágica",
+    "style": "anime",
+    "duration": 15,
+    "emotion": "asombro, poder, esperanza",
+    "recommendedLora": "STORYAI_MAGICGIRL",
+    "music": "anime_magic",
+    "voiceStyle": "emocionado, brillante",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Chica mágica levanta su varita, luz y efectos", "camera": "plano general", "emotion": "asombro", "transition": "fade-in", "sfx": ["magic", "music"] },
+      { "second": 6, "action": "Transformación, cambio de vestuario y poderes", "camera": "detalle", "emotion": "poder", "transition": "cut", "sfx": ["sparkle", "voice"] },
+      { "second": 12, "action": "Sonrisa y pose heroica, esperanza", "camera": "close-up", "emotion": "esperanza", "transition": "fade-out", "sfx": ["music", "cheer"] }
+    ]
+  },
+
+  {
+    "id": "anime-sunset-walk-v1",
+    "name": "Paseo al atardecer",
+    "style": "anime",
+    "duration": 13,
+    "emotion": "calma, romance, contemplación",
+    "recommendedLora": "STORYAI_SUNSET",
+    "music": "anime_sunset",
+    "voiceStyle": "suave, contemplativo",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Pareja camina junto al río al atardecer", "camera": "plano general", "emotion": "calma", "transition": "fade-in", "sfx": ["river", "birds"] },
+      { "second": 5, "action": "Plano detalle de manos entrelazadas, colores cálidos", "camera": "detalle", "emotion": "romance", "transition": "cut", "sfx": ["heartbeat", "music"] },
+      { "second": 10, "action": "Mirada y sonrisa, contemplación", "camera": "close-up", "emotion": "contemplación", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  },
+
+  {
+    "id": "anime-sports-match-v1",
+    "name": "Partido deportivo",
+    "style": "anime",
+    "duration": 15,
+    "emotion": "emoción, esfuerzo, triunfo",
+    "recommendedLora": "STORYAI_SPORTS",
+    "music": "anime_sports",
+    "voiceStyle": "enérgico, motivador",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Jugadores saltan y corren en cancha escolar", "camera": "plano general", "emotion": "emoción", "transition": "fade-in", "sfx": ["shout", "ball"] },
+      { "second": 6, "action": "Plano detalle de sudor y manos golpeando el balón", "camera": "detalle", "emotion": "esfuerzo", "transition": "cut", "sfx": ["sweat", "music"] },
+      { "second": 12, "action": "Celebración de punto, triunfo y alegría", "camera": "plano medio", "emotion": "triunfo", "transition": "fade-out", "sfx": ["cheer", "music"] }
+    ]
+  },
+
+  {
+    "id": "anime-fantasy-forest-v1",
+    "name": "Bosque fantástico",
+    "style": "anime",
+    "duration": 16,
+    "emotion": "misterio, aventura, asombro",
+    "recommendedLora": "STORYAI_FANTASY",
+    "music": "anime_fantasy",
+    "voiceStyle": "emocionado, narrativo",
+    "model": "kling-2.1-anime",
+    "fps": 24,
+    "aspectRatio": "16:9",
+    "timeline": [
+      { "second": 0, "action": "Personaje entra a bosque mágico, luces flotan", "camera": "plano general", "emotion": "misterio", "transition": "fade-in", "sfx": ["leaves", "magic"] },
+      { "second": 7, "action": "Encuentro con criatura fantástica, sorpresa", "camera": "detalle", "emotion": "asombro", "transition": "cut", "sfx": ["creature", "music"] },
+      { "second": 13, "action": "Exploración y aventura, ambiente mágico", "camera": "plano medio", "emotion": "aventura", "transition": "fade-out", "sfx": ["music", "voice"] }
+    ]
+  }
+]

@@ -28,7 +28,10 @@ const schema = z.object({
   OPENROUTER_BASE_URL: z.string().optional(),
   OPENROUTER_HTTP_REFERER: z.string().optional(),
   OPENROUTER_X_TITLE: z.string().optional(),
-  FREESOUND_API_KEY: z.string().optional()
+
+  FREESOUND_API_KEY: z.string().optional(),
+  RUNWAYML_API_SECRET: z.string().optional(),
+  RUNWAY_API_TOKEN: z.string().optional(),
 });
 
 const env = schema.parse(process.env);

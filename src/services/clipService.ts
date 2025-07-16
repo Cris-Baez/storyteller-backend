@@ -181,26 +181,29 @@ async function pollReplicateJob(model: string, input: Record<string, any>, maxWa
 // API principal
 
 export async function generateClips(plan: VideoPlan): Promise<string[]> {
+  // Importar Runway solo si es necesario
+  let generateRunwayVideo: any = null;
+  const runwayStyles = ['realistic', 'cinematic', 'commercial'];
+  try {
+    generateRunwayVideo = (await import('./runwayService.js')).generateRunwayVideo;
+  } catch {}
   logger.info('🎞️ ClipService v7.4 – start');
   const lim  = pLimit(Number(env.GEN2_CONCURRENCY ?? 3));
   const segs = segment(plan.timeline);
   logger.info(`→ ${segs.length} segmentos de 5 s`);
 
   const urls: string[] = [];
+  // Usar modelOrder avanzado del plan
+  const modelOrder = plan.metadata.modelOrder && Array.isArray(plan.metadata.modelOrder)
+    ? plan.metadata.modelOrder
+    : [MODEL[plan.metadata.visualStyle as keyof typeof MODEL] ?? MODEL.realistic, ...BACKUP];
 
   await Promise.all(segs.map(seg => lim(async () => {
     const frames = seg.dur*24;
     const style = plan.metadata.visualStyle;
-    const pref   = MODEL[style as keyof typeof MODEL] ?? MODEL.realistic;
-
-    // Priorizar minimax/video-01-director para realistic y cinematic, y poner google/veo-2 como última opción
-    let tryModels: string[] = [];
-    const GOOGLE_VEO = 'google/veo-2';
-    if (style === 'realistic' || style === 'cinematic') {
-      tryModels = [MINIMAX_DIRECTOR, pref, MODEL.realistic, MODEL.cinematic, ...BACKUP, GOOGLE_VEO];
-    } else {
-      tryModels = [pref, MODEL.realistic, ...BACKUP, GOOGLE_VEO];
-    }
+    // Permitir override de modelo por escena si existe (en el primer segundo del segmento)
+    const segMeta = seg.secs[0] || {};
+    let tryModels: string[] = Array.isArray(segMeta.modelOrder) ? segMeta.modelOrder : modelOrder;
 
     let src: string|undefined;
     for (const m of tryModels) {
@@ -208,71 +211,127 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
         logger.info(`⏩ Modelo ${m} no soporta duración ${seg.dur}s, se omite.`);
         continue;
       }
-      // Construir input según modelo
-      let input: Record<string, any> = {};
-      if (m.startsWith('bytedance/seedance-1-pro')) {
-        input = {
-          fps: 24,
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          resolution: '1080p',
-          aspect_ratio: '16:9',
-          camera_fixed: false
-        };
-      } else if (m.startsWith('minimax/hailuo-02')) {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          resolution: '1080p',
-          prompt_optimizer: false
-        };
-      } else if (m.startsWith('minimax/video-01-director')) {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          prompt_optimizer: true
-        };
-      } else if (m.startsWith('minimax/video-01')) {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          prompt_optimizer: true
-        };
-      } else if (m.startsWith('luma/ray-flash-2-720p')) {
-        input = {
-          loop: false,
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          aspect_ratio: '16:9'
-        };
-      } else if (m.startsWith('luma/ray-2-720p') || m.startsWith('luma/ray-2')) {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          aspect_ratio: '16:9'
-        };
-      } else if (m === GOOGLE_VEO) {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          aspect_ratio: '16:9'
-        };
-      } else if (m === 'pixverse/pixverse-v4.5') {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur,
-          aspect_ratio: '16:9'
-        };
+      // Si el modelo es Runway y el estilo es compatible, usar Runway
+      const lora = segMeta.lora ?? plan.metadata.lora;
+      const loraScale = segMeta.loraScale ?? plan.metadata.loraScale;
+      const seed = segMeta.seed ?? plan.metadata.seed;
+      if (m === 'runway/gen4_turbo' && runwayStyles.includes(style) && generateRunwayVideo) {
+        // Buscar imagen base (promptImage) en el plan o segmento
+        let promptImage = '';
+        if (plan.metadata.referenceImages && plan.metadata.referenceImages.length > 0) {
+          promptImage = plan.metadata.referenceImages[0];
+        // Si se quisiera soportar referenceImage por segundo, agregar al contrato y aquí
+        } else {
+          logger.warn('No se encontró imagen base para Runway, se omite.');
+          continue;
+        }
+        try {
+          src = await generateRunwayVideo({
+            promptImage,
+            promptText: promptOf(seg, style, plan),
+            model: 'gen4_turbo',
+            ratio: '1280:720',
+            duration: seg.dur
+          });
+          logger.info(`✅ Runway OK (seg${seg.start})`);
+          break;
+        } catch (e:any) {
+          logger.warn(`❌ Runway ${e.message}`);
+        }
       } else {
-        input = {
-          prompt: promptOf(seg, style, plan),
-          duration: seg.dur
-        };
-      }
-      try {
-        src = await pollReplicateJob(m, input);
-        logger.info(`✅ ${m} OK (seg${seg.start})`);
-        break;
-      } catch (e:any) {
-        logger.warn(`❌ ${m} ${e.message}`);
+        // Fallback: Replicate y otros modelos IA
+        let input: Record<string, any> = {};
+        if (m.startsWith('bytedance/seedance-1-pro')) {
+          input = {
+            fps: 24,
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            resolution: '1080p',
+            aspect_ratio: '16:9',
+            camera_fixed: false,
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (m.startsWith('minimax/hailuo-02')) {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            resolution: '1080p',
+            prompt_optimizer: false,
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (m.startsWith('minimax/video-01-director')) {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            prompt_optimizer: true,
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (m.startsWith('minimax/video-01')) {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            prompt_optimizer: true,
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (m.startsWith('luma/ray-flash-2-720p')) {
+          input = {
+            loop: false,
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            aspect_ratio: '16:9',
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (m.startsWith('luma/ray-2-720p') || m.startsWith('luma/ray-2')) {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            aspect_ratio: '16:9',
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (m === 'google/veo-2' || m === 'google/veo-3') {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            aspect_ratio: '16:9',
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else if (m === 'pixverse/pixverse-v4.5') {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            aspect_ratio: '16:9',
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        } else {
+          input = {
+            prompt: promptOf(seg, style, plan),
+            duration: seg.dur,
+            ...(lora ? { lora_url: lora } : {}),
+            ...(loraScale ? { lora_scale: loraScale } : {}),
+            ...(seed ? { seed } : {})
+          };
+        }
+        try {
+          src = await pollReplicateJob(m, input);
+          logger.info(`✅ ${m} OK (seg${seg.start})`);
+          break;
+        } catch (e:any) {
+          logger.warn(`❌ ${m} ${e.message}`);
+        }
       }
     }
     if (!src) {

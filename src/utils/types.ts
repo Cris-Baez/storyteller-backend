@@ -57,26 +57,41 @@ export interface TimelineSecond {
   highlight: boolean;        // resaltar este segundo
   sceneMood?: string;        // estado de ánimo de la escena
   transition: string;        // tipo de transición
+  // Extensiones pipeline avanzado:
+  lora?: string | null;
+  loraScale?: number;
+  seed?: number | string;
+  modelOrder?: string[];
 }
 
 /* → Plan completo que genera llmService */
+
+// Contrato avanzado para VideoPlan (pipeline v7+)
 export interface VideoPlan {
   timeline: TimelineSecond[];  // length === duration
   metadata: {
     mode: string;              // modo de renderizado
     visualStyle: string;       // estilo visual
-    duration: AllowedDuration;  // duración del video
-    characters?: CharacterVoiceSpec[]; // Lista de personajes con especificaciones de voz
-    music?: MusicSpec | string;         // especificaciones musicales o descripción
+    duration: AllowedDuration; // duración del video
+    modelOrder?: string[];     // orden de preferencia de modelos IA
+    lora?: string | null;      // url o id de LoRA a usar (opcional)
+    loraScale?: number;        // escala LoRA (opcional)
+    seed?: number | string;    // semilla global (opcional)
+    characters?: CharacterVoiceSpec[];
+    music?: MusicSpec | string;
     scenes?: Array<{
       scene: number;
       start: number;
       end: number;
       description: string;
+      lora?: string | null;
+      loraScale?: number;
+      seed?: number | string;
     }>;
     referenceImages?: string[];
+    [key: string]: any; // para extensibilidad futura
   };
-  storyboard?: string[]; // Agregar propiedad para imágenes generadas por storyboardService
+  storyboard?: string[];
 }
 
 /* → Respuesta final del backend */

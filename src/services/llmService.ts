@@ -127,28 +127,31 @@ export async function createVideoPlan(req: RenderRequest): Promise<VideoPlan> {
   logger.info(`🎬 Prompt limpio: ${cleanPrompt.substring(0, 100)}...`);
 
   // Función para completar timeline si faltan segundos
-  function completeTimeline(timeline: any[], targetDuration: number): any[] {
+  function completeTimeline(timeline: any[], targetDuration: number, meta: any = {}): any[] {
     if (timeline.length >= targetDuration) {
       return timeline.slice(0, targetDuration);
     }
-    
     const completed = [...timeline];
     const lastItem = timeline[timeline.length - 1] || {
       visual: "Continuing scene",
       camera: { shot: "medium", movement: "none" },
       emotion: "neutral",
-      soundCue: "quiet"
+      soundCue: "quiet",
+      lora: meta.lora ?? null,
+      loraScale: meta.loraScale,
+      seed: meta.seed
     };
-    
     for (let i = timeline.length; i < targetDuration; i++) {
       completed.push({
         ...lastItem,
         t: i,
         visual: `${lastItem.visual} (continued)`,
-        camera: { ...lastItem.camera }
+        camera: { ...lastItem.camera },
+        lora: lastItem.lora,
+        loraScale: lastItem.loraScale,
+        seed: lastItem.seed
       });
     }
-    
     logger.info(`🛠️  Timeline auto-completado a ${targetDuration}s`);
     return completed;
   }
@@ -196,13 +199,38 @@ REMEMBER: timeline.length MUST equal ${duration}. No extra text, no markdown.`;
     if (!Array.isArray(parsed.timeline)) {
       throw new Error('La respuesta no contiene un array "timeline" válido');
     }
-    
-    // En lugar de fallar, completar el timeline automáticamente
+    // Asegurar metadata avanzada
+    if (!parsed.metadata) parsed.metadata = {};
+    if (!Array.isArray(parsed.metadata.modelOrder)) {
+      // Modelos por defecto según estilo
+      const style = parsed.metadata.visualStyle || 'realistic';
+      parsed.metadata.modelOrder = [
+        style === 'anime' ? 'bytedance/seedance-1-pro' :
+        style === 'cinematic' ? 'luma/ray-2-720p' :
+        style === 'cartoon' ? 'pixverse/pixverse-v4.5' :
+        'google/veo-3',
+        'minimax/video-01-director',
+        'bytedance/seedance-1-lite',
+        'minimax/hailuo-02',
+        'luma/ray-flash-2-540p',
+        'google/veo-2'
+      ];
+    }
+    if (!('lora' in parsed.metadata)) parsed.metadata.lora = null;
+    if (!('loraScale' in parsed.metadata)) parsed.metadata.loraScale = undefined;
+    if (!('seed' in parsed.metadata)) parsed.metadata.seed = undefined;
+    // Completar timeline si falta
     if (parsed.timeline.length !== duration) {
       logger.warn(`⚠️  Timeline incompleto (${parsed.timeline.length}/${duration}), completando automáticamente...`);
-      parsed.timeline = completeTimeline(parsed.timeline, duration);
+      parsed.timeline = completeTimeline(parsed.timeline, duration, parsed.metadata);
     }
-    
+    // Propagar lora/loraScale/seed a timeline si falta
+    parsed.timeline = parsed.timeline.map((sec: any) => ({
+      ...sec,
+      lora: sec.lora ?? parsed.metadata.lora ?? null,
+      loraScale: sec.loraScale ?? parsed.metadata.loraScale,
+      seed: sec.seed ?? parsed.metadata.seed
+    }));
     return parsed;
   }
 
@@ -252,6 +280,10 @@ REMEMBER: timeline.length MUST equal ${duration}. No extra text, no markdown.`;
         mode,
         visualStyle,
         duration,
+        modelOrder: fixedParsed.metadata?.modelOrder,
+        lora: fixedParsed.metadata?.lora,
+        loraScale: fixedParsed.metadata?.loraScale,
+        seed: fixedParsed.metadata?.seed,
         characters: audio?.characters,
         music: fixedParsed.metadata?.music || audio?.music,
         scenes: fixedParsed.metadata?.scenes || undefined,
