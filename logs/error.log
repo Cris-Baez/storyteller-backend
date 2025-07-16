@@ -2889,3 +2889,231 @@ frame=  263 fps=1.5 q=31.0 size=    2048kB time=00:00:04.35 bitrate=3856.9kbits/
 frame=  265 fps=1.5 q=31.0 size=    2048kB time=00:00:04.38 bitrate=3827.6kbits/s speed=0.0248x    
 frame=  268 fps=1.5 q=31.0 size=    2048kB time=00:00:04.43 bitrate=3784.4kbits/s speed=0.0249x    
 
+2025-07-16T02:35:16.896Z [error] FLUX respuesta inesperada: {}
+2025-07-16T02:35:16.897Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T02:36:08.062Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.069Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.087Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.135Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.139Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.143Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.146Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.156Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.199Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.310Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:39:21.565Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 0000027da95af440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4cf7d52b-f61a-47de-9d75-2224b4afdbc9_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 0000027da95a95c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:39:23.209Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 00000225ebeff440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4cf7d52b-f61a-47de-9d75-2224b4afdbc9_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 00000225ebef95c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:39:27.097Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 000001d29c29f440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\323dd160-cd17-41ac-a3e2-675944b8d1e9_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 000001d29c2995c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:39:28.666Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 000002183b9cf440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\323dd160-cd17-41ac-a3e2-675944b8d1e9_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 000002183b9c95c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:39:32.509Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 000001c92a2ef440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\081c4d2e-60ca-4667-91cb-aa078f05567f_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 000001c92a2e95c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:39:34.082Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 0000021b55a6f440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\081c4d2e-60ca-4667-91cb-aa078f05567f_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 0000021b55a695c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:43:10.762Z [error] FLUX respuesta inesperada: {}
+2025-07-16T02:43:10.764Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T02:43:18.780Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.788Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.796Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.814Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.826Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.828Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.840Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.844Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.861Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.862Z [error] Error generando voz: No se pudo generar la voz

@@ -80,24 +80,30 @@ function buildVolumeExpr(plan: VideoPlan): string {
     fade: 0.0
   };
 
-  /* Genera bloques consecutivos con mismo volumen */
-  const segs: {start:number; end:number; vol:number}[] = [];
+  if (!plan.timeline || !Array.isArray(plan.timeline) || plan.timeline.length === 0) {
+    throw new Error('El timeline del plan de video está vacío o malformado');
+  }
+
+  // Genera bloques consecutivos con mismo volumen
+  const segs: { start: number; end: number; vol: number }[] = [];
   let curVol = VOL[plan.timeline[0].soundCue];
   let segStart = 0;
 
-  for(let i=1;i<plan.timeline.length;i++){
+  for (let i = 1; i < plan.timeline.length; i++) {
     const v = VOL[plan.timeline[i].soundCue];
-    if (v !== curVol){
-      segs.push({start:segStart,end:i,startVol:curVol} as any); // We'll adapt eval
+    if (v !== curVol) {
+      segs.push({ start: segStart, end: i, vol: curVol });
+      segStart = i;
+      curVol = v;
     }
   }
-  segs.push({start:segStart,end:plan.timeline.length,startVol:curVol} as any);
+  segs.push({ start: segStart, end: plan.timeline.length, vol: curVol });
 
-  // Build nested IF expression   if(between(t,0,3),0.25, if(between(t,3,6),0.6,1))
-  let expr = String(segs[segs.length-1].vol);
-  for(let i=segs.length-2;i>=0;i--){
+  // Construye la expresión IF anidada: if(between(t,0,3),0.25, if(between(t,3,6),0.6,1))
+  let expr = String(segs[segs.length - 1].vol);
+  for (let i = segs.length - 2; i >= 0; i--) {
     const s = segs[i];
-    expr = `if(between(t\\,${s.start}\\,${s.end})\\,${s.vol}\\,${expr})`;
+    expr = `if(between(t\,${s.start}\,${s.end})\,${s.vol}\,${expr})`;
   }
   return expr;
 }

@@ -7633,3 +7633,611 @@ frame=  263 fps=1.5 q=31.0 size=    2048kB time=00:00:04.35 bitrate=3856.9kbits/
 frame=  265 fps=1.5 q=31.0 size=    2048kB time=00:00:04.38 bitrate=3827.6kbits/s speed=0.0248x    
 frame=  268 fps=1.5 q=31.0 size=    2048kB time=00:00:04.43 bitrate=3784.4kbits/s speed=0.0249x    
 
+2025-07-16T02:34:48.438Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-16T02:34:54.398Z [info] ::1 - - [16/Jul/2025:02:34:54 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-16T02:34:54.403Z [info] 🚀 Pipeline v7 – inicio
+2025-07-16T02:34:54.409Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-16T02:34:54.411Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-16T02:35:13.918Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-16T02:35:13.919Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast cityscape with towering skyscrapers at dawn.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"anticipation",
+     "dialogue...
+2025-07-16T02:35:13.921Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-16T02:35:13.922Z [info] 📜 VideoPlan listo (10s)
+2025-07-16T02:35:13.924Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T02:35:13.926Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T02:35:16.896Z [error] FLUX respuesta inesperada: {}
+2025-07-16T02:35:16.897Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T02:35:16.899Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T02:36:04.527Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/6XLeHYEjS1x8TiBMe1y14gVi7sTQWy6khLJAzfuYjhaoQYCqA/out-0.png
+2025-07-16T02:36:05.650Z [info] Archivo temporal creado: t0_d80bf7
+2025-07-16T02:36:07.637Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T02:36:07.776Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T02:36:07.777Z [info] ✅  Storyboards listos: 1
+2025-07-16T02:36:07.778Z [info] 🎞️ ClipService v7.4 – start
+2025-07-16T02:36:07.779Z [info] → 2 segmentos de 5 s
+2025-07-16T02:36:07.781Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-16T02:36:07.812Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-16T02:36:07.813Z [info] 🎵  Freesound query: cinematic
+2025-07-16T02:36:07.817Z [info] 🚦 Solicitando generación a Replicate (minimax/video-01-director)...
+2025-07-16T02:36:07.818Z [info] 🚦 Solicitando generación a Replicate (minimax/video-01-director)...
+2025-07-16T02:36:08.018Z [info] 🕒 Esperando job Replicate: 8vemtpey59rmc0cr24b87s9dq0
+2025-07-16T02:36:08.061Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:36:08.062Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.069Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:36:08.069Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.086Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:36:08.087Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.135Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:36:08.135Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.138Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:36:08.139Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.141Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:36:08.143Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.146Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:36:08.146Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.155Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:36:08.156Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.198Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:36:08.199Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.296Z [info] 🕒 Esperando job Replicate: sd1c6xyz7drmc0cr24bbtfd6q0
+2025-07-16T02:36:08.308Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:36:08.310Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:36:08.311Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-16T02:36:11.745Z [info] 🔄 [minimax/video-01-director] Poll #1: status=processing
+2025-07-16T02:36:11.946Z [info] 🔄 [minimax/video-01-director] Poll #1: status=processing
+2025-07-16T02:36:13.882Z [info] ✅  Pista de música lista (976940 bytes)
+2025-07-16T02:36:15.465Z [info] 🔄 [minimax/video-01-director] Poll #2: status=processing
+2025-07-16T02:36:15.996Z [info] 🔄 [minimax/video-01-director] Poll #2: status=processing
+2025-07-16T02:36:19.183Z [info] 🔄 [minimax/video-01-director] Poll #3: status=processing
+2025-07-16T02:36:19.655Z [info] 🔄 [minimax/video-01-director] Poll #3: status=processing
+2025-07-16T02:36:22.852Z [info] 🔄 [minimax/video-01-director] Poll #4: status=processing
+2025-07-16T02:36:23.364Z [info] 🔄 [minimax/video-01-director] Poll #4: status=processing
+2025-07-16T02:36:26.579Z [info] 🔄 [minimax/video-01-director] Poll #5: status=processing
+2025-07-16T02:36:27.153Z [info] 🔄 [minimax/video-01-director] Poll #5: status=processing
+2025-07-16T02:36:30.257Z [info] 🔄 [minimax/video-01-director] Poll #6: status=processing
+2025-07-16T02:36:30.840Z [info] 🔄 [minimax/video-01-director] Poll #6: status=processing
+2025-07-16T02:36:33.934Z [info] 🔄 [minimax/video-01-director] Poll #7: status=processing
+2025-07-16T02:36:34.526Z [info] 🔄 [minimax/video-01-director] Poll #7: status=processing
+2025-07-16T02:36:37.597Z [info] 🔄 [minimax/video-01-director] Poll #8: status=processing
+2025-07-16T02:36:38.213Z [info] 🔄 [minimax/video-01-director] Poll #8: status=processing
+2025-07-16T02:36:41.388Z [info] 🔄 [minimax/video-01-director] Poll #9: status=processing
+2025-07-16T02:36:41.901Z [info] 🔄 [minimax/video-01-director] Poll #9: status=processing
+2025-07-16T02:36:45.045Z [info] 🔄 [minimax/video-01-director] Poll #10: status=processing
+2025-07-16T02:36:45.916Z [info] 🔄 [minimax/video-01-director] Poll #10: status=processing
+2025-07-16T02:36:48.749Z [info] 🔄 [minimax/video-01-director] Poll #11: status=processing
+2025-07-16T02:36:49.594Z [info] 🔄 [minimax/video-01-director] Poll #11: status=processing
+2025-07-16T02:36:52.409Z [info] 🔄 [minimax/video-01-director] Poll #12: status=processing
+2025-07-16T02:36:53.267Z [info] 🔄 [minimax/video-01-director] Poll #12: status=processing
+2025-07-16T02:36:56.133Z [info] 🔄 [minimax/video-01-director] Poll #13: status=processing
+2025-07-16T02:36:56.967Z [info] 🔄 [minimax/video-01-director] Poll #13: status=processing
+2025-07-16T02:36:59.821Z [info] 🔄 [minimax/video-01-director] Poll #14: status=processing
+2025-07-16T02:37:00.649Z [info] 🔄 [minimax/video-01-director] Poll #14: status=processing
+2025-07-16T02:37:03.608Z [info] 🔄 [minimax/video-01-director] Poll #15: status=processing
+2025-07-16T02:37:04.327Z [info] 🔄 [minimax/video-01-director] Poll #15: status=processing
+2025-07-16T02:37:07.395Z [info] 🔄 [minimax/video-01-director] Poll #16: status=processing
+2025-07-16T02:37:08.011Z [info] 🔄 [minimax/video-01-director] Poll #16: status=processing
+2025-07-16T02:37:11.092Z [info] 🔄 [minimax/video-01-director] Poll #17: status=processing
+2025-07-16T02:37:11.697Z [info] 🔄 [minimax/video-01-director] Poll #17: status=processing
+2025-07-16T02:37:14.751Z [info] 🔄 [minimax/video-01-director] Poll #18: status=processing
+2025-07-16T02:37:15.487Z [info] 🔄 [minimax/video-01-director] Poll #18: status=processing
+2025-07-16T02:37:18.409Z [info] 🔄 [minimax/video-01-director] Poll #19: status=processing
+2025-07-16T02:37:19.172Z [info] 🔄 [minimax/video-01-director] Poll #19: status=processing
+2025-07-16T02:37:22.068Z [info] 🔄 [minimax/video-01-director] Poll #20: status=processing
+2025-07-16T02:37:22.820Z [info] 🔄 [minimax/video-01-director] Poll #20: status=processing
+2025-07-16T02:37:25.735Z [info] 🔄 [minimax/video-01-director] Poll #21: status=processing
+2025-07-16T02:37:26.545Z [info] 🔄 [minimax/video-01-director] Poll #21: status=processing
+2025-07-16T02:37:29.415Z [info] 🔄 [minimax/video-01-director] Poll #22: status=processing
+2025-07-16T02:37:30.233Z [info] 🔄 [minimax/video-01-director] Poll #22: status=processing
+2025-07-16T02:37:33.099Z [info] 🔄 [minimax/video-01-director] Poll #23: status=processing
+2025-07-16T02:37:33.919Z [info] 🔄 [minimax/video-01-director] Poll #23: status=processing
+2025-07-16T02:37:36.747Z [info] 🔄 [minimax/video-01-director] Poll #24: status=processing
+2025-07-16T02:37:37.572Z [info] 🔄 [minimax/video-01-director] Poll #24: status=processing
+2025-07-16T02:37:40.473Z [info] 🔄 [minimax/video-01-director] Poll #25: status=processing
+2025-07-16T02:37:41.293Z [info] 🔄 [minimax/video-01-director] Poll #25: status=processing
+2025-07-16T02:37:44.122Z [info] 🔄 [minimax/video-01-director] Poll #26: status=processing
+2025-07-16T02:37:44.952Z [info] 🔄 [minimax/video-01-director] Poll #26: status=processing
+2025-07-16T02:37:47.849Z [info] 🔄 [minimax/video-01-director] Poll #27: status=processing
+2025-07-16T02:37:48.670Z [info] 🔄 [minimax/video-01-director] Poll #27: status=processing
+2025-07-16T02:37:51.508Z [info] 🔄 [minimax/video-01-director] Poll #28: status=processing
+2025-07-16T02:37:52.352Z [info] 🔄 [minimax/video-01-director] Poll #28: status=processing
+2025-07-16T02:37:55.220Z [info] 🔄 [minimax/video-01-director] Poll #29: status=processing
+2025-07-16T02:37:56.006Z [info] 🔄 [minimax/video-01-director] Poll #29: status=processing
+2025-07-16T02:37:58.910Z [info] 🔄 [minimax/video-01-director] Poll #30: status=processing
+2025-07-16T02:37:59.723Z [info] 🔄 [minimax/video-01-director] Poll #30: status=processing
+2025-07-16T02:38:02.568Z [info] 🔄 [minimax/video-01-director] Poll #31: status=processing
+2025-07-16T02:38:03.378Z [info] 🔄 [minimax/video-01-director] Poll #31: status=processing
+2025-07-16T02:38:06.279Z [info] 🔄 [minimax/video-01-director] Poll #32: status=processing
+2025-07-16T02:38:07.096Z [info] 🔄 [minimax/video-01-director] Poll #32: status=processing
+2025-07-16T02:38:10.033Z [info] 🔄 [minimax/video-01-director] Poll #33: status=processing
+2025-07-16T02:38:10.751Z [info] 🔄 [minimax/video-01-director] Poll #33: status=processing
+2025-07-16T02:38:13.756Z [info] 🔄 [minimax/video-01-director] Poll #34: status=processing
+2025-07-16T02:38:14.469Z [info] 🔄 [minimax/video-01-director] Poll #34: status=processing
+2025-07-16T02:38:17.543Z [info] 🔄 [minimax/video-01-director] Poll #35: status=processing
+2025-07-16T02:38:18.116Z [info] 🔄 [minimax/video-01-director] Poll #35: status=processing
+2025-07-16T02:38:21.228Z [info] 🔄 [minimax/video-01-director] Poll #36: status=processing
+2025-07-16T02:38:21.795Z [info] 🔄 [minimax/video-01-director] Poll #36: status=processing
+2025-07-16T02:38:24.916Z [info] 🔄 [minimax/video-01-director] Poll #37: status=processing
+2025-07-16T02:38:25.529Z [info] 🔄 [minimax/video-01-director] Poll #37: status=processing
+2025-07-16T02:38:28.562Z [info] 🔄 [minimax/video-01-director] Poll #38: status=processing
+2025-07-16T02:38:29.183Z [info] 🔄 [minimax/video-01-director] Poll #38: status=processing
+2025-07-16T02:38:32.300Z [info] 🔄 [minimax/video-01-director] Poll #39: status=processing
+2025-07-16T02:38:32.901Z [info] 🔄 [minimax/video-01-director] Poll #39: status=processing
+2025-07-16T02:38:35.959Z [info] 🔄 [minimax/video-01-director] Poll #40: status=processing
+2025-07-16T02:38:36.547Z [info] 🔄 [minimax/video-01-director] Poll #40: status=processing
+2025-07-16T02:38:39.671Z [info] 🔄 [minimax/video-01-director] Poll #41: status=processing
+2025-07-16T02:38:40.274Z [info] 🔄 [minimax/video-01-director] Poll #41: status=processing
+2025-07-16T02:38:43.353Z [info] 🔄 [minimax/video-01-director] Poll #42: status=processing
+2025-07-16T02:38:43.973Z [info] 🔄 [minimax/video-01-director] Poll #42: status=processing
+2025-07-16T02:38:47.135Z [info] 🔄 [minimax/video-01-director] Poll #43: status=processing
+2025-07-16T02:38:47.648Z [info] 🔄 [minimax/video-01-director] Poll #43: status=processing
+2025-07-16T02:38:50.822Z [info] 🔄 [minimax/video-01-director] Poll #44: status=processing
+2025-07-16T02:38:51.347Z [info] 🔄 [minimax/video-01-director] Poll #44: status=processing
+2025-07-16T02:38:54.611Z [info] 🔄 [minimax/video-01-director] Poll #45: status=processing
+2025-07-16T02:38:55.020Z [info] 🔄 [minimax/video-01-director] Poll #45: status=processing
+2025-07-16T02:38:58.268Z [info] 🔄 [minimax/video-01-director] Poll #46: status=processing
+2025-07-16T02:38:58.671Z [info] 🔄 [minimax/video-01-director] Poll #46: status=processing
+2025-07-16T02:39:01.998Z [info] 🔄 [minimax/video-01-director] Poll #47: status=processing
+2025-07-16T02:39:02.392Z [info] 🔄 [minimax/video-01-director] Poll #47: status=processing
+2025-07-16T02:39:05.672Z [info] 🔄 [minimax/video-01-director] Poll #48: status=processing
+2025-07-16T02:39:06.084Z [info] 🔄 [minimax/video-01-director] Poll #48: status=processing
+2025-07-16T02:39:09.333Z [info] 🔄 [minimax/video-01-director] Poll #49: status=processing
+2025-07-16T02:39:09.749Z [info] 🔄 [minimax/video-01-director] Poll #49: status=processing
+2025-07-16T02:39:13.050Z [info] 🔄 [minimax/video-01-director] Poll #50: status=processing
+2025-07-16T02:39:13.451Z [info] 🔄 [minimax/video-01-director] Poll #50: status=processing
+2025-07-16T02:39:16.733Z [info] 🔄 [minimax/video-01-director] Poll #51: status=succeeded
+2025-07-16T02:39:16.734Z [info] 🎬 URL de video lista para descargar (minimax/video-01-director): https://replicate.delivery/xezq/mSX6d3Xemw3iAKqy6XlHVdeRkePm1vq5SNeqMqF0KneSahJoC/tmpidpgegg5.mp4
+2025-07-16T02:39:16.734Z [info] ✅ minimax/video-01-director OK (seg5)
+2025-07-16T02:39:16.736Z [info] ⬇️  Descargando video (intento 1/3): https://replicate.delivery/xezq/mSX6d3Xemw3iAKqy6XlHVdeRkePm1vq5SNeqMqF0KneSahJoC/tmpidpgegg5.mp4
+2025-07-16T02:39:17.150Z [info] 🔄 [minimax/video-01-director] Poll #51: status=succeeded
+2025-07-16T02:39:17.150Z [info] 🎬 URL de video lista para descargar (minimax/video-01-director): https://replicate.delivery/xezq/jaJHzjIlHK5KC1wtOmjnOqqzPKrneU2CvzCHAMTmdMtpFmgKA/tmpo6690kbz.mp4
+2025-07-16T02:39:17.151Z [info] ✅ minimax/video-01-director OK (seg0)
+2025-07-16T02:39:17.151Z [info] ⬇️  Descargando video (intento 1/3): https://replicate.delivery/xezq/jaJHzjIlHK5KC1wtOmjnOqqzPKrneU2CvzCHAMTmdMtpFmgKA/tmpo6690kbz.mp4
+2025-07-16T02:39:17.703Z [info] ✅ Video descargado: \tmp\clips_v7\clip_5_d975d340.mp4 (684218 bytes)
+2025-07-16T02:39:17.703Z [info] ⬆️  Subiendo a CDN: \tmp\clips_v7\clip_5_d975d340.mp4
+2025-07-16T02:39:18.143Z [info] ✅ Video descargado: \tmp\clips_v7\clip_0_98a33137.mp4 (2098437 bytes)
+2025-07-16T02:39:18.144Z [info] ⬆️  Subiendo a CDN: \tmp\clips_v7\clip_0_98a33137.mp4
+2025-07-16T02:39:18.706Z [info] Archivo subido correctamente al CDN: clip_5_d975d340.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/clip_5_d975d340.mp4
+2025-07-16T02:39:18.820Z [info] ✅ Archivo accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/clip_5_d975d340.mp4
+2025-07-16T02:39:18.821Z [info] ☁️ subido: https://storage.googleapis.com/storyteller-ai-cdn/clip_5_d975d340.mp4
+2025-07-16T02:39:19.286Z [info] Archivo subido correctamente al CDN: clip_0_98a33137.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/clip_0_98a33137.mp4
+2025-07-16T02:39:19.392Z [info] ✅ Archivo accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/clip_0_98a33137.mp4
+2025-07-16T02:39:19.393Z [info] ☁️ subido: https://storage.googleapis.com/storyteller-ai-cdn/clip_0_98a33137.mp4
+2025-07-16T02:39:19.393Z [info] ✅ Total clips: 2
+2025-07-16T02:39:20.341Z [info] 🎬  FFmpegService v6 — ensamblando 1080p60…
+2025-07-16T02:39:20.346Z [info] ✅ Archivo de lista para FFmpeg creado: C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4cf7d52b-f61a-47de-9d75-2224b4afdbc9.txt
+2025-07-16T02:39:20.346Z [info] 🟡 [FFmpeg] Iniciando concat clips → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4cf7d52b-f61a-47de-9d75-2224b4afdbc9_concat.mp4
+2025-07-16T02:39:21.451Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+[mov,mp4,m4a,3gp,3g2,mj2 @ 000002e731612480] Auto-inserting h264_mp4toannexb bitstream filter
+Input #0, concat, from 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v6/4cf7d52b-f61a-47de-9d75-2224b4afdbc9.txt':
+  Duration: N/A, start: 0.000000, bitrate: 966 kb/s
+  Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1280x720, 966 kb/s, 25 fps, 25 tbr, 12800 tbn
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+Press [q] to stop, [?] for help
+[libx264 @ 000002e731692940] using SAR=1/1
+[libx264 @ 000002e731692940] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 000002e731692940] profile Constrained Baseline, level 3.1, 4:2:0, 8-bit
+[libx264 @ 000002e731692940] 264 - core 164 r3106 eaa68fa - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=0 ref=1 deblock=0:0:0 analyse=0:0 me=dia subme=0 psy=1 psy_rd=1.00:0.00 mixed_ref=0 me_range=16 chroma_me=1 trellis=0 8x8dct=0 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=0 threads=18 lookahead_threads=3 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=0 weightp=0 keyint=250 keyint_min=25 scenecut=0 intra_refresh=0 rc=crf mbtree=0 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=0
+Output #0, mp4, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4cf7d52b-f61a-47de-9d75-2224b4afdbc9_concat.mp4':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Stream #0:0(und): Video: h264 (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 25 fps, 12800 tbn
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.3.100 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+frame=    0 fps=0.0 q=0.0 size=       0kB time=-577014:32:22.77 bitrate=  -0.0kbits/s speed=N/A    
+[mov,mp4,m4a,3gp,3g2,mj2 @ 000002e73561b5c0] Auto-inserting h264_mp4toannexb bitstream filter
+frame=  197 fps=0.0 q=24.0 size=    3584kB time=00:00:07.84 bitrate=3745.0kbits/s speed=  15x    
+[mp4 @ 000002e73197aec0] Starting second pass: moving the moov atom to the beginning of the file
+frame=  282 fps=0.0 q=-1.0 Lsize=    6406kB time=00:00:11.24 bitrate=4668.5kbits/s speed=15.6x    
+video:6404kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.031522%
+[libx264 @ 000002e731692940] frame I:2     Avg QP:20.50  size: 71318
+[libx264 @ 000002e731692940] frame P:280   Avg QP:22.21  size: 22907
+[libx264 @ 000002e731692940] mb I  I16..4: 100.0%  0.0%  0.0%
+[libx264 @ 000002e731692940] mb P  I16..4:  7.3%  0.0%  0.0%  P16..4: 47.2%  0.0%  0.0%  0.0%  0.0%    skip:45.5%
+[libx264 @ 000002e731692940] coded y,uvDC,uvAC intra: 35.5% 49.0% 16.9% inter: 24.6% 22.7% 2.6%
+[libx264 @ 000002e731692940] i16 v,h,dc,p: 41% 28% 16% 16%
+[libx264 @ 000002e731692940] i8c dc,h,v,p: 34% 25% 31% 11%
+[libx264 @ 000002e731692940] kb/s:4650.10
+
+
+2025-07-16T02:39:21.454Z [info] 🟢 [FFmpeg] Concat clips OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4cf7d52b-f61a-47de-9d75-2224b4afdbc9_concat.mp4
+2025-07-16T02:39:21.460Z [info] 🟡 [FFmpeg] Iniciando mezcla audio (ducking) → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4cf7d52b-f61a-47de-9d75-2224b4afdbc9_mix.mp3
+2025-07-16T02:39:21.565Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 0000027da95af440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4cf7d52b-f61a-47de-9d75-2224b4afdbc9_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] [Eval @ 000000fa3efff7f0] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000027da95d5b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 0000027da95a95c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:39:23.209Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 00000225ebeff440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4cf7d52b-f61a-47de-9d75-2224b4afdbc9_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] [Eval @ 0000005a7bfff680] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 00000225ebf25b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 00000225ebef95c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:39:26.226Z [info] 🎬  FFmpegService v6 — ensamblando 1080p60…
+2025-07-16T02:39:26.232Z [info] ✅ Archivo de lista para FFmpeg creado: C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\323dd160-cd17-41ac-a3e2-675944b8d1e9.txt
+2025-07-16T02:39:26.233Z [info] 🟡 [FFmpeg] Iniciando concat clips → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\323dd160-cd17-41ac-a3e2-675944b8d1e9_concat.mp4
+2025-07-16T02:39:27.014Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0000022061502480] Auto-inserting h264_mp4toannexb bitstream filter
+Input #0, concat, from 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v6/323dd160-cd17-41ac-a3e2-675944b8d1e9.txt':
+  Duration: N/A, start: 0.000000, bitrate: 966 kb/s
+  Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1280x720, 966 kb/s, 25 fps, 25 tbr, 12800 tbn
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+Press [q] to stop, [?] for help
+[libx264 @ 0000022061582940] using SAR=1/1
+[libx264 @ 0000022061582940] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0000022061582940] profile Constrained Baseline, level 3.1, 4:2:0, 8-bit
+[libx264 @ 0000022061582940] 264 - core 164 r3106 eaa68fa - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=0 ref=1 deblock=0:0:0 analyse=0:0 me=dia subme=0 psy=1 psy_rd=1.00:0.00 mixed_ref=0 me_range=16 chroma_me=1 trellis=0 8x8dct=0 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=0 threads=18 lookahead_threads=3 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=0 weightp=0 keyint=250 keyint_min=25 scenecut=0 intra_refresh=0 rc=crf mbtree=0 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=0
+Output #0, mp4, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\323dd160-cd17-41ac-a3e2-675944b8d1e9_concat.mp4':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Stream #0:0(und): Video: h264 (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 25 fps, 12800 tbn
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.3.100 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+frame=    0 fps=0.0 q=0.0 size=       0kB time=-577014:32:22.77 bitrate=  -0.0kbits/s speed=N/A    
+[mov,mp4,m4a,3gp,3g2,mj2 @ 000002206330af00] Auto-inserting h264_mp4toannexb bitstream filter
+frame=  223 fps=0.0 q=25.0 size=    4352kB time=00:00:08.92 bitrate=3996.9kbits/s speed=16.6x    
+[mp4 @ 000002206177aec0] Starting second pass: moving the moov atom to the beginning of the file
+frame=  282 fps=0.0 q=-1.0 Lsize=    6406kB time=00:00:11.24 bitrate=4668.5kbits/s speed=17.2x    
+video:6404kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.031522%
+[libx264 @ 0000022061582940] frame I:2     Avg QP:20.50  size: 71318
+[libx264 @ 0000022061582940] frame P:280   Avg QP:22.21  size: 22907
+[libx264 @ 0000022061582940] mb I  I16..4: 100.0%  0.0%  0.0%
+[libx264 @ 0000022061582940] mb P  I16..4:  7.3%  0.0%  0.0%  P16..4: 47.2%  0.0%  0.0%  0.0%  0.0%    skip:45.5%
+[libx264 @ 0000022061582940] coded y,uvDC,uvAC intra: 35.5% 49.0% 16.9% inter: 24.6% 22.7% 2.6%
+[libx264 @ 0000022061582940] i16 v,h,dc,p: 41% 28% 16% 16%
+[libx264 @ 0000022061582940] i8c dc,h,v,p: 34% 25% 31% 11%
+[libx264 @ 0000022061582940] kb/s:4650.10
+
+
+2025-07-16T02:39:27.016Z [info] 🟢 [FFmpeg] Concat clips OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\323dd160-cd17-41ac-a3e2-675944b8d1e9_concat.mp4
+2025-07-16T02:39:27.019Z [info] 🟡 [FFmpeg] Iniciando mezcla audio (ducking) → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\323dd160-cd17-41ac-a3e2-675944b8d1e9_mix.mp3
+2025-07-16T02:39:27.097Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 000001d29c29f440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\323dd160-cd17-41ac-a3e2-675944b8d1e9_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] [Eval @ 000000bffafff890] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001d29c2c5b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 000001d29c2995c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:39:28.666Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 000002183b9cf440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\323dd160-cd17-41ac-a3e2-675944b8d1e9_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] [Eval @ 00000069dcfff4d0] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000002183b9f5b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 000002183b9c95c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:39:31.676Z [info] 🎬  FFmpegService v6 — ensamblando 1080p60…
+2025-07-16T02:39:31.680Z [info] ✅ Archivo de lista para FFmpeg creado: C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\081c4d2e-60ca-4667-91cb-aa078f05567f.txt
+2025-07-16T02:39:31.680Z [info] 🟡 [FFmpeg] Iniciando concat clips → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\081c4d2e-60ca-4667-91cb-aa078f05567f_concat.mp4
+2025-07-16T02:39:32.421Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0000013809792480] Auto-inserting h264_mp4toannexb bitstream filter
+Input #0, concat, from 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v6/081c4d2e-60ca-4667-91cb-aa078f05567f.txt':
+  Duration: N/A, start: 0.000000, bitrate: 966 kb/s
+  Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1280x720, 966 kb/s, 25 fps, 25 tbr, 12800 tbn
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+Press [q] to stop, [?] for help
+[libx264 @ 0000013809812940] using SAR=1/1
+[libx264 @ 0000013809812940] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0000013809812940] profile Constrained Baseline, level 3.1, 4:2:0, 8-bit
+[libx264 @ 0000013809812940] 264 - core 164 r3106 eaa68fa - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=0 ref=1 deblock=0:0:0 analyse=0:0 me=dia subme=0 psy=1 psy_rd=1.00:0.00 mixed_ref=0 me_range=16 chroma_me=1 trellis=0 8x8dct=0 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=0 threads=18 lookahead_threads=3 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=0 weightp=0 keyint=250 keyint_min=25 scenecut=0 intra_refresh=0 rc=crf mbtree=0 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=0
+Output #0, mp4, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\081c4d2e-60ca-4667-91cb-aa078f05567f_concat.mp4':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Stream #0:0(und): Video: h264 (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 25 fps, 12800 tbn
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.3.100 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+frame=    0 fps=0.0 q=0.0 size=       0kB time=-577014:32:22.77 bitrate=  -0.0kbits/s speed=N/A    
+[mov,mp4,m4a,3gp,3g2,mj2 @ 000001380cae8300] Auto-inserting h264_mp4toannexb bitstream filter
+frame=  226 fps=0.0 q=25.0 size=    4352kB time=00:00:09.04 bitrate=3943.8kbits/s speed=17.2x    
+[mp4 @ 000001380990aec0] Starting second pass: moving the moov atom to the beginning of the file
+frame=  282 fps=0.0 q=-1.0 Lsize=    6406kB time=00:00:11.24 bitrate=4668.5kbits/s speed=17.9x    
+video:6404kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.031522%
+[libx264 @ 0000013809812940] frame I:2     Avg QP:20.50  size: 71318
+[libx264 @ 0000013809812940] frame P:280   Avg QP:22.21  size: 22907
+[libx264 @ 0000013809812940] mb I  I16..4: 100.0%  0.0%  0.0%
+[libx264 @ 0000013809812940] mb P  I16..4:  7.3%  0.0%  0.0%  P16..4: 47.2%  0.0%  0.0%  0.0%  0.0%    skip:45.5%
+[libx264 @ 0000013809812940] coded y,uvDC,uvAC intra: 35.5% 49.0% 16.9% inter: 24.6% 22.7% 2.6%
+[libx264 @ 0000013809812940] i16 v,h,dc,p: 41% 28% 16% 16%
+[libx264 @ 0000013809812940] i8c dc,h,v,p: 34% 25% 31% 11%
+[libx264 @ 0000013809812940] kb/s:4650.10
+
+
+2025-07-16T02:39:32.422Z [info] 🟢 [FFmpeg] Concat clips OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\081c4d2e-60ca-4667-91cb-aa078f05567f_concat.mp4
+2025-07-16T02:39:32.426Z [info] 🟡 [FFmpeg] Iniciando mezcla audio (ducking) → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\081c4d2e-60ca-4667-91cb-aa078f05567f_mix.mp3
+2025-07-16T02:39:32.509Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 000001c92a2ef440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\081c4d2e-60ca-4667-91cb-aa078f05567f_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] [Eval @ 00000090669ff4e0] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 000001c92a315b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 000001c92a2e95c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:39:34.082Z [error] ❌ FFmpeg error:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 0000021b55a6f440] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\081c4d2e-60ca-4667-91cb-aa078f05567f_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:01.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Undefined constant or missing '(' in 'undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] [Eval @ 000000671b1ff7c0] Missing ')' or too many args in 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[Parsed_volume_0 @ 0000021b55a95b80] Error when evaluating the volume expression 'if(between(t,0,1),undefined,if(between(t,0,3),undefined,if(between(t,0,4),undefined,if(between(t,0,6),undefined,if(between(t,0,7),undefined,if(between(t,0,9),undefined,undefined))))))'
+[AVFilterGraph @ 0000021b55a695c0] Error initializing filters
+Error initializing complex filters.
+Invalid argument
+
+
+2025-07-16T02:42:44.106Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-16T02:42:50.612Z [info] ::1 - - [16/Jul/2025:02:42:50 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-16T02:42:50.620Z [info] 🚀 Pipeline v7 – inicio
+2025-07-16T02:42:50.644Z [info] 🎬 Prompt limpio: Create a cinematic story about a hero saving the world...
+2025-07-16T02:42:50.647Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-16T02:43:07.609Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-16T02:43:07.609Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A city skyline at dawn, buildings silhouetted against the rising sun.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"anticipatio...
+2025-07-16T02:43:07.610Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-16T02:43:07.611Z [info] 📜 VideoPlan listo (10s)
+2025-07-16T02:43:07.611Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T02:43:07.612Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T02:43:10.762Z [error] FLUX respuesta inesperada: {}
+2025-07-16T02:43:10.764Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T02:43:10.765Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T02:43:15.735Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/oq4elCqXxyStdKlJJ3OI6yXKp9VguHqEfARUwZ8z8NEDPMBVA/out-0.png
+2025-07-16T02:43:16.673Z [info] Archivo temporal creado: t0_555039
+2025-07-16T02:43:18.279Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T02:43:18.428Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T02:43:18.428Z [info] ✅  Storyboards listos: 1
+2025-07-16T02:43:18.430Z [info] 🎞️ ClipService v7.4 – start
+2025-07-16T02:43:18.431Z [info] → 2 segmentos de 5 s
+2025-07-16T02:43:18.432Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-16T02:43:18.480Z [info] 🎵  Buscar música de fondo para "cinematic"
+2025-07-16T02:43:18.482Z [info] 🎵  Freesound query: cinematic
+2025-07-16T02:43:18.492Z [info] 🚦 Solicitando generación a Replicate (minimax/video-01-director)...
+2025-07-16T02:43:18.494Z [info] 🚦 Solicitando generación a Replicate (minimax/video-01-director)...
+2025-07-16T02:43:18.764Z [info] 🕒 Esperando job Replicate: vhxcx63gqsrm80cr24esrr14y4
+2025-07-16T02:43:18.779Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:43:18.780Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.786Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:43:18.788Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.795Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:43:18.796Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.813Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:43:18.814Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.825Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:43:18.826Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.827Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:43:18.828Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.839Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:43:18.840Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.843Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:43:18.844Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.861Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:43:18.861Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.862Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T02:43:18.862Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T02:43:18.863Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-16T02:43:19.031Z [info] 🕒 Esperando job Replicate: kr9g0kbhsnrm80cr24er1rkbhc
+2025-07-16T02:43:22.475Z [info] 🔄 [minimax/video-01-director] Poll #1: status=processing
+2025-07-16T02:43:22.680Z [info] 🔄 [minimax/video-01-director] Poll #1: status=processing
