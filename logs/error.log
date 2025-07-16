@@ -3428,3 +3428,15 @@ SyntaxError: Unexpected token '�', ...""prompt": �An epic s"... is not valid
 2025-07-16T21:27:43.964Z [error] Error al descargar la imagen generada t=0: connect ETIMEDOUT 34.107.252.52:443
 2025-07-16T21:27:48.665Z [error] FLUX respuesta inesperada: {}
 2025-07-16T21:27:48.666Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:37:50.270Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:37:50.271Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:37:58.762Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.772Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.776Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.787Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.793Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.796Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.799Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.804Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.809Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.866Z [error] Error generando voz: No se pudo generar la voz

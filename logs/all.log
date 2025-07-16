@@ -10148,3 +10148,350 @@ SyntaxError: Unexpected token '�', ...""prompt": �An epic s"... is not valid
 2025-07-16T21:27:48.665Z [error] FLUX respuesta inesperada: {}
 2025-07-16T21:27:48.666Z [error] FLUX error: FLUX returned invalid response format
 2025-07-16T21:27:48.667Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T21:37:13.868Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-16T21:37:31.058Z [info] ::1 - - [16/Jul/2025:21:37:31 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-16T21:37:31.062Z [info] 🚀 Pipeline v7 – inicio
+2025-07-16T21:37:31.067Z [info] 🎬 Prompt limpio: An epic sunset on the beach, in slow motion, with a nostalgic atmosphere....
+2025-07-16T21:37:31.069Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-16T21:37:46.482Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-16T21:37:46.483Z [info] 📝 Contenido raw: ```json
+{
+ "timeline":[
+   {
+     "t":0,
+     "visual":"The sun begins to dip below the horizon, casting warm hues.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+    ...
+2025-07-16T21:37:46.487Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-16T21:37:46.488Z [info] 📜 VideoPlan listo (10s)
+2025-07-16T21:37:46.489Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T21:37:46.490Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T21:37:50.270Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:37:50.271Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:37:50.272Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T21:37:55.298Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/5I9IfNmyiwWcLaDmlsTZDSmjO2W4dWe4KcLfzMBGARjot5CqA/out-0.png
+2025-07-16T21:37:56.376Z [info] Archivo temporal creado: t0_26b816
+2025-07-16T21:37:58.176Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T21:37:58.306Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-16T21:37:58.307Z [info] ✅  Storyboards listos: 1
+2025-07-16T21:37:58.310Z [info] 🎙️  VoiceService v6.1 – iniciando…
+2025-07-16T21:37:58.353Z [info] 🎵  Buscar música de fondo para "energetic_pop"
+2025-07-16T21:37:58.354Z [info] 🎵  Freesound query: energetic_pop
+2025-07-16T21:37:58.501Z [info] 🎞️ ClipService v8 – start (segmentación óptima)
+2025-07-16T21:37:58.502Z [info] → Segmentos óptimos: runway/gen4_turbo(10s)
+2025-07-16T21:37:58.503Z [info] [ClipService] Intentando modelo: runway/gen4_turbo para segmento 0-9
+2025-07-16T21:37:58.504Z [warn] [Runway] No hay imagen base válida en plan.metadata.referenceImages. Saltando a otro modelo.
+2025-07-16T21:37:58.504Z [info] [ClipService] Intentando modelo: bytedance/seedance-1-pro para segmento 0-9
+2025-07-16T21:37:58.505Z [info] 🚦 Solicitando generación a Replicate (bytedance/seedance-1-pro)...
+2025-07-16T21:37:58.762Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T21:37:58.762Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.771Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T21:37:58.772Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.775Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T21:37:58.776Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.785Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T21:37:58.787Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.792Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T21:37:58.793Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.795Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T21:37:58.796Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.798Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T21:37:58.799Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.802Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T21:37:58.804Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.808Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T21:37:58.809Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.865Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-16T21:37:58.866Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:37:58.867Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
+2025-07-16T21:37:58.923Z [info] 🕒 Esperando job Replicate: gm54qda5jhrme0cr2mpbm5jqec
+2025-07-16T21:38:02.632Z [info] 🔄 [bytedance/seedance-1-pro] Poll #1: status=processing
+2025-07-16T21:38:04.631Z [info] ✅  Pista de música lista (1216940 bytes)
+2025-07-16T21:38:06.344Z [info] 🔄 [bytedance/seedance-1-pro] Poll #2: status=processing
+2025-07-16T21:38:10.135Z [info] 🔄 [bytedance/seedance-1-pro] Poll #3: status=processing
+2025-07-16T21:38:13.821Z [info] 🔄 [bytedance/seedance-1-pro] Poll #4: status=processing
+2025-07-16T21:38:17.509Z [info] 🔄 [bytedance/seedance-1-pro] Poll #5: status=processing
+2025-07-16T21:38:21.199Z [info] 🔄 [bytedance/seedance-1-pro] Poll #6: status=processing
+2025-07-16T21:38:24.880Z [info] 🔄 [bytedance/seedance-1-pro] Poll #7: status=processing
+2025-07-16T21:38:28.567Z [info] 🔄 [bytedance/seedance-1-pro] Poll #8: status=processing
+2025-07-16T21:38:32.269Z [info] 🔄 [bytedance/seedance-1-pro] Poll #9: status=processing
+2025-07-16T21:38:35.939Z [info] 🔄 [bytedance/seedance-1-pro] Poll #10: status=processing
+2025-07-16T21:38:39.625Z [info] 🔄 [bytedance/seedance-1-pro] Poll #11: status=processing
+2025-07-16T21:38:43.312Z [info] 🔄 [bytedance/seedance-1-pro] Poll #12: status=processing
+2025-07-16T21:38:47.007Z [info] 🔄 [bytedance/seedance-1-pro] Poll #13: status=processing
+2025-07-16T21:38:50.684Z [info] 🔄 [bytedance/seedance-1-pro] Poll #14: status=processing
+2025-07-16T21:38:54.371Z [info] 🔄 [bytedance/seedance-1-pro] Poll #15: status=processing
+2025-07-16T21:38:58.057Z [info] 🔄 [bytedance/seedance-1-pro] Poll #16: status=processing
+2025-07-16T21:39:01.691Z [info] 🔄 [bytedance/seedance-1-pro] Poll #17: status=processing
+2025-07-16T21:39:05.376Z [info] 🔄 [bytedance/seedance-1-pro] Poll #18: status=processing
+2025-07-16T21:39:09.117Z [info] 🔄 [bytedance/seedance-1-pro] Poll #19: status=processing
+2025-07-16T21:39:12.809Z [info] 🔄 [bytedance/seedance-1-pro] Poll #20: status=processing
+2025-07-16T21:39:16.500Z [info] 🔄 [bytedance/seedance-1-pro] Poll #21: status=processing
+2025-07-16T21:39:20.279Z [info] 🔄 [bytedance/seedance-1-pro] Poll #22: status=processing
+2025-07-16T21:39:23.966Z [info] 🔄 [bytedance/seedance-1-pro] Poll #23: status=processing
+2025-07-16T21:39:27.655Z [info] 🔄 [bytedance/seedance-1-pro] Poll #24: status=processing
+2025-07-16T21:39:31.295Z [info] 🔄 [bytedance/seedance-1-pro] Poll #25: status=processing
+2025-07-16T21:39:34.926Z [info] 🔄 [bytedance/seedance-1-pro] Poll #26: status=processing
+2025-07-16T21:39:38.581Z [info] 🔄 [bytedance/seedance-1-pro] Poll #27: status=processing
+2025-07-16T21:39:42.294Z [info] 🔄 [bytedance/seedance-1-pro] Poll #28: status=processing
+2025-07-16T21:39:45.983Z [info] 🔄 [bytedance/seedance-1-pro] Poll #29: status=processing
+2025-07-16T21:39:49.669Z [info] 🔄 [bytedance/seedance-1-pro] Poll #30: status=processing
+2025-07-16T21:39:53.354Z [info] 🔄 [bytedance/seedance-1-pro] Poll #31: status=processing
+2025-07-16T21:39:57.042Z [info] 🔄 [bytedance/seedance-1-pro] Poll #32: status=processing
+2025-07-16T21:40:00.728Z [info] 🔄 [bytedance/seedance-1-pro] Poll #33: status=succeeded
+2025-07-16T21:40:00.729Z [info] 🎬 URL de video lista para descargar (bytedance/seedance-1-pro): https://replicate.delivery/xezq/Hg3rU627ggaxK1TOCbWxKgEVoNuglDfVaE0Wq5glspwWcugKA/tmpa8c2s0dm.mp4
+2025-07-16T21:40:00.729Z [info] ✅ bytedance/seedance-1-pro OK (0-9)
+2025-07-16T21:40:00.730Z [info] ⬇️  Descargando video (intento 1/3): https://replicate.delivery/xezq/Hg3rU627ggaxK1TOCbWxKgEVoNuglDfVaE0Wq5glspwWcugKA/tmpa8c2s0dm.mp4
+2025-07-16T21:40:07.247Z [info] ✅ Video descargado: \tmp\clips_v7\clip_0_17b2ad2b.mp4 (17951313 bytes)
+2025-07-16T21:40:09.925Z [info] Archivo subido correctamente al CDN: clips/clip_0_17b2ad2b.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/clips/clip_0_17b2ad2b.mp4
+2025-07-16T21:40:10.053Z [info] ✅ Archivo accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/clips/clip_0_17b2ad2b.mp4
+2025-07-16T21:40:10.054Z [info] ☁️ subido: https://storage.googleapis.com/storyteller-ai-cdn/clips/clip_0_17b2ad2b.mp4
+2025-07-16T21:40:10.055Z [info] ✅ Total clips: 1
+2025-07-16T21:40:12.225Z [info] 🎬  FFmpegService v6 — ensamblando 1080p60…
+2025-07-16T21:40:12.234Z [info] ✅ Archivo de lista para FFmpeg creado: C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb.txt
+2025-07-16T21:40:12.235Z [info] 🟡 [FFmpeg] Iniciando concat clips → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_concat.mp4
+2025-07-16T21:40:13.383Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0000023cf3512280] Auto-inserting h264_mp4toannexb bitstream filter
+Input #0, concat, from 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v6/4d4617d7-ba23-412e-af3d-e45c28b228eb.txt':
+  Duration: N/A, start: 0.000000, bitrate: 14299 kb/s
+  Stream #0:0(und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1920x1088, 14299 kb/s, 24 fps, 24 tbr, 12288 tbn
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+Press [q] to stop, [?] for help
+[libx264 @ 0000023cf37d0c00] using SAR=1/1
+[libx264 @ 0000023cf37d0c00] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0000023cf37d0c00] profile Constrained Baseline, level 3.1, 4:2:0, 8-bit
+[libx264 @ 0000023cf37d0c00] 264 - core 164 r3106 eaa68fa - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=0 ref=1 deblock=0:0:0 analyse=0:0 me=dia subme=0 psy=1 psy_rd=1.00:0.00 mixed_ref=0 me_range=16 chroma_me=1 trellis=0 8x8dct=0 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=0 threads=18 lookahead_threads=3 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=0 weightp=0 keyint=250 keyint_min=24 scenecut=0 intra_refresh=0 rc=crf mbtree=0 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=0
+Output #0, mp4, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_concat.mp4':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Stream #0:0(und): Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 24 fps, 12288 tbn
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.3.100 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+frame=    0 fps=0.0 q=0.0 size=       0kB time=-577014:32:22.77 bitrate=  -0.0kbits/s speed=N/A    
+frame=  145 fps=0.0 q=23.0 size=    4608kB time=00:00:06.04 bitrate=6248.1kbits/s speed=11.1x    
+[mp4 @ 0000023cf38e7740] Starting second pass: moving the moov atom to the beginning of the file
+frame=  241 fps=0.0 q=-1.0 Lsize=    7662kB time=00:00:10.00 bitrate=6276.5kbits/s speed=12.9x    
+video:7660kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.024261%
+[libx264 @ 0000023cf37d0c00] frame I:1     Avg QP:20.00  size:101960
+[libx264 @ 0000023cf37d0c00] frame P:240   Avg QP:23.43  size: 32255
+[libx264 @ 0000023cf37d0c00] mb I  I16..4: 100.0%  0.0%  0.0%
+[libx264 @ 0000023cf37d0c00] mb P  I16..4: 20.6%  0.0%  0.0%  P16..4: 45.7%  0.0%  0.0%  0.0%  0.0%    skip:33.7%
+[libx264 @ 0000023cf37d0c00] coded y,uvDC,uvAC intra: 59.4% 35.4% 12.0% inter: 30.1% 19.5% 1.9%
+[libx264 @ 0000023cf37d0c00] i16 v,h,dc,p:  8% 53% 18% 21%
+[libx264 @ 0000023cf37d0c00] i8c dc,h,v,p: 38% 36% 14% 11%
+[libx264 @ 0000023cf37d0c00] kb/s:6248.46
+
+
+2025-07-16T21:40:13.385Z [info] 🟢 [FFmpeg] Concat clips OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_concat.mp4
+2025-07-16T21:40:13.391Z [info] 🟡 [FFmpeg] Iniciando mezcla audio (ducking) → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_mix.m4a
+2025-07-16T21:40:13.957Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, lavfi, from 'anullsrc':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_u8, 44100 Hz, stereo, u8, 705 kb/s
+[mp3 @ 000002c72724ff00] Estimating duration from bitrate, this may be inaccurate
+Input #1, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_music.mp3':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Duration: 00:01:16.06, start: 0.000000, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 48000 Hz, stereo, fltp, 128 kb/s
+Stream mapping:
+  Stream #0:0 (pcm_u8) -> sidechaincompress
+  Stream #1:0 (mp3float) -> volume:default
+  sidechaincompress:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+Output #0, ipod, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_mix.m4a':
+  Metadata:
+    encoder         : Lavf60.3.100
+  Stream #0:0: Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s
+    Metadata:
+      encoder         : Lavc60.3.100 aac
+size=       0kB time=-577014:32:22.77 bitrate=  -0.0kbits/s speed=N/A    
+[ipod @ 000002c727274940] Starting second pass: moving the moov atom to the beginning of the file
+size=      33kB time=00:01:16.04 bitrate=   3.6kbits/s speed= 180x    
+video:0kB audio:19kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 70.071007%
+[aac @ 000002c727277b40] Qavg: 65536.000
+
+
+2025-07-16T21:40:13.958Z [info] 🟢 [FFmpeg] Mezcla audio OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_mix.m4a
+2025-07-16T21:40:13.958Z [info] 🟡 [FFmpeg] Iniciando multiplex AV → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_1080p.mp4
+2025-07-16T21:40:14.060Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_concat.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.3.100
+  Duration: 00:00:10.04, start: 0.000000, bitrate: 6250 kb/s
+  Stream #0:0[0x1](und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], 6248 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.3.100 libx264
+Input #1, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_mix.m4a':
+  Metadata:
+    major_brand     : M4A 
+    minor_version   : 512
+    compatible_brands: M4A isomiso2
+    encoder         : Lavf60.3.100
+  Duration: 00:01:16.06, start: 0.000000, bitrate: 3 kb/s
+  Stream #1:0[0x1](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 2 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Output #0, mp4, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_1080p.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.3.100
+  Stream #0:0(und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 6248 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.3.100 libx264
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 2 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #1:0 -> #0:1 (copy)
+Press [q] to stop, [?] for help
+frame=    0 fps=0.0 q=-1.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=N/A    
+frame=  241 fps=0.0 q=-1.0 Lsize=    7670kB time=00:00:10.79 bitrate=5818.9kbits/s speed= 588x    
+video:7660kB audio:3kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.092157%
+
+
+2025-07-16T21:40:14.063Z [info] 🟢 [FFmpeg] Multiplex AV OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_1080p.mp4
+2025-07-16T21:40:14.066Z [info] 🟡 [FFmpeg] Iniciando HLS 720p → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_4d4617d7-ba23-412e-af3d-e45c28b228eb\index.m3u8
+2025-07-16T21:40:17.385Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 6.0-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58.  2.100 / 58.  2.100
+  libavcodec     60.  3.100 / 60.  3.100
+  libavformat    60.  3.100 / 60.  3.100
+  libavdevice    60.  1.100 / 60.  1.100
+  libavfilter     9.  3.100 /  9.  3.100
+  libswscale      7.  1.100 /  7.  1.100
+  libswresample   4. 10.100 /  4. 10.100
+  libpostproc    57.  1.100 / 57.  1.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\4d4617d7-ba23-412e-af3d-e45c28b228eb_1080p.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.3.100
+  Duration: 00:00:10.04, start: 0.000000, bitrate: 6256 kb/s
+  Stream #0:0[0x1](und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], 6248 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 2 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+  Stream #0:1 -> #0:1 (aac (native) -> aac (native))
+Press [q] to stop, [?] for help
+[libx264 @ 000002976a2eaec0] using SAR=1/1
+[libx264 @ 000002976a2eaec0] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 000002976a2eaec0] profile High, level 3.1, 4:2:0, 8-bit
+[libx264 @ 000002976a2eaec0] 264 - core 164 r3106 eaa68fa - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=18 lookahead_threads=3 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=24 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, hls, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_4d4617d7-ba23-412e-af3d-e45c28b228eb\index.m3u8':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.3.100
+  Stream #0:0(und): Video: h264, yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 24 fps, 90k tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.3.100 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+  Stream #0:1(und): Audio: aac (LC), 44100 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.3.100 aac
+frame=    0 fps=0.0 q=0.0 size=N/A time=00:00:00.44 bitrate=N/A speed=24.5x    
+frame=   11 fps=0.0 q=28.0 size=N/A time=00:00:03.45 bitrate=N/A speed=6.63x    
+frame=   54 fps= 52 q=28.0 size=N/A time=00:00:05.24 bitrate=N/A speed=5.04x    
+frame=   94 fps= 61 q=28.0 size=N/A time=00:00:06.91 bitrate=N/A speed=4.47x    
+frame=  131 fps= 64 q=28.0 size=N/A time=00:00:08.47 bitrate=N/A speed=4.13x    
+frame=  172 fps= 67 q=28.0 size=N/A time=00:00:09.96 bitrate=N/A speed= 3.9x    
+[hls @ 000002976a1de980] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_4d4617d7-ba23-412e-af3d-e45c28b228eb\seg_000.ts' for writing
+frame=  241 fps= 76 q=-1.0 Lsize=N/A time=00:00:10.00 bitrate=N/A speed=3.17x    
+video:3673kB audio:3kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+[libx264 @ 000002976a2eaec0] frame I:1     Avg QP:21.11  size: 57962
+[libx264 @ 000002976a2eaec0] frame P:83    Avg QP:22.20  size: 23291
+[libx264 @ 000002976a2eaec0] frame B:157   Avg QP:25.39  size: 11271
+[libx264 @ 000002976a2eaec0] consecutive B-frames: 10.4%  4.1% 12.4% 73.0%
+[libx264 @ 000002976a2eaec0] mb I  I16..4: 47.1% 26.0% 26.8%
+[libx264 @ 000002976a2eaec0] mb P  I16..4: 16.4% 13.8%  3.8%  P16..4: 34.4% 10.4%  4.7%  0.0%  0.0%    skip:16.5%
+[libx264 @ 000002976a2eaec0] mb B  I16..4:  6.4%  6.3%  1.5%  B16..8: 43.1%  5.2%  0.8%  direct: 2.3%  skip:34.3%  L0:52.8% L1:42.6% BI: 4.6%
+[libx264 @ 000002976a2eaec0] 8x8 transform intra:42.0% inter:57.0%
+[libx264 @ 000002976a2eaec0] coded y,uvDC,uvAC intra: 56.9% 45.5% 10.4% inter: 17.3% 18.0% 0.5%
+[libx264 @ 000002976a2eaec0] i16 v,h,dc,p: 10% 45% 24% 21%
+[libx264 @ 000002976a2eaec0] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu:  6% 57% 20%  1%  2%  1%  8%  1%  3%
+[libx264 @ 000002976a2eaec0] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 10% 57% 18%  1%  2%  1%  7%  1%  3%
+[libx264 @ 000002976a2eaec0] i8c dc,h,v,p: 49% 33% 13%  6%
+[libx264 @ 000002976a2eaec0] Weighted P-Frames: Y:1.2% UV:1.2%
+[libx264 @ 000002976a2eaec0] ref P L0: 66.7% 19.8% 10.1%  3.3%  0.0%
+[libx264 @ 000002976a2eaec0] ref B L0: 89.9%  8.3%  1.8%
+[libx264 @ 000002976a2eaec0] ref B L1: 95.9%  4.1%
+[libx264 @ 000002976a2eaec0] kb/s:2995.97
+[aac @ 000002976a4304c0] Qavg: 65536.000
+
+
+2025-07-16T21:40:17.386Z [info] 🟢 [FFmpeg] HLS 720p OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_4d4617d7-ba23-412e-af3d-e45c28b228eb\index.m3u8
+2025-07-16T21:40:19.978Z [info] Archivo subido correctamente al CDN: videos/4d4617d7-ba23-412e-af3d-e45c28b228eb_1080p.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/4d4617d7-ba23-412e-af3d-e45c28b228eb_1080p.mp4
+2025-07-16T21:40:19.979Z [info] ✅  Video final subido al CDN → https://storage.googleapis.com/storyteller-ai-cdn/videos/4d4617d7-ba23-412e-af3d-e45c28b228eb_1080p.mp4
+2025-07-16T21:40:20.138Z [info] ✅  Video final accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/videos/4d4617d7-ba23-412e-af3d-e45c28b228eb_1080p.mp4
+2025-07-16T21:40:20.141Z [info] ✅ Render final OK en 169.1s → https://storage.googleapis.com/storyteller-ai-cdn/videos/4d4617d7-ba23-412e-af3d-e45c28b228eb_1080p.mp4
