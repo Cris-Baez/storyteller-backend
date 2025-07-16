@@ -3412,3 +3412,19 @@ SyntaxError: Unexpected token '�', ...""prompt": �An epic s"... is not valid
 2025-07-16T20:50:49.308Z [error] Error generando voz: No se pudo generar la voz
 2025-07-16T20:50:49.311Z [error] Error generando voz: No se pudo generar la voz
 2025-07-16T20:50:49.312Z [error] Error generando voz: No se pudo generar la voz
+2025-07-16T21:23:04.710Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:23:04.712Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:23:44.579Z [error] Error al descargar la imagen generada t=0: connect ETIMEDOUT 34.107.252.52:443
+2025-07-16T21:23:49.133Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:23:49.134Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:24:30.091Z [error] Error al descargar la imagen generada t=0: connect ETIMEDOUT 34.107.252.52:443
+2025-07-16T21:24:34.617Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:24:34.618Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:26:47.145Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:26:47.147Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:27:13.489Z [error] Error al descargar la imagen generada t=0: connect ETIMEDOUT 34.107.252.52:443
+2025-07-16T21:27:17.861Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:27:17.863Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:27:43.964Z [error] Error al descargar la imagen generada t=0: connect ETIMEDOUT 34.107.252.52:443
+2025-07-16T21:27:48.665Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:27:48.666Z [error] FLUX error: FLUX returned invalid response format

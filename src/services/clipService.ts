@@ -313,23 +313,38 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
     for (const tryModel of tryModels) {
       logger.info(`[ClipService] Intentando modelo: ${tryModel} para segmento ${seg.start}-${seg.end}`);
       if (tryModel === 'runway/gen4_turbo' && runwayStyles.includes(style) && generateRunwayVideo) {
+        // Validación estricta de imagen base
         let promptImage = '';
-        if (plan.metadata.referenceImages && plan.metadata.referenceImages.length > 0) {
-          promptImage = plan.metadata.referenceImages[0];
+        if (
+          Array.isArray(plan.metadata.referenceImages) &&
+          plan.metadata.referenceImages.length > 0 &&
+          typeof plan.metadata.referenceImages[0] === 'string' &&
+          plan.metadata.referenceImages[0].trim().length > 0
+        ) {
+          promptImage = plan.metadata.referenceImages[0].trim();
         } else {
-          logger.warn('No se encontró imagen base para Runway, probando siguiente modelo.');
+          logger.warn('[Runway] No hay imagen base válida en plan.metadata.referenceImages. Saltando a otro modelo.');
           continue;
         }
-        const isImageAvailable = await (async () => {
-          try {
-            const res = await fetch(promptImage, { method: 'HEAD' });
-            return res.ok;
-          } catch {
-            return false;
+        // Validación robusta de imagen base (HEAD y tamaño)
+        let isImageAvailable = false;
+        let imageSize = 0;
+        try {
+          const res = await fetch(promptImage, { method: 'HEAD' });
+          if (res.ok) {
+            const sizeHeader = res.headers.get('content-length');
+            imageSize = sizeHeader ? parseInt(sizeHeader, 10) : 0;
+            isImageAvailable = imageSize > 0;
+          } else {
+            logger.warn(`[Runway] Imagen base no accesible (status: ${res.status}): ${promptImage}. Saltando a otro modelo.`);
+            continue;
           }
-        })();
+        } catch (e) {
+          logger.warn('[Runway] Error de red al verificar imagen base: ' + promptImage + ' – ' + (e && (typeof e === 'object' && 'message' in e) ? (e as any).message : String(e)));
+          continue;
+        }
         if (!isImageAvailable) {
-          logger.warn('La imagen base para Runway no está accesible, probando siguiente modelo.');
+          logger.warn('[Runway] Imagen base vacía o no disponible: ' + promptImage + '. Saltando a otro modelo.');
           continue;
         }
         let resizedImageUrl = promptImage;
@@ -347,12 +362,12 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
                 const path = `./tmp/resized_${Date.now()}_${seg.start}.jpg`;
                 await fs.writeFile(path, resizedBuf);
                 resizedImageUrl = path;
-                logger.info('Imagen redimensionada localmente para Runway: ' + path);
+                logger.info('[Runway] Imagen redimensionada localmente: ' + path);
               }
             }
           }
         } catch (e) {
-          logger.warn('No se pudo redimensionar la imagen para Runway, se usa original. ' + (e && (typeof e === 'object' && 'message' in e) ? (e as any).message : String(e)));
+          logger.warn('[Runway] No se pudo redimensionar la imagen, se usa original. ' + (e && (typeof e === 'object' && 'message' in e) ? (e as any).message : String(e)));
         }
         try {
           src = await generateRunwayVideo({
@@ -365,7 +380,7 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
           logger.info(`✅ Runway OK (${seg.start}-${seg.end})`);
           break;
         } catch (e:any) {
-          logger.warn(`❌ Runway ${e.message} – probando siguiente modelo.`);
+          logger.warn(`[Runway] Error generando video: ${e.message} – probando siguiente modelo.`);
           continue;
         }
       } else {

@@ -10075,3 +10075,76 @@ SyntaxError: Unexpected token '�', ...""prompt": �An epic s"... is not valid
 2025-07-16T20:50:49.312Z [error] Error generando voz: No se pudo generar la voz
 2025-07-16T20:50:49.313Z [warn] ⚠️ No se pudo generar ninguna voz. El video continuará sin narración.
 2025-07-16T20:50:57.292Z [info] ✅  Pista de música lista (1216940 bytes)
+2025-07-16T21:22:38.650Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-16T21:22:45.252Z [info] ::1 - - [16/Jul/2025:21:22:45 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-16T21:22:45.258Z [info] 🚀 Pipeline v7 – inicio
+2025-07-16T21:22:45.271Z [info] 🎬 Prompt limpio: An epic sunset on the beach, in slow motion, with a nostalgic atmosphere....
+2025-07-16T21:22:45.273Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-16T21:23:01.539Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-16T21:23:01.540Z [info] 📝 Contenido raw: ```json
+{
+ "timeline":[
+   {
+     "t":0,
+     "visual":"Golden hour sky with sun descending towards horizon.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "dialo...
+2025-07-16T21:23:01.545Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-16T21:23:01.547Z [info] 📜 VideoPlan listo (10s)
+2025-07-16T21:23:01.549Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T21:23:01.550Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T21:23:04.710Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:23:04.712Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:23:04.713Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T21:23:23.451Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/Wo7Mg8cffAtfloG7VUtwsElNm7Q8sleUt1KIaoG3tR0ykyFUB/out-0.png
+2025-07-16T21:23:44.579Z [error] Error al descargar la imagen generada t=0: connect ETIMEDOUT 34.107.252.52:443
+2025-07-16T21:23:46.088Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T21:23:46.089Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T21:23:49.133Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:23:49.134Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:23:49.134Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T21:24:09.020Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/so2LiBDurcL7G9d6MEDBTBBcVuaI4N6sjHqAaQgKRJTeUugKA/out-0.png
+2025-07-16T21:24:30.091Z [error] Error al descargar la imagen generada t=0: connect ETIMEDOUT 34.107.252.52:443
+2025-07-16T21:24:31.601Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T21:24:31.601Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T21:24:34.617Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:24:34.618Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:24:34.619Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T21:24:39.741Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/UegB7jRlOkUJe0ThlnR0EVylEL9lD5tRzaB4JrRkEBEYqcBVA/out-0.png
+2025-07-16T21:26:25.215Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-16T21:26:31.554Z [info] ::1 - - [16/Jul/2025:21:26:31 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-16T21:26:31.557Z [info] 🚀 Pipeline v7 – inicio
+2025-07-16T21:26:31.561Z [info] 🎬 Prompt limpio: An epic sunset on the beach, in slow motion, with a nostalgic atmosphere....
+2025-07-16T21:26:31.562Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-16T21:26:44.204Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-16T21:26:44.205Z [info] 📝 Contenido raw: ```json
+{
+ "timeline":[
+   {
+     "t":0,
+     "visual":"Sun setting on the horizon, casting orange hues over the ocean.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+...
+2025-07-16T21:26:44.211Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-16T21:26:44.212Z [info] 📜 VideoPlan listo (10s)
+2025-07-16T21:26:44.214Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T21:26:44.216Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T21:26:47.145Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:26:47.147Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:26:47.150Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T21:26:52.349Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/fUZvHBjMN93WCyl2eAyfogfC0xyA5OHzdXglRH3vshfgjlLoC/out-0.png
+2025-07-16T21:27:13.489Z [error] Error al descargar la imagen generada t=0: connect ETIMEDOUT 34.107.252.52:443
+2025-07-16T21:27:14.997Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T21:27:14.998Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T21:27:17.861Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:27:17.863Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:27:17.864Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-16T21:27:22.891Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/Lgj1bvq4YNbyHR316FksVrwe01r8P6ePOSKetITL6Aa3Z5CqA/out-0.png
+2025-07-16T21:27:43.964Z [error] Error al descargar la imagen generada t=0: connect ETIMEDOUT 34.107.252.52:443
+2025-07-16T21:27:45.467Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-16T21:27:45.468Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-16T21:27:48.665Z [error] FLUX respuesta inesperada: {}
+2025-07-16T21:27:48.666Z [error] FLUX error: FLUX returned invalid response format
+2025-07-16T21:27:48.667Z [warn] FLUX fallo para t=0 → usando SDXL
