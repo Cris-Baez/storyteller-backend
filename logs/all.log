@@ -10990,3 +10990,84 @@ video:4853kB audio:73kB subtitle:0kB other streams:0kB global headers:0kB muxing
 2025-07-18T17:03:42.995Z [info] Murf API: Audio inline recibido correctamente.
 2025-07-18T17:03:42.997Z [info] Voz generada con Murf.
 2025-07-18T17:03:54.571Z [info] ✅  Pista de música lista (1248812 bytes)
+2025-07-18T21:11:04.270Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-18T21:11:08.168Z [info] ::1 - - [18/Jul/2025:21:11:08 +0000] "POST /api/render HTTP/1.1" 400 604 "-" "curl/8.6.0"
+2025-07-18T21:12:43.600Z [info] ::1 - - [18/Jul/2025:21:12:43 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-18T21:12:43.602Z [info] 🚀 Pipeline v7 – inicio
+2025-07-18T21:12:43.606Z [info] 🎬 Prompt limpio: Un samuri solitario enfrenta a sus enemigos al amanecer, con msica pica y sonidos de batalla....
+2025-07-18T21:12:43.608Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-18T21:13:30.476Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-18T21:13:30.477Z [info] 📝 Contenido raw: ```json
+{
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast landscape with the first light of dawn breaking over the horizon.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"...
+2025-07-18T21:13:30.479Z [info] 🎞️  VideoPlan listo (30s) via openai/gpt-4o
+2025-07-18T21:13:30.479Z [info] 📜 VideoPlan listo (30s)
+2025-07-18T21:13:30.480Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-18T21:13:30.481Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-18T21:13:33.443Z [error] FLUX respuesta inesperada: {}
+2025-07-18T21:13:33.444Z [error] FLUX error: FLUX returned invalid response format
+2025-07-18T21:13:33.445Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-18T21:13:41.325Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/WK25ww1V6aJDKNw7WxglHeS8LHfavPcACv1zrnNtPYfLYNEqA/out-0.png
+2025-07-18T21:13:42.406Z [info] Archivo temporal creado: t0_34e21b
+2025-07-18T21:13:44.407Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-18T21:13:44.537Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-18T21:13:44.537Z [info] ✅  Storyboards listos: 1
+2025-07-18T21:13:44.538Z [info] 🎞️ ClipService v9 – usando videoEngine multi-motor
+2025-07-18T21:13:44.539Z [info] → Segmentos óptimos (free): pixverse/pixverse-v4.5(8s) + pixverse/pixverse-v4.5(8s) + pixverse/pixverse-v4.5(8s) + pixverse/pixverse-v4.5(6s)
+2025-07-18T21:13:44.540Z [info] 🎙️  VoiceService v6.2 – iniciando…
+2025-07-18T21:13:44.582Z [info] 🎵  Buscar música de fondo para "energetic_pop"
+2025-07-18T21:13:44.583Z [info] 🎵  Freesound query: energetic_pop
+2025-07-18T21:13:44.589Z [error] × sin clip 0-7
+2025-07-18T21:13:44.593Z [error] × sin clip 8-15
+2025-07-18T21:13:44.596Z [error] × sin clip 16-23
+2025-07-18T21:13:44.599Z [error] × sin clip 24-29
+2025-07-18T21:13:44.600Z [info] ✅ Total clips: 0
+2025-07-18T21:13:46.719Z [error] Murf API error: Request failed with status code 500, Código de estado: 500, Respuesta: {"errorMessage":"Unknown error occurred","errorCode":500}
+2025-07-18T21:13:46.727Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.728Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.734Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.735Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.739Z [error] Murf API error: Request failed with status code 500, Código de estado: 500, Respuesta: {"errorMessage":"Unknown error occurred","errorCode":500}
+2025-07-18T21:13:46.748Z [error] Murf API error: Request failed with status code 500, Código de estado: 500, Respuesta: {"errorMessage":"Unknown error occurred","errorCode":500}
+2025-07-18T21:13:46.753Z [error] Murf API error: Request failed with status code 500, Código de estado: 500, Respuesta: {"errorCode":500,"errorMessage":"Unknown error occurred"}
+2025-07-18T21:13:46.763Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.764Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.767Z [error] Murf API error: Request failed with status code 500, Código de estado: 500, Respuesta: {"errorMessage":"Unknown error occurred","errorCode":500}
+2025-07-18T21:13:46.774Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.775Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.779Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.780Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.783Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.784Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.790Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.791Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.795Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.797Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.803Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.804Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.809Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.810Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.820Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.821Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.826Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.826Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.829Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.829Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.831Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.832Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.833Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.834Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.835Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.836Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.839Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.840Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.842Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.842Z [info] Voz generada con Murf.
+2025-07-18T21:13:46.844Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T21:13:46.844Z [info] Voz generada con Murf.
+2025-07-18T21:13:47.130Z [warn] ElevenLabs error: Request failed with status code 403

@@ -10,7 +10,95 @@ const hunyuanService = { generate: async (params: any) => { throw new Error('Hun
 const runwayService = { generate: async (params: any) => { throw new Error('Runway Gen-4/5 no instalado'); } };
 const animateDiffService = { generate: async (params: any) => { throw new Error('AnimateDiff no instalado'); } };
 const sadTalkerService = { generate: async (params: any) => { throw new Error('SadTalker no instalado'); } };
-const replicateFallbackService = { generate: async (params: any) => { /* ...tu lógica actual de Replicate... */ return { url: '', storyboardUrls: [] }; } };
+// Adaptador funcional para Replicate (Pixverse, Minimax, Bytedance Lite, etc.)
+import fetch from 'node-fetch';
+
+// Tipado para la respuesta de Replicate
+interface ReplicatePrediction {
+  id: string;
+  status: string;
+  output?: string | string[];
+  error?: string;
+}
+const replicateFallbackService = {
+  generate: async (params: any) => {
+
+    // Selección de modelo Replicate según tipo o preferencia (NUNCA usar Veo3 aquí)
+    // Solo modelos económicos de Replicate
+    let model: string;
+    // Prioridad máxima: minimax/video-01-director para escenas cinematográficas o de película
+    if (params.type === 'cinematic' || params.type === 'movie' || params.style === 'cinematic') {
+      model = 'minimax/video-01-director';
+    } else if (params.type === 'anime') {
+      model = 'pixverse/pixverse-v4.5';
+    } else if (params.type === 'realistic') {
+      model = 'bytedance/seedance-1-lite';
+    } else if (params.type === 'cartoon') {
+      model = 'pixverse/pixverse-v4.5';
+    } else {
+      model = 'pixverse/pixverse-v4.5';
+    }
+
+    // Construcción del payload para Replicate
+    const replicatePayload = {
+      version: 'latest',
+      input: {
+        prompt: params.prompt,
+        duration: params.duration || 5,
+        // Puedes agregar más campos según el modelo
+        seed: params.seed,
+        base_images: params.baseImages,
+        lora: params.loraCharacter,
+        style: params.style,
+      }
+    };
+
+    // Llama a la API de Replicate
+    const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN;
+    if (!REPLICATE_API_TOKEN) throw new Error('Falta REPLICATE_API_TOKEN');
+    const url = `https://api.replicate.com/v1/predictions`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Token ${REPLICATE_API_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        version: model,
+        input: replicatePayload.input
+      })
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`Replicate API error: ${res.status} - ${err}`);
+    }
+    let prediction = (await res.json()) as ReplicatePrediction;
+    // Polling para esperar el resultado
+    let outputUrl = '';
+    let storyboardUrls: string[] = [];
+    for (let i = 0; i < 60; i++) { // máx 60 intentos (~3 min)
+      if (prediction.status === 'succeeded' && prediction.output) {
+        if (Array.isArray(prediction.output)) {
+          outputUrl = prediction.output[0];
+          if (prediction.output.length > 1) storyboardUrls = prediction.output.slice(1);
+        } else {
+          outputUrl = prediction.output;
+        }
+        break;
+      }
+      if (prediction.status === 'failed') throw new Error('Replicate falló: ' + (prediction.error || 'desconocido'));
+      // Espera y repite
+      await new Promise(r => setTimeout(r, 3000));
+      const pollRes = await fetch(`${url}/${prediction.id}`, {
+        headers: { 'Authorization': `Token ${REPLICATE_API_TOKEN}` }
+      });
+      if (!pollRes.ok) throw new Error('Error polling Replicate: ' + pollRes.status);
+      prediction = await pollRes.json() as ReplicatePrediction;
+    }
+    if (!outputUrl) throw new Error('Replicate no devolvió URL de video');
+    return { url: outputUrl, storyboardUrls };
+  }
+};
 
 // Lógica de selección de motor
 export async function generateVideoByType(params: RenderRequest & {
