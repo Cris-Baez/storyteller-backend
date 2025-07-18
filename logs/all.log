@@ -10864,3 +10864,129 @@ video:4853kB audio:73kB subtitle:0kB other streams:0kB global headers:0kB muxing
 2025-07-16T22:39:09.340Z [info] ✅  Video final subido al CDN → https://storage.googleapis.com/storyteller-ai-cdn/videos/ce79e751-60b5-480b-b286-b6bcc33dd3c5_1080p.mp4
 2025-07-16T22:39:09.480Z [info] ✅  Video final accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/videos/ce79e751-60b5-480b-b286-b6bcc33dd3c5_1080p.mp4
 2025-07-16T22:39:09.481Z [info] ✅ Render final OK en 175.4s → https://storage.googleapis.com/storyteller-ai-cdn/videos/ce79e751-60b5-480b-b286-b6bcc33dd3c5_1080p.mp4
+2025-07-18T16:57:10.291Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-18T16:57:31.173Z [info] ::1 - - [18/Jul/2025:16:57:31 +0000] "POST /render HTTP/1.1" 404 146 "-" "curl/8.6.0"
+2025-07-18T16:57:56.902Z [info] ::1 - - [18/Jul/2025:16:57:56 +0000] "POST /render HTTP/1.1" 404 146 "-" "curl/8.6.0"
+2025-07-18T16:58:48.320Z [info] ::1 - - [18/Jul/2025:16:58:48 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-18T16:58:48.323Z [info] 🚀 Pipeline v7 – inicio
+2025-07-18T16:58:48.327Z [info] 🎬 Prompt limpio: A cinematic scene of TheRockActor standing in a realistic samurai village, Samuraifield background, ...
+2025-07-18T16:58:48.328Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-18T16:59:05.571Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-18T16:59:05.572Z [info] 📝 Contenido raw: ```json
+{
+ "timeline":[
+   {
+     "t":0,
+     "visual":"TheRockActor stands at the entrance of a samurai village.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+     "emotion":"wonder",
+     "...
+2025-07-18T16:59:05.575Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-18T16:59:05.576Z [info] 📜 VideoPlan listo (10s)
+2025-07-18T16:59:05.577Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-18T16:59:05.578Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-18T16:59:08.704Z [error] FLUX respuesta inesperada: {}
+2025-07-18T16:59:08.705Z [error] FLUX error: FLUX returned invalid response format
+2025-07-18T16:59:08.706Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-18T16:59:13.537Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/IT0qCWIFmjLbGZTWoFglRSlB4gLjcQoTAcgdZdezoltweCCVA/out-0.png
+2025-07-18T16:59:14.666Z [info] Archivo temporal creado: t0_fb5ba7
+2025-07-18T16:59:16.645Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-18T16:59:16.775Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-18T16:59:16.776Z [info] ✅  Storyboards listos: 1
+2025-07-18T16:59:16.777Z [info] 🎙️  VoiceService v6.2 – iniciando…
+2025-07-18T16:59:16.812Z [info] 🎵  Buscar música de fondo para "energetic_pop"
+2025-07-18T16:59:16.813Z [info] 🎵  Freesound query: energetic_pop
+2025-07-18T16:59:16.916Z [info] 🎞️ ClipService v8 – start (segmentación óptima)
+2025-07-18T16:59:16.917Z [info] → Segmentos óptimos: runway/gen4_turbo(10s)
+2025-07-18T16:59:16.918Z [info] [ClipService] Intentando modelo: runway/gen4_turbo para segmento 0-9
+2025-07-18T16:59:16.918Z [info] [ClipService] Intentando modelo: bytedance/seedance-1-pro para segmento 0-9
+2025-07-18T16:59:16.919Z [info] [ClipService] Intentando modelo: luma/ray-2-720p para segmento 0-9
+2025-07-18T16:59:16.919Z [info] [ClipService] Intentando modelo: pixverse/pixverse-v4.5 para segmento 0-9
+2025-07-18T16:59:16.919Z [info] [ClipService] Intentando modelo: minimax/video-01-director para segmento 0-9
+2025-07-18T16:59:16.919Z [info] [ClipService] Intentando modelo: bytedance/seedance-1-lite para segmento 0-9
+2025-07-18T16:59:16.919Z [info] [ClipService] Intentando modelo: minimax/hailuo-02 para segmento 0-9
+2025-07-18T16:59:16.920Z [info] [ClipService] Intentando modelo: luma/ray-flash-2-540p para segmento 0-9
+2025-07-18T16:59:16.920Z [error] × sin clip 0-9
+2025-07-18T16:59:16.920Z [info] ✅ Total clips: 0
+2025-07-18T16:59:19.085Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T16:59:19.086Z [info] Voz generada con Murf.
+2025-07-18T16:59:19.097Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T16:59:19.097Z [info] Voz generada con Murf.
+2025-07-18T16:59:19.104Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T16:59:19.106Z [info] Voz generada con Murf.
+2025-07-18T16:59:19.109Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T16:59:19.111Z [info] Voz generada con Murf.
+2025-07-18T16:59:19.113Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T16:59:19.114Z [info] Voz generada con Murf.
+2025-07-18T16:59:19.119Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T16:59:19.120Z [info] Voz generada con Murf.
+2025-07-18T16:59:19.122Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T16:59:19.123Z [info] Voz generada con Murf.
+2025-07-18T16:59:19.138Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T16:59:19.139Z [info] Voz generada con Murf.
+2025-07-18T16:59:19.149Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T16:59:19.150Z [info] Voz generada con Murf.
+2025-07-18T16:59:19.154Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T16:59:19.156Z [info] Voz generada con Murf.
+2025-07-18T16:59:29.398Z [info] ✅  Pista de música lista (1248812 bytes)
+2025-07-18T17:03:04.655Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-18T17:03:09.791Z [info] ::1 - - [18/Jul/2025:17:03:09 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-18T17:03:09.794Z [info] 🚀 Pipeline v7 – inicio
+2025-07-18T17:03:09.796Z [info] 🎬 Prompt limpio: A cinematic scene of TheRockActor standing in a realistic samurai village, Samuraifield background, ...
+2025-07-18T17:03:09.798Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-18T17:03:29.936Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-18T17:03:29.937Z [info] 📝 Contenido raw: {
+ "timeline":[
+   {
+     "t":0,
+     "visual":"TheRockActor stands at the entrance of a samurai village, dressed in traditional samurai armor.",
+     "camera":{"shot":"wide","movement":"dolly-in"},
+ ...
+2025-07-18T17:03:29.939Z [info] 🎞️  VideoPlan listo (10s) via openai/gpt-4o
+2025-07-18T17:03:29.939Z [info] 📜 VideoPlan listo (10s)
+2025-07-18T17:03:29.940Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-18T17:03:29.940Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-18T17:03:32.830Z [error] FLUX respuesta inesperada: {}
+2025-07-18T17:03:32.832Z [error] FLUX error: FLUX returned invalid response format
+2025-07-18T17:03:32.833Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-18T17:03:37.689Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/l939oZQfNYxZBSFeeLolZdoUWsrLOyCO5usZYtyI4ssTDGEqA/out-0.png
+2025-07-18T17:03:38.815Z [info] Archivo temporal creado: t0_67d8f0
+2025-07-18T17:03:40.650Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-18T17:03:40.779Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-18T17:03:40.780Z [info] ✅  Storyboards listos: 1
+2025-07-18T17:03:40.783Z [info] 🎙️  VoiceService v6.2 – iniciando…
+2025-07-18T17:03:40.821Z [info] 🎵  Buscar música de fondo para "energetic_pop"
+2025-07-18T17:03:40.822Z [info] 🎵  Freesound query: energetic_pop
+2025-07-18T17:03:40.875Z [info] 🎞️ ClipService v8 – start (segmentación óptima)
+2025-07-18T17:03:40.876Z [info] → Segmentos óptimos: runway/gen4_turbo(10s)
+2025-07-18T17:03:40.878Z [info] [ClipService] Intentando modelo: runway/gen4_turbo para segmento 0-9
+2025-07-18T17:03:40.878Z [info] [ClipService] Intentando modelo: bytedance/seedance-1-pro para segmento 0-9
+2025-07-18T17:03:40.879Z [info] [ClipService] Intentando modelo: luma/ray-2-720p para segmento 0-9
+2025-07-18T17:03:40.879Z [info] [ClipService] Intentando modelo: pixverse/pixverse-v4.5 para segmento 0-9
+2025-07-18T17:03:40.879Z [info] [ClipService] Intentando modelo: minimax/video-01-director para segmento 0-9
+2025-07-18T17:03:40.880Z [info] [ClipService] Intentando modelo: bytedance/seedance-1-lite para segmento 0-9
+2025-07-18T17:03:40.880Z [info] [ClipService] Intentando modelo: minimax/hailuo-02 para segmento 0-9
+2025-07-18T17:03:40.880Z [info] [ClipService] Intentando modelo: luma/ray-flash-2-540p para segmento 0-9
+2025-07-18T17:03:40.880Z [error] × sin clip 0-9
+2025-07-18T17:03:40.881Z [info] ✅ Total clips: 0
+2025-07-18T17:03:42.925Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T17:03:42.926Z [info] Voz generada con Murf.
+2025-07-18T17:03:42.938Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T17:03:42.940Z [info] Voz generada con Murf.
+2025-07-18T17:03:42.947Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T17:03:42.948Z [info] Voz generada con Murf.
+2025-07-18T17:03:42.960Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T17:03:42.962Z [info] Voz generada con Murf.
+2025-07-18T17:03:42.966Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T17:03:42.967Z [info] Voz generada con Murf.
+2025-07-18T17:03:42.976Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T17:03:42.979Z [info] Voz generada con Murf.
+2025-07-18T17:03:42.985Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T17:03:42.986Z [info] Voz generada con Murf.
+2025-07-18T17:03:42.988Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T17:03:42.989Z [info] Voz generada con Murf.
+2025-07-18T17:03:42.990Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T17:03:42.990Z [info] Voz generada con Murf.
+2025-07-18T17:03:42.995Z [info] Murf API: Audio inline recibido correctamente.
+2025-07-18T17:03:42.997Z [info] Voz generada con Murf.
+2025-07-18T17:03:54.571Z [info] ✅  Pista de música lista (1248812 bytes)

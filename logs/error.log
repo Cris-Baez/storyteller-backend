@@ -3442,3 +3442,9 @@ SyntaxError: Unexpected token '�', ...""prompt": �An epic s"... is not valid
 2025-07-16T21:37:58.866Z [error] Error generando voz: No se pudo generar la voz
 2025-07-16T22:36:34.696Z [error] FLUX respuesta inesperada: {}
 2025-07-16T22:36:34.696Z [error] FLUX error: FLUX returned invalid response format
+2025-07-18T16:59:08.704Z [error] FLUX respuesta inesperada: {}
+2025-07-18T16:59:08.705Z [error] FLUX error: FLUX returned invalid response format
+2025-07-18T16:59:16.920Z [error] × sin clip 0-9
+2025-07-18T17:03:32.830Z [error] FLUX respuesta inesperada: {}
+2025-07-18T17:03:32.832Z [error] FLUX error: FLUX returned invalid response format
+2025-07-18T17:03:40.880Z [error] × sin clip 0-9

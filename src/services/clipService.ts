@@ -156,9 +156,12 @@ function promptOf(seg: Segment, style: string, plan: VideoPlan) {
     const char = characters[0];
     charDesc = [char.name, char.gender, char.age, char.language].filter(Boolean).join(', ');
   }
-  // Usar el prompt original del usuario como base, y solo agregar detalles si existen
+  // Forzar trigger_word de personaje y fondo al inicio del prompt
+  const triggerActor = 'TheRockActor';
+  const triggerBg = 'Samuraifield';
   const userPrompt = plan.metadata?.prompt || '';
   return [
+    `${triggerActor}, ${triggerBg}`,
     userPrompt,
     env.ext_int ? `escena: ${env.ext_int}` : '',
     env.location ? `lugar: ${env.location}` : '',
