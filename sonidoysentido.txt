@@ -1,0 +1,672 @@
+
+Gracias por compartir el código, Cris. Está muy bien estructurado: ya tienes una arquitectura sólida con detección de estilo, lip sync, acting, tipo de plano, validación y limpieza automática. Lo que estás pidiendo ahora es llevarlo **a un nivel superior de coherencia narrativa por estilo**, asegurando que:
+
+1. **Las primeras imágenes tengan sentido como "apertura cinematográfica"** (según el tipo de historia y estilo).
+2. **La narrativa y visuales se adapten según el estilo** (`cinematic`, `realistic`, `anime`, `cartoon`, `comercial`).
+3. **El bloque inicial esté cuidadosamente diseñado para cada caso**, tanto a nivel visual como emocional y técnico.
+
+---
+
+## 🎬 OBJETIVO FINAL: **Aperturas cinematográficas adaptadas al estilo visual**
+
+Para lograrlo, vamos a introducir una **capa de control narrativo avanzada**, directamente sobre tu `createVideoPlan`.
+
+---
+
+## ✅ PROPUESTA DE MEJORA 1: Inyección de apertura inteligente por estilo
+
+Agrega una función especializada al inicio del timeline que construya el primer bloque con máximo detalle, según el estilo y prompt.
+
+### 🧠 Función propuesta:
+
+```ts
+function buildOpeningScene(prompt: string, style: string): TimelineSecond {
+  const styleMap: Record<string, Partial<TimelineSecond>> = {
+    cinematic: {
+      visual: `Wide shot, soft cinematic lighting, atmosphere of introspection — ${prompt}`,
+      camera: { shot: "wide", movement: "dolly-in" },
+      emotion: "mysterious",
+      voiceLine: "Todo cambió aquel día...",
+      soundCue: "fade",
+      transition: "fade"
+    },
+    realistic: {
+      visual: `Real environment, natural lighting, grounded tone — ${prompt}`,
+      camera: { shot: "medium", movement: "pan" },
+      emotion: "neutral",
+      voiceLine: "Así comenzó todo...",
+      soundCue: "quiet"
+    },
+    anime: {
+      visual: `Anime style, glowing sky, emotional colors — ${prompt}`,
+      camera: { shot: "wide", movement: "zoom" },
+      emotion: "wonder",
+      voiceLine: "Ese día... mi vida cambió para siempre.",
+      soundCue: "rise"
+    },
+    cartoon: {
+      visual: `Cartoon environment, exaggerated background, colorful style — ${prompt}`,
+      camera: { shot: "medium", movement: "shake" },
+      emotion: "excited",
+      voiceLine: "¡Wow, esto es increíble!",
+      soundCue: "climax"
+    },
+    comercial: {
+      visual: `Product highlight, clear composition, professional lighting — ${prompt}`,
+      camera: { shot: "close-up", movement: "tilt" },
+      emotion: "joyful",
+      voiceLine: "¡Descubre algo nuevo hoy!",
+      soundCue: "rise"
+    }
+  };
+
+  const base = styleMap[style] || styleMap["cinematic"];
+
+  return sanitizeSecond({
+    t: 0,
+    ...base,
+    sceneStart: true,
+    highlight: true,
+    style
+  }, 0);
+}
+```
+
+---
+
+## ✅ PROPUESTA DE MEJORA 2: Insertar como primer bloque fijo
+
+En tu `createVideoPlan`, luego de generar el `timeline` con el LLM, haces:
+
+```ts
+const timelineRaw = parsed?.timeline || [];
+const openingScene = buildOpeningScene(cleanPrompt, visualStyle);
+
+timelineRaw[0] = openingScene; // Forzar que la primera escena tenga sentido absoluto
+```
+
+Así, **el primer bloque nunca es genérico o mal generado**, sino que actúa como **una apertura cinematográfica diseñada por estilo**.
+
+---
+
+## ✅ PROPUESTA DE MEJORA 3: Control del ritmo por estilo
+
+Agrega también un `sceneDurationStrategy(style)` para controlar cuánto duran en promedio los bloques por estilo:
+
+```ts
+function sceneDurationStrategy(style: string): number[] {
+  if (style === 'cinematic') return [6, 7, 8];
+  if (style === 'realistic') return [5, 6, 7];
+  if (style === 'anime') return [5, 6, 5, 4];
+  if (style === 'cartoon') return [4, 4, 3, 4];
+  if (style === 'comercial') return [3, 4, 5];
+  return [6, 6, 6, 6]; // Default
+}
+```
+
+Esto te permite que el video se sienta **fluido y adaptado al género**, no como una serie de bloques iguales.
+
+---
+
+## ✅ PROPUESTA DE MEJORA 4: Detección y reforzamiento de "inicio lógico"
+
+Cuando el usuario escribe algo como:
+
+> “Un samurái devastado...”
+
+Tu sistema debe saber que la **primera imagen debe mostrarlo a él en su dolor, solo, bajo la lluvia.**
+
+Puedes detectar palabras clave del inicio del prompt para forzar coherencia temática:
+
+```ts
+function extractOpeningTheme(prompt: string): string {
+  if (prompt.includes("samurái")) return "samurai under rain, grief, solemn atmosphere";
+  if (prompt.includes("restaurante")) return "warm lighting, elegant setting, empty restaurant ready";
+  if (prompt.includes("niño") && prompt.includes("aventura")) return "wide field, excited kid with backpack";
+  return prompt;
+}
+```
+
+Y luego usar ese resultado en `buildOpeningScene`.
+
+---
+
+## 🧠 BONUS – ¿Y si el usuario sube una imagen para comenzar?
+
+Si en el `RenderRequest` tienes `userImages[0]`, entonces el sistema debe usarla como:
+
+* fondo base
+* contexto visual principal
+* reemplazo de la escena inicial generada
+
+Entonces:
+
+```ts
+if (req.userImages?.length > 0) {
+  openingScene.assets = [req.userImages[0]];
+  openingScene.visual = `Use uploaded image as base. Add cinematic motion, ${visualStyle} lighting.`;
+  openingScene.contentType = 'image';
+}
+```
+
+Esto respeta visualmente lo que el usuario quiere ver como apertura.
+
+---
+
+## ✅ CONCLUSIÓN
+
+Tú ya tienes la base perfecta. Ahora, con estas mejoras:
+
+1. La **primera escena siempre tendrá sentido** (por estilo y por tema).
+2. Cada estilo tendrá su **ritmo, tono, color y dinámica narrativa única**.
+3. Las imágenes generadas al principio serán más **coherentes y memorables**.
+4. Podrás ofrecer a los usuarios una experiencia tipo "esto lo hizo un director, no una IA aleatoria".
+
+---
+
+¿Quieres que te entregue ya una versión actualizada del archivo `llmService.ts` con estas mejoras listas para pegar? ¿O prefieres probar solo la función `buildOpeningScene` primero para integrarla tú?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perfecto, Cris. Entonces aquí tienes la **versión oficial del primer caso de prueba cinematográfico completo para CinemaAI**, **incluyendo voz narrada tuya al final**. Esto probará absolutamente **todas las funciones críticas** de tu app en una sola escena. Este será tu primer “test de fuego profesional” para pulir el sistema completo.
+
+---
+
+# 🎬 Caso 001: **“El samurái que lo perdió todo”**
+
+📽️ *Video oficial de prueba para CinemaAI*
+
+---
+
+## 🎯 Objetivo de este caso
+
+✅ Probar y validar el flujo completo de CinemaAI con:
+
+* Personaje LoRA entrenado (tú como samurái)
+* Escenario LoRA entrenado (paisaje japonés devastado)
+* Dirección de cámara por segundo
+* Música emocional + efectos de sonido sincronizados
+* **Narración final con tu propia voz generada**
+* Render final en 30 segundos de duración
+
+> Si este video sale perfecto, tienes validado tu motor de generación, mezcla, render y narrativa completa. Ya eres una productora AI funcional.
+
+---
+
+## 🧠 Lógica narrativa del clip
+
+> *“Un guerrero solitario camina entre las ruinas silenciosas. En su alma, no queda más que el eco de un pasado perdido. Y en su voz, una promesa…”*
+
+---
+
+## 🧱 Estructura del video
+
+| Segundo   | Descripción visual                                                                            | Cámara              | Emoción         | SFX                                                 | Música           | Voz                   |
+| --------- | --------------------------------------------------------------------------------------------- | ------------------- | --------------- | --------------------------------------------------- | ---------------- | --------------------- |
+| 0         | Ruinas silenciosas al amanecer, humo flotando                                                 | Plano general fijo  | Soledad         | viento suave                                        | cuerdas suaves   | -                     |
+| 3         | Samurái aparece entre sombras, caminando lento                                                | Dolly-in            | Tristeza        | pasos + hojas crujientes                            | progresión lenta | -                     |
+| 6         | Primer plano de su rostro devastado                                                           | Close-up            | Dolor contenido | chispas, fuego                                      | piano suave      | -                     |
+| 10        | Mira al cielo, niebla entra en escena                                                         | Tilt-up lento       | Vacío           | viento + eco                                        | piano y violines | -                     |
+| 15        | Cae de rodillas frente a un altar destruido                                                   | Cámara lenta        | Desesperación   | sonido de rodillas golpeando tierra + grito apagado | música sube      | -                     |
+| 20        | Cierra los ojos, imagen se funde con escena del pasado                                        | Transición dissolve | Melancolía      | eco lejano                                          | música baja      | -                     |
+| 25        | Vuelve al presente, se pone de pie y toma su katana                                           | Plano medio         | Determinación   | sonido metálico de katana saliendo                  | subida final     | -                     |
+| **28–30** | Plano general, camina hacia la luz – Voz en off: **“Juro que no moriré sin hacer justicia…”** | Wide shot trasero   | Esperanza       | viento + pasos firmes                               | cierre emocional | ✅ **Narración final** |
+
+---
+
+## 🔊 Voz generada (prueba TTS)
+
+* **Voz:** Masculina, suave pero profunda (tipo “Samurái sabio”)
+* **Generador:** Murf (voz principal) + fallback ElevenLabs
+* **Timbre:** Lento, emocional, tono grave (puedes entrenar con tu voz si deseas luego)
+* **Texto final narrado:**
+
+  > "Juro que no moriré sin hacer justicia..."
+
+---
+
+## 🧪 Tecnologías usadas en este caso
+
+| Módulo          | Herramienta                                                        |
+| --------------- | ------------------------------------------------------------------ |
+| LoRA personaje  | Custom en Replicate (tú como samurái)                              |
+| LoRA escenario  | Fondo tipo Kyoto devastado                                         |
+| Generador video | Kling 2.1 master (consistencia + cine)                             |
+| Cámara          | Direccionada por prompt LLMService                                 |
+| Música IA       | Biblioteca + prompt emocional (o manual)                           |
+| SFX automáticos | MusicService / FoleyService                                        |
+| Voz             | voiceService.ts → Murf + Eleven fallback                           |
+| Lip Sync        | SadTalker o Wav2Lip si hay boca visible (para otros casos futuros) |
+| Render final    | FFmpegService → mezcla a 30s exactos, 4K                           |
+
+---
+
+## 📦 ¿Qué funciones de CinemaAI se validan?
+
+✅ Prompt a guion → LLMService
+✅ Personaje y fondo personalizados → LoRA
+✅ Dirección de cámara y emoción por segundo
+✅ Efectos ambientales y foley sincronizados
+✅ Música generada según emoción
+✅ Voz narrada final → prueba del sistema TTS
+✅ Mezcla multipista
+✅ Export final listo para mostrar al mundo
+
+---
+
+## 🔄 Estrategia
+
+1. Entrenas LoRA de personaje (tú como samurái)
+2. Entrenas LoRA de escenario (paisaje ruinas con templo)
+3. Generas el primer video de prueba
+4. Iteras → Ajustas cámara, voz, audio, ritmo, render
+5. Obtienes una escena nivel **Ghibli o Akira Kurosawa AI**
+
+---
+
+## 🚀 ¿Y después?
+
+Una vez tengas este caso **pulido y perfecto**, haces lo mismo con:
+
+* 📦 “Producto a video” → Ej: perfume, chocolate, etc.
+* 🖼️ “Foto a video” → Subes una imagen tuya en la playa, se genera historia completa
+* 🎙️ “Narrativa infantil” → Un cuento para niños con animación
+* 🎥 “Intro épica YouTube” → Transiciones, logo, nombre
+
+Pero todo comienza por este caso. Si este video funciona bien, **ya tienes una escena cinematográfica completa creada con IA, completamente coherente y emocional.**
+
+---
+
+¿Quieres que prepare los prompts exactos para el LLMService y la estructura JSON de este caso para que puedas probarlo ya con tu backend? También puedo ayudarte a crear el `videoPlan` listo para pegar.
+
+
+
+¡Sí, Cris! Has tocado uno de los pilares clave de la **narrativa audiovisual cinematográfica real**:
+🎧 **el sonido** —efectos, ambiente y música— es lo que transforma un video en una escena viva, emocional y envolvente.
+
+Vamos a crear una solución **profesional, automática y modular**, que detecte el contexto y agregue los **efectos de sonido (SFX)** correctos en el momento justo.
+
+---
+
+## 🎯 Objetivo
+
+Lograr que **cada segundo del timeline tenga ambientación y efectos coherentes** según lo que está ocurriendo: pasos, viento, mar, puertas, armas, etc.
+
+---
+
+## 🧩 ¿Qué tipos de sonidos necesitas?
+
+### 1. **Ambiente general (ambience / background)**
+
+* Viento, bosque, lluvia, ciudad, oficina, océano, fuego…
+* Duran toda la escena o varios segundos.
+
+### 2. **Efectos puntuales (sound FX o foley)**
+
+* Golpes, pasos, disparos, risa, portazo, explosión, derrape, caída de lápiz…
+* Duran 0.5 – 2 segundos, ubicados en segundos precisos.
+
+### 3. **Música emocional** (esto ya lo tienes con `musicService`, así que lo mantenemos)
+
+---
+
+## 🧠 Estrategia general para automatizar esto
+
+### ✅ Paso 1: *Análisis contextual del timeline por segundo*
+
+Tu `LLMService.ts` debe interpretar cada segundo del timeline y generar:
+
+* `ambientSound`: nombre del sonido ambiental de fondo (si aplica)
+* `soundEffects`: lista de efectos cortos que ocurren en ese segundo
+
+> Ejemplo:
+
+```json
+{
+  "t": 3,
+  "visual": "La protagonista corre bajo la lluvia por un callejón oscuro",
+  "emotion": "miedo",
+  "ambientSound": "rain_city",
+  "soundEffects": ["running_steps", "thunder_rumble"]
+}
+```
+
+---
+
+### ✅ Paso 2: *Librería profesional de sonidos estructurada*
+
+Organiza sonidos en categorías, usando nombres estándar.
+Puedes usar:
+
+* [Freesound.org](https://freesound.org) (gratis, requiere attribution)
+* [ZapSplat](https://www.zapsplat.com/)
+* [Soundly](https://getsoundly.com/) (freemium con uso comercial)
+* \[Envato Elements / Artlist]\(si pagas suscripción)
+
+#### Crea estructura:
+
+```
+/sfx/
+  ambience/
+    rain_city.wav
+    forest_night.wav
+    ocean_beach.wav
+  effects/
+    footsteps_fast.wav
+    glass_break.wav
+    door_open.wav
+    pencil_drop.wav
+    anime_explosion.wav
+```
+
+---
+
+### ✅ Paso 3: *Sistema inteligente para unir sonido + escena*
+
+En tu backend:
+
+1. Detectas la duración del clip de esa escena.
+2. Tomas el `ambientSound` y lo estiras (loop o fade).
+3. Tomas los `soundEffects` y los colocas en los segundos indicados.
+4. Los mezclas con la pista de voz y música.
+5. Render final: FFmpeg junta todo en una sola pista estéreo con -16 LUFS normalizado.
+
+---
+
+### ✅ Paso 4: *Automatizar con lógica de guion*
+
+En el prompt del `LLMService`, agrégale:
+
+> “For each second, based on the visual, emotion and camera, determine:
+
+* ambientSound (looped ambience background, optional)
+* soundEffects (list of timed foley-like sounds, optional)
+* Each sound must be relevant to the action or mood, and match cinematic tone.”
+
+Esto hará que cada segundo tenga metadatos de sonido. Luego tú solo llamas tu `musicService` y `sfxService` para unirlos.
+
+---
+
+## 🌀 ¿Cómo manejarlo en el `RenderPipeline`?
+
+* Escena 1:
+
+  * Fondo: `forest_night`
+  * Voz: “¿Quién anda ahí?”
+  * FX: pasos + viento + ramas
+
+* Escena 2:
+
+  * Fondo: `city_morning`
+  * FX: “door\_close” en segundo 2
+  * Música: piano suave
+
+🔁 Cada clip renderizado tendrá su ambiente y efectos mezclados profesionalmente.
+
+---
+
+## 💡 Extra: Adaptar los sonidos al estilo visual
+
+Si es anime, puedes tener:
+
+* `anime_punch`
+* `anime_swoosh`
+* `anime_energy_charging`
+
+Si es realista:
+
+* `real_punch`
+* `street_footsteps`
+* `concrete_explosion`
+
+Esto puedes lograrlo organizando tu librería y creando un sistema tipo:
+
+```
+getSound("explosion", "anime") → sfx/effects/anime_explosion.wav
+```
+
+---
+
+## ✅ Conclusión: Ventajas de este sistema
+
+* 🧠 **Automático y contextual**: cada escena se siente viva y coherente.
+* 🔊 **Inmersivo**: sonidos ambientales + efectos precisos generan una atmósfera completa.
+* 💡 **Modular**: puedes actualizar, reemplazar o mejorar efectos fácilmente.
+* 🏆 **Cinematográfico real**: nadie más en apps IA está haciendo esto a este nivel narrativo.
+
+---
+
+¿Quieres que prepare el `prompt del LLMService` actualizado para que empiece a incluir `ambientSound` y `soundEffects` por segundo automáticamente?
+
+También te puedo ayudar a crear una **estructura profesional de carpeta de sonidos**, y un pequeño sistema que seleccione sonidos automáticamente por tipo de escena.
+
+¿Avanzamos con eso?
+
+
+
+
+Aquí tienes un análisis profundo y profesional basado en cómo los expertos en **cine y postproducción de sonido** trabajan para conseguir que todos los audios —ambientes, efectos y música— tengan sentido y se integren de forma coherente en la narrativa:
+
+---
+
+## 🎧 1. **Diseño de sonido comienza desde el guion (pre‑producción)**
+
+* Antes de grabar, se hace un **spotting session**: el diseñador de sonido revisa el guion o storyboard y marca dónde irán **ambientes** y **efectos** (explosión, pasos, viento, diálogo) ([MASV][1]).
+* Esto te permite planear con antelación qué sonidos vas a necesitar y dónde van, evitando improvisar al final del proyecto.
+
+---
+
+## 🌿 2. **Ambientes (“beds”) dan el contexto emocional y espacial**
+
+* En postproducción se colocan **pistas de ambiente** como viento, lluvia, ciudad o bosque, para no dejar el silencio incómodo .
+* Se combinan en capas: una pista “center” para diálogo y otra estéreo para profundidad.
+* Se mezclan a niveles bajos, por ejemplo: diálogo a –10 dBfs y ambiente a –40 dBfs (interior) o –50 dBfs (exterior) ([Reddit][2]).
+
+---
+
+## 🔨 3. **Foley y efectos realistas (sound FX)**
+
+* Los sonidos físicos (pasos, papel, puertas, explosiones) se crean manualmente o con bibliotecas profesionales ([MASV][1]).
+* Se graban en sincronía con la imagen, cuidando el timing (ej. un lápiz que cae se graba mientras se deja caer frente a la cámara).
+* Idealmente, se graban efectos caseros (“Foley”) y se mezclan con efectos comerciales para mayor realismo ([lwks.com][3]).
+
+---
+
+## 🧩 4. **Composición en Capas + Automación**
+
+* Se mezclan en capas: música, diálogo, efectos, ambiente.
+* Se automatiza el volumen a lo largo del tiempo, haciendo que los ambientes desaparezcan durante el diálogo y resurjan cuando termina ([thebeachhousestudios.com][4]).
+* También se usan filtros EQ, compresión, reverb para cada pista según contexto.
+
+---
+
+## 🎚️ 5. **Normas de mezcla y calibración profesional**
+
+* Se sigue una **metodología estándar**:
+
+  * Nivel pico máximo: –2 dBFS
+  * Diálogo: –11 a –10 dBfs
+  * Efectos explosivos: –3 a –2 dBfs
+  * Música: –5 a –4 dBfs ([thebeachhousestudios.com][4]).
+* Se calibra la sala de mezcla con sonidos rosas y medidor de SPL (\~79 dB) para que los niveles representen una experiencia cinematográfica real ([thebeachhousestudios.com][4]).
+
+---
+
+## ✅ 6. **¿Cómo aplicarlo en Storyteller AI?**
+
+### 🛠️ Etapas sugeridas para implementar
+
+1. **Spotting automático**: extiende tu `LLMService` para identificar qué segundos del timeline necesitan ambiente y/o efectos, como ya lo hicimos con `ambientSound` y `soundEffects`.
+
+2. **Base de sonidos ordenada**: organiza tu librería (efectos + ambientes) en carpetas y nombres estándar para referenciarlos fácilmente.
+
+3. **Mezcla en capas** (pipeline):
+
+   * Carga diálogo, música, ambientes, efectos.
+   * Usa reglas de nivel: diálogo principal, efectos secundarios, ambientes suaves.
+   * Aplica automación de volumen para que no interfieran entre sí.
+
+4. **Curación manual opcional**:
+
+   * En escenas clave (“primeros planos emocionales”, “explosiones”, “momentos de silencio”), agrega un paso de revisión manual para ajustar volúmenes y timing.
+
+5. **Normalización final**:
+
+   * Asegura que el mix final cumple estándares: picos a –2 dBFS y nivel general –24 LUFS si es para broadcast ([Reddit][2], [MASV][1], [thebeachhousestudios.com][4]).
+
+---
+
+## 🎯 En resumen: así consiguen los profesionales que todo suene coherente
+
+* **Planifican desde el guion** → spotting sheet
+* **Graban o seleccionan foley** en sincronía
+* **Diseñan ambientes en capas** y los suavizan
+* **Automatizan la mezcla** según el contenido
+* **Calibran niveles con estándares cinematográficos**
+
+Con ese flujo, todo el sonido (pasos, lápiz, viento, explosión) **tiene sentido**, no choca con el diálogo, ni se escucha como caos, sino como una escena viva.
+
+---
+
+### ✔️ Próximos pasos para ti:
+
+* Extiende tu `LLMService` para generar automáticamente un spotting sheet con `ambientSound` y `soundEffects`, por segundo.
+* Crea un pipeline de mezcla que:
+
+  1. Inserte bandas de ambiente en loop
+  2. Coloque efectos cortos en timestamps clave
+  3. Ajuste volúmenes automáticamente según niveles pro
+  4. Realice normalización final
+
+Con este proceso, tu app dará el salto de ser una herramienta visual a construir **escenas completamente inmersivas, cinematográficas y coherentes**, igual que en producciones profesionales.
+
+¿Quieres que prepare la versión mejorada del prompt para el LLMService + esquema del pipeline para mezclar pistas automáticamente, según estándares de cine?
+
+[1]: https://massive.io/workflow/audio-post-production-workflow/?utm_source=chatgpt.com "Your Complete Audio Post-Production Workflow Guide - MASV"
+[2]: https://www.reddit.com/r/AudioPost/comments/lh6c21/what_is_the_detailed_process_of_sound_design/?utm_source=chatgpt.com "What is the DETAILED process of sound design workflow and mix ..."
+[3]: https://lwks.com/blog/sound-effects-101-ambient-vs.-foley?utm_source=chatgpt.com "Sound Effects 101: Ambient vs. Foley - Lightworks"
+[4]: https://www.thebeachhousestudios.com/mixing-sound-for-film-audio-post-production-overview/?utm_source=chatgpt.com "Mixing Sound for Film - Audio Post Production, An Overview"
+
+---
+
+# 🚀 Integración y mejoras profesionales para CinemaAI (backend y pipeline)
+
+## 1. Prompt LLMService profesional (para timeline extendido)
+
+"""
+You are a world-class film director and sound designer. For the following story prompt, generate a timeline array where each second/block contains:
+
+- t: (int) segundo
+- visual: descripción visual cinematográfica
+- emotion: emoción dominante
+- camera: { shot, movement, focus, depthOfField }
+- transition: tipo de transición desde el bloque anterior (fade, dissolve, whip pan, match cut, etc.)
+- colorStyle: look de color/LUT sugerido (ej: teal-orange, noir, anime, warm, cold)
+- overlays: [opcional] títulos, subtítulos, efectos visuales (lluvia, partículas, flashes)
+- ambientSound: ambiente de fondo (looped, ej: rain_city, forest_night)
+- soundEffects: lista de efectos puntuales (ej: footsteps, sword_draw, thunder)
+- music: mood musical (opcional, si quieres refinar)
+- voiceLine: línea de diálogo o narración (opcional)
+
+Cada bloque debe ser coherente con el género, el ritmo y el tono. Si el estilo es anime, cartoon, realista, etc., adapta los nombres de efectos y color. El primer bloque debe ser una apertura memorable y el clímax debe estar reforzado con cámara, color, sonido y overlays.
+"""
+
+## 2. Esquema JSON extendido para timeline
+
+```json
+{
+  "t": 3,
+  "visual": "Samurái aparece entre sombras, caminando lento",
+  "emotion": "Tristeza",
+  "camera": { "shot": "dolly-in", "movement": "forward", "focus": "face", "depthOfField": "shallow" },
+  "transition": "fade",
+  "colorStyle": "cold",
+  "overlays": ["fog_particles"],
+  "ambientSound": "wind_soft",
+  "soundEffects": ["footsteps_leaves"],
+  "music": "progression_sad",
+  "voiceLine": null
+}
+```
+
+## 3. Pipeline modular profesional (video + audio)
+
+1. **LLMService**: genera el timeline extendido (prompt anterior).
+2. **Visuales**: Generador de imágenes/video por bloque, aplicando cámara, color, overlays y transiciones.
+3. **Audio**:
+   - a) MusicService: música emocional por bloque.
+   - b) SFXService: ambientSound (loop/fade) y soundEffects (en timestamps clave).
+   - c) VoiceService: voz/narración si hay voiceLine.
+4. **Mezcla**:
+   - a) Mezcla multicapa: voz (center), música (stereo), ambiente (stereo bajo), efectos (puntuales, paneados).
+   - b) Automatización de volúmenes: sidechain para voz, crossfades entre ambientes, ducking de música.
+   - c) Reverb/EQ según entorno.
+   - d) Normalización final: -16 LUFS, picos -2 dBFS.
+5. **Render**: FFmpegService une todo en una pista estéreo y renderiza el video final.
+6. **Logs y métricas**: calidad, errores y tiempos de cada etapa.
+
+## 4. Estructura de carpetas recomendada
+
+```
+/sfx/
+  ambience/
+    rain_city.wav
+    forest_night.wav
+    ocean_beach.wav
+  effects/
+    footsteps_fast.wav
+    glass_break.wav
+    door_open.wav
+    pencil_drop.wav
+    anime_explosion.wav
+/luts/
+  teal_orange.cube
+  noir.cube
+  anime.cube
+/overlays/
+  fog_particles.mov
+  rain.mov
+  subtitles/
+    ...
+```
+
+## 5. Funciones clave a mejorar/implementar (TypeScript, pseudocódigo)
+
+```ts
+// Selección de LUT/color
+function applyColorLUT(videoPath: string, lutName: string): string { /* ... */ }
+
+// Selección de SFX según estilo
+function getSound(effect: string, style: string): string {
+  // Ej: getSound('explosion', 'anime') => sfx/effects/anime_explosion.wav
+}
+
+// Mezcla de audio multicapa
+function mixAudio({ voice, music, ambience, sfx }: AudioLayers, outPath: string): Promise<string> { /* ... */ }
+
+// Aplicar transición visual
+function applyTransition(prevVideo: string, nextVideo: string, type: string): string { /* ... */ }
+
+// Refuerzo de clímax narrativo
+function reinforceClimax(block: TimelineSecond): TimelineSecond {
+  // Aumenta movimiento de cámara, color, overlays, volumen, etc. en el clímax
+}
+```
+
+---
+
+Con esto, tu backend y pipeline estarán listos para producir cinemáticas AI de nivel profesional, manteniendo y mejorando todo lo que ya tienes. Implementa cada mejora de forma incremental y modular para máxima robustez y flexibilidad.

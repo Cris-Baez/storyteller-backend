@@ -1,0 +1,115 @@
+Perfecto Cris. Aquí tienes la explicación **completa y en cascada** —sin código— sobre **cómo y cuándo usar SadTalker y Wav2Lip en Storyteller AI**, con toda la lógica de decisión y aplicación detallada profesionalmente.
+
+---
+
+## 🎬 ¿Por qué usar Lip Sync en tu app?
+
+Porque al tener escenas donde los personajes **hablan en cámara**, es necesario que sus **labios se muevan al ritmo del audio** para que el resultado sea creíble, inmersivo y de calidad cinematográfica.
+Esto eleva el nivel visual de tu app y la acerca más a una producción real de cine o animación.
+
+---
+
+## 🎭 Dos tecnologías distintas para lip-sync
+
+### 1. **SadTalker**
+
+* Es una IA que **toma una imagen fija** (como una LoRA o un render de Stable Diffusion) y **anima la cara completa**: mueve labios, ojos, cabeza y cuello para que parezca que el personaje habla realmente.
+* Es ideal para escenas donde no existe un video previo del personaje hablando.
+* Permite expresividad emocional (miedo, sorpresa, dulzura...).
+* Sirve tanto para estilo realista como anime o cartoon si la imagen fue entrenada bien.
+
+✅ Ideal para:
+
+* Primeros planos o planos medios de un personaje generado con IA.
+* Escenas donde el personaje mira a cámara y habla.
+* Escenas con narrativa emocional o expresiva.
+
+---
+
+### 2. **Wav2Lip**
+
+* Es una IA que **toma un video ya existente** (por ejemplo, un clip generado con AnimateDiff o Kling) y le agrega movimiento de labios sincronizado al audio.
+* Solo mueve los labios, no toca los ojos ni el cuello ni la expresión.
+* Es muy preciso sincronizando la voz, pero no modifica el resto del rostro.
+* Requiere que el video muestre claramente la boca del personaje, y que la cabeza no se mueva mucho.
+
+✅ Ideal para:
+
+* Escenas ya generadas en video donde el personaje aparece en pantalla y está hablando.
+* Clips en los que el personaje está relativamente estático (sin mucho movimiento de cámara o cabeza).
+* Casos donde quieres mantener el estilo del video pero solo corregir la boca.
+
+---
+
+## 🧠 Lógica de uso en Storyteller AI (sistema híbrido inteligente)
+
+### Tu app debe hacer lo siguiente por cada escena del video:
+
+#### 1. Detectar si hay diálogo
+
+* Si la escena contiene un texto hablado (como un “voiceLine” o “dialogue”), entonces se considera candidata para lip-sync.
+
+#### 2. Identificar el tipo de contenido original de esa escena
+
+* Si se trata de una imagen generada con LoRA, SDXL u otra IA → es una imagen.
+* Si se trata de un video generado (Kling, Runway, AnimateDiff) → es un video.
+
+#### 3. Evaluar si el personaje aparece en cámara
+
+* Si la escena describe un primer plano, plano medio o el personaje está mirando a cámara, se considera válida para aplicar lip-sync.
+
+#### 4. Decidir cuál modelo usar:
+
+| Situación de la escena                                | Tecnología que se usa |
+| ----------------------------------------------------- | --------------------- |
+| Imagen fija con personaje mirando a cámara y hablando | ✅ SadTalker           |
+| Video generado con personaje visible y hablando       | ✅ Wav2Lip             |
+| Imagen sin personaje visible o sin diálogo            | ❌ No se aplica nada   |
+| Video de fondo sin personaje o sin diálogo            | ❌ No se aplica nada   |
+
+---
+
+## 🌀 Flujo natural en tu app
+
+1. El usuario escribe un prompt narrativo.
+2. Tu sistema genera un `timeline` dividido por segundos.
+3. Cada escena indica si hay diálogo, qué personaje habla, y cómo es la cámara.
+4. Tu backend analiza:
+
+   * Si hay voz + personaje en cámara
+   * Si es una imagen o un video
+5. Entonces:
+
+   * Si es una imagen → genera el clip con SadTalker.
+   * Si es un video → mejora el clip con Wav2Lip.
+6. El resultado se une con el resto del video en el `RenderPipeline`.
+
+---
+
+## 💡 Casos reales de uso en tu app
+
+### Caso A: Estilo cinematográfico
+
+* Escena: Primer plano del protagonista confesando algo emotivo.
+* Generas una imagen LoRA + voz emocional → usas **SadTalker**.
+
+### Caso B: Video con estilo acción o movimiento
+
+* Escena: Secuencia de acción con cámara lenta y personaje gritando una orden.
+* Generas video con AnimateDiff + voz → usas **Wav2Lip** para que grite de verdad.
+
+### Caso C: Voz en off o narrador
+
+* Escena: Vista del paisaje con narración reflexiva.
+* No hay personaje visible → **no aplicas lip-sync**.
+
+---
+
+## 🎯 Ventajas de esta estrategia híbrida
+
+* Maximiza realismo y coherencia visual.
+* No sobrecarga el sistema aplicando lip-sync innecesario.
+* Usa lo mejor de cada herramienta según el tipo de escena.
+* Te diferencia totalmente de otras apps tipo Pollo AI (que solo hacen uno u otro, y sin lógica narrativa).
+
+---

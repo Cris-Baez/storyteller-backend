@@ -58,16 +58,53 @@ export interface TimelineSecond {
   sceneMood?: string;        // estado de ánimo de la escena
   transition: string;        // tipo de transición
   // Extensiones pipeline avanzado:
+  /**
+   * Tipo de lip-sync a aplicar en la escena.
+   * 'none' = no aplicar, 'sadtalker' = imagen animada, 'wav2lip' = video con labios sincronizados
+   */
+  lipSyncType?: 'none' | 'sadtalker' | 'wav2lip';
+  /**
+   * Acting/emoción dominante para la animación facial.
+   * Ej: 'neutral', 'happy', 'sad', 'angry', 'surprised', etc.
+   */
+  acting?: 'neutral' | 'happy' | 'sad' | 'angry' | 'surprised' | 'fear' | 'disgust' | 'contempt' | 'excited';
+  /**
+   * Tipo de contenido base: 'image' (LoRA, SDXL, etc.) o 'video' (Runway, AnimateDiff, etc.)
+   */
+  contentType?: 'image' | 'video';
+  /**
+   * Estilo visual de la escena: 'cinematic', 'realistic', 'anime', 'cartoon'
+   */
+  style?: 'cinematic' | 'realistic' | 'anime' | 'cartoon';
   lora?: string | null;
   loraScale?: number;
   seed?: number | string;
   modelOrder?: string[];
+  /**
+   * Overlays visuales (PNG, SVG, etc.) a aplicar en este segundo
+   */
+  overlays?: Array<{
+    path: string;
+    x?: number;
+    y?: number;
+    opacity?: number;
+  }>;
+  /**
+   * LUTs de color a aplicar en este segundo
+   */
+  luts?: Array<{
+    path: string;
+    intensity?: number;
+  }>;
 }
 
 /* → Plan completo que genera llmService */
 
 // Contrato avanzado para VideoPlan (pipeline v7+)
 export interface VideoPlan {
+  /**
+   * Timeline enriquecido: cada segundo puede tener lipSyncType, acting, contentType y style
+   */
   timeline: TimelineSecond[];  // length === duration
   metadata: {
     mode: string;              // modo de renderizado

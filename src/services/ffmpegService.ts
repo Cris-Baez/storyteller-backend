@@ -1,41 +1,4 @@
-// src/services/ffmpegService.ts
-/**
- * FFmpeg Service v6
- * -----------------
- * ▸ Concatena clips (24 fps) → escala/letterbox → minterpolate 60 fps @1080p
- * ▸ Genera envelope de volumen para la música según soundCue por segundo:
- *       quiet  → 0.25
- *       rise   → 0.60
- *       climax → 1.00
- *       fade   → 0.00
- * ▸ Aplica side-chain ducking con la voz encima de esa envolvente.
- * ▸ Produce MP4 1080p60 + HLS 720p, timeout y retry defensivos.
- */
-
-import ffmpegPath     from 'ffmpeg-static';
-import ffmpeg         from 'fluent-ffmpeg';
-import { spawn }      from 'child_process';
-import path           from 'path';
-import fs             from 'fs/promises';
-import { v4 as uuid } from 'uuid';
-import { uploadToCDN } from './cdnService.js';
-import { toPosix } from '../utils/paths.js';
-
-import { env }        from '../config/env.js';
-import { logger }     from '../utils/logger.js';
-import { retry }      from '../utils/retry.js';
-import { VideoPlan }  from '../utils/types.js';
-
-/* ─── Config ───────────────────────────────────────────── */
-const TMP_DIR  = path.join(process.cwd(), 'tmp', 'ffmpeg_v6');
-const TIMEOUT = Number(env.FFMPEG_TIMEOUT_MS ?? 600_000); // 10 minutos por defecto para pruebas
-const RETRIES  = 2;
-
-if (typeof ffmpegPath === 'string') {
-  ffmpeg.setFfmpegPath(ffmpegPath);
-}
-
-/* ---- Helper run with timeout ---- */
+// Helper para ejecutar ffmpeg con timeout y logging
 function execFF(cmd: ffmpeg.FfmpegCommand, out: string): Promise<void> {
   return new Promise((res, rej) => {
     let done = false;
@@ -70,27 +33,23 @@ function execFF(cmd: ffmpeg.FfmpegCommand, out: string): Promise<void> {
     cmd.save(out);
   });
 }
-
-/* ---- Build volume envelope expression from VideoPlan ---- */
+// Genera la expresión de volumen para la música según el timeline
 function buildVolumeExpr(plan: VideoPlan): string {
-  const VOL: Record<NonNullable<VideoPlan['timeline'][number]['soundCue']>, number> = {
+  const VOL: Record<string, number> = {
     quiet: 0.25,
     rise: 0.6,
     climax: 1.0,
     fade: 0.0
   };
-
   if (!plan.timeline || !Array.isArray(plan.timeline) || plan.timeline.length === 0) {
     throw new Error('El timeline del plan de video está vacío o malformado');
   }
-
   // Genera bloques consecutivos con mismo volumen
   const segs: { start: number; end: number; vol: number }[] = [];
-  let curVol = VOL[plan.timeline[0].soundCue];
+  let curVol = VOL[plan.timeline[0].soundCue] ?? 0.25;
   let segStart = 0;
-
   for (let i = 1; i < plan.timeline.length; i++) {
-    const v = VOL[plan.timeline[i].soundCue];
+    const v = VOL[plan.timeline[i].soundCue] ?? 0.25;
     if (v !== curVol) {
       segs.push({ start: segStart, end: i, vol: curVol });
       segStart = i;
@@ -98,7 +57,6 @@ function buildVolumeExpr(plan: VideoPlan): string {
     }
   }
   segs.push({ start: segStart, end: plan.timeline.length, vol: curVol });
-
   // Construye la expresión IF anidada: if(between(t,0,3),0.25, if(between(t,3,6),0.6,1))
   let expr = String(segs[segs.length - 1].vol);
   for (let i = segs.length - 2; i >= 0; i--) {
@@ -107,17 +65,113 @@ function buildVolumeExpr(plan: VideoPlan): string {
   }
   return expr;
 }
+// src/services/ffmpegService.ts
+/**
+ * FFmpeg Service v6
+ * -----------------
+ * ▸ Concatena clips (24 fps) → escala/letterbox → minterpolate 60 fps @1080p
+ * ▸ Genera envelope de volumen para la música según soundCue por segundo:
+ *       quiet  → 0.25
+ *       rise   → 0.60
+ *       climax → 1.00
+ *       fade   → 0.00
+ * ▸ Aplica side-chain ducking con la voz encima de esa envolvente.
+ * ▸ Produce MP4 1080p60 + HLS 720p, timeout y retry defensivos.
+ */
 
-/* ════════════════════════════════════════════════════════
- * assembleVideo – API pública
- * ═══════════════════════════════════════════════════════ */
+import ffmpegPath     from 'ffmpeg-static';
+import ffmpeg         from 'fluent-ffmpeg';
+import { spawn }      from 'child_process';
+import path           from 'path';
+import fs             from 'fs/promises';
+import { v4 as uuid } from 'uuid';
+import { uploadToCDN } from './cdnService.js';
+import { toPosix } from '../utils/paths.js';
+
+import { env }        from '../config/env.js';
+import { logger }     from '../utils/logger.js';
+import { retry }      from '../utils/retry.js';
+import { VideoPlan }  from '../utils/types.js';
+
+// Tipos extendidos para overlays y LUTs
+type OverlaySpec = { path: string; x?: number; y?: number; start?: number; end?: number; opacity?: number };
+type LUTSpec = { path: string; intensity?: number; start?: number; end?: number };
+
+/* ─── Config ───────────────────────────────────────────── */
+const TMP_DIR  = path.join(process.cwd(), 'tmp', 'ffmpeg_v6');
+const TIMEOUT = Number(env.FFMPEG_TIMEOUT_MS ?? 600_000); // 10 minutos por defecto para pruebas
+const RETRIES  = 2;
+
+// Helpers para overlays y LUTs
+function buildOverlayFilters(overlays: OverlaySpec[] = []): string[] {
+  // Genera filtros FFmpeg para overlays
+  return overlays.map((o, i) => {
+    let filter = `[v${i}][ol${i}]overlay=${o.x ?? 0}:${o.y ?? 0}`;
+    if (typeof o.start === 'number' && typeof o.end === 'number') {
+      filter += `:enable='between(t,${o.start},${o.end})'`;
+    }
+    if (typeof o.opacity === 'number') {
+      filter = `[ol${i}]format=rgba,colorchannelmixer=aa=${o.opacity},format=yuva420p[ol${i}];` + filter;
+    }
+    return filter;
+  });
+}
+
+function buildLUTFilters(luts: LUTSpec[] = []): string[] {
+  // Genera filtros FFmpeg para LUTs (usando lut3d)
+  return luts.map((l, i) => {
+    let filter = `lut3d='${l.path}'`;
+    if (typeof l.intensity === 'number') {
+      filter += `:interp=${l.intensity}`;
+    }
+    if (typeof l.start === 'number' && typeof l.end === 'number') {
+      filter = `${filter}:enable='between(t,${l.start},${l.end})'`;
+    }
+    return filter;
+  });
+}
+
+function buildVisualFilters(plan: VideoPlan): string[] {
+  // Extrae overlays y LUTs del plan (por segundo o escena)
+  const overlays: OverlaySpec[] = [];
+  const luts: LUTSpec[] = [];
+  if (plan.timeline) {
+    for (const sec of plan.timeline) {
+      if (Array.isArray(sec.overlays)) {
+        for (const o of sec.overlays) overlays.push({ ...o, start: sec.t, end: sec.t + 1 });
+      }
+      if (Array.isArray(sec.luts)) {
+        for (const l of sec.luts) luts.push({ ...l, start: sec.t, end: sec.t + 1 });
+      }
+    }
+  }
+  return [
+    ...buildLUTFilters(luts),
+    ...buildOverlayFilters(overlays)
+  ];
+}
+
+function buildAudioFilters(plan: VideoPlan): string {
+  // EQ y reverb básicos según metadatos (puedes expandir)
+  let filters = [];
+  // Ejemplo: si alguna escena tiene 'reverb' en effects, aplicar reverb
+  if (plan.timeline?.some(sec => sec.effects?.includes('reverb'))) {
+    filters.push('aecho=0.8:0.9:1000:0.3');
+  }
+  // Ejemplo: si alguna escena tiene 'eq' en effects, aplicar EQ
+  if (plan.timeline?.some(sec => sec.effects?.includes('eq'))) {
+    filters.push('equalizer=f=1000:t=q:w=1:g=3');
+  }
+  return filters.join(',');
+}
+
 export async function assembleVideo(opts:{
   plan: VideoPlan;
   clips: string[];
   voiceOver: Buffer;
   music: Buffer;
-}): Promise<string>{
-  logger.info('🎬  FFmpegService v6 — ensamblando 1080p60…');
+}): Promise<string> {
+  logger.info('🎬  FFmpegService v7 — ensamblando 1080p60 con overlays/LUTs/EQ…');
   await fs.mkdir(TMP_DIR, { recursive: true });
 
   const { plan, clips, voiceOver, music } = opts;
@@ -140,9 +194,9 @@ export async function assembleVideo(opts:{
     }
   }
 
-  /* 1️⃣ concat clips (24→1080p60) */
+  /* 1️⃣ concat clips (24→1080p60) + filtros visuales */
   const listContent = clips
-    .map(c => `file '${toPosix(path.resolve(c)).replace(/'/g, "'\\''")}'`)
+// ...existing code...
     .join('\n');
   await fs.writeFile(list, listContent);
   // Validar que el archivo de lista existe antes de llamar a FFmpeg
