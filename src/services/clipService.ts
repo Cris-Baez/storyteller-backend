@@ -135,13 +135,29 @@ function supports(m: string, d: number) {
   return true;
 }
 
-// timeline → segmentos de 5 s
-interface Segment { start:number; end:number; secs:TimelineSecond[]; dur:number; }
-function segment(tl: TimelineSecond[]): Segment[] {
+// Segmentación avanzada: corta por diálogo, cambios de escena o duración máxima
+interface Segment { start:number; end:number; secs:TimelineSecond[]; dur:number; hasDialogue:boolean; }
+function smartSegment(tl: TimelineSecond[], maxDur: number): Segment[] {
   const out: Segment[] = [];
-  for (let i = 0; i < tl.length; i += 5) {
-    const end = Math.min(i+4, tl.length-1);
-    out.push({ start:i, end, secs:tl.slice(i,end+1), dur:end-i+1 });
+  let i = 0;
+  while (i < tl.length) {
+    let end = Math.min(i + maxDur - 1, tl.length - 1);
+    // Si hay diálogo en el rango, corta justo antes o después
+    let hasDialogue = false;
+    for (let j = i; j <= end; j++) {
+      if (tl[j].lipSyncType && tl[j].lipSyncType !== 'none') {
+        end = j; // corta el segmento en el diálogo
+        hasDialogue = true;
+        break;
+      }
+    }
+    // Si el siguiente frame tiene diálogo, corta antes
+    if (!hasDialogue && end + 1 < tl.length && tl[end + 1].lipSyncType && tl[end + 1].lipSyncType !== 'none') {
+      end = end; // ya está bien
+    }
+    const seg = { start: i, end, secs: tl.slice(i, end + 1), dur: end - i + 1, hasDialogue };
+    out.push(seg);
+    i = end + 1;
   }
   return out;
 }
@@ -198,7 +214,8 @@ function promptOf(seg: Segment, style: string, plan: VideoPlan) {
 
 // API principal
 
-export async function generateClips(plan: VideoPlan): Promise<string[]> {
+// mode: 'free' (solo Replicate) | 'premium' (mejores motores)
+export async function generateClips(plan: VideoPlan, mode: 'free' | 'premium' = 'free'): Promise<string[]> {
   // Validación estricta: el prompt del usuario debe estar siempre en metadata.prompt
   if (!plan.metadata || typeof plan.metadata.prompt !== 'string' || !plan.metadata.prompt.trim()) {
     logger.error('[ClipService] FALTA prompt en plan.metadata.prompt. plan.metadata=' + JSON.stringify(plan.metadata));
@@ -208,29 +225,43 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
   const lim  = pLimit(Number(env.GEN2_CONCURRENCY ?? 3));
   // Determinar duración total
   const totalSeconds = plan.timeline.length;
-  // Calcular segmentos óptimos (puedes mejorar allowedModels según lógica de negocio)
-  const allowedModels = [
-    'runway/gen4_turbo',
-    'bytedance/seedance-1-pro',
-    'luma/ray-2-720p',
-    'pixverse/pixverse-v4.5',
-    'minimax/video-01-director',
-    ...BACKUP
-  ];
+  // Selección de modelos según modo
+  let allowedModels: string[];
+  if (mode === 'free') {
+    // Solo modelos de Replicate (Pixverse, Minimax, Bytedance Lite, etc.)
+    allowedModels = [
+      'pixverse/pixverse-v4.5',
+      'minimax/video-01-director',
+      'bytedance/seedance-1-lite',
+      'minimax/hailuo-02',
+      'luma/ray-flash-2-540p',
+    ];
+  } else {
+    // Premium: todos los mejores motores
+    allowedModels = [
+      'google/veo-3',
+      'runway/gen4_turbo',
+      'luma/ray-2-720p',
+      'bytedance/seedance-1-pro',
+      'pixverse/pixverse-v4.5',
+      'minimax/video-01-director',
+      ...BACKUP
+    ];
+  }
   const segments = optimalSegments(totalSeconds, allowedModels);
-  logger.info(`→ Segmentos óptimos: ${segments.map(s=>`${s.model}(${s.duration}s)`).join(' + ')}`);
+  logger.info(`→ Segmentos óptimos (${mode}): ${segments.map(s=>`${s.model}(${s.duration}s)`).join(' + ')}`);
 
-  // Mapear segmentos a timeline
+  // Segmentación avanzada: corta por diálogo y cambios de escena, y respeta duración máxima del modelo
   let t = 0;
   const segs: { model: string, seg: Segment }[] = [];
   for (const s of segments) {
-    const seg: Segment = {
-      start: t,
-      end: t + s.duration - 1,
-      secs: plan.timeline.slice(t, t + s.duration),
-      dur: s.duration
-    };
-    segs.push({ model: s.model, seg });
+    // Busca el máximo permitido por el modelo, pero corta si hay diálogo o cambio de escena
+    const segList = smartSegment(plan.timeline.slice(t, t + s.duration), s.duration);
+    for (const seg of segList) {
+      // Ajusta los índices al timeline global
+      const segGlobal = { ...seg, start: t + seg.start, end: t + seg.end };
+      segs.push({ model: s.model, seg: segGlobal });
+    }
     t += s.duration;
   }
 
@@ -242,20 +273,23 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
         logger.error(`[ClipService] FALTA prompt en metadata al generar segmento ${seg.start}-${seg.end}. plan.metadata=` + JSON.stringify(plan.metadata));
         throw new Error(`Falta prompt en metadata.prompt en segmento ${seg.start}-${seg.end}`);
       }
+      // Consistencia visual y de personaje
       const style = plan.metadata.visualStyle;
       const segMeta = seg.secs[0] || {};
       const lora = segMeta.lora ?? plan.metadata.lora;
       const loraScale = segMeta.loraScale ?? plan.metadata.loraScale;
       const seed = segMeta.seed ?? plan.metadata.seed;
-      // Preparar imágenes base si existen (stub: puedes conectar pipeline SDXL+LoRA aquí)
-      const baseImages = plan.metadata.baseImages || [];
-      // Determinar tipo de clip
+      // Imagen base obligatoria si existe
+      const baseImages = plan.metadata.baseImages && plan.metadata.baseImages.length > 0
+        ? plan.metadata.baseImages
+        : (plan.metadata.characterImage ? [plan.metadata.characterImage] : []);
+      // Tipo de clip y estilo fijo
       const type = plan.metadata.type || m;
-      // ¿Hay diálogo?
-      const hasDialogue = !!seg.secs.find(s => s.lipSyncType && s.lipSyncType !== 'none');
+      // ¿Hay diálogo? (segmentación avanzada ya lo marca)
+      const hasDialogue = seg.hasDialogue;
       // Personaje LoRA
       const loraCharacter: string | undefined = segMeta.lora ?? plan.metadata.lora ?? undefined;
-      // Prompt avanzado
+      // Prompt avanzado: fuerza estilo y look
       const prompt = promptOf(seg, style, plan);
       // Llamar al engine multi-motor
       const videoResult = await generateVideoByType({
