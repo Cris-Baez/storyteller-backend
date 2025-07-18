@@ -53,6 +53,16 @@ export interface TimelineSecond {
   voiceLine?: string;        // narración VO en ese segundo
   soundCue: string;          // cue de sonido
   effects?: string;          // efectos especiales
+  /**
+   * SFX avanzados: lista de efectos de sonido a superponer en este segundo
+   */
+  sfx?: Array<{
+    name: string; // ejemplo: "pasos", "viento", "fuego"
+    file: string; // ruta o id del asset
+    volume?: number; // 0-1
+    offset?: number; // ms dentro del segundo
+    duration?: number; // ms
+  }>;
   assets?: string[];         // props/elementos visuales (opcional)
   highlight: boolean;        // resaltar este segundo
   sceneMood?: string;        // estado de ánimo de la escena
@@ -111,11 +121,39 @@ export interface VideoPlan {
     visualStyle: string;       // estilo visual
     duration: AllowedDuration; // duración del video
     modelOrder?: string[];     // orden de preferencia de modelos IA
-    lora?: string | null;      // url o id de LoRA a usar (opcional)
-    loraScale?: number;        // escala LoRA (opcional)
-    seed?: number | string;    // semilla global (opcional)
+    /**
+     * LoRA explícitos para personaje y fondo
+     */
+    characterLora?: string | null;
+    backgroundLora?: string | null;
+    lora?: string | null;      // compatibilidad
+    loraScale?: number;
+    seed?: number | string;
     characters?: CharacterVoiceSpec[];
     music?: MusicSpec | string;
+    /**
+     * Overlays y LUTs globales para todo el video
+     */
+    overlays?: Array<{
+      path: string;
+      x?: number;
+      y?: number;
+      opacity?: number;
+    }>;
+    luts?: Array<{
+      path: string;
+      intensity?: number;
+    }>;
+    /**
+     * SFX globales (ej: viento, ambiente)
+     */
+    sfx?: Array<{
+      name: string;
+      file: string;
+      volume?: number;
+      start?: number;
+      end?: number;
+    }>;
     scenes?: Array<{
       scene: number;
       start: number;
@@ -126,6 +164,10 @@ export interface VideoPlan {
       seed?: number | string;
     }>;
     referenceImages?: string[];
+    /**
+     * Modo demo: fuerza el uso de los mismos assets y guarda todos los outputs
+     */
+    demoMode?: boolean;
     [key: string]: any; // para extensibilidad futura
   };
   storyboard?: string[];
