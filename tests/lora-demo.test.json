@@ -1,0 +1,17 @@
+{
+  "description": "Prueba de integración LoRA personaje y fondo (Samuraifield + TheRockActor)",
+  "request": {
+    "prompt": "A cinematic scene of TheRockActor standing in a realistic samurai village, Samuraifield background, 35mm film, natural lighting, ultra high resolution",
+    "mode": "cinematic",
+    "visualStyle": "realistic",
+    "duration": 10,
+    "metadata": {},
+    "demoMode": true,
+    "lora": "https://replicate.com/cris-baez/loras",
+    "backgroundLora": "https://replicate.com/cris-baez/loras"
+  },
+  "expected": {
+    "url": "",
+    "storyboardUrls": []
+  }
+}

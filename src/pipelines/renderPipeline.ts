@@ -1,5 +1,6 @@
 // src/pipelines/renderPipeline.ts
 import type { RenderRequest, RenderResponse, VideoPlan } from '../utils/types.js';
+import { v4 as uuidv4 } from 'uuid';
 import { createVideoPlan } from '../services/llmService.js';
 import { generateStoryboards } from '../services/storyboardService.js';
 import { generateClips } from '../services/clipService.js';
@@ -15,7 +16,7 @@ import path       from 'path';
 import fetch      from 'node-fetch';
 
 const TIMEOUT = 600_000;         // 10 min para pipeline completo
-const TMP_DIR = '/tmp/pipeline_v7';
+let TMP_DIR = '/tmp/pipeline_v7';
 
 async function withTimeout<T>(p: Promise<T>, ms = TIMEOUT) {
   return Promise.race([
@@ -27,6 +28,20 @@ async function withTimeout<T>(p: Promise<T>, ms = TIMEOUT) {
 export async function runRenderPipeline(req: RenderRequest): Promise<RenderResponse> {
   logger.info('🚀 Pipeline v7 – inicio');
   const t0 = Date.now();
+
+  // --- DEMO MODE: fuerza carpeta única y logging de outputs ---
+  let demoId = '';
+  let demoMode = false;
+  if (req.demoMode || req.metadata?.demoMode) demoMode = true;
+  // Si el VideoPlan generado tiene demoMode, también lo activamos
+
+  if (demoMode) {
+    demoId = uuidv4();
+    TMP_DIR = path.join('/tmp/pipeline_demo', demoId);
+    logger.info(`[DEMO MODE] Carpeta de outputs: ${TMP_DIR}`);
+  } else {
+    TMP_DIR = '/tmp/pipeline_v7';
+  }
   await fs.mkdir(TMP_DIR, { recursive: true });
 
   /* 1. Plan escena‑a‑escena */
@@ -35,6 +50,28 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
     TIMEOUT
   );
   logger.info(`📜 VideoPlan listo (${plan.timeline.length}s)`);
+
+  // --- DEMO MODE: fuerza LoRA, música, overlays, SFX globales ---
+  if (demoMode) {
+    if (plan.metadata.characterLora) {
+      plan.timeline.forEach(sec => { sec.lora = plan.metadata.characterLora; });
+    }
+    if (plan.metadata.backgroundLora) {
+      plan.timeline.forEach(sec => { sec.backgroundLora = plan.metadata.backgroundLora; });
+    }
+    if (plan.metadata.music) {
+      plan.metadata.music = plan.metadata.music;
+    }
+    if (Array.isArray(plan.metadata.overlays)) {
+      plan.timeline.forEach(sec => { sec.overlays = plan.metadata.overlays; });
+    }
+    if (Array.isArray(plan.metadata.luts)) {
+      plan.timeline.forEach(sec => { sec.luts = plan.metadata.luts; });
+    }
+    if (Array.isArray(plan.metadata.sfx)) {
+      plan.timeline.forEach(sec => { sec.sfx = plan.metadata.sfx; });
+    }
+  }
 
   /* 2. Storyboard (Best effort) - Adaptar el procesamiento para soportar VideoPlan.timeline con scene, sceneStart y metadatos enriquecidos */
   // Procesar cada escena/toma por separado si es necesario (por ejemplo, para llamadas a Replicate)
@@ -88,6 +125,14 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
     retry(() => assembleVideo({ plan, clips: localClips, voiceOver: voice, music })),
     TIMEOUT * 2
   );
+
+  // --- DEMO MODE: guardar outputs y logs ---
+  if (demoMode) {
+    await fs.writeFile(path.join(TMP_DIR, 'VideoPlan.json'), Buffer.from(JSON.stringify(plan, null, 2)));
+    await fs.writeFile(path.join(TMP_DIR, 'clips.json'), Buffer.from(JSON.stringify(localClips, null, 2)));
+    await fs.writeFile(path.join(TMP_DIR, 'finalUrl.txt'), Buffer.from(finalUrl));
+    logger.info(`[DEMO MODE] Outputs y logs guardados en ${TMP_DIR}`);
+  }
 
   const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
   logger.info(`✅ Render final OK en ${elapsed}s → ${finalUrl}`);
