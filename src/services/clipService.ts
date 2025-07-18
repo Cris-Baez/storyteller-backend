@@ -74,7 +74,7 @@ function optimalSegments(totalSeconds: number, allowedModels: string[]): { model
 /*──────────────────────── clipService.ts v7.2 ────────────────────────
  * Storyteller AI · ClipService
  * --------------------------------------------------------------------
- * • Genera clips con Replicate.
+ * • Genera clips con arquitectura multi-motor (videoEngine).
  * • Descarga en streaming  → /tmp  → sube a Google Cloud Storage.
  * -------------------------------------------------------------------*/
 
@@ -87,7 +87,7 @@ import { pipeline } from 'stream/promises';
 import { v4 as uuid } from 'uuid';
 import fetch from 'node-fetch';
 import pLimit from 'p-limit';
-import Replicate from 'replicate';
+
 
 import { env } from '../config/env.js';
 import { logger } from '../utils/logger.js';
@@ -99,7 +99,9 @@ import type { VideoPlan, TimelineSecond } from '../utils/types.js';
 const TMP = '/tmp/clips_v7';
 await fs.mkdir(TMP, { recursive: true });
 
-const replicate = new Replicate({ auth: env.REPLICATE_API_TOKEN });
+
+// Importar el nuevo engine multi-motor
+import { generateVideoByType } from './videoEngine.js';
 
 const MODEL = {
   realistic : 'google/veo-3',
@@ -183,82 +185,7 @@ function promptOf(seg: Segment, style: string, plan: VideoPlan) {
 }
 
 
-// Polling robusto para esperar job Replicate y obtener la URL del video
-async function pollReplicateJob(model: string, input: Record<string, any>, maxWaitMs = 600_000, pollIntervalMs = 3500) {
-  logger.info(`🚦 Solicitando generación a Replicate (${model})...`);
-  let prediction;
-  try {
-    prediction = await replicate.predictions.create({
-      version: undefined, // usar última versión
-      model,
-      input,
-      webhook: undefined,
-      stream: false,
-    });
-  } catch (err) {
-    logger.error(`❌ Error creando predicción Replicate: ${(err as Error).message}`);
-    throw err;
-  }
-  logger.info(`🕒 Esperando job Replicate: ${prediction.id}`);
-  const started = Date.now();
-  let status = prediction.status;
-  let output = prediction.output;
-  let lastErr = '';
-  let pollCount = 0;
-  let url: string | undefined = undefined;
-  while (status !== 'succeeded' && status !== 'failed' && status !== 'canceled') {
-    if (Date.now() - started > maxWaitMs) {
-      logger.error(`⏰ Timeout esperando job Replicate (${model}) tras ${(Date.now()-started)/1000}s`);
-      // Si hay una URL válida, permítele continuar aunque haya timeout
-      {
-        const maybeUrl = extractVideoUrl(output);
-        url = maybeUrl === null ? undefined : maybeUrl;
-      }
-      if (url) {
-        logger.warn(`⚠️ Timeout, pero se detectó video generado. Continuando con la URL: ${url}`);
-        break;
-      }
-      throw new Error(`Timeout esperando job Replicate (${model})`);
-    }
-    await new Promise(r => setTimeout(r, pollIntervalMs));
-    pollCount++;
-    try {
-      const poll = await replicate.predictions.get(prediction.id);
-      status = poll.status;
-      output = poll.output;
-      lastErr = typeof poll.error === 'string' ? poll.error : (poll.error ? JSON.stringify(poll.error) : '');
-      logger.info(`🔄 [${model}] Poll #${pollCount}: status=${status}`);
-      if (status === 'processing' || status === 'starting') {
-        if (poll.logs) logger.debug(`   Progreso: ${poll.logs}`);
-        // Si ya hay una URL de video válida, permítele continuar
-        {
-          const maybeUrl = extractVideoUrl(output);
-          url = maybeUrl === null ? undefined : maybeUrl;
-        }
-        if (url) {
-          logger.warn(`⚠️  Status aún en '${status}', pero se detectó video generado. Continuando con la URL: ${url}`);
-          break;
-        }
-      }
-    } catch (err) {
-      logger.warn(`⚠️  Error polling Replicate: ${(err as Error).message}`);
-    }
-  }
-  if (status !== 'succeeded' && !url) {
-    logger.error(`❌ Job Replicate falló (${model}): ${lastErr || status}`);
-    throw new Error(`Job Replicate falló (${model}): ${lastErr || status}`);
-  }
-  if (!url) {
-    const maybeUrl = extractVideoUrl(output);
-    url = maybeUrl === null ? undefined : maybeUrl;
-  }
-  if (!url) {
-    logger.error(`❌ Respuesta Replicate sin URL de video (${model})`);
-    throw new Error('respuesta sin URL');
-  }
-  logger.info(`🎬 URL de video lista para descargar (${model}): ${url}`);
-  return url;
-}
+
 
 // API principal
 
@@ -268,15 +195,11 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
     logger.error('[ClipService] FALTA prompt en plan.metadata.prompt. plan.metadata=' + JSON.stringify(plan.metadata));
     throw new Error('Falta prompt en metadata.prompt. No se puede generar video sin prompt base.');
   }
-  // Importar Runway solo si es necesario
-  let generateRunwayVideo: any = null;
-  const runwayStyles = ['realistic', 'cinematic', 'commercial'];
-  try {
-    generateRunwayVideo = (await import('./runwayService.js')).generateRunwayVideo;
-  } catch {}
-  logger.info('🎞️ ClipService v8 – start (segmentación óptima)');
+  logger.info('🎞️ ClipService v9 – usando videoEngine multi-motor');
   const lim  = pLimit(Number(env.GEN2_CONCURRENCY ?? 3));
-  // Determinar modelos permitidos según estilo (SOLO modelos baratos, NO veo-3 por defecto)
+  // Determinar duración total
+  const totalSeconds = plan.timeline.length;
+  // Calcular segmentos óptimos (puedes mejorar allowedModels según lógica de negocio)
   const allowedModels = [
     'runway/gen4_turbo',
     'bytedance/seedance-1-pro',
@@ -284,11 +207,7 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
     'pixverse/pixverse-v4.5',
     'minimax/video-01-director',
     ...BACKUP
-    // 'google/veo-3' // solo si el usuario lo pide explícitamente
   ];
-  // Determinar duración total
-  const totalSeconds = plan.timeline.length;
-  // Calcular segmentos óptimos
   const segments = optimalSegments(totalSeconds, allowedModels);
   logger.info(`→ Segmentos óptimos: ${segments.map(s=>`${s.model}(${s.duration}s)`).join(' + ')}`);
 
@@ -319,15 +238,29 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
       const lora = segMeta.lora ?? plan.metadata.lora;
       const loraScale = segMeta.loraScale ?? plan.metadata.loraScale;
       const seed = segMeta.seed ?? plan.metadata.seed;
-      let src: string|undefined;
-      const tryModels = [m, ...allowedModels.filter(mm => mm !== m)];
-      for (const tryModel of tryModels) {
-        logger.info(`[ClipService] Intentando modelo: ${tryModel} para segmento ${seg.start}-${seg.end}`);
-        // ...existing code for model selection and video generation...
-        // (No se repite aquí para brevedad, igual que antes)
-        // Al final, src debe ser la URL del video generado
-        // ...existing code...
-      }
+      // Preparar imágenes base si existen (stub: puedes conectar pipeline SDXL+LoRA aquí)
+      const baseImages = plan.metadata.baseImages || [];
+      // Determinar tipo de clip
+      const type = plan.metadata.type || m;
+      // ¿Hay diálogo?
+      const hasDialogue = !!seg.secs.find(s => s.lipSyncType && s.lipSyncType !== 'none');
+      // Personaje LoRA
+      const loraCharacter = lora;
+      // Prompt avanzado
+      const prompt = promptOf(seg, style, plan);
+      // Llamar al engine multi-motor
+      const videoResult = await generateVideoByType({
+        prompt,
+        type,
+        style,
+        hasDialogue,
+        loraCharacter,
+        baseImages,
+        seed,
+        duration: seg.dur,
+        // Puedes pasar más campos según lo requiera el engine/modelo
+      });
+      const src = videoResult?.url;
       if (!src) {
         logger.error(`× sin clip ${seg.start}-${seg.end}`);
         return;
@@ -373,13 +306,10 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
         return;
       }
 
-
       // --- Lógica de lip-sync avanzada ---
-      // Revisar si algún segundo del segmento requiere lip-sync
       const lipSyncType = seg.secs.find(s => s.lipSyncType && s.lipSyncType !== 'none')?.lipSyncType;
       const acting = seg.secs.find(s => s.acting)?.acting;
       const styleLip = seg.secs.find(s => s.style)?.style;
-      // Buscar el archivo de audio correspondiente (stub: usar el mismo video por ahora)
       const audioPath = fn; // En integración real, aquí deberías pasar la ruta del audio de voz
       if (lipSyncType) {
         logger.info(`[LipSync] Segmento ${seg.start}-${seg.end} requiere lip-sync: ${lipSyncType}`);
@@ -428,5 +358,4 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
   })));  
   logger.info('✅ Total clips: ' + urls.length);
   return urls;
-}
 
