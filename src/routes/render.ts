@@ -1,6 +1,7 @@
 import express from 'express';
 import { startJob, getJobStatus, getJobResult } from '../jobs/jobQueue.js';
 import { z } from 'zod';
+import { logger } from '../utils/logger.js';
 
 export const renderRouter = express.Router();
 
@@ -29,9 +30,8 @@ renderRouter.post('/', async (req, res) => {
         .replace(/[^\x00-\x7F]/g, "") // Eliminar caracteres no ASCII
         .replace(/\s+/g, " ") // Normalizar espacios
         .trim();
-      
-      // Si después de la sanitización queda muy corto, usar un prompt por defecto
       if (req.body.prompt.length < 10) {
+        logger.warn('Prompt demasiado corto, usando prompt por defecto.');
         req.body.prompt = "Create a cinematic story about a character's journey through an epic adventure";
       }
     }

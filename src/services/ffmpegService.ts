@@ -196,7 +196,7 @@ export async function assembleVideo(opts:{
 
   /* 1️⃣ concat clips (24→1080p60) + filtros visuales */
   const listContent = clips
-// ...existing code...
+    .map(c => `file '${toPosix(c)}'`)
     .join('\n');
   await fs.writeFile(list, listContent);
   // Validar que el archivo de lista existe antes de llamar a FFmpeg

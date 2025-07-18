@@ -1,3 +1,12 @@
+// Extiende RenderRequest para Cinema AI (campos extra para engines modernos)
+type RenderRequestExtended = RenderRequest & {
+  type?: string;
+  style?: string;
+  hasDialogue?: boolean;
+  loraCharacter?: string;
+  baseImages?: string[];
+  seed?: number | string;
+};
 // Tabla de capacidades de modelos IA (julio 2025)
 // Puedes actualizar esto fácilmente si hay nuevos modelos o cambios
 const MODEL_CAPABILITIES: Record<string, { durations: number[], quality: number, notes?: string }> = {
@@ -94,7 +103,7 @@ import { logger } from '../utils/logger.js';
 import { applySadTalker } from './sadtalkerService.js';
 import { applyWav2Lip } from './wav2lipService.js';
 import { extractVideoUrl } from '../utils/extractVideoUrl.js';
-import type { VideoPlan, TimelineSecond } from '../utils/types.js';
+import type { VideoPlan, TimelineSecond, AllowedDuration, RenderRequest } from '../utils/types.js';
 
 const TMP = '/tmp/clips_v7';
 await fs.mkdir(TMP, { recursive: true });
@@ -245,7 +254,7 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
       // ¿Hay diálogo?
       const hasDialogue = !!seg.secs.find(s => s.lipSyncType && s.lipSyncType !== 'none');
       // Personaje LoRA
-      const loraCharacter = lora;
+      const loraCharacter: string | undefined = segMeta.lora ?? plan.metadata.lora ?? undefined;
       // Prompt avanzado
       const prompt = promptOf(seg, style, plan);
       // Llamar al engine multi-motor
@@ -257,9 +266,8 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
         loraCharacter,
         baseImages,
         seed,
-        duration: seg.dur,
-        // Puedes pasar más campos según lo requiera el engine/modelo
-      });
+        duration: seg.dur as AllowedDuration,
+      } as RenderRequestExtended);
       const src = videoResult?.url;
       if (!src) {
         logger.error(`× sin clip ${seg.start}-${seg.end}`);
@@ -358,4 +366,10 @@ export async function generateClips(plan: VideoPlan): Promise<string[]> {
   })));  
   logger.info('✅ Total clips: ' + urls.length);
   return urls;
+}
+
+// Asegúrate de que AllowedDuration solo esté definido en utils/types
+// Elimina cualquier declaración duplicada
+
+// Importa solo una vez los tipos necesarios
 

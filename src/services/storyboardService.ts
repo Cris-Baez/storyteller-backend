@@ -268,9 +268,9 @@ export async function generateStoryboards(plan: VideoPlan): Promise<string[]> {
         // Validar accesibilidad del CDN
         try {
           const axiosMod = (await import('axios')).default;
-          await axiosMod.head(publicUrl, { timeout: 10000 });
+          await retry(() => axiosMod.head(publicUrl, { timeout: 10000 }), 3);
           logger.info(`✅ Storyboard accesible en CDN: ${publicUrl}`);
-          urls.push(publicUrl); // Solo añadir si la subida y validación son exitosas
+          urls.push(publicUrl);
         } catch {
           logger.warn(`⚠️  Storyboard no accesible en CDN (HEAD fail): ${publicUrl}`);
           // No lanzar error aquí para no detener todo el proceso

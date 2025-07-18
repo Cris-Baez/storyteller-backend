@@ -2,7 +2,7 @@
 // Arquitectura multi-motor para CinemaAI (Wan-Video, Hunyuan, Runway, AnimateDiff, SadTalker, Replicate)
 // No rompe tu backend actual. Listo para conectar nuevos modelos cuando los instales.
 
-import type { RenderRequest } from '../utils/types';
+import type { RenderRequest } from '../utils/types.js';
 
 // Stubs/adaptadores (puedes implementar cada uno cuando instales el modelo)
 const wanVideoService = { generate: async (params: any) => { throw new Error('Wan-Video no instalado'); } };

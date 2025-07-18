@@ -71,7 +71,7 @@ app.post('/api/compile', async (req, res) => {
 app.use(
   (err: Error, _req: Request, res: Response, _next: NextFunction) => {
     logger.error(`Unhandled Error: ${err.message}\n${err.stack}`);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error', details: err.message });
   }
 );
 
