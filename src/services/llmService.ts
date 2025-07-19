@@ -50,17 +50,17 @@ function withTimeout<T>(p: Promise<T>, ms = TIMEOUT_MS): Promise<T> {
 
 // Lista de fondos y actores disponibles (edítala según tus assets locales)
 const FONDOS = [
-  "escenario_japon_frontal.png",
-  "escenario_japon_lateral.png",
-  "escenario_japon_aerea.png",
-  "escenario_japon_ventana.png",
-  "escenario_japon_entrada.png",
-  "escenario_japon_interior.png",
-  "escenario_japon_noche.png",
-  "escenario_japon_suelo.png"
+  "escenario_japon_frontal.jpg",
+  "escenario_japon_lateral.jpg",
+  "escenario_japon_aerea.jpg",
+  "escenario_japon_ventana.jpg",
+  "escenario_japon_entrada.jpg",
+  "escenario_japon_interior.jpg",
+  "escenario_japon_noche.jpg",
+  "escenario_japon_suelo.jpg"
 ];
 const ACTORES = [
-  "actor_prueba_1.png"
+  "actor_prueba_1.jpg"
 ];
 
 function buildSystemPrompt(visualStyle: string, duration: number, mode: string) {
