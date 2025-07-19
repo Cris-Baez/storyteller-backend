@@ -11102,3 +11102,155 @@ video:4853kB audio:73kB subtitle:0kB other streams:0kB global headers:0kB muxing
 2025-07-18T21:34:28.195Z [error] [ClipService] Error inesperado en segmento 8-15: Replicate no devolvió URL de video
 2025-07-18T21:34:28.607Z [error] [ClipService] Error inesperado en segmento 16-23: Replicate no devolvió URL de video
 2025-07-18T21:34:28.752Z [error] [ClipService] Error inesperado en segmento 0-7: Replicate no devolvió URL de video
+2025-07-19T16:39:03.732Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-19T16:40:18.869Z [info] ::1 - - [19/Jul/2025:16:40:18 +0000] "POST /render HTTP/1.1" 404 146 "-" "curl/8.6.0"
+2025-07-19T16:40:31.593Z [info] ::1 - - [19/Jul/2025:16:40:31 +0000] "POST /render HTTP/1.1" 404 146 "-" "curl/8.6.0"
+2025-07-19T16:40:49.249Z [info] ::1 - - [19/Jul/2025:16:40:49 +0000] "POST /render/ HTTP/1.1" 404 147 "-" "curl/8.6.0"
+2025-07-19T16:41:14.739Z [info] ::1 - - [19/Jul/2025:16:41:14 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-19T16:41:14.742Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-19T16:41:14.743Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-19T16:41:14.743Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-19T16:41:14.745Z [info] 🎬 Prompt limpio: Un samuri solitario recorre las calles de Kioto bajo la lluvia, buscando redencin....
+2025-07-19T16:41:47.735Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "El samurái inicia su caminata bajo la lluvia.",
+      "background": "escenario_japon_entrada.jpg",
+      "character": "actor_prueba_1.jpg",
+     ...
+2025-07-19T16:41:47.735Z [warn] ❌ LLM falló: require is not defined
+2025-07-19T16:41:49.238Z [info] 🎬 Prompt limpio: Un samuri solitario recorre las calles de Kioto bajo la lluvia, buscando redencin....
+2025-07-19T16:42:22.007Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "Un samurái solitario comienza a caminar lentamente por una calle empedrada.",
+      "background": "escenario_japon_entrada.jpg",
+      "character...
+2025-07-19T16:42:22.008Z [warn] ❌ LLM falló: require is not defined
+2025-07-19T16:42:23.509Z [info] 🎬 Prompt limpio: Un samuri solitario recorre las calles de Kioto bajo la lluvia, buscando redencin....
+2025-07-19T16:42:51.577Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "Un samurái solitario camina lentamente bajo la lluvia.",
+      "background": "escenario_japon_entrada.jpg",
+      "character": "actor_prueba_1.jp...
+2025-07-19T16:42:51.579Z [warn] ❌ LLM falló: require is not defined
+2025-07-19T16:47:12.356Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-19T16:47:30.071Z [info] ::1 - - [19/Jul/2025:16:47:30 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-19T16:47:30.074Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-19T16:47:30.075Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-19T16:47:30.075Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-19T16:47:30.077Z [info] 🎬 Prompt limpio: Un samuri solitario recorre las calles de Kioto bajo la lluvia, buscando redencin....
+2025-07-19T16:47:30.078Z [info] 🔄 Probando modelo: openai/gpt-4o
+2025-07-19T16:48:04.413Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "Un samurái solitario camina lentamente por una calle empedrada.",
+      "background": "escenario_japon_entrada.jpg",
+      "character": "actor_pr...
+2025-07-19T16:48:04.418Z [warn] ❌ Modelo openai/gpt-4o falló: ENOENT: no such file or directory, open 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\utils\sceneRules.json'
+2025-07-19T16:48:04.419Z [info] 🔄 Probando modelo: openai/gpt-4-turbo
+2025-07-19T16:48:58.192Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "El samurái camina lentamente bajo la lluvia nocturna.",
+      "background": "escenario_japon_noche.jpg",
+      "character": "actor_prueba_1.jpg",...
+2025-07-19T16:48:58.194Z [warn] ❌ Modelo openai/gpt-4-turbo falló: ENOENT: no such file or directory, open 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\utils\sceneRules.json'
+2025-07-19T16:48:58.195Z [info] 🔄 Probando modelo: anthropic/claude-3-opus
+2025-07-19T16:50:45.362Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "Un samurái camina solitario por una calle de Kioto en penumbra, bajo la lluvia nocturna",
+      "background": "escenario_japon_noche.jpg",
+      ...
+2025-07-19T16:50:45.364Z [warn] ❌ Modelo anthropic/claude-3-opus falló: ENOENT: no such file or directory, open 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\utils\sceneRules.json'
+2025-07-19T16:50:45.365Z [info] 🔄 Probando modelo: anthropic/claude-3-sonnet
+2025-07-19T16:51:28.776Z [info] 📝 Contenido raw: ```json
+{
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "Un samurái solitario camina bajo la lluvia por una calle estrecha de Kioto.",
+      "background": "escenario_japon_lateral.jpg",
+      "c...
+2025-07-19T16:51:28.783Z [warn] ❌ Modelo anthropic/claude-3-sonnet falló: ENOENT: no such file or directory, open 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\dist\utils\sceneRules.json'
+2025-07-19T16:51:28.783Z [info] 🔄 Probando modelo: google/gemini-1.5-pro
+2025-07-19T16:51:34.273Z [warn] ❌ Modelo google/gemini-1.5-pro falló: 400 google/gemini-1.5-pro is not a valid model ID
+2025-07-19T16:51:34.274Z [info] 🔄 Probando modelo: meta/llama-3-70b-instruct
+2025-07-19T16:51:40.220Z [warn] ❌ Modelo meta/llama-3-70b-instruct falló: 400 meta/llama-3-70b-instruct is not a valid model ID
+2025-07-19T16:51:40.221Z [info] 🔄 Probando modelo: mistralai/mixtral-8x22b-instruct
+2025-07-19T16:54:29.105Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-19T16:55:25.066Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-19T16:56:04.147Z [info] ::1 - - [19/Jul/2025:16:56:04 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-19T16:56:04.153Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-19T16:56:04.155Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-19T16:56:04.156Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-19T16:56:04.160Z [info] 🎬 Prompt limpio: Un samuri solitario recorre las calles de Kioto bajo la lluvia, buscando redencin....
+2025-07-19T16:56:04.162Z [info] 🔄 Probando modelo: openai/chatgpt-4o-latest
+2025-07-19T16:56:33.315Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "El samurái solitario aparece caminando lentamente por una calle vacía bajo la lluvia.",
+      "background": "escenario_japon_entrada.jpg",
+      ...
+2025-07-19T16:56:33.320Z [info] 🎞️  VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-19T16:56:33.321Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-19T16:56:33.321Z [info] 🎥 Generando clips con Kling...
+2025-07-19T16:59:57.417Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-19T17:00:04.519Z [info] ::1 - - [19/Jul/2025:17:00:04 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-19T17:00:04.522Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-19T17:00:04.523Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-19T17:00:04.524Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-19T17:00:04.525Z [info] 🎬 Prompt limpio: Un samuri solitario recorre las calles de Kioto bajo la lluvia, buscando redencin....
+2025-07-19T17:00:04.526Z [info] 🔄 Probando modelo: openai/chatgpt-4o-latest
+2025-07-19T17:00:38.159Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "Un samurái solitario aparece bajo la lluvia, de espaldas, caminando lentamente hacia la entrada de un templo.",
+      "background": "escenario_ja...
+2025-07-19T17:00:38.165Z [info] 🎞️  VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-19T17:00:38.165Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-19T17:00:38.165Z [info] 🎥 Generando clips con Kling...
+2025-07-19T17:03:15.043Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-19T17:03:22.610Z [info] ::1 - - [19/Jul/2025:17:03:22 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-19T17:03:22.614Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-19T17:03:22.616Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-19T17:03:22.616Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-19T17:03:22.618Z [info] 🎬 Prompt limpio: Un samuri solitario recorre las calles de Kioto bajo la lluvia, buscando redencin....
+2025-07-19T17:03:22.618Z [info] 🔄 Probando modelo: openai/chatgpt-4o-latest
+2025-07-19T17:03:53.030Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "El samurái solitario aparece caminando lentamente por una calle mojada.",
+      "background": "escenario_japon_entrada.jpg",
+      "character": "...
+2025-07-19T17:03:53.039Z [info] 🎞️  VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-19T17:03:53.040Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-19T17:03:53.041Z [info] 🎥 Generando clips con Kling...
+2025-07-19T17:10:54.060Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-19T17:11:08.797Z [info] ::1 - - [19/Jul/2025:17:11:08 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-19T17:11:08.804Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-19T17:11:08.806Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-19T17:11:08.808Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-19T17:11:08.810Z [info] 🎬 Prompt limpio: Un samuri solitario recorre las calles de Kioto bajo la lluvia, buscando redencin....
+2025-07-19T17:11:08.812Z [info] 🔄 Probando modelo: openai/chatgpt-4o-latest
+2025-07-19T17:11:40.389Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "El samurái aparece de espaldas caminando lentamente por una calle vacía bajo la lluvia.",
+      "background": "escenario_japon_entrada.jpg",
+    ...
+2025-07-19T17:11:40.398Z [info] 🎞️  VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-19T17:11:40.398Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-19T17:11:40.399Z [info] 🎥 Generando clips con Kling...

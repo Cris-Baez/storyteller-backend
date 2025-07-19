@@ -1,13 +1,18 @@
 
 // Servicio para generar clips usando Kling
 import { readFile } from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 
 export async function generateClipsKling(scenes: any[]): Promise<{ finalUrl: string, clips: string[] }> {
   const klingService = await import('./klingService.js');
-  const fondoDescsRaw = await readFile(require.resolve('../config/fondoDescs.json'), 'utf-8');
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  const fondoPath = path.join(__dirname, '../config/fondoDescs.json');
+  const actorPath = path.join(__dirname, '../config/actorDescs.json');
+  const fondoDescsRaw = await readFile(fondoPath, 'utf-8');
   const FONDO_DESCS: Record<string, string> = JSON.parse(fondoDescsRaw);
-  const actorDescsRaw = await readFile(require.resolve('../config/actorDescs.json'), 'utf-8');
+  const actorDescsRaw = await readFile(actorPath, 'utf-8');
   const ACTOR_DESCS: Record<string, string> = JSON.parse(actorDescsRaw);
   const clips: string[] = [];
 

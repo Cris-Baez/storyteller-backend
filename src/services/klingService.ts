@@ -1,42 +1,58 @@
+
 // src/services/klingService.ts
 // Servicio para generar clips usando Kling Elements (Fal.ai)
-import fetch from 'node-fetch';
 
-const KLING_API_KEY = '7485997c-d8f7-4143-b755-7b5789c95aca:6b522f834f33decb1880d5eb1a265bdc';
-const KLING_URL = 'https://api.fal.ai/v1.6/standard/elements/api';
+import { fal } from '@fal-ai/client';
 
+fal.config({ credentials: process.env.FAL_KEY });
 
-interface KlingClipParams {
+type DurationType = '5' | '10';
+type AspectRatioType = '16:9' | '1:1' | '9:16';
+
+export interface KlingClipParams {
   prompt: string;
-  background?: string;
-  character?: string;
-  duration: number;
+  input_image_urls: string[];
+  duration: number | DurationType;
+  aspect_ratio?: string | AspectRatioType;
+  negative_prompt?: string;
   [key: string]: any;
 }
 
-interface KlingApiResponse {
-  video_url?: string;
-  [key: string]: any;
-}
-
-export async function generateKlingClip({ prompt, background, character, duration, ...rest }: KlingClipParams): Promise<string> {
-  const body: KlingClipParams = {
-    prompt,
-    background,
-    character,
-    duration,
-    ...rest
+export interface KlingApiResponse {
+  video?: {
+    url: string;
+    [key: string]: any;
   };
-  const res = await fetch(KLING_URL, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Key ${KLING_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body)
-  });
-  if (!res.ok) throw new Error('Kling API error: ' + (await res.text()));
-  const data = await res.json() as KlingApiResponse;
-  if (!data?.video_url) throw new Error('Kling no devolvió video_url');
-  return data.video_url;
+  [key: string]: any;
 }
+
+export async function generateKlingClip(params: KlingClipParams): Promise<string> {
+  const {
+    prompt,
+    input_image_urls,
+    duration,
+    aspect_ratio,
+    negative_prompt,
+    ...rest
+  } = params;
+
+  // Normalizar duration y aspect_ratio a los literales requeridos
+  const durationStr: DurationType = String(duration) === '10' ? '10' : '5';
+  const aspectRatioStr: AspectRatioType = (aspect_ratio === '1:1' || aspect_ratio === '9:16') ? aspect_ratio as AspectRatioType : '16:9';
+  const negativePromptStr = negative_prompt || 'blur, distort, and low quality';
+
+  const result = await fal.subscribe("fal-ai/kling-video/v1.6/pro/elements", {
+    input: {
+      prompt,
+      input_image_urls,
+      duration: durationStr,
+      aspect_ratio: aspectRatioStr,
+      negative_prompt: negativePromptStr,
+      ...rest
+    },
+    logs: true
+  });
+  if (!result?.data?.video?.url) throw new Error('Kling no devolvió video.url');
+  return result.data.video.url;
+}
+
