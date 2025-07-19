@@ -3459,3 +3459,8 @@ SyntaxError: Unexpected token '�', ...""prompt": �An epic s"... is not valid
 2025-07-18T21:13:46.748Z [error] Murf API error: Request failed with status code 500, Código de estado: 500, Respuesta: {"errorMessage":"Unknown error occurred","errorCode":500}
 2025-07-18T21:13:46.753Z [error] Murf API error: Request failed with status code 500, Código de estado: 500, Respuesta: {"errorCode":500,"errorMessage":"Unknown error occurred"}
 2025-07-18T21:13:46.767Z [error] Murf API error: Request failed with status code 500, Código de estado: 500, Respuesta: {"errorMessage":"Unknown error occurred","errorCode":500}
+2025-07-18T21:31:09.383Z [error] FLUX respuesta inesperada: {}
+2025-07-18T21:31:09.386Z [error] FLUX error: FLUX returned invalid response format
+2025-07-18T21:34:28.195Z [error] [ClipService] Error inesperado en segmento 8-15: Replicate no devolvió URL de video
+2025-07-18T21:34:28.607Z [error] [ClipService] Error inesperado en segmento 16-23: Replicate no devolvió URL de video
+2025-07-18T21:34:28.752Z [error] [ClipService] Error inesperado en segmento 0-7: Replicate no devolvió URL de video

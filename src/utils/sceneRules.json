@@ -1,0 +1,226 @@
+{
+  "tristeza": {
+    "camera": "close-up o plano detalle",
+    "movement": "lento o sin movimiento",
+    "lighting": "luz azul o fría, suave",
+    "transition": "fade lento",
+    "music": "piano triste"
+  },
+  "alegría": {
+    "camera": "plano medio o abierto",
+    "movement": "cámara en mano ligera o dolly-in",
+    "lighting": "luz cálida, natural",
+    "transition": "corte rápido o zoom",
+    "music": "guitarra o percusión suave"
+  },
+  "acción": {
+    "camera": "cámara rápida, ángulos bajos",
+    "movement": "handheld, rápidos paneos",
+    "lighting": "contraste fuerte, luces duras",
+    "transition": "cortes rápidos",
+    "music": "percusión intensa"
+  },
+  "misterio": {
+    "camera": "plano medio, ángulos inclinados",
+    "movement": "paneos lentos",
+    "lighting": "luz tenue, sombras marcadas",
+    "transition": "fade a negro",
+    "music": "sintetizador ambiental"
+  },
+  "romance": {
+    "camera": "plano americano o primer plano",
+    "movement": "traveling suave",
+    "lighting": "luz cálida, dorada",
+    "transition": "disolvencia cruzada",
+    "music": "cuerdas suaves"
+  },
+  "suspenso": {
+    "camera": "plano detalle, ángulos cerrados",
+    "movement": "zoom lento",
+    "lighting": "contraluz, sombras",
+    "transition": "corte brusco",
+    "music": "tensión de cuerdas"
+  },
+  "felicidad": {
+    "camera": "plano general, cámara alta",
+    "movement": "paneo alegre",
+    "lighting": "luz natural, brillante",
+    "transition": "corte limpio",
+    "music": "ukelele, silbidos"
+  },
+  "soledad": {
+    "camera": "plano abierto, personaje aislado",
+    "movement": "estático",
+    "lighting": "luz fría, azul",
+    "transition": "fade lento",
+    "music": "piano suave"
+  },
+  "ira": {
+    "camera": "primerísimo primer plano",
+    "movement": "cámara temblorosa",
+    "lighting": "luces rojas, alto contraste",
+    "transition": "corte abrupto",
+    "music": "percusión fuerte"
+  },
+  "miedo": {
+    "camera": "plano detalle, cámara baja",
+    "movement": "zoom in lento",
+    "lighting": "luz tenue, azulada",
+    "transition": "fade a negro",
+    "music": "drones, sonidos graves"
+  },
+  "esperanza": {
+    "camera": "plano general, cámara ascendente",
+    "movement": "traveling hacia arriba",
+    "lighting": "luz dorada, cálida",
+    "transition": "disolvencia",
+    "music": "cuerdas ascendentes"
+  },
+  "nostalgia": {
+    "camera": "plano medio, filtro sepia",
+    "movement": "paneo lento",
+    "lighting": "luz suave, cálida",
+    "transition": "fade a blanco",
+    "music": "guitarra acústica"
+  },
+  "sorpresa": {
+    "camera": "plano detalle, cámara rápida",
+    "movement": "zoom out brusco",
+    "lighting": "luz intensa, blanca",
+    "transition": "corte súbito",
+    "music": "platillos, stingers"
+  },
+  "ternura": {
+    "camera": "primer plano, cámara estable",
+    "movement": "traveling suave",
+    "lighting": "luz cálida, difusa",
+    "transition": "disolvencia",
+    "music": "piano y cuerdas"
+  },
+  "melancolía": {
+    "camera": "plano general, cámara lenta",
+    "movement": "paneo muy lento",
+    "lighting": "luz azul, baja saturación",
+    "transition": "fade lento",
+    "music": "piano ambiental"
+  },
+  "euforia": {
+    "camera": "plano abierto, cámara en movimiento",
+    "movement": "traveling rápido",
+    "lighting": "luz brillante, saturada",
+    "transition": "corte rápido",
+    "music": "sintetizadores, beats"
+  },
+  "admiración": {
+    "camera": "plano general, cámara ascendente",
+    "movement": "zoom out lento",
+    "lighting": "luz dorada, rayos de sol",
+    "transition": "disolvencia",
+    "music": "cuerdas, coros"
+  },
+  "vergüenza": {
+    "camera": "plano medio, cámara baja",
+    "movement": "ligero temblor",
+    "lighting": "luz tenue, lateral",
+    "transition": "fade rápido",
+    "music": "pizzicato, sonidos cortos"
+  },
+  "culpa": {
+    "camera": "primer plano, cámara fija",
+    "movement": "sin movimiento",
+    "lighting": "luz fría, sombras marcadas",
+    "transition": "fade a negro",
+    "music": "piano grave"
+  },
+  "orgullo": {
+    "camera": "plano americano, cámara ascendente",
+    "movement": "traveling hacia arriba",
+    "lighting": "luz cálida, intensa",
+    "transition": "corte limpio",
+    "music": "trompetas, cuerdas"
+  },
+  "confusión": {
+    "camera": "plano holandés, cámara girando",
+    "movement": "paneo errático",
+    "lighting": "luces de colores, parpadeantes",
+    "transition": "corte abrupto",
+    "music": "sintetizador disonante"
+  },
+  "calma": {
+    "camera": "plano general, cámara estable",
+    "movement": "sin movimiento",
+    "lighting": "luz suave, natural",
+    "transition": "disolvencia",
+    "music": "sonidos de naturaleza"
+  },
+  "ansiedad": {
+    "camera": "primer plano, cámara temblorosa",
+    "movement": "zoom in rápido",
+    "lighting": "luz fría, intermitente",
+    "transition": "corte rápido",
+    "music": "percusión acelerada"
+  },
+  "aburrimiento": {
+    "camera": "plano general, cámara fija",
+    "movement": "sin movimiento",
+    "lighting": "luz neutra, plana",
+    "transition": "fade lento",
+    "music": "drones, sonidos monótonos"
+  },
+  "inspiración": {
+    "camera": "plano general, cámara ascendente",
+    "movement": "traveling suave",
+    "lighting": "luz brillante, rayos de sol",
+    "transition": "disolvencia",
+    "music": "cuerdas ascendentes"
+  },
+  "desesperación": {
+    "camera": "primer plano, cámara baja",
+    "movement": "temblor fuerte",
+    "lighting": "luz azul, sombras duras",
+    "transition": "fade a negro",
+    "music": "piano grave, disonante"
+  },
+  "alivio": {
+    "camera": "plano medio, cámara estable",
+    "movement": "traveling suave",
+    "lighting": "luz cálida, suave",
+    "transition": "disolvencia",
+    "music": "cuerdas suaves"
+  },
+  "determinación": {
+    "camera": "plano americano, cámara firme",
+    "movement": "traveling recto",
+    "lighting": "luz intensa, directa",
+    "transition": "corte limpio",
+    "music": "percusión marcada"
+  },
+  "celos": {
+    "camera": "plano detalle, cámara baja",
+    "movement": "zoom in lento",
+    "lighting": "luz verde, sombras",
+    "transition": "fade lento",
+    "music": "cuerdas tensas"
+  },
+  "gratitud": {
+    "camera": "plano medio, cámara estable",
+    "movement": "traveling suave",
+    "lighting": "luz cálida, difusa",
+    "transition": "disolvencia",
+    "music": "piano, cuerdas"
+  },
+  "culminación": {
+    "camera": "plano general, cámara ascendente",
+    "movement": "traveling hacia arriba",
+    "lighting": "luz brillante, épica",
+    "transition": "disolvencia",
+    "music": "coros, orquesta"
+  },
+  "vacío": {
+    "camera": "plano general, cámara fija",
+    "movement": "sin movimiento",
+    "lighting": "luz fría, baja saturación",
+    "transition": "fade a negro",
+    "music": "drones, sonidos graves"
+  }
+}

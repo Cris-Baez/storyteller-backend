@@ -11071,3 +11071,34 @@ video:4853kB audio:73kB subtitle:0kB other streams:0kB global headers:0kB muxing
 2025-07-18T21:13:46.844Z [info] Murf API: Audio inline recibido correctamente.
 2025-07-18T21:13:46.844Z [info] Voz generada con Murf.
 2025-07-18T21:13:47.130Z [warn] ElevenLabs error: Request failed with status code 403
+2025-07-18T21:29:57.519Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-18T21:30:05.033Z [info] ::1 - - [18/Jul/2025:21:30:05 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-18T21:30:05.038Z [info] 🚀 Pipeline v7 – inicio
+2025-07-18T21:30:05.043Z [info] 🎬 Prompt limpio: Un samuri solitario enfrenta a sus enemigos al amanecer, con msica pica y sonidos de batalla....
+2025-07-18T21:30:05.044Z [info] 🤖 Intentando modelo: openai/gpt-4o
+2025-07-18T21:31:06.229Z [info] ✅ Respuesta recibida de openai/gpt-4o
+2025-07-18T21:31:06.230Z [info] 📝 Contenido raw: ```json
+{
+ "timeline":[
+   {
+     "t":0,
+     "visual":"A vast, open field with a rising sun on the horizon.",
+     "camera":{"shot":"establishing","movement":"dolly-in"},
+     "emotion":"anticipation...
+2025-07-18T21:31:06.236Z [info] 🎞️  VideoPlan listo (30s) via openai/gpt-4o
+2025-07-18T21:31:06.238Z [info] 📜 VideoPlan listo (30s)
+2025-07-18T21:31:06.241Z [info] 🖼️  StoryboardService v6 – iniciando…
+2025-07-18T21:31:06.242Z [info] → Se generarán 1 frames de storyboard (por segundos clave)
+2025-07-18T21:31:09.383Z [error] FLUX respuesta inesperada: {}
+2025-07-18T21:31:09.386Z [error] FLUX error: FLUX returned invalid response format
+2025-07-18T21:31:09.389Z [warn] FLUX fallo para t=0 → usando SDXL
+2025-07-18T21:31:14.212Z [info] ✅ SDXL generó imagen exitosamente: https://replicate.delivery/xezq/KN0ZBVUk2soaLRsvB8BhdeGDHhBgfqRhn8nmbQRsoVni8GCVA/out-0.png
+2025-07-18T21:31:15.353Z [info] Archivo temporal creado: t0_e3174c
+2025-07-18T21:31:17.188Z [info] Archivo subido correctamente al CDN: storyboards/storytellerdemo/t0.png → https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-18T21:31:17.323Z [info] ✅ Storyboard accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/storyboards/storytellerdemo/t0.png
+2025-07-18T21:31:17.324Z [info] ✅  Storyboards listos: 1
+2025-07-18T21:31:17.326Z [info] 🎞️ ClipService v9 – usando videoEngine multi-motor
+2025-07-18T21:31:17.328Z [info] → Segmentos óptimos (free): pixverse/pixverse-v4.5(8s) + pixverse/pixverse-v4.5(8s) + pixverse/pixverse-v4.5(8s) + pixverse/pixverse-v4.5(6s)
+2025-07-18T21:34:28.195Z [error] [ClipService] Error inesperado en segmento 8-15: Replicate no devolvió URL de video
+2025-07-18T21:34:28.607Z [error] [ClipService] Error inesperado en segmento 16-23: Replicate no devolvió URL de video
+2025-07-18T21:34:28.752Z [error] [ClipService] Error inesperado en segmento 0-7: Replicate no devolvió URL de video
