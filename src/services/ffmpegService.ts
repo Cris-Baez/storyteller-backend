@@ -169,17 +169,21 @@ export async function assembleVideo(opts:{
   plan: VideoPlan;
   clips: string[];
   voiceOver: Buffer;
-  music: Buffer;
+  music: Buffer[];
+  ambience?: Buffer[];
+  sfx?: Buffer[];
 }): Promise<string> {
   logger.info('🎬  FFmpegService v7 — ensamblando 1080p60 con overlays/LUTs/EQ…');
   await fs.mkdir(TMP_DIR, { recursive: true });
 
-  const { plan, clips, voiceOver, music } = opts;
+  const { plan, clips, voiceOver, music, ambience = [], sfx = [] } = opts;
   const id = uuid();
   const list = path.join(TMP_DIR, `${id}.txt`);
   const concat = path.join(TMP_DIR, `${id}_concat.mp4`);
   const voiceFile = path.join(TMP_DIR, `${id}_voice.mp3`);
   const musicFile = path.join(TMP_DIR, `${id}_music.mp3`);
+  const ambienceFile = path.join(TMP_DIR, `${id}_ambience.mp3`);
+  const sfxFile = path.join(TMP_DIR, `${id}_sfx.mp3`);
   const avFile = path.join(TMP_DIR, `${id}_av.mp4`);
   const hlsDir = path.join(TMP_DIR, `hls_${id}`);
   const hlsIndex = path.join(hlsDir, 'index.m3u8');
@@ -194,12 +198,11 @@ export async function assembleVideo(opts:{
     }
   }
 
-  /* 1️⃣ concat clips (24→1080p60) + filtros visuales */
+  /* 1️⃣ concat clips (24→1080p60) + filtros visuales + watermark si Free */
   const listContent = clips
     .map(c => `file '${toPosix(c)}'`)
     .join('\n');
   await fs.writeFile(list, listContent);
-  // Validar que el archivo de lista existe antes de llamar a FFmpeg
   try {
     await fs.access(list);
   } catch (err) {
@@ -209,14 +212,22 @@ export async function assembleVideo(opts:{
   }
   logger.info(`✅ Archivo de lista para FFmpeg creado: ${list}`);
   logger.info('🟡 [FFmpeg] Iniciando concat clips → ' + concat);
-  // OPTIMIZADO PARA PRUEBAS: sin minterpolate y a 720p
+
+  // Detectar si es modo Free para aplicar marca de agua
+  const isFree = (plan?.metadata?.mode || '').toLowerCase() === 'free';
+  const watermarkPath = isFree ? path.join(process.cwd(), 'assets', 'branding', 'watermark_free.png') : null;
+  const videoFilters = [
+    'scale=1280:720:force_original_aspect_ratio=decrease',
+    'pad=1280:720:(ow-iw)/2:(oh-ih)/2',
+    'setsar=1'
+  ];
+  if (isFree && watermarkPath) {
+    // Overlay en esquina inferior derecha, margen 40px
+    videoFilters.push(`movie='${watermarkPath}'[wm];[in][wm]overlay=W-w-40:H-h-40:format=auto`);
+  }
   await retry(() => execFF(
     ffmpeg().input(toPosix(list)).inputOptions(['-f', 'concat', '-safe', '0'])
-      .videoFilters([
-        'scale=1280:720:force_original_aspect_ratio=decrease',
-        'pad=1280:720:(ow-iw)/2:(oh-ih)/2',
-        'setsar=1'
-      ])
+      .videoFilters(videoFilters)
       .outputOptions(['-c:v', 'libx264', '-preset', 'ultrafast', '-movflags', '+faststart']),
     concat
   ), RETRIES);
@@ -224,30 +235,159 @@ export async function assembleVideo(opts:{
 
   /* 2️⃣ write audio temp files */
   if (voiceOver.length) await fs.writeFile(voiceFile, voiceOver);
-  if (music.length) await fs.writeFile(musicFile, music);
+  // Concatenar buffers de música por escena
+  if (Array.isArray(music) && music.length > 0) {
+    const musicConcat = Buffer.concat(music.filter(b => b && b.length));
+    if (musicConcat.length) await fs.writeFile(musicFile, musicConcat);
+  }
+  // Concatenar ambience por escena
+  if (Array.isArray(ambience) && ambience.length > 0) {
+    const ambienceConcat = Buffer.concat(ambience.filter(b => b && b.length));
+    if (ambienceConcat.length) await fs.writeFile(ambienceFile, ambienceConcat);
+  }
+  // Concatenar sfx por escena
+  if (Array.isArray(sfx) && sfx.length > 0) {
+    const sfxConcat = Buffer.concat(sfx.filter(b => b && b.length));
+    if (sfxConcat.length) await fs.writeFile(sfxFile, sfxConcat);
+  }
 
   /* 3️⃣ Build volume envelope for music */
   const volExpr = buildVolumeExpr(plan);
   const musicFilter = `volume='${volExpr}':eval=frame`;
+  // Ambience y SFX pueden tener filtros propios en el futuro
 
-  /* 4️⃣ mix audio with ducking o solo música/efecto */
+  /* 4️⃣ mezcla multicapa: música, ambience, sfx, voz (con fallback) */
   const audioMix = path.join(TMP_DIR, `${id}_mix.m4a`);
-  logger.info('🟡 [FFmpeg] Iniciando mezcla audio inteligente → ' + audioMix);
-  if (music.length && !voiceOver.length) {
-    // Solo música, sin ducking
+  logger.info('🟡 [FFmpeg] Iniciando mezcla audio multicapa → ' + audioMix);
+  const inputs = [];
+  const inputOpts = [];
+  let filterGraph = [];
+  let mapIdx = 0;
+
+  // Helper para crear silencio/beep si falta una capa
+  async function ensureAudioFile(filePath: string, duration: number, fallbackType: 'silence' | 'beep' = 'silence') {
+    try {
+      const stat = await fs.stat(filePath);
+      if (stat.size > 0) return filePath;
+    } catch {}
+    // Si no existe o está vacío, crear fallback
+    const ffmpegPathStr = typeof ffmpegPath === 'string' ? ffmpegPath : (ffmpegPath as unknown as string);
+    if (!ffmpegPathStr) throw new Error('ffmpeg path not found');
+    const fallbackFile = filePath.replace(/\.mp3$/, `_fallback.mp3`);
+    return new Promise<string>((res, rej) => {
+      const args = fallbackType === 'beep'
+        ? ['-f', 'lavfi', '-i', `sine=frequency=440:duration=${duration}`, '-ar', '48000', '-ac', '2', '-q:a', '9', '-acodec', 'libmp3lame', fallbackFile]
+        : ['-f', 'lavfi', '-i', `anullsrc=r=48000:cl=stereo`, '-t', String(duration), '-q:a', '9', '-acodec', 'libmp3lame', fallbackFile];
+      const proc = spawn(ffmpegPathStr, args);
+      proc.on('close', (code) => code === 0 ? res(fallbackFile) : rej(new Error('ffmpeg fallback fail')));
+    });
+  }
+
+  // Duración total del video (en segundos)
+  let totalDuration = 0;
+  try {
+    const probe = await new Promise<any>((res, rej) => {
+      if (typeof ffmpegPath !== 'string') return rej(new Error('ffmpeg path not found'));
+      const proc = spawn(ffmpegPath, ['-i', concat, '-hide_banner']);
+      let stderr = '';
+      proc.stderr.on('data', d => { stderr += d.toString(); });
+      proc.on('close', () => {
+        const match = stderr.match(/Duration: (\d+):(\d+):(\d+\.\d+)/);
+        if (match) {
+          const h = parseInt(match[1], 10), m = parseInt(match[2], 10), s = parseFloat(match[3]);
+          res(h * 3600 + m * 60 + s);
+        } else {
+          rej(new Error('No se pudo obtener la duración del video para fallback de audio.'));
+        }
+      });
+    });
+    totalDuration = Math.ceil(probe);
+  } catch {
+    totalDuration = 10; // fallback por si no se puede obtener duración
+  }
+
+  // Música
+  let musicPath = music && Array.isArray(music) && music.length ? musicFile : null;
+  if (plan.timeline?.some(sec => (sec.soundCue && sec.soundCue !== 'fade'))) {
+    // Si el plan requiere música pero no hay archivo, crear silencio
+    musicPath = await ensureAudioFile(musicFile, totalDuration, 'silence');
+  }
+  try {
+    if (musicPath && (await fs.stat(musicPath)).size > 0) {
+      inputs.push(musicPath);
+      inputOpts.push([]);
+      filterGraph.push(`[${mapIdx}:a]${musicFilter}[music]`);
+      mapIdx++;
+    }
+  } catch {}
+  // Ambience
+  let ambiencePath = ambience && Array.isArray(ambience) && ambience.length ? ambienceFile : null;
+  if (Array.isArray(ambience) && ambience.length > 0) {
+    ambiencePath = await ensureAudioFile(ambienceFile, totalDuration, 'silence');
+  }
+  try {
+    if (ambiencePath && (await fs.stat(ambiencePath)).size > 0) {
+      inputs.push(ambiencePath);
+      inputOpts.push([]);
+      filterGraph.push(`[${mapIdx}:a]volume=0.5[amb]`);
+      mapIdx++;
+    }
+  } catch {}
+  // SFX
+  let sfxPath = sfx && Array.isArray(sfx) && sfx.length ? sfxFile : null;
+  if (Array.isArray(sfx) && sfx.length > 0) {
+    sfxPath = await ensureAudioFile(sfxFile, totalDuration, 'silence');
+  }
+  try {
+    if (sfxPath && (await fs.stat(sfxPath)).size > 0) {
+      inputs.push(sfxPath);
+      inputOpts.push([]);
+      filterGraph.push(`[${mapIdx}:a]volume=1.0[sfx]`);
+      mapIdx++;
+    }
+  } catch {}
+  // Voz
+  let voicePath = voiceOver && voiceOver.length > 0 ? voiceFile : null;
+  if (voiceOver && voiceOver.length > 0) {
+    voicePath = await ensureAudioFile(voiceFile, totalDuration, 'beep');
+  }
+  try {
+    if (voicePath && (await fs.stat(voicePath)).size > 0) {
+      inputs.push(voicePath);
+      inputOpts.push([]);
+      filterGraph.push(`[${mapIdx}:a]volume=1.0[voice]`);
+      mapIdx++;
+    }
+  } catch {}
+
+  // Construir filter_complex para mezclar todas las capas
+  let amixInputs = [];
+  if (filterGraph.find(f => f.includes('[music]'))) amixInputs.push('[music]');
+  if (filterGraph.find(f => f.includes('[amb]'))) amixInputs.push('[amb]');
+  if (filterGraph.find(f => f.includes('[sfx]'))) amixInputs.push('[sfx]');
+  if (filterGraph.find(f => f.includes('[voice]'))) amixInputs.push('[voice]');
+  let filterComplex = '';
+  if (filterGraph.length > 0) {
+    filterComplex = filterGraph.join(';') + `;${amixInputs.join('')}amix=inputs=${amixInputs.length}:duration=longest[aout]`;
+  }
+  if (amixInputs.length > 0) {
+    let ff = ffmpeg();
+    for (const inp of inputs) {
+      ff = ff.input(inp);
+    }
+    ff = ff.complexFilter([filterComplex])
+      .outputOptions([
+        '-map', '[aout]',
+        '-c:a', 'aac',
+        '-movflags', '+faststart'
+      ]);
     await retry(() => execFF(
-      ffmpeg()
-        .input(musicFile)
-        .audioFilters([musicFilter])
-        .outputOptions([
-          '-c:a', 'aac',
-          '-movflags', '+faststart'
-        ]),
+      ff,
       audioMix
     ), RETRIES);
-    logger.info('🟢 [FFmpeg] Solo música (sin ducking) → ' + audioMix);
-  } else if (!music.length && !voiceOver.length) {
-    // Ni música ni voz: beep de emergencia
+    logger.info('🟢 [FFmpeg] Mezcla multicapa OK → ' + audioMix);
+  } else {
+    // Si no hay audio, beep de emergencia
     const beepFile = path.join(TMP_DIR, `${id}_beep.mp3`);
     await new Promise((res, rej) => {
       if (typeof ffmpegPath !== 'string') return rej(new Error('ffmpeg path not found'));
@@ -271,26 +411,6 @@ export async function assembleVideo(opts:{
       audioMix
     ), RETRIES);
     logger.info('🟢 [FFmpeg] Solo beep de emergencia → ' + audioMix);
-  } else {
-    // Voz y música: ducking normal
-    await retry(() => execFF(
-      ffmpeg()
-        .input(voiceOver.length ? voiceFile : 'anullsrc')
-        .inputOptions(voiceOver.length ? [] : ['-f', 'lavfi'])
-        .input(music.length ? musicFile : 'anullsrc')
-        .inputOptions(music.length ? [] : ['-f', 'lavfi'])
-        .complexFilter([
-          `[1:a]${musicFilter}[bgm]`,
-          '[0:a][bgm]sidechaincompress=threshold=0.25:ratio=8:release=150:attack=20[aout]'
-        ])
-        .outputOptions([
-          '-map', '[aout]',
-          '-c:a', 'aac',
-          '-movflags', '+faststart'
-        ]),
-      audioMix
-    ), RETRIES);
-    logger.info('🟢 [FFmpeg] Mezcla voz+música (ducking) → ' + audioMix);
   }
 
   /* 5️⃣ multiplex AV */

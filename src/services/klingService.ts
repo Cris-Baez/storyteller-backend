@@ -18,41 +18,62 @@ export interface KlingClipParams {
   [key: string]: any;
 }
 
-export interface KlingApiResponse {
-  video?: {
-    url: string;
-    [key: string]: any;
-  };
-  [key: string]: any;
-}
-
 export async function generateKlingClip(params: KlingClipParams): Promise<string> {
-  const {
-    prompt,
-    input_image_urls,
-    duration,
-    aspect_ratio,
-    negative_prompt,
-    ...rest
-  } = params;
-
-  // Normalizar duration y aspect_ratio a los literales requeridos
-  const durationStr: DurationType = String(duration) === '10' ? '10' : '5';
-  const aspectRatioStr: AspectRatioType = (aspect_ratio === '1:1' || aspect_ratio === '9:16') ? aspect_ratio as AspectRatioType : '16:9';
+  // Validación estricta de campos requeridos
+  const { prompt, input_image_urls, duration, aspect_ratio, negative_prompt } = params;
+  
+  if (!prompt || typeof prompt !== 'string') {
+    throw new Error('El campo prompt es requerido y debe ser string');
+  }
+  if (!Array.isArray(input_image_urls) || input_image_urls.length === 0 || !input_image_urls.every(url => typeof url === 'string')) {
+    throw new Error('input_image_urls debe ser un array de strings no vacío');
+  }
+  
+  // Validar que las URLs sean accesibles públicamente
+  for (const url of input_image_urls) {
+    if (url.includes('localhost') || url.includes('127.0.0.1')) {
+      throw new Error(`URL de imagen no es accesible públicamente: ${url}. Fal.ai necesita URLs públicas.`);
+    }
+  }
+  
+  const durationLiteral: "5" | "10" = String(duration) === '10' ? '10' : '5';
+  const allowedAspectRatios: AspectRatioType[] = ['16:9', '1:1', '9:16'];
+  const aspectRatioStr: AspectRatioType = allowedAspectRatios.includes(aspect_ratio as AspectRatioType) ? aspect_ratio as AspectRatioType : '16:9';
   const negativePromptStr = negative_prompt || 'blur, distort, and low quality';
 
-  const result = await fal.subscribe("fal-ai/kling-video/v1.6/pro/elements", {
-    input: {
-      prompt,
-      input_image_urls,
-      duration: durationStr,
-      aspect_ratio: aspectRatioStr,
-      negative_prompt: negativePromptStr,
-      ...rest
-    },
-    logs: true
-  });
-  if (!result?.data?.video?.url) throw new Error('Kling no devolvió video.url');
-  return result.data.video.url;
+  // Construir el payload estrictamente
+  const payload = {
+    prompt,
+    input_image_urls,
+    duration: durationLiteral,
+    aspect_ratio: aspectRatioStr,
+    negative_prompt: negativePromptStr
+  };
+
+  // Log del payload para debug
+  console.log('🔍 Kling payload siendo enviado:', JSON.stringify(payload, null, 2));
+
+  try {
+    const result = await fal.subscribe("fal-ai/kling-video/v1.6/pro/elements", {
+      input: payload,
+      logs: true
+    });
+    
+    if (!result?.data?.video?.url) {
+      throw new Error('Kling no devolvió video.url');
+    }
+    return result.data.video.url;
+  } catch (error: any) {
+    console.error('❌ Error detallado de Fal.ai:', {
+      status: error.status,
+      message: error.message,
+      body: error.body,
+      fieldErrors: error.fieldErrors || 'No field errors',
+      detail: error.body?.detail
+    });
+    throw error;
+  }
 }
+
+
 
