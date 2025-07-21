@@ -40,56 +40,31 @@ export async function generateClipsKling(
   const clipPromises = scenes.map(async (scene, idx) => {
     // Usar campos directos del nuevo formato
     const background = scene.background || lastBackground;
-    // Forzar el actor a actor_joven.png siempre
-    const character = 'actor_joven.png';
+    const character = scene.character || 'TheRockActor';
     lastBackground = background;
     lastCharacter = character;
     const backgroundUrl = background ? `https://storage.googleapis.com/storyteller-ai-cdn/assets/escenas/${background}` : undefined;
-    const characterUrl = `https://storage.googleapis.com/storyteller-ai-cdn/assets/actores/actor_joven.png`;
 
-    // Descripciones
-    const fondoDesc = background && FONDO_DESCS[background] ? FONDO_DESCS[background] : '';
-    const actorDesc = character && ACTOR_DESCS[character] ? ACTOR_DESCS[character] : '';
 
-    // Prompt avanzado y cinematográfico
-    const subject = character ? 'A young actor' : 'A character';
-    const visual = (scene.visual || '').replace(/\s+/g, ' ').trim();
-    const action = scene.action ? scene.action : '';
-    const emotion = scene.emotion ? `Emotion: ${scene.emotion}` : '';
-    const ambience = scene.ambience ? `Ambience: ${scene.ambience}` : '';
-    const camera = scene.camera ? `Camera: ${scene.camera.shot || ''}${scene.camera.movement ? ', ' + scene.camera.movement : ''}` : '';
-    const lighting = scene.lighting ? `Lighting: ${scene.lighting}` : '';
-    const atmosphere = 'Atmosphere: cinematic, realistic, emotional.';
-    const quality = 'Render in photorealistic 1080p, sharp focus, no watermark.';
-
-    let promptEscena = [
-      fondoDesc,
-      actorDesc,
-      subject,
-      action,
-      visual,
-      emotion,
-      ambience,
-      camera,
-      lighting,
-      atmosphere,
-      quality
-    ].filter(Boolean).join(', ');
-
+    let promptEscena = `TheRockActor, ${scene.visual || ''}`;
+    promptEscena += ', cinematic lighting, photorealistic, 35mm lens';
     // Transición explícita si no es el primer clip
     if (idx > 0) {
-      promptEscena += ', continues from previous shot, seamless transition, matching pose and lighting';
+      promptEscena += ', continues from previous shot, seamless transition, matching lighting';
     }
 
-    // input_image_urls: carryover frame, fondo, actor
-    const input_image_urls = [];
-    if (idx > 0 && carryoverFrameUrl) {
-      input_image_urls.push(carryoverFrameUrl, carryoverFrameUrl);
-    } else if (backgroundUrl) {
-      input_image_urls.push(backgroundUrl);
+
+    // Usar solo la imagen PNG del actor en el CDN como antes
+    let composedImageUrl = backgroundUrl;
+    if (character === 'TheRockActor') {
+      // PNG fijo del actor en el CDN
+      composedImageUrl = 'https://storage.googleapis.com/storyteller-ai-cdn/assets/actors/TheRockActor.png';
     }
-    if (characterUrl) {
-      input_image_urls.push(characterUrl, characterUrl, characterUrl);
+
+    // input_image_urls: solo la imagen compuesta
+    const input_image_urls = [];
+    if (composedImageUrl) {
+      input_image_urls.push(composedImageUrl);
     }
 
     // Negative prompt robusto

@@ -12194,3 +12194,67 @@ frame=  939 fps=164 q=-1.0 Lsize=   12616KiB time=00:00:31.30 bitrate=3301.9kbit
 
 2025-07-20T19:11:20.358Z [info] 🟢 [FFmpeg] Concat clips OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\2d7a1c1b-66a0-4798-8fc3-86b64d2dba73_concat.mp4
 2025-07-20T19:11:20.363Z [info] 🟡 [FFmpeg] Iniciando mezcla audio multicapa → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\2d7a1c1b-66a0-4798-8fc3-86b64d2dba73_mix.m4a
+2025-07-21T18:40:40.879Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-21T18:41:08.154Z [info] ::1 - - [21/Jul/2025:18:41:08 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-21T18:41:08.161Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-21T18:41:08.164Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-21T18:41:08.165Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-21T18:41:08.168Z [info] 🎬 Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-21T18:41:08.169Z [info] 🔄 Probando modelo: openai/chatgpt-4o-latest
+2025-07-21T18:41:36.544Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "El samurái solitario aparece caminando lentamente por una calle vacía de Kioto al amanecer.",
+      "background": "escenario_japon_entrada.jpg",
+...
+2025-07-21T18:41:36.559Z [info] 🎞️  VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-21T18:41:36.563Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-21T18:41:36.564Z [info] 🎵 Generando música de fondo...
+2025-07-21T18:41:36.566Z [info] 🎵  Buscar música de fondo para "realistic"
+2025-07-21T18:41:36.568Z [info] 🎵  Freesound query: realistic
+2025-07-21T18:41:55.754Z [info] ✅  Pista de música lista (2487212 bytes)
+2025-07-21T18:41:55.755Z [info] 🎥 Generando clips con Kling...
+2025-07-21T18:51:55.362Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-21T18:51:58.818Z [info] ::1 - - [21/Jul/2025:18:51:58 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-21T18:51:58.829Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-21T18:51:58.831Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-21T18:51:58.832Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-21T18:51:58.835Z [info] 🎬 Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-21T18:51:58.836Z [info] 🔄 Probando modelo: openai/chatgpt-4o-latest
+2025-07-21T18:52:21.215Z [info] 📝 Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "El samurái aparece caminando lentamente por una calle vacía en Kioto.",
+      "background": "escenario_japon_entrada.jpg",
+      "character": "Th...
+2025-07-21T18:52:21.225Z [info] 🎞️  VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-21T18:52:21.226Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-21T18:52:21.226Z [info] 🎵 Generando música de fondo...
+2025-07-21T18:52:21.227Z [info] 🎵  Buscar música de fondo para "realistic"
+2025-07-21T18:52:21.229Z [info] 🎵  Freesound query: realistic
+2025-07-21T18:52:32.145Z [info] ✅  Pista de música lista (2487212 bytes)
+2025-07-21T18:52:32.146Z [info] 🎥 Generando clips con Kling...
+2025-07-21T19:29:07.291Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-21T19:29:15.980Z [info] ::1 - - [21/Jul/2025:19:29:15 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-21T19:29:15.983Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-21T19:29:15.984Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-21T19:29:15.984Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-21T19:29:15.986Z [info] 🎬 Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-21T19:29:15.987Z [info] 🔄 Probando modelo: openai/chatgpt-4o-latest
+2025-07-21T19:29:49.181Z [info] 📝 Contenido raw: ```json
+{
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "TheRockActor camina lentamente por una calle empedrada en Kioto al amanecer.",
+      "background": "escenario_japon_entrada.jpg",
+      "...
+2025-07-21T19:29:49.187Z [info] 🎞️  VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-21T19:29:49.188Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-21T19:29:49.188Z [info] 🎵 Generando música de fondo...
+2025-07-21T19:29:49.189Z [info] 🎵  Buscar música de fondo para "realistic"
+2025-07-21T19:29:49.190Z [info] 🎵  Freesound query: realistic
+2025-07-21T19:29:55.093Z [warn] No se pudo generar música de fondo, se usará buffer vacío
+2025-07-21T19:29:55.094Z [info] 🎥 Generando clips con Kling...
