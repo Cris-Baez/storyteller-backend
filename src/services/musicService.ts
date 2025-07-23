@@ -1,4 +1,49 @@
 /**
+ * getAdvancedMusic (public)
+ * Genera música de fondo personalizada usando campos avanzados del VideoPlan
+ */
+export async function getAdvancedMusic(options: {
+  musicaAvanzada?: string;
+  music?: string;
+  mezclaAudio?: string;
+  balanceSonido?: string;
+  motivoVisual?: string;
+  sonidoAmbiente?: string;
+  emotion?: string;
+  region?: string;
+  idioma?: string;
+  style?: string;
+  subtitulos?: string;
+}) : Promise<Buffer> {
+  // Construir el estilo de búsqueda combinando los campos relevantes
+  let style = options.musicaAvanzada || options.music || options.style || 'cinematic';
+  if (options.emotion) style += ` ${options.emotion}`;
+  if (options.motivoVisual) style += ` ${options.motivoVisual}`;
+  if (options.sonidoAmbiente) style += ` ${options.sonidoAmbiente}`;
+  if (options.region) style += ` ${options.region}`;
+  if (options.idioma) style += ` ${options.idioma}`;
+  if (options.subtitulos && typeof options.subtitulos === 'string') {
+    // Si hay subtítulos multilingües, agregar palabras clave para adaptar la música
+    style += ` ${options.subtitulos.split(' ').slice(0, 5).join(' ')}`;
+  }
+  // Puedes agregar más lógica para mezclaAudio, balanceSonido, etc.
+  logger.info(`🎵  Buscar música avanzada para: "${style}"`);
+  const raw =
+    (await fetchFromFreesound(style)) ??
+    (await fetchFromArtlist(style));
+  if (!raw) {
+    logger.warn('⚠️  No se encontró música avanzada; devolviendo buffer vacío');
+    throw new Error('No se pudo generar la pista de música avanzada');
+  }
+  const buf = await normalise(raw);
+  if (!buf || !Buffer.isBuffer(buf) || buf.length === 0) {
+    logger.error('❌ La pista de música avanzada generada está vacía o es inválida');
+    throw new Error('La pista de música avanzada generada está vacía o es inválida');
+  }
+  logger.info(`✅  Pista de música avanzada lista (${buf.length} bytes)`);
+  return buf;
+}
+/**
  * Music Service v2
  * ----------------
  * • Busca tracks CC-0 en Freesound ➜ fallback Artlist API (si token)

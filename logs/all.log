@@ -12258,3 +12258,105 @@ frame=  939 fps=164 q=-1.0 Lsize=   12616KiB time=00:00:31.30 bitrate=3301.9kbit
 2025-07-21T19:29:49.190Z [info] 🎵  Freesound query: realistic
 2025-07-21T19:29:55.093Z [warn] No se pudo generar música de fondo, se usará buffer vacío
 2025-07-21T19:29:55.094Z [info] 🎥 Generando clips con Kling...
+2025-07-22T20:54:48.348Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-22T20:54:57.309Z [info] ::1 - - [22/Jul/2025:20:54:57 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-22T20:54:57.315Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-22T20:54:57.318Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-22T20:54:57.320Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-22T20:54:57.323Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-22T20:54:57.325Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-22T20:55:23.994Z [info] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest respondió en 26669ms.
+2025-07-22T20:55:23.994Z [info] [LLMService] [createVideoPlan] Contenido raw: ```json
+{
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "TheRockActor vestido como un samurái, de pie en una calle desierta de Kioto al amanecer",
+      "background": "escenario_japon_entrada.jp...
+2025-07-22T20:55:24.029Z [info] [LLMService] [createVideoPlan] VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-22T20:55:24.030Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-22T20:55:24.030Z [info] 🎵 Generando música de fondo...
+2025-07-22T20:55:24.030Z [info] 🎵  Buscar música de fondo para "realistic"
+2025-07-22T20:55:24.031Z [info] 🎵  Freesound query: realistic
+2025-07-22T20:55:34.313Z [info] ✅  Pista de música lista (2487212 bytes)
+2025-07-22T20:55:34.314Z [info] 🎥 Generando clips con Kling...
+2025-07-22T23:52:27.856Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-22T23:52:35.486Z [info] ::1 - - [22/Jul/2025:23:52:35 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-22T23:52:35.490Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-22T23:52:35.492Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-22T23:52:35.493Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-22T23:52:35.496Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-22T23:52:35.497Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-22T23:52:54.006Z [info] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest respondió en 18509ms.
+2025-07-22T23:52:54.007Z [info] [LLMService] [createVideoPlan] Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "TheRockActor aparece caminando lentamente por una calle vacía de Kioto al amanecer, con mirada pensativa.",
+      "background": "escenario_japon_...
+2025-07-22T23:52:54.037Z [info] [LLMService] [createVideoPlan] VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-22T23:52:54.038Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-22T23:52:54.040Z [info] 🎵 Generando música de fondo...
+2025-07-22T23:52:54.041Z [info] 🎵  Buscar música de fondo para "realistic"
+2025-07-22T23:52:54.043Z [info] 🎵  Freesound query: realistic
+2025-07-22T23:53:04.892Z [info] ✅  Pista de música lista (2487212 bytes)
+2025-07-22T23:53:04.893Z [info] 🎥 Generando clips con Kling...
+2025-07-23T00:33:15.618Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T00:33:21.133Z [info] ::1 - - [23/Jul/2025:00:33:21 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T00:33:21.136Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T00:33:21.137Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-23T00:33:21.139Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T00:33:21.140Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-23T00:33:21.141Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T00:33:41.879Z [info] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest respondió en 20738ms.
+2025-07-23T00:33:41.880Z [info] [LLMService] [createVideoPlan] Contenido raw: {
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "TheRockActor vestido como samurái se detiene en la entrada de un antiguo templo en Kioto.",
+      "background": "escenario_japon_entrada.jpg",
+  ...
+2025-07-23T00:33:41.894Z [info] [LLMService] [createVideoPlan] VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-23T00:33:41.895Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-23T00:33:41.896Z [info] 🎵 Generando música de fondo...
+2025-07-23T00:33:41.896Z [info] 🎵  Buscar música de fondo para "realistic"
+2025-07-23T00:33:41.897Z [info] 🎵  Freesound query: realistic
+2025-07-23T00:33:55.136Z [info] ✅  Pista de música lista (2487212 bytes)
+2025-07-23T00:33:55.136Z [info] 🎥 Generando clips con Kling...
+2025-07-23T00:45:50.407Z [info] Archivo subido correctamente al CDN: videos/klingclip_1753231513847_164320.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/klingclip_1753231513847_164320.mp4
+2025-07-23T00:45:51.918Z [info] Archivo subido correctamente al CDN: carryover/carryover_1753231550414_669585.jpg → https://storage.googleapis.com/storyteller-ai-cdn/carryover/carryover_1753231550414_669585.jpg
+2025-07-23T00:45:57.667Z [info] Archivo subido correctamente al CDN: videos/klingclip_1753231506835_362073.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/klingclip_1753231506835_362073.mp4
+2025-07-23T00:45:58.664Z [info] Archivo subido correctamente al CDN: carryover/carryover_1753231557669_392831.jpg → https://storage.googleapis.com/storyteller-ai-cdn/carryover/carryover_1753231557669_392831.jpg
+2025-07-23T00:47:26.810Z [info] Archivo subido correctamente al CDN: videos/klingclip_1753231555614_755671.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/klingclip_1753231555614_755671.mp4
+2025-07-23T00:59:42.773Z [info] Archivo subido correctamente al CDN: videos/klingclip_1753232335966_138268.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/klingclip_1753232335966_138268.mp4
+2025-07-23T00:59:43.052Z [info] Archivo subido correctamente al CDN: videos/klingclip_1753232336547_403932.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/klingclip_1753232336547_403932.mp4
+2025-07-23T00:59:43.581Z [info] Archivo subido correctamente al CDN: videos/klingclip_1753232328798_66644.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/klingclip_1753232328798_66644.mp4
+2025-07-23T00:59:44.059Z [info] Archivo subido correctamente al CDN: carryover/carryover_1753232383055_600725.jpg → https://storage.googleapis.com/storyteller-ai-cdn/carryover/carryover_1753232383055_600725.jpg
+2025-07-23T00:59:44.723Z [info] Archivo subido correctamente al CDN: carryover/carryover_1753232383584_366420.jpg → https://storage.googleapis.com/storyteller-ai-cdn/carryover/carryover_1753232383584_366420.jpg
+2025-07-23T01:14:12.986Z [info] Archivo subido correctamente al CDN: videos/klingclip_1753233213459_236580.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/klingclip_1753233213459_236580.mp4
+2025-07-23T01:14:17.466Z [info] Archivo subido correctamente al CDN: videos/klingclip_1753233206692_163906.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/klingclip_1753233206692_163906.mp4
+2025-07-23T01:14:17.561Z [info] Archivo subido correctamente al CDN: videos/klingclip_1753233214957_784077.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/klingclip_1753233214957_784077.mp4
+2025-07-23T01:14:18.900Z [info] Archivo subido correctamente al CDN: carryover/carryover_1753233257468_482273.jpg → https://storage.googleapis.com/storyteller-ai-cdn/carryover/carryover_1753233257468_482273.jpg
+2025-07-23T01:14:18.904Z [info] Archivo subido correctamente al CDN: carryover/carryover_1753233257571_73458.jpg → https://storage.googleapis.com/storyteller-ai-cdn/carryover/carryover_1753233257571_73458.jpg
+2025-07-23T03:58:18.435Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T03:58:30.227Z [info] ::1 - - [23/Jul/2025:03:58:30 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T03:58:30.236Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T03:58:30.240Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-23T03:58:30.241Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T03:58:30.244Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-23T03:58:30.250Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T03:59:06.619Z [info] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest respondió en 36368ms.
+2025-07-23T03:59:06.633Z [info] [LLMService] [createVideoPlan] Contenido raw: ```json
+{
+  "timeline": [
+    {
+      "t": 0,
+      "visual": "Un samurái solitario camina lentamente por una calle empedrada de Kioto al amanecer",
+      "background": "Calles antiguas de Kioto con c...
+2025-07-23T03:59:07.080Z [info] [LLMService] [createVideoPlan] VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-23T03:59:07.082Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-23T03:59:07.083Z [info] 🎵 Generando música de fondo...
+2025-07-23T03:59:07.084Z [info] 🎵  Buscar música de fondo para "realistic"
+2025-07-23T03:59:07.086Z [info] 🎵  Freesound query: realistic
+2025-07-23T03:59:26.678Z [info] ✅  Pista de música lista (2487212 bytes)
+2025-07-23T03:59:26.681Z [info] 🎥 Generando clips con Kling...

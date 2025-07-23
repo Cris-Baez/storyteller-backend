@@ -313,28 +313,40 @@ export async function createVoiceOver(plan: VideoPlan): Promise<Buffer> {
   logger.info('🎙️  VoiceService v6.2 – iniciando…');
   try {
     // Si el usuario pide un efecto de sonido explícito en el prompt, priorizarlo
-    // (esto requiere que el campo dialogue o un campo especial contenga "[SFX: ...]" o similar)
     const audioBuffers = await Promise.all(
       plan.timeline.map(async (sec) => {
-        if (!sec.dialogue) return Buffer.from([]);
+        // Si hay subtítulos multilingües, usarlos como fuente de voz
+        let textoVoz = sec.voz || sec.dialogo;
+        if (sec.subtitulos && typeof sec.subtitulos === 'string' && !sec.subtitulos.endsWith('.srt')) {
+          // Si subtitulos es texto (no SRT), usarlo como fuente principal
+          textoVoz = sec.subtitulos;
+        }
+        // Si hay SRT, podrías parsear y usar el texto (opcional, aquí solo si es texto)
+        if (!textoVoz) return Buffer.from([]);
         // Detectar si el usuario pide un efecto de sonido explícito
-        const sfxMatch = typeof sec.dialogue === 'string' && sec.dialogue.match(/\[SFX:([^\]]+)\]/i);
+        const sfxMatch = typeof textoVoz === 'string' && textoVoz.match(/\[SFX:([^\]]+)\]/i);
         if (sfxMatch) {
-          // Aquí podrías mapear a un banco de efectos, por ahora beep
           logger.info(`Efecto de sonido solicitado: ${sfxMatch[1]}`);
           return await beepFallback();
         }
-        // Selección de género (puedes mejorar con más lógica si tienes info de personajes)
-        const gender = (sec as any).gender || (plan.metadata?.characters?.[0]?.gender) || 'female';
+        // Parámetros avanzados de voz
+        const parametrosVoz = sec.parametrosVoz || {};
+        const idioma = sec.idioma || 'es';
+        const perfilUsuario = sec.perfilUsuario || plan.metadata?.perfilUsuario || 'default';
+        const feedbackUsuario = sec.feedbackUsuario || plan.metadata?.feedbackUsuario;
+        const lipSync = sec.lipSync || 'auto';
+        // Selección de género y voz
+        const gender = (parametrosVoz as any)?.genero || (sec as any).gender || (plan.metadata?.characters?.[0]?.gender) || 'female';
+        // Aquí podrías usar Murf, ElevenLabs, Google TTS, etc. con los parámetros avanzados
         try {
-          return await generateVoice(sec.dialogue, gender);
+          // Ejemplo: pasar parámetros avanzados a la función de generación de voz
+          return await generateVoice(textoVoz ?? '', gender);
         } catch (e) {
           logger.error('Error generando voz para segmento: ' + (e instanceof Error ? e.message : e));
           return await beepFallback();
         }
       })
     );
-    // Siempre concatenar los buffers (aunque sean beeps)
     return Buffer.concat(audioBuffers);
   } catch (e) {
     logger.error(`VoiceService error: ${e instanceof Error ? e.message : 'Unknown error'}`);

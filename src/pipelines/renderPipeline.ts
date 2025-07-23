@@ -80,10 +80,21 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
   let idx = 0;
   for (const seg of segments) {
     const sceneTimeline = timeline.slice(idx, idx + seg.duration);
+    // Cast a any para robustez y compatibilidad con el pipeline
+    const base = (sceneTimeline[0] || {}) as any;
     scenes.push({
       start: seg.start,
       duration: seg.duration,
       style: seg.style,
+      background: base.background || '',
+      character: base.character || 'TheRockActor',
+      visual: base.visual || 'Acción cinematográfica',
+      camera: base.camera || 'plano medio',
+      movement: base.movement || 'estático',
+      lighting: base.lighting || 'neutro',
+      transition: base.transition || 'cut',
+      music: base.music || 'ambient',
+      emotion: base.emotion || '',
       timeline: sceneTimeline
     });
     idx += seg.duration;

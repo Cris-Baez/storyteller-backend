@@ -1,4 +1,3 @@
-
 // Storyteller AI · Contract Types (LIMPIO)
 
 
@@ -29,93 +28,117 @@ export interface MusicSpec {
 }
 
 export interface TimelineSecond {
-  t: number;
-  scene?: number;
-  sceneStart?: boolean;
-  visual: string;
-  camera: CameraSpec;
-  emotion: string;
-  dialogue?: string;
-  voiceLine?: string;
-  soundCue: string;
-  effects?: string;
-  sfx?: Array<{
-    name: string;
-    file: string;
-    volume?: number;
-    offset?: number;
-    duration?: number;
-  }>;
-  assets?: string[];
-  highlight: boolean;
-  sceneMood?: string;
-  transition: string;
-  lipSyncType?: 'none' | 'sadtalker' | 'wav2lip';
-  acting?: 'neutral' | 'happy' | 'sad' | 'angry' | 'surprised' | 'fear' | 'disgust' | 'contempt' | 'excited';
-  contentType?: 'image' | 'video';
-  style?: 'cinematic' | 'realistic' | 'anime' | 'cartoon';
-  lora?: string | null;
-  backgroundLora?: string | null;
-  loraScale?: number;
-  seed?: number | string;
-  modelOrder?: string[];
-  overlays?: Array<{
-    path: string;
-    x?: number;
-    y?: number;
-    opacity?: number;
-  }>;
-  luts?: Array<{
-    path: string;
-    intensity?: number;
-  }>;
+  overlays?: Array<{ path: string; x?: number; y?: number; opacity?: number }>;
+  luts?: Array<{ path: string; intensity?: number }>;
+  soundCue?: string;
+    t: number;
+    faseNarrativa?: string;
+    visual?: string;
+    backgroundPrompt?: string;
+    actorPrompt?: string;
+    camera?: {
+        shot?: string;
+        movement?: string;
+    } | string;
+    movement?: string;
+    lighting?: string;
+    colorPalette?: string;
+    composition?: string;
+    atmosphere?: string;
+    effects?: string;
+    variedadVisual?: string;
+    continuidad?: string;
+    efectosAvanzados?: string;
+    musicaAvanzada?: string;
+    emotion?: string;
+  music?: MusicSpec;
+    multitude?: string;
+    arcoPersonaje?: string;
+    simbolismo?: string;
+    dialogo?: string;
+    accionEncadenada?: string;
+    ubicacion?: string;
+    voz?: string;
+    lipSync?: string;
+    parametrosVoz?: string;
+    imagenUsuario?: string;
+    productoReferencia?: string;
+    localReferencia?: string;
+    presentador?: string;
+    miradaACamara?: string;
+    expresionFacial?: string;
+    textoNoticia?: string;
+    capasVisuales?: string;
+    filtros?: string;
+    subtitulos?: string;
+    transicionesEditor?: string;
+    resolucion?: string;
+    formato?: string;
+    marcaAgua?: string;
+    plan?: string;
+    limitesPlan?: string;
+    metricaDuracion?: string;
+    metricaEstilo?: string;
+    metricaPopularidad?: string;
+    blenderHook?: string;
+    loraCustom?: string;
+    controlTotal?: string;
+    detalleGestual?: string;
+    reaccionEmocional?: string;
+    cambioLuz?: string;
+    expresionFacialActor?: string;
+    ritmoEdicion?: string;
+    duracionPlano?: string;
+    tipoTransicion?: string;
+    convencionGenero?: string;
+    feedbackUsuario?: string;
+    idioma?: string;
+    region?: string;
+    localizacionDialogo?: string;
+    animacionTexto?: string;
+    efectoEntrada?: string;
+    layoutSubtitulos?: string;
+    mezclaAudio?: string;
+    balanceSonido?: string;
+    efectoSonoro?: string;
+    perfilUsuario?: string;
+    validacionFinal?: string;
+    // Nuevos campos avanzados para coherencia, dirección de arte y edición
+    lente?: string;
+    texturaRealismo?: string;
+    direccionArte?: string;
+    movimientoCamara?: string;
+    animacionSutil?: string;
+    climaAtmosferico?: string;
+    corteEdicion?: string;
+    sonidoAmbiente?: string;
+    microaccion?: string;
+    motivoVisual?: string;
 }
 
 export interface VideoPlan {
-  timeline: TimelineSecond[];
-  metadata: {
-    mode: string;
-    visualStyle: string;
-    duration: AllowedDuration;
-    modelOrder?: string[];
-    characterLora?: string | null;
-    backgroundLora?: string | null;
-    lora?: string | null;
-    loraScale?: number;
-    seed?: number | string;
-    characters?: CharacterVoiceSpec[];
-    music?: MusicSpec | string;
-    overlays?: Array<{
-      path: string;
-      x?: number;
-      y?: number;
-      opacity?: number;
-    }>;
-    luts?: Array<{
-      path: string;
-      intensity?: number;
-    }>;
-    sfx?: Array<{
-      name: string;
-      file: string;
-      volume?: number;
-      start?: number;
-      end?: number;
-    }>;
-    scenes?: Array<{
-      scene: number;
-      start: number;
-      end: number;
-      description: string;
+  transition?: string;
+  ambientSound?: string;
+  soundEffects?: string[];
+  voiceLine?: string;
+  storyboard?: boolean;
+    timeline: TimelineSecond[];
+    metadata: {
+      mode: string;
+      visualStyle: string;
+      duration: AllowedDuration;
+      prompt?: string;
+      modelOrder?: string[];
+      characterLora?: string | null;
+      backgroundLora?: string | null;
       lora?: string | null;
       loraScale?: number;
       seed?: number | string;
-    }>;
-    referenceImages?: string[];
-    demoMode?: boolean;
-    [key: string]: any;
-  };
-  storyboard?: string[];
+      characters?: CharacterVoiceSpec[];
+      music?: MusicSpec;
+      demoMode?: boolean;
+      [key: string]: any;
+    };
 }
 
 export interface RenderResponse {
@@ -148,9 +171,7 @@ export type AllowedDuration = 10 | 15 | 30 | 45 | 60;
 /* → Petición de render que envía el front */
 export interface TimelineSecond {
 
-  voice?: VoiceSpec;      // narrador / diálogo
-  music?: MusicSpec;      // mood + exact timing
-  characters?: CharacterVoiceSpec[]; // Agregado para incluir personajes
+  // ...existing code...
 }
 
 /* → Especificación de voz (opcional) */
@@ -170,65 +191,7 @@ export interface MusicSpec {
 
 // Contrato avanzado para VideoPlan (pipeline v7+)
 export interface VideoPlan {
-  /**
-   * Timeline enriquecido: cada segundo puede tener lipSyncType, acting, contentType y style
-   */
-  timeline: TimelineSecond[];  // length === duration
-  metadata: {
-    mode: string;              // modo de renderizado
-    visualStyle: string;       // estilo visual
-    duration: AllowedDuration; // duración del video
-    modelOrder?: string[];     // orden de preferencia de modelos IA
-    /**
-     * LoRA explícitos para personaje y fondo
-     */
-    characterLora?: string | null;
-    backgroundLora?: string | null;
-    lora?: string | null;      // compatibilidad
-    loraScale?: number;
-    seed?: number | string;
-    characters?: CharacterVoiceSpec[];
-    music?: MusicSpec | string;
-    /**
-     * Overlays y LUTs globales para todo el video
-     */
-    overlays?: Array<{
-      path: string;
-      x?: number;
-      y?: number;
-      opacity?: number;
-    }>;
-    luts?: Array<{
-      path: string;
-      intensity?: number;
-    }>;
-    /**
-     * SFX globales (ej: viento, ambiente)
-     */
-    sfx?: Array<{
-      name: string;
-      file: string;
-      volume?: number;
-      start?: number;
-      end?: number;
-    }>;
-    scenes?: Array<{
-      scene: number;
-      start: number;
-      end: number;
-      description: string;
-      lora?: string | null;
-      loraScale?: number;
-      seed?: number | string;
-    }>;
-    referenceImages?: string[];
-    /**
-     * Modo demo: fuerza el uso de los mismos assets y guarda todos los outputs
-     */
-    demoMode?: boolean;
-    [key: string]: any; // para extensibilidad futura
-  };
-  storyboard?: string[];
+  // ...existing code...
 }
 
 /* → Respuesta final del backend */

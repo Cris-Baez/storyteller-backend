@@ -46,10 +46,11 @@ function buildVolumeExpr(plan: VideoPlan): string {
   }
   // Genera bloques consecutivos con mismo volumen
   const segs: { start: number; end: number; vol: number }[] = [];
-  let curVol = VOL[plan.timeline[0].soundCue] ?? 0.25;
+  let curVol = plan.timeline[0]?.soundCue && VOL[plan.timeline[0].soundCue] !== undefined ? VOL[plan.timeline[0].soundCue] : 0.25;
   let segStart = 0;
   for (let i = 1; i < plan.timeline.length; i++) {
-    const v = VOL[plan.timeline[i].soundCue] ?? 0.25;
+    const cue = plan.timeline[i]?.soundCue;
+    const v = cue && VOL[cue] !== undefined ? VOL[cue] : 0.25;
     if (v !== curVol) {
       segs.push({ start: segStart, end: i, vol: curVol });
       segStart = i;
@@ -132,9 +133,10 @@ function buildLUTFilters(luts: LUTSpec[] = []): string[] {
 }
 
 function buildVisualFilters(plan: VideoPlan): string[] {
-  // Extrae overlays y LUTs del plan (por segundo o escena)
+  // Extrae overlays, LUTs y campos avanzados del plan (por segundo o escena)
   const overlays: OverlaySpec[] = [];
   const luts: LUTSpec[] = [];
+  const advancedFilters: string[] = [];
   if (plan.timeline) {
     for (const sec of plan.timeline) {
       if (Array.isArray(sec.overlays)) {
@@ -143,24 +145,53 @@ function buildVisualFilters(plan: VideoPlan): string[] {
       if (Array.isArray(sec.luts)) {
         for (const l of sec.luts) luts.push({ ...l, start: sec.t, end: sec.t + 1 });
       }
+      // Filtros visuales avanzados
+      if (sec.corteEdicion) advancedFilters.push(`trim=start=${sec.t}:duration=${sec.duracionPlano || 1}`);
+      if (sec.ritmoEdicion) advancedFilters.push(`setpts=PTS/${sec.ritmoEdicion}`);
+      if (sec.tipoTransicion) advancedFilters.push(`fade=t=${sec.tipoTransicion}:st=${sec.t}:d=0.5`);
+      if (sec.animacionTexto) advancedFilters.push(`drawtext=text='${sec.animacionTexto}':x=(w-text_w)/2:y=50:fontsize=48:fontcolor=white:enable='between(t,${sec.t},${sec.t+1})'`);
+      // Subtítulos multilingües: si hay SRT (campo 'subtitulos' con URL), usarlo; si no, usar layoutSubtitulos
+      if (sec.subtitulos && typeof sec.subtitulos === 'string' && sec.subtitulos.endsWith('.srt')) {
+        advancedFilters.push(`subtitles='${sec.subtitulos}'`);
+      } else if (sec.layoutSubtitulos) {
+        advancedFilters.push(`drawtext=text='${sec.layoutSubtitulos}':x=10:y=h-60:fontsize=32:fontcolor=yellow:enable='between(t,${sec.t},${sec.t+1})'`);
+      }
+      if (sec.motivoVisual) advancedFilters.push(`drawbox=x=0:y=0:w=iw:h=ih:color=white@0.05:enable='between(t,${sec.t},${sec.t+1})'`);
+      if (sec.direccionArte) advancedFilters.push(`eq=contrast=${sec.direccionArte === 'barroco' ? 1.5 : 1.0}`);
+      if (sec.climaAtmosferico) advancedFilters.push(`curves=preset=${sec.climaAtmosferico}`);
+      if (sec.lente) advancedFilters.push(`vignette=enable='between(t,${sec.t},${sec.t+1})'`);
+      if (sec.texturaRealismo) advancedFilters.push(`unsharp=5:5:${sec.texturaRealismo === 'alta' ? 2 : 1}`);
     }
   }
   return [
     ...buildLUTFilters(luts),
-    ...buildOverlayFilters(overlays)
+    ...buildOverlayFilters(overlays),
+    ...advancedFilters
   ];
 }
 
 function buildAudioFilters(plan: VideoPlan): string {
-  // EQ y reverb básicos según metadatos (puedes expandir)
+  // EQ, reverb y mezcla avanzada según campos del plan
   let filters = [];
-  // Ejemplo: si alguna escena tiene 'reverb' en effects, aplicar reverb
   if (plan.timeline?.some(sec => sec.effects?.includes('reverb'))) {
     filters.push('aecho=0.8:0.9:1000:0.3');
   }
-  // Ejemplo: si alguna escena tiene 'eq' en effects, aplicar EQ
   if (plan.timeline?.some(sec => sec.effects?.includes('eq'))) {
     filters.push('equalizer=f=1000:t=q:w=1:g=3');
+  }
+  // Mezcla avanzada
+  if (plan.timeline?.some(sec => sec.mezclaAudio)) {
+    filters.push('amix=inputs=2:duration=longest');
+  }
+  if (plan.timeline?.some(sec => typeof sec.balanceSonido === 'number')) {
+    const bal = Number(plan.timeline[0].balanceSonido) || 0.5;
+    filters.push(`pan=stereo|c0=${bal}|c1=${1-bal}`);
+  }
+  if (plan.timeline?.some(sec => sec.efectoSonoro)) {
+    filters.push('aphaser=type=2:stereo=1');
+  }
+  if (plan.timeline?.some(sec => sec.sonidoAmbiente)) {
+    filters.push('volume=0.7');
   }
   return filters.join(',');
 }
