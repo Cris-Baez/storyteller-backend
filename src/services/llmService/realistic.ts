@@ -112,23 +112,53 @@ NO EXCEDAS la duración ni generes segundos vacíos.
   const timeout = 300000; // 300 segundos (5 minutos)
   for (const model of models) {
     try {
+      // 1. Primera llamada al LLM para generar el plan
       llmResponse = await callOpenRouter(systemPrompt, userPrompt, model, timeout);
       if (!llmResponse) throw new Error('Respuesta vacía del modelo: ' + model);
-      const videoPlan = extractFirstJsonBlock(llmResponse as string, { returnParsed: true, debug: true }) as VideoPlan;
+      const rawResponse = llmResponse as string;
+
+      // 2. Segunda llamada para forzar JSON válido con timeline y visualStyle
+      const transformSystemPrompt = `# JSON TRANSFORMER
+Devuelve exclusivamente un objeto JSON válido con la siguiente estructura exacta:
+{
+  "timeline": [ /* array de escenas */ ],
+  "visualStyle": "${style}"
+}
+Sin texto adicional.`;
+      const transformUserPrompt = `Por favor, toma la siguiente respuesta del modelo y devuélvela SOLO como JSON válido con los campos \"timeline\" y \"visualStyle\":
+
+${rawResponse}`;
+      const rectifyResponse = await callOpenRouter(transformSystemPrompt, transformUserPrompt, model, timeout);
+      const videoPlan = extractFirstJsonBlock(rectifyResponse as string, { returnParsed: true, debug: true }) as VideoPlan;
+
       if (!videoPlan) {
         console.error('[LLMService] No se encontró bloque JSON en la respuesta:', llmResponse);
         throw new Error('No se encontró bloque JSON en la respuesta del modelo.');
       }
-      // Forzar metadata en el objeto raíz
-      if (!videoPlan.visualStyle) videoPlan.visualStyle = req.metadata?.visualStyle || 'realistic';
-      // Adaptar automáticamente videoPlan a timeline si es necesario
-      if (!videoPlan.timeline && Array.isArray(videoPlan.videoPlan)) {
-        videoPlan.timeline = videoPlan.videoPlan;
+
+      // --- BLINDAJE Y NORMALIZACIÓN DEL PLAN ---
+      // 1. Forzar el visualStyle correcto para evitar el error de validación más común.
+      if (!videoPlan.visualStyle) {
+        videoPlan.visualStyle = style; // Usar el estilo de la petición original.
       }
-      if (!videoPlan.timeline || !Array.isArray(videoPlan.timeline) || !videoPlan.timeline[0]) {
-        console.error('[LLMService] VideoPlan inválido o timeline vacío:', videoPlan);
-        throw new Error('El modelo no devolvió un VideoPlan válido.');
+
+      // 2. Adaptar automáticamente la estructura si el LLM usa 'videoPlan' en lugar de 'timeline'.
+      if (!videoPlan.timeline && (videoPlan as any).videoPlan) {
+        videoPlan.timeline = (videoPlan as any).videoPlan;
+        delete (videoPlan as any).videoPlan;
       }
+
+      // 3. Validar que el timeline exista y sea un array con contenido.
+      if (!videoPlan.timeline || !Array.isArray(videoPlan.timeline) || videoPlan.timeline.length === 0) {
+        console.error('[LLMService] VideoPlan inválido o timeline vacío tras normalización:', videoPlan);
+        throw new Error('El modelo no devolvió un timeline válido y con contenido.');
+      }
+
+      // --- BLINDAJE FINAL: Forzar visualStyle antes de retornar ---
+      if (!videoPlan.visualStyle) {
+        videoPlan.visualStyle = style;
+      }
+
       return videoPlan;
     } catch (err) {
       lastError = err;

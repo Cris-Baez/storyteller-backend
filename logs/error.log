@@ -3468,3 +3468,6 @@ SyntaxError: Unexpected token '�', ...""prompt": �An epic s"... is not valid
 2025-07-23T23:58:47.542Z [error] [LLMService] El timeline tiene longitud 21 pero se pidieron 30 segundos.
 2025-07-23T23:59:54.150Z [error] [LLMService] El timeline tiene longitud 20 pero se pidieron 30 segundos.
 2025-07-24T00:01:05.857Z [error] [LLMService] El timeline tiene longitud 7 pero se pidieron 30 segundos.
+2025-07-24T23:17:44.905Z [error] ❌ Error al llamar a llmService.createVideoPlan (intento 1): No se pudo generar un VideoPlan válido. Errores: Metadata incompleta: falta visualStyle.
+2025-07-24T23:28:44.532Z [error] ❌ Error al llamar a llmService.createVideoPlan (intento 1): No se pudo generar un VideoPlan válido. Errores: Metadata incompleta: falta visualStyle.; timeline[1]: falta backgroundPrompt.; timeline[1]: falta actorPrompt.; timeline[3]: falta backgroundPrompt.; timeline[3]: falta actorPrompt.
+2025-07-24T23:40:03.235Z [error] ❌ Error al llamar a llmService.createVideoPlan (intento 1): No se pudo generar un VideoPlan válido. Errores: Metadata incompleta: falta visualStyle.

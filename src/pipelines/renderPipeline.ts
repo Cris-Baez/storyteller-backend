@@ -22,10 +22,9 @@ const TIMEOUT = 600_000; // 10 min
 
 
 export async function runRenderPipeline(req: RenderRequest): Promise<RenderResponse> {
-  // let plan; (ya declarado arriba, eliminar duplicado)
-  let plan;
+  // --- NUEVO FLUJO: Generar el plan primero, luego validar y contingencias ---
+  let plan: any = undefined;
   let alreadyRetriedPlan = false;
-  // Refuerzo: Validar cumplimiento de plantilla para todos los estilos principales
   const plantillaChecks: Record<string, (plan: any) => string[]> = {
     'anime': (plan) => {
       const errors = [];
@@ -55,23 +54,80 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
     'realistic': (plan) => []
   };
 
-  // --- Mapeo y normalización de escenas ANTES de cualquier validación ---
-  let planToCheck = req.metadata?.plan || plan;
-  let contingenciaActiva = false;
-  // Fix universal: adapta cualquier variante de videoPlan/timeline
-  if (planToCheck && !planToCheck.timeline) {
-    if (Array.isArray(planToCheck.videoPlan)) {
-      planToCheck.timeline = planToCheck.videoPlan;
-    } else if (planToCheck.videoPlan && Array.isArray(planToCheck.videoPlan.timeline)) {
-      planToCheck.timeline = planToCheck.videoPlan.timeline;
+  // 1. Generar el plan principal con bucle de autocorrección robusto
+  let maxPlanAttempts = 3;
+  let planAttempt = 0;
+  let lastValidationErrors: string[] = [];
+  let lastValidationWarnings: string[] = [];
+  let lastPrompt = req.prompt;
+  let planMetadata = req.metadata || {};
+  while (planAttempt < maxPlanAttempts) {
+    planAttempt++;
+    let planReq = { ...req, prompt: lastPrompt, metadata: planMetadata };
+    try {
+      plan = await retry(() => createVideoPlan(planReq));
+    } catch (e) {
+      logger.error(`❌ Error al llamar a llmService.createVideoPlan (intento ${planAttempt}):`, e);
+      const { logFeedback } = await import('../services/feedbackService.js');
+      logFeedback({
+        service: 'LLMService',
+        action: 'createVideoPlan',
+        success: false,
+        error: e instanceof Error ? e.message : String(e),
+        params: { req: planReq, attempt: planAttempt }
+      });
+      if (planAttempt >= maxPlanAttempts) throw new Error('No se pudo generar el plan de video tras varios intentos.');
+      continue;
+    }
+    // Normalizar estructura del plan
+    if (plan && !plan.timeline && plan.videoPlan) {
+      plan.timeline = plan.videoPlan;
+    }
+    if (plan && Array.isArray(plan.timeline)) {
+      plan.timeline = mapTimelineFields(plan.timeline).map(normalizeSceneFields);
+    }
+    // Validación avanzada de coherencia y continuidad
+    const validation = validateVideoPlan(plan);
+    lastValidationErrors = validation.errors || [];
+    lastValidationWarnings = validation.warnings || [];
+    if (validation.ok) {
+      if (lastValidationWarnings.length > 0) {
+        logger.warn('⚠️ VideoPlan con advertencias:', lastValidationWarnings);
+        const { logFeedback } = await import('../services/feedbackService.js');
+        logFeedback({
+          service: 'LLMService',
+          action: 'validateVideoPlan',
+          success: true,
+          error: 'Advertencias: ' + lastValidationWarnings.join('; '),
+          params: { plan, attempt: planAttempt }
+        });
+      }
+      break; // Plan válido, salimos del bucle
+    } else {
+      logger.error(`❌ VideoPlan inválido (intento ${planAttempt}). Errores:`, lastValidationErrors);
+      const { logFeedback } = await import('../services/feedbackService.js');
+      logFeedback({
+        service: 'LLMService',
+        action: 'validateVideoPlan',
+        success: false,
+        error: lastValidationErrors.join('; '),
+        params: { plan, attempt: planAttempt }
+      });
+      // Construir feedback explícito para el LLM
+      let feedback = `\n\nFEEDBACK: Corrige los siguientes errores en el VideoPlan generado: ${lastValidationErrors.join('; ')}\n`;
+      // Refuerza el prompt con feedback y recordatorio de plantilla
+      lastPrompt = (req.prompt || '') + feedback + '\nRecuerda: el plan debe cumplir la plantilla profesional CinemaAI, con todos los campos obligatorios, continuidad, variedad visual, efectos, música, voz, idioma, feedback de usuario y validación final.';
+      // Si hay metadata relevante, la mantenemos
+      planMetadata = { ...planMetadata };
+      if (planAttempt >= maxPlanAttempts) {
+        throw new Error('VideoPlan inválido tras varios intentos: ' + lastValidationErrors.join('; '));
+      }
     }
   }
-  // Mapeo y normalización de escenas ANTES de cualquier validación
-  if (planToCheck && Array.isArray(planToCheck.timeline)) {
-    planToCheck.timeline = mapTimelineFields(planToCheck.timeline).map(normalizeSceneFields);
-  }
 
-  // Validación de plantilla y contingencia
+  // 2. Validar el plan y aplicar contingencias/fallbacks si es necesario
+  let planToCheck: any = plan || {};
+  let contingenciaActiva = false;
   let planErrors: string[] = [];
   if (plantillaChecks[req.visualStyle]) {
     planErrors = plantillaChecks[req.visualStyle](planToCheck || {});
@@ -100,13 +156,8 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
         try {
           const reqAlt = { ...req, metadata: { ...req.metadata, llmModel: altModel } };
           altPlan = await retry(() => createVideoPlan(reqAlt));
-          // Adaptar estructura
-          if (altPlan && !altPlan.timeline) {
-            if (Array.isArray(altPlan.videoPlan)) {
-              altPlan.timeline = altPlan.videoPlan;
-            } else if (altPlan.videoPlan && Array.isArray(altPlan.videoPlan.timeline)) {
-              altPlan.timeline = altPlan.videoPlan.timeline;
-            }
+          if (altPlan && !altPlan.timeline && altPlan.videoPlan) {
+            altPlan.timeline = altPlan.videoPlan;
           }
           if (altPlan && Array.isArray(altPlan.timeline)) {
             altPlan.timeline = mapTimelineFields(altPlan.timeline).map(normalizeSceneFields);
@@ -117,6 +168,7 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
             planErrors = [];
             contingenciaActiva = false;
             logger.info('[Contingencia] Segundo LLM generó plan válido.');
+            plan = altPlan;
             break;
           } else {
             logger.warn(`[Contingencia] Segundo LLM también falló: ${altErrors.join('; ')}`);
@@ -143,6 +195,7 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
         });
         planErrors = [];
         contingenciaActiva = false;
+        plan = planToCheck;
       }
     }
     logger.warn(`[Plantilla] El plan no cumple reglas de plantilla ${req.visualStyle}: ${planErrors.join('; ')}`);
@@ -169,7 +222,6 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
         logger.error('❌ Error al reintentar createVideoPlan con prompt reforzado:', e);
         throw new Error(`El plan no cumple reglas de plantilla ${req.visualStyle}: ${planErrors.join('; ')}`);
       }
-      // Normalizar: aceptar tanto 'timeline' como 'videoPlan' en el fallback
       if (newPlan && !newPlan.timeline && newPlan.videoPlan) {
         newPlan.timeline = newPlan.videoPlan;
       }
@@ -204,41 +256,8 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
   }
 
 
-  // ...existing code...
-  logger.info('🚀 Pipeline Kling+LLMService+Segmentación – inicio');
-  const t0 = Date.now();
 
-
-  // 1. Calcular la segmentación óptima (clips de 5s/10s) según estilo y duración
-  const previewMode = !!req.previewMode;
-  const segments = segmentVideoByStyle(req.duration, req.visualStyle);
-  logger.info(`🧩 Segmentos calculados: ${segments.map(s => s.duration).join('+')}s`);
-  if (previewMode) logger.info('🟡 Render en modo previsualización rápida (proxy)');
-
-  // 2. Obtener el VideoPlan completo usando llmService
-  logger.info('🎬 Llamando a llmService para obtener VideoPlan...');
-  // Eliminada declaración duplicada de 'let plan;'
-  try {
-    plan = await retry(() => createVideoPlan(req));
-  } catch (e) {
-    logger.error('❌ Error al llamar a llmService.createVideoPlan:', e);
-    const { logFeedback } = await import('../services/feedbackService.js');
-    logFeedback({
-      service: 'LLMService',
-      action: 'createVideoPlan',
-      success: false,
-      error: e instanceof Error ? e.message : String(e),
-      params: { req }
-    });
-    throw new Error('No se pudo generar el plan de video.');
-  }
-  // Mapeo y normalización de campos de escenas antes de validar
-  if (plan && Array.isArray(plan.timeline)) {
-    plan.timeline = mapTimelineFields(plan.timeline).map(normalizeSceneFields);
-  } else if (plan && Array.isArray(plan.videoPlan)) {
-    plan.timeline = mapTimelineFields(plan.videoPlan).map(normalizeSceneFields);
-  }
-  // Validación avanzada de coherencia y continuidad
+  // Validación avanzada de coherencia y continuidad (después de contingencias)
   const validation = validateVideoPlan(plan);
   if (!validation.ok) {
     logger.error('❌ VideoPlan inválido. Errores:', validation.errors);
@@ -263,34 +282,19 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
       params: { plan }
     });
   }
-  const timeline = plan.timeline || [];
+  const timeline = (plan && plan.timeline) ? plan.timeline : [];
 
-  // 3. Dividir el timeline en escenas según los segmentos calculados
-  let scenes = [];
-  let idx = 0;
-  for (const seg of segments) {
-    const sceneTimeline = timeline.slice(idx, idx + seg.duration);
-    // Cast a any para robustez y compatibilidad con el pipeline
-    const base = (sceneTimeline[0] || {}) as any;
-    scenes.push({
-      start: seg.start,
-      duration: seg.duration,
-      style: seg.style,
-      background: base.background || '',
-      character: base.character || 'TheRockActor',
-      visual: base.visual || 'Acción cinematográfica',
-      camera: base.camera || 'plano medio',
-      movement: base.movement || 'estático',
-      lighting: base.lighting || 'neutro',
-      transition: base.transition || 'cut',
-      music: base.music || 'ambient',
-      emotion: base.emotion || '',
-      timeline: sceneTimeline
-    });
-    idx += seg.duration;
-  }
-  logger.info(`🎬 ${scenes.length} escenas/tomas generadas por segmentación.`);
-
+  // --- Variables de control de pipeline ---
+  logger.info('🚀 Pipeline Kling+LLMService+Segmentación – inicio');
+  const t0 = Date.now();
+  const previewMode = !!req.previewMode;
+  // Eliminamos segmentación artificial: cada escena del timeline es una toma real
+  const scenes = (timeline as any[]).map((scene: any, idx: number) => ({
+    ...scene,
+    idx,
+    // Puedes agregar aquí lógica para enriquecer la escena si falta algún campo obligatorio
+  }));
+  logger.info(`🎬 ${scenes.length} escenas/tomas generadas desde el timeline del LLM.`);
 
   // 4. Generar música de fondo y voice-over
   logger.info('🎵 Generando música de fondo...');
@@ -323,7 +327,7 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
   logger.info('🎙️ Generando voice-over completo...');
   let voiceOver: Buffer;
   try {
-    voiceOver = await createVoiceOver(plan);
+    voiceOver = await createVoiceOver(plan as any);
   } catch (e) {
     logger.warn('No se pudo generar voice-over, se usará buffer vacío');
     const { logFeedback } = await import('../services/feedbackService.js');
@@ -350,19 +354,16 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
   // SFX: por ahora buffer vacío, puedes expandir para extraer de plan.timeline
   let sfx: Buffer[] = [];
 
-
-
   // 5. Render incremental: generar cada clip de forma independiente y manejar errores por escena
-  logger.info('🎥 Generando clips con Kling (render incremental)...');
+  logger.info('🎥 Generando clips con Kling (render incremental, 1:1 con timeline)...');
   const clips: string[] = [];
   const failedScenes: number[] = [];
   for (let i = 0; i < scenes.length; i++) {
     const normalizedScene = normalizeSceneFields(scenes[i]);
     try {
       logger.info(`🎬 Generando clip ${i + 1}/${scenes.length}...`);
-      const result = await retry(() => generateClipsKling([normalizedScene], { plan, music, previewMode }));
+      const result = await retry(() => generateClipsKling([normalizedScene], { plan: plan as any, music, previewMode }));
       if (result && result.clips && result.clips[0]) {
-        // Validar que la URL del clip sea válida y no placeholder
         if (typeof result.clips[0] !== 'string' || !result.clips[0].startsWith('http') || result.clips[0].includes('placehold.co')) {
           logger.error(`❌ Clip ${i + 1} falló: URL inválida o placeholder`);
           const { logFeedback } = await import('../services/feedbackService.js');
@@ -403,7 +404,7 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
     for (const idx of failedScenes) {
       const normalizedScene = normalizeSceneFields(scenes[idx]);
       try {
-        const result = await retry(() => generateClipsKling([normalizedScene], { plan, music, previewMode }));
+        const result = await retry(() => generateClipsKling([normalizedScene], { plan: plan as any, music, previewMode }));
         if (result && result.clips && result.clips[0] && typeof result.clips[0] === 'string' && result.clips[0].startsWith('http')) {
           clips[idx] = result.clips[0];
           logger.info(`✅ Clip ${idx + 1} recuperado en reintento.`);
@@ -431,9 +432,7 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
   logger.info('🛠️ Ensamblando video final con voz, música y SFX...');
   let finalUrl = '';
   try {
-    finalUrl = await assembleVideo({ plan, clips: successfulClips, voiceOver, music: [music], sfx });
-    // Validar duración y formato del video final
-    // (Simulado: en producción, analizar metadatos del archivo generado)
+    finalUrl = await assembleVideo({ plan: plan as any, clips: successfulClips, voiceOver, music: [music], sfx });
     if (!finalUrl || typeof finalUrl !== 'string' || !finalUrl.endsWith('.mp4')) {
       logger.error('❌ Video final no tiene formato .mp4 válido');
       const { logFeedback } = await import('../services/feedbackService.js');
@@ -456,13 +455,11 @@ export async function runRenderPipeline(req: RenderRequest): Promise<RenderRespo
     const TMP_DIR = path.join('/tmp/pipeline_demo', Date.now().toString());
     await fs.mkdir(TMP_DIR, { recursive: true });
     await fs.writeFile(path.join(TMP_DIR, 'plan.json'), Buffer.from(JSON.stringify(plan, null, 2)));
-    await fs.writeFile(path.join(TMP_DIR, 'segments.json'), Buffer.from(JSON.stringify(segments, null, 2)));
     await fs.writeFile(path.join(TMP_DIR, 'scenes.json'), Buffer.from(JSON.stringify(scenes, null, 2)));
     await fs.writeFile(path.join(TMP_DIR, 'clips.json'), Buffer.from(JSON.stringify(clips, null, 2)));
     await fs.writeFile(path.join(TMP_DIR, 'finalUrl.txt'), Buffer.from(finalUrl));
     logger.info(`[DEMO MODE] Outputs y logs guardados en ${TMP_DIR}`);
   }
-
 
   const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
   logger.info(`✅ Render final OK en ${elapsed}s → ${finalUrl}`);
