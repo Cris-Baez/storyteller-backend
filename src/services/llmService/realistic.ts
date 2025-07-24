@@ -10,6 +10,41 @@ export async function generateRealisticVideoPlan(req: RenderRequest): Promise<Vi
   const style = req.metadata.visualStyle || 'realistic';
   const userPrompt = req.prompt || '';
   const systemPrompt = `
+  # INSTRUCCIONES ESTRICTAS PARA EL LLM:
+  - Devuelve SIEMPRE un objeto JSON con la siguiente estructura exacta:
+    {
+      "timeline": [
+        {
+          "t": 0,
+          "backgroundPrompt": "...",
+          "actorPrompt": "...",
+          "visual": "...",
+          "camera": "...",
+          "lighting": "...",
+          "colorPalette": "...",
+          "composition": "...",
+          "atmosphere": "...",
+          "effects": "...",
+          "emotion": "...",
+          "music": { "mood": "...", "trackId": "..." },
+          "dialogo": "...",
+          "voz": "...",
+          "lipSync": "...",
+          "overlays": [],
+          "luts": [],
+          "soundCue": "...",
+          "transition": "...",
+          "carryover": false,
+          "audioCarryover": false,
+          "faceAnimation": "..."
+        }, ...
+      ],
+      "visualStyle": "realistic"
+    }
+  - NO uses otros nombres de campo ni anides la timeline en otro objeto.
+  - Si algún campo no aplica, pon un string vacío o valor por defecto.
+  - No devuelvas arrays de objetos con campos distintos ni anidados.
+  - No devuelvas videoPlan, solo timeline y visualStyle en la raíz.
       "music": "piano suave",
       "fx": ["ruido de ciudad", "tazas"],
       "transition": "fade",
@@ -86,7 +121,10 @@ NO EXCEDAS la duración ni generes segundos vacíos.
       }
       // Forzar metadata en el objeto raíz
       if (!videoPlan.visualStyle) videoPlan.visualStyle = req.metadata?.visualStyle || 'realistic';
-      // ...existing code...
+      // Adaptar automáticamente videoPlan a timeline si es necesario
+      if (!videoPlan.timeline && Array.isArray(videoPlan.videoPlan)) {
+        videoPlan.timeline = videoPlan.videoPlan;
+      }
       if (!videoPlan.timeline || !Array.isArray(videoPlan.timeline) || !videoPlan.timeline[0]) {
         console.error('[LLMService] VideoPlan inválido o timeline vacío:', videoPlan);
         throw new Error('El modelo no devolvió un VideoPlan válido.');
