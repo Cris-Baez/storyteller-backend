@@ -9,6 +9,7 @@ export interface ValidationResult {
   warnings: string[];
 }
 
+
 export function validateVideoPlan(plan: VideoPlan): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -17,10 +18,16 @@ export function validateVideoPlan(plan: VideoPlan): ValidationResult {
     return { ok: false, errors, warnings };
   }
   // Validar metadata
-  if (!plan.metadata || typeof plan.metadata.mode !== 'string' || typeof plan.metadata.visualStyle !== 'string') {
-    errors.push('Metadata incompleta: falta mode o visualStyle.');
+  if (!plan.metadata || typeof plan.metadata.visualStyle !== 'string') {
+    errors.push('Metadata incompleta: falta visualStyle.');
   }
-  // Validar cada segundo
+  // Validar cada segundo y narrativa
+  let lastEmotion = '';
+  let lastBackground = '';
+  let lastTransition = '';
+  let intro = false, climax = false, cierre = false;
+  let repeticionesFondo = 0;
+  let cortesDurosSeguidos = 0;
   plan.timeline.forEach((sec: TimelineSecond, idx: number) => {
     if (typeof sec.t !== 'number') errors.push(`timeline[${idx}]: falta campo t (segundo).`);
     if (!sec.backgroundPrompt) errors.push(`timeline[${idx}]: falta backgroundPrompt.`);
@@ -45,7 +52,32 @@ export function validateVideoPlan(plan: VideoPlan): ValidationResult {
     if (!sec.idioma) warnings.push(`timeline[${idx}]: falta idioma.`);
     if (!sec.feedbackUsuario) warnings.push(`timeline[${idx}]: falta feedbackUsuario.`);
     if (!sec.validacionFinal) warnings.push(`timeline[${idx}]: falta validacionFinal.`);
-    // Puedes agregar más validaciones para los campos avanzados aquí
+    // Validación narrativa avanzada
+    if (sec.emotion && lastEmotion && sec.emotion !== lastEmotion && Math.abs(idx - plan.timeline.findIndex(s => s.emotion === lastEmotion)) < 3) {
+      warnings.push(`timeline[${idx}]: salto brusco de emoción de "${lastEmotion}" a "${sec.emotion}".`);
+    }
+    if (sec.backgroundPrompt && sec.backgroundPrompt === lastBackground) {
+      repeticionesFondo++;
+      if (repeticionesFondo > 2) warnings.push(`timeline[${idx}]: fondo repetido demasiadas veces, sugiere variedad visual.`);
+    } else {
+      repeticionesFondo = 0;
+    }
+    if (sec.transition === 'cut' && lastTransition === 'cut') {
+      cortesDurosSeguidos++;
+      if (cortesDurosSeguidos > 1) warnings.push(`timeline[${idx}]: cortes duros consecutivos, sugiere transiciones suaves.`);
+    } else {
+      cortesDurosSeguidos = 0;
+    }
+    if (sec.faseNarrativa === 'introducción') intro = true;
+    if (sec.faseNarrativa === 'clímax') climax = true;
+    if (sec.faseNarrativa === 'cierre') cierre = true;
+    lastEmotion = sec.emotion || lastEmotion;
+    lastBackground = sec.backgroundPrompt || lastBackground;
+    lastTransition = sec.transition || lastTransition;
   });
+  // Sugerencias narrativas
+  if (!intro) warnings.push('No se detecta introducción narrativa.');
+  if (!climax) warnings.push('No se detecta clímax narrativo.');
+  if (!cierre) warnings.push('No se detecta cierre narrativo.');
   return { ok: errors.length === 0, errors, warnings };
 }

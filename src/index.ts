@@ -1,3 +1,15 @@
+// Manejo global de errores no capturados y promesas no manejadas
+process.on('uncaughtException', (err) => {
+  logger.error(`[FATAL] Excepción no capturada: ${err.message}\n${err.stack}`);
+  // Opcional: salir para que un orquestador reinicie el proceso
+  process.exit(1);
+});
+process.on('unhandledRejection', (reason) => {
+  logger.error(`[FATAL] Promesa no manejada: ${reason}`);
+  // Opcional: salir para que un orquestador reinicie el proceso
+  process.exit(1);
+});
+// ...existing code...
 // src/index.ts
 import 'express-async-errors';
 import express, { Request, Response, NextFunction } from 'express';
@@ -7,11 +19,23 @@ import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import { renderRouter } from './routes/render.js';
 import { logger } from './utils/logger.js';
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
+// Carga SIEMPRE el .env desde la raíz, sin importar el directorio de ejecución
+const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".." );
+dotenv.config({ path: path.join(projectRoot, ".env") });
 const app = express();
+
 
 // Seguridad HTTP headers
 app.use(helmet());
+app.use('/admin', adminRouter);
+
+import adminRouter from './routes/admin.js';
+// Rutas de administración y monitoreo (solo para admins/desarrollo)
+app.use('/admin', adminRouter);
 
 // CORS (ajusta origin según tu frontend)
 app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));

@@ -6,5 +6,5 @@ node_modules
 dist
 .vscode
 .env
-
+.env.example
 /generated/prisma

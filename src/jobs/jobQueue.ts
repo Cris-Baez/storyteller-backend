@@ -4,17 +4,18 @@ import { randomUUID } from 'crypto';
 const jobStatus: Record<string, 'pending' | 'done' | 'error'> = {};
 const jobResults: Record<string, any> = {};
 
-export async function startJob({ prompt, mode, visualStyle, duration }: any) {
+
+export async function startJob({ prompt, visualStyle, duration }: any) {
   const jobId = randomUUID();
   jobStatus[jobId] = 'pending';
 
   // Render en segundo plano
   setImmediate(async () => {
     try {
-      const result = await runRenderPipeline({ prompt, mode, visualStyle, duration });
+      const result = await runRenderPipeline({ prompt, visualStyle, duration });
       jobStatus[jobId] = 'done';
       jobResults[jobId] = result;
-      console.log(`Job ${jobId} completado con éxito. Resultado:`, result);
+      console.log(`Job ${jobId} completado con xito. Resultado:`, result);
     } catch (error) {
       const err = error instanceof Error ? error : new Error(String(error));
       jobStatus[jobId] = 'error';

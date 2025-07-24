@@ -1,25 +1,15 @@
-// Storyteller AI · Contract Types (LIMPIO)
 
+// Storyteller AI · Contract Types (LIMPIO Y UNIFICADO)
 
+export type AllowedDuration = 10 | 15 | 30 | 45 | 60;
 
 export interface RenderRequest {
   prompt: string;
-  mode: string;
   visualStyle: string;
   duration: AllowedDuration;
   metadata?: any;
   demoMode?: boolean;
-}
-
-export interface AudioSpec {
-  voice?: VoiceSpec;
-  music?: MusicSpec;
-  characters?: CharacterVoiceSpec[];
-}
-
-export interface VoiceSpec {
-  id: string;
-  name: string;
+  previewMode?: boolean;
 }
 
 export interface MusicSpec {
@@ -27,118 +17,56 @@ export interface MusicSpec {
   trackId: string;
 }
 
+export interface CharacterVoiceSpec {
+  name: string;
+  voiceId: string;
+  gender: 'male' | 'female';
+  age: number;
+  language: string;
+}
+
 export interface TimelineSecond {
+  t: number;
+  visual?: string;
+  backgroundPrompt?: string;
+  actorPrompt?: string;
+  transition?: string;
+  camera?: { shot?: string; movement?: string } | string;
+  movement?: string;
+  lighting?: string;
+  colorPalette?: string;
+  composition?: string;
+  atmosphere?: string;
+  effects?: string;
+  emotion?: string;
+  music?: MusicSpec;
+  dialogo?: string;
+  lipSync?: string;
   overlays?: Array<{ path: string; x?: number; y?: number; opacity?: number }>;
   luts?: Array<{ path: string; intensity?: number }>;
   soundCue?: string;
-    t: number;
-    faseNarrativa?: string;
-    visual?: string;
-    backgroundPrompt?: string;
-    actorPrompt?: string;
-    camera?: {
-        shot?: string;
-        movement?: string;
-    } | string;
-    movement?: string;
-    lighting?: string;
-    colorPalette?: string;
-    composition?: string;
-    atmosphere?: string;
-    effects?: string;
-    variedadVisual?: string;
-    continuidad?: string;
-    efectosAvanzados?: string;
-    musicaAvanzada?: string;
-    emotion?: string;
-  music?: MusicSpec;
-    multitude?: string;
-    arcoPersonaje?: string;
-    simbolismo?: string;
-    dialogo?: string;
-    accionEncadenada?: string;
-    ubicacion?: string;
-    voz?: string;
-    lipSync?: string;
-    parametrosVoz?: string;
-    imagenUsuario?: string;
-    productoReferencia?: string;
-    localReferencia?: string;
-    presentador?: string;
-    miradaACamara?: string;
-    expresionFacial?: string;
-    textoNoticia?: string;
-    capasVisuales?: string;
-    filtros?: string;
-    subtitulos?: string;
-    transicionesEditor?: string;
-    resolucion?: string;
-    formato?: string;
-    marcaAgua?: string;
-    plan?: string;
-    limitesPlan?: string;
-    metricaDuracion?: string;
-    metricaEstilo?: string;
-    metricaPopularidad?: string;
-    blenderHook?: string;
-    loraCustom?: string;
-    controlTotal?: string;
-    detalleGestual?: string;
-    reaccionEmocional?: string;
-    cambioLuz?: string;
-    expresionFacialActor?: string;
-    ritmoEdicion?: string;
-    duracionPlano?: string;
-    tipoTransicion?: string;
-    convencionGenero?: string;
-    feedbackUsuario?: string;
-    idioma?: string;
-    region?: string;
-    localizacionDialogo?: string;
-    animacionTexto?: string;
-    efectoEntrada?: string;
-    layoutSubtitulos?: string;
-    mezclaAudio?: string;
-    balanceSonido?: string;
-    efectoSonoro?: string;
-    perfilUsuario?: string;
-    validacionFinal?: string;
-    // Nuevos campos avanzados para coherencia, dirección de arte y edición
-    lente?: string;
-    texturaRealismo?: string;
-    direccionArte?: string;
-    movimientoCamara?: string;
-    animacionSutil?: string;
-    climaAtmosferico?: string;
-    corteEdicion?: string;
-    sonidoAmbiente?: string;
-    microaccion?: string;
-    motivoVisual?: string;
+  [key: string]: any;
 }
 
 export interface VideoPlan {
-  transition?: string;
-  ambientSound?: string;
-  soundEffects?: string[];
-  voiceLine?: string;
-  storyboard?: boolean;
-    timeline: TimelineSecond[];
-    metadata: {
-      mode: string;
-      visualStyle: string;
-      duration: AllowedDuration;
-      prompt?: string;
-      modelOrder?: string[];
-      characterLora?: string | null;
-      backgroundLora?: string | null;
-      lora?: string | null;
-      loraScale?: number;
-      seed?: number | string;
-      characters?: CharacterVoiceSpec[];
-      music?: MusicSpec;
-      demoMode?: boolean;
-      [key: string]: any;
-    };
+  visualStyle?: string;
+  timeline: TimelineSecond[];
+  metadata: {
+    visualStyle: string;
+    duration: AllowedDuration;
+    prompt?: string;
+    modelOrder?: string[];
+    characterLora?: string | null;
+    backgroundLora?: string | null;
+    lora?: string | null;
+    loraScale?: number;
+    seed?: number | string;
+    characters?: CharacterVoiceSpec[];
+    music?: MusicSpec;
+    demoMode?: boolean;
+    [key: string]: any;
+  };
+  [key: string]: any;
 }
 
 export interface RenderResponse {
@@ -151,28 +79,10 @@ export interface CameraSpec {
   movement: string;
 }
 
-export interface CharacterVoiceSpec {
-  name: string;
-  voiceId: string;
-  gender: 'male' | 'female';
-  age: number;
-  language: string;
-}
-
 export interface Metadata {
   characters?: CharacterVoiceSpec[];
 }
 
-
-
-/* ´Duración` solo puede ser 10,15,30,45,60 s */
-export type AllowedDuration = 10 | 15 | 30 | 45 | 60;
-
-/* → Petición de render que envía el front */
-export interface TimelineSecond {
-
-  // ...existing code...
-}
 
 /* → Especificación de voz (opcional) */
 export interface VoiceSpec {

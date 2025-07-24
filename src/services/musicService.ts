@@ -1,3 +1,4 @@
+import { logFeedback } from './feedbackService.js';
 /**
  * getAdvancedMusic (public)
  * Genera música de fondo personalizada usando campos avanzados del VideoPlan
@@ -33,11 +34,25 @@ export async function getAdvancedMusic(options: {
     (await fetchFromArtlist(style));
   if (!raw) {
     logger.warn('⚠️  No se encontró música avanzada; devolviendo buffer vacío');
+    logFeedback({
+      service: 'Music',
+      action: 'getAdvancedMusic',
+      success: false,
+      error: 'No se pudo generar la pista de música avanzada',
+      params: { options }
+    });
     throw new Error('No se pudo generar la pista de música avanzada');
   }
   const buf = await normalise(raw);
   if (!buf || !Buffer.isBuffer(buf) || buf.length === 0) {
     logger.error('❌ La pista de música avanzada generada está vacía o es inválida');
+    logFeedback({
+      service: 'Music',
+      action: 'getAdvancedMusic',
+      success: false,
+      error: 'La pista de música avanzada generada está vacía o es inválida',
+      params: { options }
+    });
     throw new Error('La pista de música avanzada generada está vacía o es inválida');
   }
   logger.info(`✅  Pista de música avanzada lista (${buf.length} bytes)`);
@@ -63,7 +78,7 @@ import { v4 as uuid }      from 'uuid';
 import { spawn }           from 'child_process';
 import ffmpegPath          from 'ffmpeg-static';
 
-const TIMEOUT = 45_000;
+const TIMEOUT = 600_000; // 10 minutos para descargas de música
 const CACHE_DIR = '/tmp/music_cache';
 
 // Crear directorio de caché de forma síncrona
@@ -164,21 +179,54 @@ async function normalise(buf: Buffer): Promise<Buffer> {
 /* ═════════════════════════════
  * getBackgroundMusic (public)
  * ═════════════════════════════ */
-export async function getBackgroundMusic(style: string): Promise<Buffer> {
-  logger.info(`🎵  Buscar música de fondo para "${style}"`);
-  const raw =
-    (await fetchFromFreesound(style)) ??
-    (await fetchFromArtlist(style));
-
-  if (!raw) {
-    logger.warn('⚠️  No se encontró música; devolviendo buffer vacío');
-    throw new Error('No se pudo generar la pista de música');
+export async function getBackgroundMusic(style: string, previewMode?: boolean): Promise<Buffer> {
+  logger.info(`🎵  Buscar música de fondo para "${style}"${previewMode ? ' [PREVIEW MODE]' : ''}`);
+  if (typeof style !== 'string' || !style.trim()) {
+    logger.error('[MusicService] Estilo de música inválido');
+    logFeedback({
+      service: 'Music',
+      action: 'getBackgroundMusic',
+      success: false,
+      error: 'Estilo de música inválido',
+      params: { style, previewMode }
+    });
+    throw new Error('Estilo de música inválido');
   }
-  const buf = await normalise(raw);
+  let raw;
+  const start = Date.now();
+  if (previewMode) {
+    // En modo preview, usar un sample corto o compresión extra
+    raw = await fetchFromFreesound('short ' + style) ?? await fetchFromArtlist('short ' + style);
+  } else {
+    raw = await fetchFromFreesound(style) ?? await fetchFromArtlist(style);
+  }
+  if (!raw) {
+    logFeedback({
+      service: 'Music',
+      action: 'getBackgroundMusic',
+      timeoutMs: TIMEOUT,
+      elapsedMs: Date.now() - start,
+      success: false
+    });
+    throw new Error('No se pudo generar la pista de música');
+  } else {
+    logFeedback({
+      service: 'Music',
+      action: 'getBackgroundMusic',
+      timeoutMs: TIMEOUT,
+      elapsedMs: Date.now() - start,
+      success: true
+    });
+  }
+  // En preview, podrías normalizar a menor bitrate o recortar
+  let buf = await normalise(raw);
+  if (previewMode && buf && Buffer.isBuffer(buf)) {
+    buf = buf.subarray(0, Math.min(buf.length, 2000000)); // máx 2MB para preview
+  }
   if (!buf || !Buffer.isBuffer(buf) || buf.length === 0) {
     logger.error('❌ La pista de música generada está vacía o es inválida');
     throw new Error('La pista de música generada está vacía o es inválida');
   }
-  logger.info(`✅  Pista de música lista (${buf.length} bytes)`);
+
   return buf;
 }

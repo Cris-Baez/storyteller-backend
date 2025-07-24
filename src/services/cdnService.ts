@@ -1,3 +1,4 @@
+import { logFeedback } from './feedbackService.js';
 // src/services/cdnService.ts
 import { Storage } from '@google-cloud/storage';
 import path from 'path';
@@ -32,10 +33,24 @@ export async function uploadToCDN(
   // Validación avanzada de parámetros
   if (typeof localFilePath !== 'string' || !localFilePath) {
     logger.error('uploadToCDN: localFilePath inválido');
+    logFeedback({
+      service: 'CDN',
+      action: 'upload',
+      success: false,
+      error: 'localFilePath inválido',
+      params: { localFilePath, cdnPath }
+    });
     throw new Error('localFilePath inválido');
   }
   if (typeof cdnPath !== 'string' || !cdnPath) {
     logger.error('uploadToCDN: cdnPath inválido');
+    logFeedback({
+      service: 'CDN',
+      action: 'upload',
+      success: false,
+      error: 'cdnPath inválido',
+      params: { localFilePath, cdnPath }
+    });
     throw new Error('cdnPath inválido');
   }
   try {
@@ -45,21 +60,49 @@ export async function uploadToCDN(
     throw new Error(`El archivo no existe en la ruta especificada: ${localFilePath}`);
   }
 
-  // Subida simple, sin ACLs ni public:true (compatible con uniform bucket-level access)
-  try {
-    await bucket.upload(localFilePath, {
-      destination: cdnPath
-    });
-    const url = `https://storage.googleapis.com/${env.GCP_BUCKET_NAME}/${cdnPath}`;
-    logger.info(`[CDN] Archivo subido correctamente: ${cdnPath} → ${url}`);
-    // Registrar metadatos si existen
-    if (options) {
-      logger.info(`[CDN] Metadatos asociados: ${JSON.stringify(options)}`);
-      // Aquí podrías guardar los metadatos en una base de datos/log externo si lo deseas
+  // Subida robusta con timeout y retry
+  const uploadTimeout = 600_000; // 10 minutos
+  logger.info(`[CDN] Timeout de subida configurado en ${uploadTimeout / 1000} segundos`);
+  let lastError;
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    const start = Date.now();
+    try {
+      const uploadPromise = bucket.upload(localFilePath, { destination: cdnPath });
+      await Promise.race([
+        uploadPromise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout de subida a CDN')), uploadTimeout))
+      ]);
+      const url = `https://storage.googleapis.com/${env.GCP_BUCKET_NAME}/${cdnPath}`;
+      logger.info(`[CDN] Archivo subido correctamente: ${cdnPath} → ${url} (intento ${attempt})`);
+      if (options) {
+        logger.info(`[CDN] Metadatos asociados: ${JSON.stringify(options)}`);
+      }
+      logFeedback({
+        service: 'CDN',
+        action: 'upload',
+        timeoutMs: uploadTimeout,
+        elapsedMs: Date.now() - start,
+        attempt,
+        success: true,
+        params: { localFilePath, cdnPath }
+      });
+      return url;
+    } catch (e: any) {
+      lastError = e;
+      logger.error(`[CDN] Error subiendo archivo (intento ${attempt}): ${e.message}`);
+      logFeedback({
+        service: 'CDN',
+        action: 'upload',
+        timeoutMs: uploadTimeout,
+        elapsedMs: Date.now() - start,
+        attempt,
+        success: false,
+        error: e.message,
+        params: { localFilePath, cdnPath }
+      });
+      if (attempt < 5) await new Promise(res => setTimeout(res, 2000 * attempt));
     }
-    return url;
-  } catch (e: any) {
-    logger.error(`[CDN] Error subiendo archivo: ${e.message}`);
-    throw e;
   }
+  logger.error(`[CDN] Fallo definitivo tras 5 intentos: ${lastError?.message}`);
+  throw lastError || new Error('Error desconocido en subida a CDN');
 }

@@ -35,4 +35,27 @@ const schema = z.object({
 });
 
 const env = schema.parse(process.env);
+
+// Advertir si faltan variables opcionales importantes
+const opcionales = [
+  'ELEVENLABS_API_KEY',
+  'ARTLIST_TOKEN',
+  'DM_API_TOKEN',
+  'GEN2_CONCURRENCY',
+  'GEN2_TIMEOUT_MS',
+  'FFMPEG_TIMEOUT_MS',
+  'OPENROUTER_BASE_URL',
+  'OPENROUTER_HTTP_REFERER',
+  'OPENROUTER_X_TITLE',
+  'FREESOUND_API_KEY',
+  'RUNWAYML_API_SECRET',
+  'RUNWAY_API_TOKEN',
+  'ADMIN_TOKEN'
+];
+for (const key of opcionales) {
+  if (!process.env[key]) {
+    console.warn(`[AVISO] Variable opcional no definida: ${key}`);
+  }
+}
+
 export { env };

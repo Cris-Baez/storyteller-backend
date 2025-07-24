@@ -1,0 +1,222 @@
+¡Perfecto, Cris! A continuación te devuelvo **toda la información que me diste**, **sin resumir nada**, pero **mejorada al máximo nivel profesional**, con más claridad, estructura precisa, mejor lenguaje técnico y sin perder ni una idea. Esta es una explicación integral de cómo debe funcionar CinemaAI **en el backend**, incluyendo la lógica del flujo, las decisiones del LLMService, las diferencias por duración del video, la lógica visual y narrativa, y las plantillas reales que usarás.
+
+---
+
+# 🧠 LÓGICA DETALLADA DEL FUNCIONAMIENTO DEL BACKEND DE CINEMAAI (Versión Profesional Extendida)
+
+---
+
+## 🎬 Lógica general del flujo creativo
+
+Cuando un usuario entra a CinemaAI, el sistema debe seguir una lógica inteligente basada en decisiones automáticas según el tipo de video, el contenido provisto y la duración elegida. A partir de ese input inicial, se activa una cadena de procesamiento que transforma la idea en una producción audiovisual real.
+
+---
+
+## 🧑‍💻 Entrada del usuario
+
+El usuario realiza una solicitud que puede incluir:
+
+* Un **prompt simple o detallado**
+* Una **duración deseada del video** (10s, 30s, 45s o 60s)
+* Opcionalmente, **imágenes personales**:
+
+  * Foto del usuario
+  * Foto del local o negocio
+  * Imagen de producto
+* Elige si desea que se usen **actores o escenas generadas por IA** o que se mezclen con contenido propio
+
+---
+
+## 🔄 Flujo del Backend Paso a Paso
+
+### 1. Interpretación del prompt con LLMService
+
+* El LLM recibe el prompt, ya sea básico o complejo
+* Lo transforma en una narrativa clara, estructurada y cinematográfica
+* Asigna el **modo adecuado** según el caso:
+
+  * `Cinematic.ts` si es emocional o narrativo
+  * `Commercial.ts` si es para producto o negocio
+  * `Anime.ts` si es en estilo ilustrado o cartoon
+  * `News.ts` si es frontal tipo presentador
+* Este archivo especializado organiza el contenido con enfoque profesional
+
+### 2. Generación narrativa
+
+El LLM genera un plan escena por escena con detalles como:
+
+* Número total de escenas necesarias según la duración
+* Para cada escena:
+
+  * Descripción del fondo y ambientación
+  * Actor que aparece, su expresión, ropa, género, edad
+  * Movimiento de cámara (tipo de plano, ángulo, dirección)
+  * Qué sucede en la escena (acción narrativa o visual)
+  * Qué emoción transmite
+* También define:
+
+  * Si hay diálogos y qué se dice exactamente
+  * Qué tipo de música debe sonar, en qué momento y por qué
+  * Qué efectos de sonido deben agregarse
+  * Dónde deben colocarse carryovers (para continuidad) y qué tipo de transiciones aplicar
+  * Estilo general del video: color, tono, suavidad, ritmo, etc.
+
+> ⚠️ El LLM debe actuar como guionista, director, camarógrafo y editor al mismo tiempo.
+
+---
+
+## 🎥 Generación Visual
+
+### Fondos
+
+* Se generan los fondos para cada escena, usando IA de alta calidad (Flux, Ideogram v3, etc.)
+* Todos los fondos deben tener el **mismo estilo, luz, tonalidad y ambientación**
+* El primer fondo debe ser **especialmente atractivo**, ya que es el que engancha al espectador
+* Si una misma escena debe verse desde otro ángulo, se usa **Kontext** para obtener una versión con perspectiva distinta pero igual estética
+
+### Actor principal
+
+* Si el usuario sube su foto, se limpia automáticamente (recorte, fondo transparente)
+* Si no, se genera un actor por IA siguiendo la descripción emocional y estética generada por el LLM
+* El mismo actor se reutiliza en todas las escenas correspondientes, salvo que se especifique lo contrario
+
+### Actores adicionales
+
+* Si hay múltiples personajes en una escena:
+
+  * Se solicita a **Kontext** que coloque actores adicionales con acciones naturales y posiciones coherentes en el fondo
+  * Esto puede usarse para escenas con cafés llenos, calles concurridas, o familias en casas, por ejemplo
+
+---
+
+## 🧠 Elección del motor de animación
+
+* Si hay **acting detallado**, gestos, expresión facial, movimiento: se usa **Kling Elements**
+* Si los actores son genéricos o hay poca interacción visual: se usa **Kling 2.1**
+* Para productos estáticos o comerciales simples: se puede usar **Kling 2.1**
+* La decisión debe hacerse automáticamente según los requerimientos de acting, control de cámara y sincronía
+
+---
+
+## ⏱️ Lógica por duración del video
+
+### 🎯 Para 10 segundos:
+
+* Se permite usar un solo fondo y una sola escena
+* El LLM puede crear una micro historia o una toma con impacto visual
+* Se puede generar directamente en Kling 2.1 con sonido agregado al final
+* Ideal para reels rápidos, contenido viral o producto flash
+
+### 🎯 Para 30 segundos:
+
+* Se divide en varias escenas complementarias (ej. 7s + 8s + 10s + transiciones)
+* Las escenas deben tener continuidad visual y emocional
+* Se requiere:
+
+  * Mismos tonos y estilo visual en los fondos
+  * Carryover entre escenas (mismo lugar desde otro ángulo)
+  * Transiciones suaves y cámara continua
+  * Ritmo narrativo atractivo (inicio–desarrollo–cierre)
+
+### 🎯 Para 45 y 60 segundos:
+
+* Se requiere mayor planificación visual, más escenas, mayor carga emocional
+* Debe haber una narrativa clara y fluida entre escenas
+* El acting debe evolucionar y los diálogos deben generar conexión
+* Se requiere música emocional con picos y pausas
+* Aquí el video debe sentirse como un verdadero cortometraje o reel profesional
+
+---
+
+## 🎧 Audio: voz, música y efectos
+
+* **Voz:** el LLM indica qué personaje habla, qué dice, con qué emoción y cuándo
+
+  * Se genera en Murf.ai
+  * El audio se guarda en el CDN
+* **Música:** el LLM selecciona tipo de música por escena
+
+  * Ej: épica, nostálgica, alegre, comercial, elegante…
+  * Se mezcla suavemente con la voz y efectos
+* **Efectos:** pasos, ambiente urbano, naturaleza, puertas, lluvia… todo sincronizado automáticamente
+* **Mezcla:** se unifican voz, música y efectos con volúmenes ajustados profesionalmente
+
+---
+
+## 🎞️ Unión y entrega final
+
+* Se ensamblan todos los clips generados
+* Se insertan transiciones donde corresponde
+* Se aplican los efectos de color (color grading) para homogeneizar el resultado
+* Se exporta el video en `.mp4` en el formato deseado: horizontal, vertical o cuadrado
+* Se entrega al usuario vía previsualización, descarga o link compartible
+
+---
+
+# 🧩 PLANTILLAS 2025 (CON CASOS REALES DE USO)
+
+---
+
+### 🏃 Plantilla: Escena de actor corriendo
+
+* Escena 1: plano frontal, actor agitado frente a cámara
+* Escena 2: plano trasero, actor comienza a correr
+* Escena 3: carryover lateral, plano bajo a los pies
+* Escena 4: llegada al destino, plano desde arriba, salto o pausa
+* Todas las escenas usan el mismo fondo desde distintos ángulos (Kontext)
+
+---
+
+### 🏪 Plantilla: Escena Comercial
+
+* Imagen frontal del local (subida por usuario o generada)
+* Escena 1: actor hablando o sonriendo frente al local
+* Escena 2: local con gente haciendo actividades
+* Escena 3: varias tomas del lugar desde diferentes puntos
+* Se pueden mezclar actores IA y personajes reales del usuario
+
+---
+
+### 🏠 Plantilla: Video Inmobiliario
+
+* Escena 1: entrada de la familia por la puerta principal
+* Escena 2: transición suave → la familia desaparece y aparece una pareja dentro del salón
+* Escena 3: recorrido de una persona por la casa
+* Voz en off acompañando la acción con detalles técnicos del inmueble
+
+---
+
+### 📽️ Plantilla: Película tipo Reel
+
+* El usuario cuenta una historia en texto
+* El LLM la transforma en una narrativa con escenas
+* Se generan clips visuales que ilustran la historia
+* Se coloca voz narrativa + música emocional sincronizada
+
+---
+
+### 📰 Plantilla: Modo Noticias
+
+* Presentador mirando a cámara
+* Fondo real o virtual (noticiero, oficina, escenario neutral)
+* Texto dictado por el LLM, leído por voz IA
+* Estilo frontal con cámara estática
+
+---
+
+### 📦 Plantilla: Producto
+
+* Imagen del producto colocada en escena visual
+* Actor IA lo muestra, señala, o interactúa con él
+* Escena rápida (10s) o campaña extendida (30s) con varios ángulos
+* Música moderna y voz promocional
+
+---
+
+### 🎌 Plantilla: Estilo Anime o Cartoon
+
+* El usuario puede subir hasta 2 personajes
+* Se generan escenas visuales tipo anime, con acting y fondos a juego
+* Escenas pueden tener emoción exagerada, cámara dramática y narrativa tipo manga
+
+

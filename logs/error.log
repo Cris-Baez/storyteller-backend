@@ -3465,3 +3465,6 @@ SyntaxError: Unexpected token '�', ...""prompt": �An epic s"... is not valid
 2025-07-18T21:34:28.607Z [error] [ClipService] Error inesperado en segmento 16-23: Replicate no devolvió URL de video
 2025-07-18T21:34:28.752Z [error] [ClipService] Error inesperado en segmento 0-7: Replicate no devolvió URL de video
 2025-07-19T20:16:53.097Z [error] ❌ Clip no encontrado o inaccesible: https://storage.googleapis.com/storyteller-ai-cdn/videos/klingclip_1752956050055_884088.mp4
+2025-07-23T23:58:47.542Z [error] [LLMService] El timeline tiene longitud 21 pero se pidieron 30 segundos.
+2025-07-23T23:59:54.150Z [error] [LLMService] El timeline tiene longitud 20 pero se pidieron 30 segundos.
+2025-07-24T00:01:05.857Z [error] [LLMService] El timeline tiene longitud 7 pero se pidieron 30 segundos.

@@ -12360,3 +12360,504 @@ frame=  939 fps=164 q=-1.0 Lsize=   12616KiB time=00:00:31.30 bitrate=3301.9kbit
 2025-07-23T03:59:07.086Z [info] 🎵  Freesound query: realistic
 2025-07-23T03:59:26.678Z [info] ✅  Pista de música lista (2487212 bytes)
 2025-07-23T03:59:26.681Z [info] 🎥 Generando clips con Kling...
+2025-07-23T20:23:01.960Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:23:09.528Z [info] ::1 - - [23/Jul/2025:20:23:09 +0000] "POST /api/render HTTP/1.1" 400 333 "-" "curl/8.6.0"
+2025-07-23T20:24:09.405Z [info] ::1 - - [23/Jul/2025:20:24:09 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T20:24:09.407Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T20:24:09.408Z [info] 🧩 Segmentos calculados: 10+10s
+2025-07-23T20:24:09.409Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T20:24:09.410Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un atardecer en la playa, estilo realista, voz en espaol, msica relajante....
+2025-07-23T20:24:09.411Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T20:24:15.195Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:24:15.196Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T20:24:20.746Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4-turbo falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:24:20.748Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-opus
+2025-07-23T20:24:25.751Z [warn] [LLMService] [createVideoPlan] Modelo anthropic/claude-3-opus falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:24:25.754Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-sonnet
+2025-07-23T20:24:30.704Z [warn] [LLMService] [createVideoPlan] Modelo anthropic/claude-3-sonnet falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:24:30.705Z [info] [LLMService] [createVideoPlan] Probando modelo: google/gemini-pro
+2025-07-23T20:24:35.906Z [warn] [LLMService] [createVideoPlan] Modelo google/gemini-pro falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:24:35.907Z [info] [LLMService] [createVideoPlan] Probando modelo: mistral/mistral-large
+2025-07-23T20:24:40.864Z [warn] [LLMService] [createVideoPlan] Modelo mistral/mistral-large falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:24:40.865Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-3.5-turbo
+2025-07-23T20:24:45.913Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-3.5-turbo falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:24:45.914Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4
+2025-07-23T20:24:50.896Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4 falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:24:50.897Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-3.5
+2025-07-23T20:24:55.960Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-3.5 falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:24:55.965Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-3
+2025-07-23T20:27:54.055Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:28:01.020Z [info] ::1 - - [23/Jul/2025:20:28:01 +0000] "POST /api/render HTTP/1.1" 400 339 "-" "curl/8.6.0"
+2025-07-23T20:28:05.540Z [info] ::1 - - [23/Jul/2025:20:28:05 +0000] "POST /api/render HTTP/1.1" 400 339 "-" "curl/8.6.0"
+2025-07-23T20:29:27.039Z [info] ::1 - - [23/Jul/2025:20:29:27 +0000] "POST /api/render HTTP/1.1" 400 339 "-" "curl/8.6.0"
+2025-07-23T20:29:33.594Z [info] ::1 - - [23/Jul/2025:20:29:33 +0000] "POST /api/render HTTP/1.1" 400 339 "-" "curl/8.6.0"
+2025-07-23T20:29:38.707Z [info] ::1 - - [23/Jul/2025:20:29:38 +0000] "POST /api/render HTTP/1.1" 400 339 "-" "curl/8.6.0"
+2025-07-23T20:31:09.483Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:31:18.200Z [info] ::1 - - [23/Jul/2025:20:31:18 +0000] "POST /api/render HTTP/1.1" 400 339 "-" "curl/8.6.0"
+2025-07-23T20:32:14.099Z [info] ::1 - - [23/Jul/2025:20:32:14 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T20:32:14.101Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T20:32:14.101Z [info] 🧩 Segmentos calculados: 5+5+5+5+5+5s
+2025-07-23T20:32:14.102Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T20:32:14.103Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un atardecer en la playa, estilo anime, voz en espaol, msica relajante....
+2025-07-23T20:32:14.104Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T20:32:19.691Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:32:19.692Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T20:32:24.782Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4-turbo falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:32:24.783Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-opus
+2025-07-23T20:32:30.277Z [warn] [LLMService] [createVideoPlan] Modelo anthropic/claude-3-opus falló: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+2025-07-23T20:32:30.278Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-sonnet
+2025-07-23T20:34:04.416Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:36:24.046Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:37:08.430Z [info] ::1 - - [23/Jul/2025:20:37:08 +0000] "GET /api/render HTTP/1.1" 404 149 "-" "curl/8.6.0"
+2025-07-23T20:37:40.768Z [info] ::1 - - [23/Jul/2025:20:37:40 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T20:37:40.770Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T20:37:40.770Z [info] 🧩 Segmentos calculados: 5+5s
+2025-07-23T20:37:40.771Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T20:37:40.772Z [info] [LLMService] [createVideoPlan] Prompt limpio: Quiero un video de accin estilo anime, con fondo futurista y personajes corriendo bajo la lluvia....
+2025-07-23T20:37:40.772Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T20:37:46.146Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: OpenRouter error 401: {"error":{"message":"No auth credentials found","code":401}}
+2025-07-23T20:37:46.149Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T20:37:51.115Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4-turbo falló: OpenRouter error 401: {"error":{"message":"No auth credentials found","code":401}}
+2025-07-23T20:37:51.116Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-opus
+2025-07-23T20:37:56.200Z [warn] [LLMService] [createVideoPlan] Modelo anthropic/claude-3-opus falló: OpenRouter error 401: {"error":{"message":"No auth credentials found","code":401}}
+2025-07-23T20:37:56.201Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-sonnet
+2025-07-23T20:38:01.213Z [warn] [LLMService] [createVideoPlan] Modelo anthropic/claude-3-sonnet falló: OpenRouter error 401: {"error":{"message":"No auth credentials found","code":401}}
+2025-07-23T20:38:01.215Z [info] [LLMService] [createVideoPlan] Probando modelo: google/gemini-pro
+2025-07-23T20:38:06.300Z [warn] [LLMService] [createVideoPlan] Modelo google/gemini-pro falló: OpenRouter error 401: {"error":{"message":"No auth credentials found","code":401}}
+2025-07-23T20:38:06.300Z [info] [LLMService] [createVideoPlan] Probando modelo: mistral/mistral-large
+2025-07-23T20:41:39.294Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:42:07.256Z [info] ::1 - - [23/Jul/2025:20:42:07 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T20:42:07.259Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T20:42:07.260Z [info] 🧩 Segmentos calculados: 5+5s
+2025-07-23T20:42:07.261Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T20:42:07.264Z [info] [LLMService] [createVideoPlan] Prompt limpio: Quiero un video de accin estilo anime, con fondo futurista y personajes corriendo bajo la lluvia....
+2025-07-23T20:42:07.272Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T20:42:07.274Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:42:07.280Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:42:08.789Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:42:08.790Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:42:10.299Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:42:10.300Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:42:11.815Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:42:11.816Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T20:42:11.817Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:42:11.817Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:42:13.329Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:42:13.331Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:42:14.840Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:42:14.842Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:42:16.356Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4-turbo falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:42:16.357Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-opus
+2025-07-23T20:42:16.357Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:42:16.358Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:42:17.860Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:42:17.861Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:42:19.374Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:42:19.376Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:42:20.891Z [warn] [LLMService] [createVideoPlan] Modelo anthropic/claude-3-opus falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:42:20.892Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-sonnet
+2025-07-23T20:42:20.893Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:42:20.893Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:44:14.218Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:44:22.710Z [info] ::1 - - [23/Jul/2025:20:44:22 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T20:44:22.714Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T20:44:22.716Z [info] 🧩 Segmentos calculados: 5+5s
+2025-07-23T20:44:22.717Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T20:44:22.719Z [info] [LLMService] [createVideoPlan] Prompt limpio: Quiero un video de accin estilo anime, con fondo futurista y personajes corriendo bajo la lluvia....
+2025-07-23T20:44:22.721Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T20:44:22.722Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:44:22.723Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:44:24.233Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:44:24.235Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:44:25.742Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:44:25.743Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:44:27.255Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:44:27.256Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T20:44:27.256Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:44:27.257Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:44:28.760Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:44:28.761Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:44:30.268Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:44:30.268Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:44:31.774Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4-turbo falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:44:31.776Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-opus
+2025-07-23T20:44:31.776Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:44:31.777Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:02.855Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:47:17.166Z [info] ::1 - - [23/Jul/2025:20:47:17 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T20:47:17.170Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T20:47:17.171Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-23T20:47:17.172Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T20:47:17.173Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-23T20:47:17.174Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T20:47:17.175Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:17.176Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:18.696Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:18.700Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:20.210Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:20.211Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:21.718Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:47:21.720Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T20:47:21.721Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:21.721Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:23.229Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:23.235Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:24.744Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:24.748Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:26.260Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4-turbo falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:47:26.261Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-opus
+2025-07-23T20:47:26.262Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:26.263Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:27.775Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:27.778Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:29.290Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:29.291Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:30.807Z [warn] [LLMService] [createVideoPlan] Modelo anthropic/claude-3-opus falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:47:30.808Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-sonnet
+2025-07-23T20:47:30.808Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:30.810Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:32.324Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:32.325Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:33.838Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:33.840Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:35.348Z [warn] [LLMService] [createVideoPlan] Modelo anthropic/claude-3-sonnet falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:47:35.349Z [info] [LLMService] [createVideoPlan] Probando modelo: google/gemini-pro
+2025-07-23T20:47:35.350Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:35.350Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:36.858Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:36.860Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:38.364Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:38.366Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:39.874Z [warn] [LLMService] [createVideoPlan] Modelo google/gemini-pro falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:47:39.875Z [info] [LLMService] [createVideoPlan] Probando modelo: mistral/mistral-large
+2025-07-23T20:47:39.876Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:39.876Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:41.391Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:41.391Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:47:42.900Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:47:42.901Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:52:18.943Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:52:29.904Z [info] ::1 - - [23/Jul/2025:20:52:29 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T20:52:29.907Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T20:52:29.908Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-23T20:52:29.909Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T20:52:29.911Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-23T20:52:29.912Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T20:52:29.912Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:52:29.913Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:52:31.429Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:52:31.432Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:52:32.942Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:52:32.944Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:52:34.460Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:52:34.461Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T20:52:34.461Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:52:34.463Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:52:35.978Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:52:35.980Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:52:37.489Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:52:37.489Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:52:39.001Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4-turbo falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:52:39.002Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-opus
+2025-07-23T20:52:39.003Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:52:39.004Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:52:40.517Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:52:40.518Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:53:05.668Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:53:14.007Z [info] ::1 - - [23/Jul/2025:20:53:14 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T20:53:14.011Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T20:53:14.013Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-23T20:53:14.016Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T20:53:14.018Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-23T20:53:14.020Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T20:53:14.024Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:53:14.025Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:53:15.531Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:53:15.532Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:53:17.043Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:53:17.047Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:53:18.558Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:53:18.559Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T20:53:18.559Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:53:18.559Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:56:46.030Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:56:57.131Z [info] ::1 - - [23/Jul/2025:20:56:57 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T20:56:57.136Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T20:56:57.138Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-23T20:56:57.139Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T20:56:57.140Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-23T20:56:57.141Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T20:56:57.142Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:56:57.144Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:56:58.665Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:56:58.666Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:00.179Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:00.180Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:01.681Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:57:01.682Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T20:57:01.682Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:01.683Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:03.185Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:03.187Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:04.693Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:04.694Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:19.342Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T20:57:28.649Z [info] ::1 - - [23/Jul/2025:20:57:28 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T20:57:28.654Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T20:57:28.655Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-23T20:57:28.656Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T20:57:28.657Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-23T20:57:28.658Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T20:57:28.658Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:28.659Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:30.177Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:30.178Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:31.684Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:31.685Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:33.189Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:57:33.190Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T20:57:33.192Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:33.193Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:34.696Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:34.697Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:36.207Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:36.208Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:37.712Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4-turbo falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:57:37.713Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-opus
+2025-07-23T20:57:37.713Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:37.714Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:39.223Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:39.224Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:40.732Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:40.734Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:42.251Z [warn] [LLMService] [createVideoPlan] Modelo anthropic/claude-3-opus falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:57:42.253Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-sonnet
+2025-07-23T20:57:42.254Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:42.255Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:43.758Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:43.760Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:45.266Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:45.267Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:46.771Z [warn] [LLMService] [createVideoPlan] Modelo anthropic/claude-3-sonnet falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:57:46.772Z [info] [LLMService] [createVideoPlan] Probando modelo: google/gemini-pro
+2025-07-23T20:57:46.773Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:46.773Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:48.279Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:48.280Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:49.792Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:49.793Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:51.315Z [warn] [LLMService] [createVideoPlan] Modelo google/gemini-pro falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:57:51.323Z [info] [LLMService] [createVideoPlan] Probando modelo: mistral/mistral-large
+2025-07-23T20:57:51.326Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:51.329Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:52.843Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:52.844Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:54.356Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:54.357Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:55.867Z [warn] [LLMService] [createVideoPlan] Modelo mistral/mistral-large falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:57:55.869Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-3.5-turbo
+2025-07-23T20:57:55.870Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:55.870Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:57.381Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:57.382Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:57:58.895Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:57:58.896Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:58:00.400Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-3.5-turbo falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:58:00.400Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4
+2025-07-23T20:58:00.401Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:58:00.401Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:58:01.909Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:58:01.910Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:58:03.418Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:58:03.419Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:58:04.928Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4 falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:58:04.929Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-3.5
+2025-07-23T20:58:04.929Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:58:04.929Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:58:06.438Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:58:06.439Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:58:07.943Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:58:07.944Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:58:09.459Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-3.5 falló: OPENROUTER_API_KEY está vacía. Verifica tu .env y reinicia el servidor.
+2025-07-23T20:58:09.459Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-3
+2025-07-23T20:58:09.460Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:58:09.462Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T20:58:10.974Z [info] [DEBUG] OPENROUTER_API_KEY: [VACÍA]
+2025-07-23T20:58:10.976Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T21:03:53.098Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T21:04:13.272Z [info] ::1 - - [23/Jul/2025:21:04:13 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T21:04:13.275Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T21:04:13.277Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-23T21:04:13.277Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T21:04:13.282Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-23T21:04:13.283Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T21:04:13.284Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-23T21:04:13.284Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T21:05:02.939Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: Unexpected token '/', ..."  },
+
+    // Escenas"... is not valid JSON
+2025-07-23T21:05:02.939Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T21:05:02.940Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-23T21:05:02.940Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T21:06:27.864Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4-turbo falló: Expected ',' or ']' after array element in JSON at position 13811
+2025-07-23T21:06:27.865Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-opus
+2025-07-23T21:06:27.866Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-23T21:06:27.867Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T23:51:56.493Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T23:53:25.111Z [info] ::1 - - [23/Jul/2025:23:53:25 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T23:53:25.115Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T23:53:25.118Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-23T23:53:25.119Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T23:53:25.123Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-23T23:53:25.133Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T23:53:25.135Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-23T23:53:25.138Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T23:53:57.490Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: El timeline generado no es válido o no tiene la duración correcta
+2025-07-23T23:53:57.492Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T23:53:57.493Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-23T23:53:57.493Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T23:54:59.004Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-23T23:54:59.005Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T23:55:50.332Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4-turbo falló: El timeline generado no es válido o no tiene la duración correcta
+2025-07-23T23:55:50.343Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-opus
+2025-07-23T23:55:50.349Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-23T23:55:50.349Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T23:57:57.832Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-23T23:58:08.581Z [info] ::1 - - [23/Jul/2025:23:58:08 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-23T23:58:08.585Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-23T23:58:08.586Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-23T23:58:08.587Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-23T23:58:08.588Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-23T23:58:08.593Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-23T23:58:08.596Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-23T23:58:08.597Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T23:58:47.542Z [error] [LLMService] El timeline tiene longitud 21 pero se pidieron 30 segundos.
+2025-07-23T23:58:47.544Z [warn] [LLMService] [createVideoPlan] Modelo openai/chatgpt-4o-latest falló: El timeline generado no tiene la duración correcta
+2025-07-23T23:58:47.544Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/gpt-4-turbo
+2025-07-23T23:58:47.545Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-23T23:58:47.545Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-23T23:59:54.150Z [error] [LLMService] El timeline tiene longitud 20 pero se pidieron 30 segundos.
+2025-07-23T23:59:54.151Z [warn] [LLMService] [createVideoPlan] Modelo openai/gpt-4-turbo falló: El timeline generado no tiene la duración correcta
+2025-07-23T23:59:54.151Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-opus
+2025-07-23T23:59:54.151Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-23T23:59:54.152Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-24T00:01:05.857Z [error] [LLMService] El timeline tiene longitud 7 pero se pidieron 30 segundos.
+2025-07-24T00:01:05.858Z [warn] [LLMService] [createVideoPlan] Modelo anthropic/claude-3-opus falló: El timeline generado no tiene la duración correcta
+2025-07-24T00:01:05.859Z [info] [LLMService] [createVideoPlan] Probando modelo: anthropic/claude-3-sonnet
+2025-07-24T00:01:05.859Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-24T00:01:05.860Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-24T00:03:10.366Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T00:03:21.338Z [info] ::1 - - [24/Jul/2025:00:03:21 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T00:03:21.345Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-24T00:03:21.346Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-24T00:03:21.347Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-24T00:03:21.349Z [info] [LLMService] [createVideoPlan] Prompt limpio: Un samuri solitario recorre las calles de Kioto , buscando redencin tiene escenas muy cine....
+2025-07-24T00:03:21.352Z [info] [LLMService] [createVideoPlan] Probando modelo: openai/chatgpt-4o-latest
+2025-07-24T00:03:21.353Z [info] [DEBUG] OPENROUTER_API_KEY: sk-or-v1...
+2025-07-24T00:03:21.354Z [info] [DEBUG] OPENROUTER_BASE_URL: https://openrouter.ai/api/v1/chat/completions
+2025-07-24T00:04:23.617Z [info] [LLMService] [enrichTimeline] Escena #0 enriquecida correctamente.
+2025-07-24T00:04:23.618Z [info] [LLMService] [enrichTimeline] Escena #1 enriquecida correctamente.
+2025-07-24T00:04:23.619Z [info] [LLMService] [enrichTimeline] Escena #2 enriquecida correctamente.
+2025-07-24T00:04:23.619Z [info] [LLMService] [enrichTimeline] Escena #3 enriquecida correctamente.
+2025-07-24T00:04:23.619Z [info] [LLMService] [enrichTimeline] Escena #4 enriquecida correctamente.
+2025-07-24T00:04:23.620Z [info] [LLMService] [enrichTimeline] Escena #5 enriquecida correctamente.
+2025-07-24T00:04:23.621Z [info] [LLMService] [enrichTimeline] Escena #6 enriquecida correctamente.
+2025-07-24T00:04:23.621Z [info] [LLMService] [enrichTimeline] Escena #7 enriquecida correctamente.
+2025-07-24T00:04:23.622Z [info] [LLMService] [enrichTimeline] Escena #8 enriquecida correctamente.
+2025-07-24T00:04:23.622Z [info] [LLMService] [enrichTimeline] Escena #9 enriquecida correctamente.
+2025-07-24T00:04:23.623Z [info] [LLMService] [enrichTimeline] Escena #10 enriquecida correctamente.
+2025-07-24T00:04:23.623Z [info] [LLMService] [enrichTimeline] Escena #11 enriquecida correctamente.
+2025-07-24T00:04:23.625Z [info] [LLMService] [enrichTimeline] Escena #12 enriquecida correctamente.
+2025-07-24T00:04:23.626Z [info] [LLMService] [enrichTimeline] Escena #13 enriquecida correctamente.
+2025-07-24T00:04:23.627Z [info] [LLMService] [enrichTimeline] Escena #14 enriquecida correctamente.
+2025-07-24T00:04:23.628Z [info] [LLMService] [enrichTimeline] Escena #15 enriquecida correctamente.
+2025-07-24T00:04:23.629Z [info] [LLMService] [enrichTimeline] Escena #16 enriquecida correctamente.
+2025-07-24T00:04:23.631Z [info] [LLMService] [enrichTimeline] Escena #17 enriquecida correctamente.
+2025-07-24T00:04:23.631Z [info] [LLMService] [enrichTimeline] Escena #18 enriquecida correctamente.
+2025-07-24T00:04:23.632Z [info] [LLMService] [enrichTimeline] Escena #19 enriquecida correctamente.
+2025-07-24T00:04:23.634Z [info] [LLMService] [enrichTimeline] Escena #20 enriquecida correctamente.
+2025-07-24T00:04:23.634Z [info] [LLMService] [enrichTimeline] Escena #21 enriquecida correctamente.
+2025-07-24T00:04:23.635Z [info] [LLMService] [enrichTimeline] Escena #22 enriquecida correctamente.
+2025-07-24T00:04:23.635Z [info] [LLMService] [enrichTimeline] Escena #23 enriquecida correctamente.
+2025-07-24T00:04:23.636Z [info] [LLMService] [enrichTimeline] Escena #24 enriquecida correctamente.
+2025-07-24T00:04:23.636Z [info] [LLMService] [enrichTimeline] Escena #25 enriquecida correctamente.
+2025-07-24T00:04:23.637Z [info] [LLMService] [enrichTimeline] Escena #26 enriquecida correctamente.
+2025-07-24T00:04:23.638Z [info] [LLMService] [enrichTimeline] Escena #27 enriquecida correctamente.
+2025-07-24T00:04:23.638Z [info] [LLMService] [enrichTimeline] Escena #28 enriquecida correctamente.
+2025-07-24T00:04:23.639Z [info] [LLMService] [enrichTimeline] Escena #29 enriquecida correctamente.
+2025-07-24T00:04:23.641Z [warn] [LLMService] [createVideoPlan] VideoPlan con advertencias:
+2025-07-24T00:04:23.641Z [info] [LLMService] [createVideoPlan] VideoPlan listo (30s) usando modelo: openai/chatgpt-4o-latest
+2025-07-24T00:04:23.642Z [info] 🎬 3 escenas/tomas generadas por segmentación.
+2025-07-24T00:04:23.642Z [info] 🎵 Generando música de fondo...
+2025-07-24T00:04:23.642Z [info] 🎵  Buscar música de fondo para "realistic"
+2025-07-24T00:04:23.643Z [info] 🎵  Freesound query: realistic
+2025-07-24T00:04:38.360Z [info] ✅  Pista de música lista (2487212 bytes)
+2025-07-24T00:04:38.361Z [info] 🎥 Generando clips con Kling...
+2025-07-24T15:11:29.925Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T15:11:39.277Z [info] ::1 - - [24/Jul/2025:15:11:39 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T15:11:39.284Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-24T15:11:39.286Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-24T15:11:39.287Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-24T15:23:49.118Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T15:24:11.398Z [info] ::1 - - [24/Jul/2025:15:24:11 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T15:24:11.407Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-24T15:24:11.411Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-24T15:24:11.414Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-24T15:28:13.241Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T15:28:23.152Z [info] ::1 - - [24/Jul/2025:15:28:23 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T15:28:23.159Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-24T15:28:23.164Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-24T15:28:23.168Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-24T15:32:08.024Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T15:32:15.884Z [info] ::1 - - [24/Jul/2025:15:32:15 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T15:32:15.898Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-24T15:32:15.905Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-24T15:32:15.909Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-24T15:35:51.506Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T15:36:03.679Z [info] ::1 - - [24/Jul/2025:15:36:03 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T15:36:03.691Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-24T15:36:03.695Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-24T15:36:03.696Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-24T15:39:25.563Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T15:39:30.353Z [info] ::1 - - [24/Jul/2025:15:39:30 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T15:39:30.358Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-24T15:39:30.359Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-24T15:39:30.359Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-24T15:45:45.619Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T15:45:58.888Z [info] ::1 - - [24/Jul/2025:15:45:58 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T15:45:58.891Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-24T15:45:58.892Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-24T15:45:58.894Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-24T15:53:16.786Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T15:53:26.152Z [info] ::1 - - [24/Jul/2025:15:53:26 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T15:53:26.162Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-24T15:53:26.166Z [info] 🧩 Segmentos calculados: 10+10+10s
+2025-07-24T15:53:26.167Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-24T16:01:44.119Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T16:02:05.993Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T16:19:44.673Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T16:19:57.748Z [info] ::1 - - [24/Jul/2025:16:19:57 +0000] "POST /api/render HTTP/1.1" 400 406 "-" "curl/8.6.0"
+2025-07-24T16:20:09.255Z [info] ::1 - - [24/Jul/2025:16:20:09 +0000] "POST /render HTTP/1.1" 404 146 "-" "curl/8.6.0"
+2025-07-24T16:20:44.347Z [info] ::1 - - [24/Jul/2025:16:20:44 +0000] "POST /render HTTP/1.1" 404 146 "-" "curl/8.6.0"
+2025-07-24T16:21:49.751Z [info] ::1 - - [24/Jul/2025:16:21:49 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T16:21:49.763Z [info] 🚀 Pipeline Kling+LLMService+Segmentación – inicio
+2025-07-24T16:21:49.766Z [info] 🧩 Segmentos calculados: 10s
+2025-07-24T16:21:49.768Z [info] 🎬 Llamando a llmService para obtener VideoPlan...
+2025-07-24T22:14:17.625Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T22:14:25.148Z [info] ::1 - - [24/Jul/2025:22:14:25 +0000] "POST /api/render HTTP/1.1" 400 140 "-" "curl/8.6.0"
+2025-07-24T22:15:32.196Z [info] ::1 - - [24/Jul/2025:22:15:32 +0000] "POST /api/render HTTP/1.1" 400 406 "-" "curl/8.6.0"
+2025-07-24T22:16:05.491Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T22:16:25.520Z [info] ::1 - - [24/Jul/2025:22:16:25 +0000] "POST /api/render HTTP/1.1" 400 406 "-" "curl/8.6.0"
+2025-07-24T22:16:57.998Z [info] ::1 - - [24/Jul/2025:22:16:57 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T22:16:58.004Z [warn] [Plantilla] El plan no cumple reglas de plantilla anime: El plan anime no tiene timeline.
+2025-07-24T22:16:58.007Z [info] [FEEDBACK] {"service":"Pipeline","action":"validatePlantilla","success":false,"error":"El plan anime no tiene timeline.","params":{"visualStyle":"anime"},"timestamp":"2025-07-24T22:16:58.007Z"}
+2025-07-24T22:20:46.412Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-24T22:20:52.122Z [info] ::1 - - [24/Jul/2025:22:20:52 +0000] "POST /api/render HTTP/1.1" 400 406 "-" "curl/8.6.0"
+2025-07-24T22:21:20.712Z [info] ::1 - - [24/Jul/2025:22:21:20 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
+2025-07-24T22:21:20.718Z [warn] [Plantilla] El plan no cumple reglas de plantilla anime: El plan anime no tiene timeline.
+2025-07-24T22:21:20.719Z [info] [Fallback] Reintentando generación de plan con prompt reforzado para anime
+2025-07-24T22:21:20.721Z [info] [FEEDBACK] {"service":"Pipeline","action":"retryPlanWithReinforcedPrompt","success":false,"error":"El plan anime no tiene timeline.","params":{"visualStyle":"anime"},"timestamp":"2025-07-24T22:21:20.721Z"}
+2025-07-24T22:21:29.075Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":300000,"elapsedMs":8352,"success":true,"timestamp":"2025-07-24T22:21:29.075Z"}
+2025-07-24T22:22:02.091Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":300000,"elapsedMs":33003,"success":true,"timestamp":"2025-07-24T22:22:02.090Z"}
+2025-07-24T22:22:09.379Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":300000,"elapsedMs":7280,"success":true,"timestamp":"2025-07-24T22:22:09.379Z"}
+2025-07-24T22:22:09.553Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":300000,"elapsedMs":166,"success":false,"error":"{\"error\":{\"message\":\"google/gemini-pro is not a valid model ID\",\"code\":400},\"user_id\":\"user_2yVE1A7oSDepKVTdIeTXVlmQxbw\"}","timestamp":"2025-07-24T22:22:09.553Z"}

@@ -19,21 +19,21 @@ export interface KlingClipParams {
 }
 
 export async function generateKlingClip(params: KlingClipParams): Promise<string> {
-  console.log('[KlingService] [Validación] Iniciando generación de clip:', { 
+  console.log('[KlingService] [Validación] Iniciando generación de clip profesional:', { 
     promptLength: params.prompt?.length || 0, 
     imageCount: params.input_image_urls?.length || 0,
-    duration: params.duration 
+    duration: params.duration,
+    flujo: 'fondo → actor → Kling → Kontext → voz/música → edición → exportar'
   });
-  // Validación estricta de campos requeridos
+  // Validación estricta de campos requeridos según flujo profesional
   const { prompt, input_image_urls, duration, aspect_ratio, negative_prompt } = params;
-  
   if (!prompt || typeof prompt !== 'string') {
     console.log('[KlingService] [Error] Prompt inválido:', { prompt });
     throw new Error('El campo prompt es requerido y debe ser string');
   }
-  if (!Array.isArray(input_image_urls) || input_image_urls.length === 0 || !input_image_urls.every(url => typeof url === 'string')) {
-    console.log('[KlingService] [Error] URLs de imagen inválidas:', { input_image_urls });
-    throw new Error('input_image_urls debe ser un array de strings no vacío');
+  if (!Array.isArray(input_image_urls) || input_image_urls.length < 2 || !input_image_urls.every(url => typeof url === 'string')) {
+    console.log('[KlingService] [Error] URLs de imagen inválidas (deben ser fondo y actor):', { input_image_urls });
+    throw new Error('input_image_urls debe ser un array de al menos dos strings (fondo y actor)');
   }
   
   // Validar que las URLs sean accesibles públicamente

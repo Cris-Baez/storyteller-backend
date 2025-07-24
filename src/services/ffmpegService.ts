@@ -264,14 +264,23 @@ export async function assembleVideo(opts:{
   ), RETRIES);
   logger.info('🟢 [FFmpeg] Concat clips OK → ' + concat);
 
-  /* 2️⃣ write audio temp files */
-  if (voiceOver.length) await fs.writeFile(voiceFile, voiceOver);
-  // Concatenar buffers de música por escena
-  if (Array.isArray(music) && music.length > 0) {
-    const musicConcat = Buffer.concat(music.filter(b => b && b.length));
-    if (musicConcat.length) await fs.writeFile(musicFile, musicConcat);
+  for (const c of clips) {
+    try {
+      await fs.access(c);
+    } catch {
+      logger.error(`❌ Clip no encontrado o inaccesible: ${c}`);
+      // Logging estructurado de error de clip
+      const { logFeedback } = await import('./feedbackService.js');
+      logFeedback({
+        service: 'FFmpegService',
+        action: 'validateClip',
+        success: false,
+        error: 'Clip no encontrado o inaccesible',
+        params: { clip: c }
+      });
+      throw new Error(`Clip no encontrado o inaccesible: ${c}`);
+    }
   }
-  // Concatenar ambience por escena
   if (Array.isArray(ambience) && ambience.length > 0) {
     const ambienceConcat = Buffer.concat(ambience.filter(b => b && b.length));
     if (ambienceConcat.length) await fs.writeFile(ambienceFile, ambienceConcat);

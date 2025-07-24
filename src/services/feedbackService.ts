@@ -1,3 +1,39 @@
+/**
+ * logFeedback: Centraliza logs estructurados de timeout, reintentos y resultados de servicios externos.
+ * El formato es compatible con dashboards, alertas y sistemas de monitoreo externos.
+ * Ejemplo de evento:
+ * {
+ *   service: 'Voice',
+ *   action: 'generateVoice',
+ *   timeoutMs: 600000,
+ *   elapsedMs: 12345,
+ *   attempt: 2,
+ *   success: false,
+ *   error: 'Timeout',
+ *   params: { text: 'Hola', gender: 'female' },
+ *   timestamp: '2025-07-24T12:34:56.789Z'
+ * }
+ */
+export type FeedbackEvent = {
+  service: string;         // Nombre del servicio o módulo
+  action: string;          // Acción o endpoint
+  timeoutMs?: number;      // Timeout configurado (ms)
+  elapsedMs?: number;      // Tiempo real de ejecución (ms)
+  attempt?: number;        // Número de intento (si aplica)
+  success: boolean;        // true=éxito, false=error
+  error?: string;          // Mensaje de error si aplica
+  params?: Record<string, any>; // Parámetros clave de entrada
+  timestamp?: string;      // ISO timestamp (se autocompleta si falta)
+};
+
+export function logFeedback(event: FeedbackEvent) {
+  const logObj = {
+    ...event,
+    timestamp: event.timestamp || new Date().toISOString(),
+  };
+  // Log estructurado, fácil de parsear por sistemas externos
+  logger.info(`[FEEDBACK] ${JSON.stringify(logObj)}`);
+}
 // FeedbackService: registra y procesa feedback del usuario para mejorar la generación IA
 // Soporta feedback por escena, global y por usuario
 

@@ -1,3 +1,4 @@
+import { logFeedback } from './feedbackService.js';
 // src/services/voiceService.ts
 /**
  * Voice Service v6.1 – 2025-07-13
@@ -23,7 +24,7 @@ import { logger } from '../utils/logger.js';
 import { retry }  from '../utils/retry.js';
 
 const TMP_DIR      = '/tmp/voices_v6';
-const TIMEOUT_TTS  = 60_000; // Incrementar tiempo de espera a 60 segundos
+const TIMEOUT_TTS  = 600_000; // Incrementar tiempo de espera a 10 minutos
 const RETRIES      = 3; // Incrementar reintentos a 3
 
 /* Helper timeout */
@@ -81,11 +82,20 @@ export function pickVoiceId(
  * 2) TTS providers
  * ────────────────────────────────────────────────────────── */
 async function murfTTS(text: string, voiceId: string): Promise<Buffer | null> {
-  if (!env.MURF_API_KEY) return null;
+  if (!env.MURF_API_KEY) {
+    logFeedback({
+      service: 'Voice',
+      action: 'murfTTS',
+      success: false,
+      error: 'MURF_API_KEY no configurada',
+      params: { voiceId }
+    });
+    return null;
+  }
 
   try {
     const { data } = await withTimeout(
-      axios.post(
+            axios.post(
         'https://api.murf.ai/v1/speech/generate',
         {
           text,
@@ -117,9 +127,23 @@ async function murfTTS(text: string, voiceId: string): Promise<Buffer | null> {
     }
 
     logger.error('Murf API: Respuesta inesperada, faltan campos esperados.');
+    logFeedback({
+      service: 'Voice',
+      action: 'murfTTS',
+      success: false,
+      error: 'Respuesta inesperada de Murf',
+      params: { text, voiceId }
+    });
     throw new Error('Murf: respuesta inesperada');
   } catch (e: any) {
     // Registro detallado del error
+    logFeedback({
+      service: 'Voice',
+      action: 'murfTTS',
+      success: false,
+      error: e?.message || 'Error Murf',
+      params: { text, voiceId, response: e?.response?.data }
+    });
     if (e.response) {
       logger.error(
         `Murf API error: ${e.message}, Código de estado: ${e.response.status}, Respuesta: ${JSON.stringify(e.response.data)}`
@@ -132,7 +156,16 @@ async function murfTTS(text: string, voiceId: string): Promise<Buffer | null> {
 }
 
 async function elevenTTS(text: string, voiceId: string): Promise<Buffer | null> {
-  if (!env.ELEVENLABS_API_KEY) return null;
+  if (!env.ELEVENLABS_API_KEY) {
+    logFeedback({
+      service: 'Voice',
+      action: 'elevenTTS',
+      success: false,
+      error: 'ELEVENLABS_API_KEY no configurada',
+      params: { voiceId }
+    });
+    return null;
+  }
 
   try {
     const url =
@@ -156,6 +189,13 @@ async function elevenTTS(text: string, voiceId: string): Promise<Buffer | null> 
 
     return Buffer.from(data);
   } catch (e: any) {
+    logFeedback({
+      service: 'Voice',
+      action: 'elevenTTS',
+      success: false,
+      error: e?.message || 'Error ElevenLabs',
+      params: { text, voiceId, response: e?.response?.data }
+    });
     logger.warn(`ElevenLabs error: ${e.message}`);
     return null;
   }
@@ -248,7 +288,18 @@ async function googleTTS(text: string, lang = 'es'): Promise<Buffer | null> {
       proc.on('close', (code) => code === 0 ? res(true) : rej(new Error('gtts error')));
     });
     const buf = await fs.readFile(tmpFile);
-    await fs.unlink(tmpFile);
+    try {
+      await fs.unlink(tmpFile);
+    } catch (cleanupErr) {
+      logger.warn(`[Cleanup] No se pudo eliminar archivo temporal: ${tmpFile}`);
+      logFeedback && logFeedback({
+        service: 'Voice',
+        action: 'cleanup',
+        success: false,
+        error: 'No se pudo eliminar archivo temporal',
+        params: { tmpFile }
+      });
+    }
     logger.info('Google TTS (gtts-cli) generado correctamente.');
     return buf;
   } catch (e) {
@@ -274,18 +325,58 @@ async function beepFallback(): Promise<Buffer> {
     proc.on('close', (code) => code === 0 ? res(true) : rej(new Error('ffmpeg beep fail')));
   });
   const buf = await fs.readFile(tmpFile);
-  await fs.unlink(tmpFile);
+  try {
+    await fs.unlink(tmpFile);
+  } catch (cleanupErr) {
+    logger.warn(`[Cleanup] No se pudo eliminar archivo temporal: ${tmpFile}`);
+    logFeedback && logFeedback({
+      service: 'Voice',
+      action: 'cleanup',
+      success: false,
+      error: 'No se pudo eliminar archivo temporal',
+      params: { tmpFile }
+    });
+  }
   logger.info('Beep fallback generado.');
   return buf;
 }
 
 // Fallback robusto: Murf → ElevenLabs → Google TTS → beep
 async function generateVoice(text: string, gender: 'female' | 'male' = 'female'): Promise<Buffer> {
+  // Validación estricta de parámetros
+  if (typeof text !== 'string' || !text.trim()) {
+    logger.error('[VoiceService] Texto de entrada inválido para TTS');
+    logFeedback({
+      service: 'Voice',
+      action: 'generateVoice',
+      success: false,
+      error: 'Texto de entrada inválido',
+      params: { text, gender }
+    });
+    throw new Error('Texto de entrada inválido para TTS');
+  }
+  if (gender !== 'female' && gender !== 'male') {
+    logger.error('[VoiceService] Género inválido para TTS');
+    logFeedback({
+      service: 'Voice',
+      action: 'generateVoice',
+      success: false,
+      error: 'Género inválido',
+      params: { text, gender }
+    });
+    throw new Error('Género inválido para TTS');
+  }
   // 1. Murf
   const murfId = gender === 'female' ? MURF_FEMALE[0] : MURF_MALE[0];
   let buffer = await murfTTS(text, murfId);
   if (buffer && buffer.length > 0) {
     logger.info('Voz generada con Murf.');
+    logFeedback({
+      service: 'Voice',
+      action: 'generateVoice',
+      success: true,
+      params: { provider: 'Murf', text, gender }
+    });
     return buffer;
   }
   // 2. ElevenLabs
@@ -293,16 +384,35 @@ async function generateVoice(text: string, gender: 'female' | 'male' = 'female')
   buffer = await elevenTTS(text, elevenId);
   if (buffer && buffer.length > 0) {
     logger.info('Voz generada con ElevenLabs.');
+    logFeedback({
+      service: 'Voice',
+      action: 'generateVoice',
+      success: true,
+      params: { provider: 'ElevenLabs', text, gender }
+    });
     return buffer;
   }
   // 3. Google TTS
   buffer = await googleTTS(text, gender === 'female' ? 'es' : 'es');
   if (buffer && buffer.length > 0) {
     logger.info('Voz generada con Google TTS.');
+    logFeedback({
+      service: 'Voice',
+      action: 'generateVoice',
+      success: true,
+      params: { provider: 'GoogleTTS', text, gender }
+    });
     return buffer;
   }
   // 4. Beep de emergencia
   logger.warn('No se pudo generar voz con ningún TTS. Usando beep de emergencia.');
+  logFeedback({
+    service: 'Voice',
+    action: 'generateVoice',
+    success: false,
+    error: 'No se pudo generar voz con ningún TTS',
+    params: { text, gender }
+  });
   return await beepFallback();
 }
 
