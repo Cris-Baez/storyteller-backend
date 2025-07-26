@@ -5,6 +5,8 @@ import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';
 import { uploadToCDN } from './cdnService.js';
+import { generateKlingClip } from './klingService.js';
+import { getAdvancedMusic } from './musicService.js';
 
 // Funciones para generar imágenes por estilo
 export async function generateImageRealista(prompt: string, backgroundUrl?: string): Promise<string> {
@@ -106,6 +108,35 @@ export async function generateKontextAngleOrCrowd(imageUrl: string, kontextPromp
     }
     // ... Fal.ai Kontext ...
     return '';
+}
+
+/**
+ * Genera un video corto (10s) usando Kling 2.1 y le agrega sonido.
+ * Solo para casos rápidos, demos o experimentales.
+ * @param fondoUrl URL PNG del fondo
+ * @param actorUrl URL PNG del actor
+ * @param prompt Texto descriptivo
+ * @param musicStyle Estilo musical
+ * @returns URL del video generado
+ */
+export async function generateQuickKlingVideo({ fondoUrl, actorUrl, prompt, musicStyle }: {
+  fondoUrl: string;
+  actorUrl: string;
+  prompt: string;
+  musicStyle?: string;
+}): Promise<{ videoUrl: string; musicBuffer: Buffer }> {
+  // 1. Generar el clip con Kling 2.1
+  const videoUrl = await generateKlingClip({
+    prompt,
+    input_image_urls: [fondoUrl, actorUrl],
+    duration: 10,
+    aspect_ratio: '16:9',
+    // Puedes agregar más campos si Kling 2.1 lo soporta
+  });
+  // 2. Generar música rápida
+  const musicBuffer = await getAdvancedMusic({ style: musicStyle || 'cinematic' });
+  // 3. Retornar ambos para que el pipeline los mezcle si es necesario
+  return { videoUrl, musicBuffer };
 }
 
 // Servicio principal: genera los clips y prepara para FFmpeg

@@ -18,7 +18,7 @@ async function getAmbience(ambienceType: string): Promise<Buffer> {
   // Aquí deberías conectar a un servicio real de ambience
   return Buffer.from([]); // placeholder
 }
-async function getSfx(sfxType: string): Promise<Buffer> {
+export async function getSfx(sfxType: string): Promise<Buffer> {
   // Aquí deberías conectar a un servicio real de sfx
   return Buffer.from([]); // placeholder
 }

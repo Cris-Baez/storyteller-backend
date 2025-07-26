@@ -1,4 +1,4 @@
-import { runRenderPipeline } from '../pipelines/renderPipeline.js';
+import { renderCinemaAI } from '../pipelines/renderPipeline.js';
 import { randomUUID } from 'crypto';
 
 const jobStatus: Record<string, 'pending' | 'done' | 'error'> = {};
@@ -12,7 +12,7 @@ export async function startJob({ prompt, visualStyle, duration }: any) {
   // Render en segundo plano
   setImmediate(async () => {
     try {
-      const result = await runRenderPipeline({ prompt, visualStyle, duration });
+      const result = await renderCinemaAI({ prompt, visualStyle, duration });
       jobStatus[jobId] = 'done';
       jobResults[jobId] = result;
       console.log(`Job ${jobId} completado con xito. Resultado:`, result);

@@ -52,7 +52,7 @@ export async function createVideoPlan(req: RenderRequest): Promise<VideoPlan> {
       const validation = validateVideoPlan(videoPlan);
       if (validation.ok) return videoPlan;
       // Si falla, agregar feedback explícito al prompt y reintentar
-      userPrompt += '\n\nFEEDBACK: Corrige los siguientes errores en el VideoPlan generado: ' + validation.errors.join('; ');
+      userPrompt += '\n\nFEEDBACK: Corrige estos errores: ' + validation.errors.slice(0, 3).join('; ');
       lastError = validation.errors;
       // Loggear el fallo de validación del VideoPlan
       logFeedback({

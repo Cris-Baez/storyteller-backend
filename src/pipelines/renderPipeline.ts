@@ -1,473 +1,250 @@
-// src/pipelines/renderPipeline.ts
-// src/pipelines/renderPipeline.ts
-
-import type { RenderRequest, RenderResponse } from '../utils/types.js';
-import { logger } from '../utils/logger.js';
-import { retry  } from '../utils/retry.js';
-import fs from 'fs/promises';
-import path from 'path';
-
-// Nuevo: servicios para el flujo Kling + ChatGPT
 import { createVideoPlan } from '../services/llmService/index.js';
-import { generateClipsKling } from '../services/clipService.js';
-import { getBackgroundMusic } from '../services/musicService.js';
+import { findBestAsset } from '../services/searchAsset.js';
+import { getAdvancedMusic } from '../services/musicService.js';
 import { createVoiceOver } from '../services/voiceService.js';
+import { getSfx } from '../services/sceneAudioService.js';
+import { generateKlingClip, KlingClipParams } from '../services/klingService.js';
 import { assembleVideo } from '../services/ffmpegService.js';
-import { validateVideoPlan } from '../utils/validateVideoPlan.js';
-import { normalizeSceneFields } from '../utils/normalizeSceneFields.js';
-import { mapSceneFields, mapTimelineFields } from '../utils/mapSceneFields.js';
-import { segmentVideoByStyle } from '../services/videoEngine.js';
+import { uploadToCDN } from '../services/cdnService.js';
+import { RenderRequest, VideoPlan, TimelineSecond } from '../utils/types.js';
+import { generateQuickKlingVideo } from '../services/clipService.js';
 
-const TIMEOUT = 600_000; // 10 min
+/**
+ * Pipeline robusto y profesional para CinemaAI
+ * @param req RenderRequest completo
+ * @param actorCustomPath PNG si el usuario subió imagen personalizada
+ * @param quickMode Si es true, usa el flujo rápido de video corto (Kling 2.1 + música)
+ */
+export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: string, quickMode?: boolean) {
 
-
-export async function runRenderPipeline(req: RenderRequest): Promise<RenderResponse> {
-  // --- NUEVO FLUJO: Generar el plan primero, luego validar y contingencias ---
-  let plan: any = undefined;
-  let alreadyRetriedPlan = false;
-  const plantillaChecks: Record<string, (plan: any) => string[]> = {
-    'anime': (plan) => {
-      const errors = [];
-      if (!plan.timeline || plan.timeline.length === 0) errors.push('El plan anime no tiene timeline.');
-      if (plan.timeline && plan.timeline.length > 0) {
-        for (const [i, escena] of plan.timeline.entries()) {
-          let prompt = (escena.prompt || '').toLowerCase();
-          if (!/acting|expresi[oó]n|gesto|emoci[oó]n|drama|c[aá]mara|manga|anime/.test(prompt)) {
-            errors.push(`Escena ${i} sin acting/cámara/emoción manga.`);
-          }
-        }
-      }
-      return errors;
-    },
-    'comercial': (plan) => {
-      const errors = [];
-      if (!plan.timeline || plan.timeline.length < 2) errors.push('El plan comercial debe tener al menos 2 escenas.');
-      if (!plan.timeline?.some((e:any)=>/local|negocio|producto/.test((e.prompt||'').toLowerCase()))) errors.push('Falta escena de local/negocio/producto.');
-      return errors;
-    },
-    'cinematic': (plan) => {
-      const errors = [];
-      if (!plan.timeline || plan.timeline.length < 2) errors.push('El plan cinematic debe tener al menos 2 escenas.');
-      if (!plan.timeline?.some((e:any)=>/emoci[oó]n|viaje|historia|c[aá]mara/.test((e.prompt||'').toLowerCase()))) errors.push('Falta emoción o narrativa cinematográfica.');
-      return errors;
-    },
-    'realistic': (plan) => []
-  };
-
-  // 1. Generar el plan principal con bucle de autocorrección robusto
-  let maxPlanAttempts = 3;
-  let planAttempt = 0;
-  let lastValidationErrors: string[] = [];
-  let lastValidationWarnings: string[] = [];
-  let lastPrompt = req.prompt;
-  let planMetadata = req.metadata || {};
-  while (planAttempt < maxPlanAttempts) {
-    planAttempt++;
-    let planReq = { ...req, prompt: lastPrompt, metadata: planMetadata };
-    try {
-      plan = await retry(() => createVideoPlan(planReq));
-    } catch (e) {
-      logger.error(`❌ Error al llamar a llmService.createVideoPlan (intento ${planAttempt}):`, e);
-      const { logFeedback } = await import('../services/feedbackService.js');
-      logFeedback({
-        service: 'LLMService',
-        action: 'createVideoPlan',
-        success: false,
-        error: e instanceof Error ? e.message : String(e),
-        params: { req: planReq, attempt: planAttempt }
-      });
-      if (planAttempt >= maxPlanAttempts) throw new Error('No se pudo generar el plan de video tras varios intentos.');
-      continue;
-    }
-    // Normalizar estructura del plan
-    if (plan && !plan.timeline && plan.videoPlan) {
-      plan.timeline = plan.videoPlan;
-    }
-    if (plan && Array.isArray(plan.timeline)) {
-      plan.timeline = mapTimelineFields(plan.timeline).map(normalizeSceneFields);
-    }
-    // Validación avanzada de coherencia y continuidad
-    const validation = validateVideoPlan(plan);
-    lastValidationErrors = validation.errors || [];
-    lastValidationWarnings = validation.warnings || [];
-    if (validation.ok) {
-      if (lastValidationWarnings.length > 0) {
-        logger.warn('⚠️ VideoPlan con advertencias:', lastValidationWarnings);
-        const { logFeedback } = await import('../services/feedbackService.js');
-        logFeedback({
-          service: 'LLMService',
-          action: 'validateVideoPlan',
-          success: true,
-          error: 'Advertencias: ' + lastValidationWarnings.join('; '),
-          params: { plan, attempt: planAttempt }
-        });
-      }
-      break; // Plan válido, salimos del bucle
-    } else {
-      logger.error(`❌ VideoPlan inválido (intento ${planAttempt}). Errores:`, lastValidationErrors);
-      const { logFeedback } = await import('../services/feedbackService.js');
-      logFeedback({
-        service: 'LLMService',
-        action: 'validateVideoPlan',
-        success: false,
-        error: lastValidationErrors.join('; '),
-        params: { plan, attempt: planAttempt }
-      });
-      // Construir feedback explícito para el LLM
-      let feedback = `\n\nFEEDBACK: Corrige los siguientes errores en el VideoPlan generado: ${lastValidationErrors.join('; ')}\n`;
-      // Refuerza el prompt con feedback y recordatorio de plantilla
-      lastPrompt = (req.prompt || '') + feedback + '\nRecuerda: el plan debe cumplir la plantilla profesional CinemaAI, con todos los campos obligatorios, continuidad, variedad visual, efectos, música, voz, idioma, feedback de usuario y validación final.';
-      // Si hay metadata relevante, la mantenemos
-      planMetadata = { ...planMetadata };
-      if (planAttempt >= maxPlanAttempts) {
-        throw new Error('VideoPlan inválido tras varios intentos: ' + lastValidationErrors.join('; '));
-      }
-    }
-  }
-
-  // 2. Validar el plan y aplicar contingencias/fallbacks si es necesario
-  let planToCheck: any = plan || {};
-  let contingenciaActiva = false;
-  let planErrors: string[] = [];
-  if (plantillaChecks[req.visualStyle]) {
-    planErrors = plantillaChecks[req.visualStyle](planToCheck || {});
-    if (planErrors.length > 0) {
-      contingenciaActiva = true;
-      logger.warn(`[Contingencia] Primer LLM falló: ${planErrors.join('; ')}`);
-      const { logFeedback } = await import('../services/feedbackService.js');
-      logFeedback({
-        service: 'Pipeline',
-        action: 'contingencyLLMRetry',
-        success: false,
-        error: planErrors.join('; '),
-        params: { visualStyle: req.visualStyle, plan: planToCheck }
-      });
-      // Cambiar modelo LLM (si hay más de uno disponible)
-      const altModels = [
-        'openai/gpt-4',
-        'openai/gpt-3.5-turbo',
-        'google/gemini-pro',
-        'anthropic/claude-3-opus',
-        'mistral/mistral-large'
-      ];
-      let altPlan = null;
-      for (const altModel of altModels) {
-        if (req.metadata?.llmModel && req.metadata.llmModel === altModel) continue;
-        try {
-          const reqAlt = { ...req, metadata: { ...req.metadata, llmModel: altModel } };
-          altPlan = await retry(() => createVideoPlan(reqAlt));
-          if (altPlan && !altPlan.timeline && altPlan.videoPlan) {
-            altPlan.timeline = altPlan.videoPlan;
-          }
-          if (altPlan && Array.isArray(altPlan.timeline)) {
-            altPlan.timeline = mapTimelineFields(altPlan.timeline).map(normalizeSceneFields);
-          }
-          const altErrors = plantillaChecks[req.visualStyle](altPlan || {});
-          if (altErrors.length === 0) {
-            planToCheck = altPlan;
-            planErrors = [];
-            contingenciaActiva = false;
-            logger.info('[Contingencia] Segundo LLM generó plan válido.');
-            plan = altPlan;
-            break;
-          } else {
-            logger.warn(`[Contingencia] Segundo LLM también falló: ${altErrors.join('; ')}`);
-          }
-        } catch (e) {
-          logger.error('[Contingencia] Error al reintentar con otro LLM:', e);
-        }
-      }
-      // 2. Si todos los LLM fallan, rellenar todo automáticamente
-      if (planErrors.length > 0) {
-        logger.error('[Contingencia] Todos los LLM fallaron, rellenando campos automáticamente.');
-        if (planToCheck && Array.isArray(planToCheck.timeline)) {
-          planToCheck.timeline = planToCheck.timeline.map(normalizeSceneFields);
-        } else {
-          planToCheck.timeline = [{ t: 0 }];
-          planToCheck.timeline = planToCheck.timeline.map(normalizeSceneFields);
-        }
-        logFeedback({
-          service: 'Pipeline',
-          action: 'contingencyAutoFill',
-          success: true,
-          error: 'Se rellenaron campos por defecto en todas las escenas',
-          params: { plan: planToCheck }
-        });
-        planErrors = [];
-        contingenciaActiva = false;
-        plan = planToCheck;
-      }
-    }
-    logger.warn(`[Plantilla] El plan no cumple reglas de plantilla ${req.visualStyle}: ${planErrors.join('; ')}`);
-    // Fallback: reintentar generación del plan con prompt reforzado
-    if (!alreadyRetriedPlan) {
-      logger.info(`[Fallback] Reintentando generación de plan con prompt reforzado para ${req.visualStyle}`);
-      const { logFeedback } = await import('../services/feedbackService.js');
-      logFeedback({
-        service: 'Pipeline',
-        action: 'retryPlanWithReinforcedPrompt',
-        success: false,
-        error: planErrors.join('; '),
-        params: { visualStyle: req.visualStyle, plan: planToCheck }
-      });
-      alreadyRetriedPlan = true;
-      // Usar copia local del prompt reforzado
-      const reinforcedPrompt = (req.prompt || '') + ' (IMPORTANTE: genera un timeline estructurado, con escenas, acting, emoción, cámara y narrativa tipo plantilla 2025)';
-      // Crear copia local de req para el retry
-      const reqRetry = { ...req, prompt: reinforcedPrompt };
-      let newPlan;
-      try {
-        newPlan = await retry(() => createVideoPlan(reqRetry));
-      } catch (e) {
-        logger.error('❌ Error al reintentar createVideoPlan con prompt reforzado:', e);
-        throw new Error(`El plan no cumple reglas de plantilla ${req.visualStyle}: ${planErrors.join('; ')}`);
-      }
-      if (newPlan && !newPlan.timeline && newPlan.videoPlan) {
-        newPlan.timeline = newPlan.videoPlan;
-      }
-      let newPlanErrors = plantillaChecks[req.visualStyle](newPlan || {});
-      if (newPlanErrors.length > 0) {
-        logger.warn(`[Fallback] El plan reforzado sigue sin cumplir plantilla: ${newPlanErrors.join('; ')}`);
-        const { logFeedback } = await import('../services/feedbackService.js');
-        logFeedback({
-          service: 'Pipeline',
-          action: 'validatePlantillaFallback',
-          success: false,
-          error: newPlanErrors.join('; '),
-          params: { visualStyle: req.visualStyle, plan: newPlan }
-        });
-        throw new Error(`El plan no cumple reglas de plantilla ${req.visualStyle} (ni con fallback): ${newPlanErrors.join('; ')}`);
-      } else {
-        logger.info(`[Fallback] El plan reforzado cumple plantilla, continuando.`);
-        planToCheck = newPlan;
-        plan = newPlan;
-      }
-    } else {
-      const { logFeedback } = await import('../services/feedbackService.js');
-      logFeedback({
-        service: 'Pipeline',
-        action: 'validatePlantilla',
-        success: false,
-        error: planErrors.join('; '),
-        params: { visualStyle: req.visualStyle, plan: planToCheck }
-      });
-      throw new Error(`El plan no cumple reglas de plantilla ${req.visualStyle}: ${planErrors.join('; ')}`);
-    }
-  }
-
-
-
-  // Validación avanzada de coherencia y continuidad (después de contingencias)
-  const validation = validateVideoPlan(plan);
-  if (!validation.ok) {
-    logger.error('❌ VideoPlan inválido. Errores:', validation.errors);
-    const { logFeedback } = await import('../services/feedbackService.js');
-    logFeedback({
-      service: 'LLMService',
-      action: 'validateVideoPlan',
-      success: false,
-      error: validation.errors.join('; '),
-      params: { plan }
-    });
-    throw new Error('VideoPlan inválido: ' + validation.errors.join('; '));
-  }
-  if (validation.warnings.length > 0) {
-    logger.warn('⚠️ VideoPlan con advertencias:', validation.warnings);
-    const { logFeedback } = await import('../services/feedbackService.js');
-    logFeedback({
-      service: 'LLMService',
-      action: 'validateVideoPlan',
-      success: true,
-      error: 'Advertencias: ' + validation.warnings.join('; '),
-      params: { plan }
-    });
-  }
-  const timeline = (plan && plan.timeline) ? plan.timeline : [];
-
-  // --- Variables de control de pipeline ---
-  logger.info('🚀 Pipeline Kling+LLMService+Segmentación – inicio');
-  const t0 = Date.now();
-  const previewMode = !!req.previewMode;
-  // Eliminamos segmentación artificial: cada escena del timeline es una toma real
-  const scenes = (timeline as any[]).map((scene: any, idx: number) => ({
-    ...scene,
-    idx,
-    // Puedes agregar aquí lógica para enriquecer la escena si falta algún campo obligatorio
-  }));
-  logger.info(`🎬 ${scenes.length} escenas/tomas generadas desde el timeline del LLM.`);
-
-  // 4. Generar música de fondo y voice-over
-  logger.info('🎵 Generando música de fondo...');
-  let music: Buffer;
+  // LOGS Y MANEJO DE ERRORES EN TODO EL PIPELINE
+  const logger = console; // Puedes cambiar por tu logger profesional
+  logger.info('[Pipeline] Iniciando renderCinemaAI', { quickMode, actorCustomPath });
+  let videoPlan: VideoPlan;
   try {
-    music = await getBackgroundMusic(req.visualStyle || 'cinematic', previewMode);
-  } catch (e) {
-    logger.warn('No se pudo generar música de fondo, se usará buffer vacío');
-    const { logFeedback } = await import('../services/feedbackService.js');
-    logFeedback({
-      service: 'Music',
-      action: 'getBackgroundMusic',
-      success: false,
-      error: e instanceof Error ? e.message : String(e),
-      params: { style: req.visualStyle, previewMode }
-    });
-    music = Buffer.from([]);
-  }
-  if (!music || !Buffer.isBuffer(music) || music.length === 0) {
-    const { logFeedback } = await import('../services/feedbackService.js');
-    logFeedback({
-      service: 'Music',
-      action: 'validateMusicBuffer',
-      success: false,
-      error: 'Buffer de música vacío tras generación',
-      params: { style: req.visualStyle, previewMode }
-    });
-  }
-
-  logger.info('🎙️ Generando voice-over completo...');
-  let voiceOver: Buffer;
-  try {
-    voiceOver = await createVoiceOver(plan as any);
-  } catch (e) {
-    logger.warn('No se pudo generar voice-over, se usará buffer vacío');
-    const { logFeedback } = await import('../services/feedbackService.js');
-    logFeedback({
-      service: 'Voice',
-      action: 'createVoiceOver',
-      success: false,
-      error: e instanceof Error ? e.message : String(e),
-      params: { plan }
-    });
-    voiceOver = Buffer.from([]);
-  }
-  if (!voiceOver || !Buffer.isBuffer(voiceOver) || voiceOver.length === 0) {
-    const { logFeedback } = await import('../services/feedbackService.js');
-    logFeedback({
-      service: 'Voice',
-      action: 'validateVoiceOverBuffer',
-      success: false,
-      error: 'Buffer de voice-over vacío tras generación',
-      params: { plan }
-    });
-  }
-
-  // SFX: por ahora buffer vacío, puedes expandir para extraer de plan.timeline
-  let sfx: Buffer[] = [];
-
-  // 5. Render incremental: generar cada clip de forma independiente y manejar errores por escena
-  logger.info('🎥 Generando clips con Kling (render incremental, 1:1 con timeline)...');
-  const clips: string[] = [];
-  const failedScenes: number[] = [];
-  for (let i = 0; i < scenes.length; i++) {
-    const normalizedScene = normalizeSceneFields(scenes[i]);
-    try {
-      logger.info(`🎬 Generando clip ${i + 1}/${scenes.length}...`);
-      const result = await retry(() => generateClipsKling([normalizedScene], { plan: plan as any, music, previewMode }));
-      if (result && result.clips && result.clips[0]) {
-        if (typeof result.clips[0] !== 'string' || !result.clips[0].startsWith('http') || result.clips[0].includes('placehold.co')) {
-          logger.error(`❌ Clip ${i + 1} falló: URL inválida o placeholder`);
-          const { logFeedback } = await import('../services/feedbackService.js');
-          logFeedback({
-            service: 'KlingService',
-            action: 'validateClipUrl',
-            success: false,
-            error: 'URL inválida o placeholder',
-            params: { url: result.clips[0], scene: normalizedScene }
-          });
-          failedScenes.push(i);
-          clips.push('');
-        } else {
-          clips.push(result.clips[0]);
-        }
-      } else {
-        logger.error(`❌ Clip ${i + 1} falló: no se devolvió URL`);
-        failedScenes.push(i);
-        clips.push('');
-      }
-    } catch (err) {
-      logger.error(`❌ Error al generar clip ${i + 1}:`, err);
-      const { logFeedback } = await import('../services/feedbackService.js');
-      logFeedback({
-        service: 'KlingService',
-        action: 'generateClipsKling',
-        success: false,
-        error: err instanceof Error ? err.message : String(err),
-        params: { scene: normalizedScene }
-      });
-      failedScenes.push(i);
-      clips.push('');
+    videoPlan = await createVideoPlan(req);
+    // BLINDAJE: Rellenar campos vacíos o faltantes
+    if (!videoPlan.visualStyle) videoPlan.visualStyle = req.visualStyle || 'cinematic';
+    if (!videoPlan.metadata) videoPlan.metadata = {
+      visualStyle: videoPlan.visualStyle,
+      duration: req.duration || 30,
+      prompt: req.prompt || '',
+    };
+    if (!videoPlan.metadata.visualStyle) videoPlan.metadata.visualStyle = videoPlan.visualStyle;
+    if (!videoPlan.metadata.duration) videoPlan.metadata.duration = req.duration || 30;
+    if (!videoPlan.metadata.prompt) videoPlan.metadata.prompt = req.prompt || '';
+    if (!videoPlan.timeline || !Array.isArray(videoPlan.timeline)) videoPlan.timeline = [];
+    for (let i = 0; i < Math.max(videoPlan.timeline.length, 1); i++) {
+      const scene = videoPlan.timeline[i] || {};
+      if (typeof scene.t !== 'number') scene.t = i * 5;
+      if (!scene.backgroundPrompt) scene.backgroundPrompt = 'fondo por defecto';
+      if (!scene.actorPrompt) scene.actorPrompt = 'actor por defecto';
+      if (!scene.visual) scene.visual = 'visual por defecto';
+      if (!scene.camera) scene.camera = 'medium';
+      if (!scene.lighting) scene.lighting = 'normal';
+      if (!scene.colorPalette) scene.colorPalette = 'neutro';
+      if (!scene.composition) scene.composition = '';
+      if (!scene.atmosphere) scene.atmosphere = '';
+      if (!scene.effects) scene.effects = '';
+      if (!scene.emotion) scene.emotion = 'neutro';
+      if (!scene.music) scene.music = { mood: 'neutro', trackId: '' };
+      if (!scene.dialogo) scene.dialogo = '';
+      if (!scene.voz) scene.voz = '';
+      if (!scene.lipSync) scene.lipSync = '';
+      if (!scene.overlays) scene.overlays = [];
+      if (!scene.luts) scene.luts = [];
+      if (!scene.soundCue) scene.soundCue = 'ambiente';
+      if (!scene.transition) scene.transition = 'cut';
+      if (typeof scene.carryover !== 'boolean') scene.carryover = false;
+      if (typeof scene.audioCarryover !== 'boolean') scene.audioCarryover = false;
+      if (!scene.faceAnimation) scene.faceAnimation = '';
+      videoPlan.timeline[i] = scene;
     }
+    logger.info('[Pipeline] VideoPlan generado y blindado', { timeline: videoPlan.timeline?.length, visualStyle: videoPlan.metadata?.visualStyle });
+    if (!videoPlan || !videoPlan.timeline || videoPlan.timeline.length === 0) {
+      logger.warn('[Pipeline] VideoPlan vacío, se genera escena por defecto');
+      videoPlan.timeline = [{
+        t: 0,
+        backgroundPrompt: 'fondo por defecto',
+        actorPrompt: 'actor por defecto',
+        visual: 'visual por defecto',
+        camera: 'medium',
+        lighting: 'normal',
+        colorPalette: 'neutro',
+        composition: '',
+        atmosphere: '',
+        effects: '',
+        emotion: 'neutro',
+        music: { mood: 'neutro', trackId: '' },
+        dialogo: '',
+        voz: '',
+        lipSync: '',
+        overlays: [],
+        luts: [],
+        soundCue: 'ambiente',
+        transition: 'cut',
+        carryover: false,
+        audioCarryover: false,
+        faceAnimation: ''
+      }];
+    }
+  } catch (err) {
+    logger.error('[Pipeline] Error generando VideoPlan', { error: err });
+    throw err;
   }
-  // Si hay fallos, intentar reintentar solo los fallidos una vez más
-  if (failedScenes.length > 0) {
-    logger.warn(`🔁 Reintentando escenas fallidas: ${failedScenes.join(', ')}`);
-    for (const idx of failedScenes) {
-      const normalizedScene = normalizeSceneFields(scenes[idx]);
+
+  let scenes: any[] = [];
+  try {
+    scenes = await Promise.all(videoPlan.timeline.map(async (scene: TimelineSecond, idx: number) => {
+      let angulo = typeof scene.camera === 'object' ? scene.camera.shot : scene.camera;
+      let fondoAsset = null;
+      let actorAsset = null;
       try {
-        const result = await retry(() => generateClipsKling([normalizedScene], { plan: plan as any, music, previewMode }));
-        if (result && result.clips && result.clips[0] && typeof result.clips[0] === 'string' && result.clips[0].startsWith('http')) {
-          clips[idx] = result.clips[0];
-          logger.info(`✅ Clip ${idx + 1} recuperado en reintento.`);
-        } else {
-          logger.error(`❌ Clip ${idx + 1} falló de nuevo.`);
+        fondoAsset = await findBestAsset({ tipo: 'escenas', nombre: scene.backgroundPrompt, angulo });
+        if (!fondoAsset || !fondoAsset.ruta || typeof fondoAsset.ruta !== 'string') {
+          logger.error(`[Pipeline] Fondo no encontrado o inválido en escena ${idx}`, { scene });
+          throw new Error('Fondo no encontrado o inválido');
         }
       } catch (err) {
-        logger.error(`❌ Error persistente en clip ${idx + 1}:`, err);
-        const { logFeedback } = await import('../services/feedbackService.js');
-        logFeedback({
-          service: 'KlingService',
-          action: 'generateClipsKlingRetry',
-          success: false,
-          error: err instanceof Error ? err.message : String(err),
-          params: { scene: scenes[idx] }
-        });
+        logger.error(`[Pipeline] Error buscando fondo en escena ${idx}`, { error: err });
+        throw err;
       }
+      try {
+        if (actorCustomPath) {
+          actorAsset = { ruta: actorCustomPath, tipo: 'actor', nombre: 'custom' };
+        } else {
+          actorAsset = await findBestAsset({ tipo: 'actor', nombre: scene.actorPrompt });
+        }
+        if (!actorAsset || !actorAsset.ruta || typeof actorAsset.ruta !== 'string') {
+          logger.error(`[Pipeline] Actor no encontrado o inválido en escena ${idx}`, { scene });
+          throw new Error('Actor no encontrado o inválido');
+        }
+      } catch (err) {
+        logger.error(`[Pipeline] Error buscando actor en escena ${idx}`, { error: err });
+        throw err;
+      }
+      return { ...scene, fondoAsset, actorAsset };
+    }));
+    logger.info('[Pipeline] Assets seleccionados para todas las escenas', { scenes: scenes.length });
+  } catch (err) {
+    logger.error('[Pipeline] Error seleccionando assets', { error: err });
+    throw err;
+  }
+
+  // QuickMode
+  if (quickMode && scenes.length > 0) {
+    logger.info('[Pipeline] QuickMode activo');
+    const fondoUrl = scenes[0].fondoAsset?.ruta;
+    const actorUrl = scenes[0].actorAsset?.ruta;
+    const prompt = scenes[0].visual || scenes[0].backgroundPrompt || req.prompt;
+    const musicStyle = videoPlan.metadata?.visualStyle || 'cinematic';
+    if (typeof fondoUrl !== 'string' || typeof actorUrl !== 'string') {
+      logger.error('[Pipeline] No se encontró fondo o actor válido para QuickMode', { fondoUrl, actorUrl });
+      throw new Error('No se encontró fondo o actor válido para el modo rápido (Kling 2.1)');
+    }
+    try {
+      const { videoUrl, musicBuffer } = await generateQuickKlingVideo({ fondoUrl, actorUrl, prompt, musicStyle });
+      logger.info('[Pipeline] Video rápido generado', { videoUrl });
+      return {
+        url: videoUrl,
+        plan: videoPlan,
+        scenes,
+        clips: [videoUrl],
+        resolution: videoPlan.metadata?.duration,
+        visualStyle: videoPlan.metadata?.visualStyle,
+        music: musicBuffer,
+        quickMode: true
+      };
+    } catch (err) {
+      logger.error('[Pipeline] Error en QuickMode', { error: err });
+      throw err;
     }
   }
-  // Componer el video final solo con los clips exitosos
-  const successfulClips = clips.filter(Boolean);
-  if (successfulClips.length === 0) throw new Error('No se pudo generar ningún clip exitosamente.');
 
-  // Ensamblar video final con voz, música y SFX
-  logger.info('🛠️ Ensamblando video final con voz, música y SFX...');
-  let finalUrl = '';
+  // Composición y animación en Kling
+  const clips: string[] = [];
+  for (let i = 0; i < scenes.length; i++) {
+    const scene = scenes[i];
+    const params: KlingClipParams = {
+      prompt: scene.visual || scene.backgroundPrompt || req.prompt,
+      input_image_urls: [scene.fondoAsset?.ruta, scene.actorAsset?.ruta].filter((v): v is string => typeof v === 'string'),
+      duration: req.duration || 30,
+      aspect_ratio: '16:9',
+    };
+    try {
+      if (params.input_image_urls.length < 2) {
+        logger.error(`[Pipeline] URLs de imagen insuficientes en escena ${i}`, { params });
+        throw new Error('input_image_urls debe ser un array de al menos dos strings (fondo y actor)');
+      }
+      const clipUrl = await generateKlingClip(params);
+      logger.info(`[Pipeline] Clip generado para escena ${i}`, { clipUrl });
+      clips.push(clipUrl);
+    } catch (err) {
+      logger.error(`[Pipeline] Error generando clip Kling en escena ${i}`, { error: err });
+      throw err;
+    }
+  }
+
+  // Generación de audio automática
+  let voiceBuffer: Buffer;
+  let musicBuffer: Buffer;
+  let sfxBuffer: Buffer;
   try {
-    finalUrl = await assembleVideo({ plan: plan as any, clips: successfulClips, voiceOver, music: [music], sfx });
-    if (!finalUrl || typeof finalUrl !== 'string' || !finalUrl.endsWith('.mp4')) {
-      logger.error('❌ Video final no tiene formato .mp4 válido');
-      const { logFeedback } = await import('../services/feedbackService.js');
-      logFeedback({
-        service: 'FFmpegService',
-        action: 'validateFinalVideo',
-        success: false,
-        error: 'Video final no tiene formato .mp4 válido',
-        params: { finalUrl }
-      });
-      throw new Error('Video final no tiene formato .mp4 válido');
+    voiceBuffer = await createVoiceOver(videoPlan);
+    if (!voiceBuffer || !(voiceBuffer instanceof Buffer) || voiceBuffer.length === 0) {
+      logger.warn('[Pipeline] Buffer de voz vacío, se usará silencio');
+      voiceBuffer = Buffer.alloc(1);
     }
-  } catch (e) {
-    logger.error('❌ Error en ensamblaje final: ' + (e instanceof Error ? e.message : e));
-    throw new Error('Error en ensamblaje final: ' + (e instanceof Error ? e.message : e));
+    musicBuffer = await getAdvancedMusic({ style: videoPlan.metadata?.visualStyle || 'cinematic' });
+    if (!musicBuffer || !(musicBuffer instanceof Buffer) || musicBuffer.length === 0) {
+      logger.warn('[Pipeline] Buffer de música vacío, se usará silencio');
+      musicBuffer = Buffer.alloc(1);
+    }
+    sfxBuffer = await getSfx(scenes[0]?.soundCue || 'ambiente');
+    if (!sfxBuffer || !(sfxBuffer instanceof Buffer) || sfxBuffer.length === 0) {
+      logger.warn('[Pipeline] Buffer de SFX vacío, se usará silencio');
+      sfxBuffer = Buffer.alloc(1);
+    }
+    logger.info('[Pipeline] Buffers de audio generados');
+  } catch (err) {
+    logger.error('[Pipeline] Error generando audio', { error: err });
+    throw err;
   }
 
-  // 5. (Opcional) Guardar logs/outputs si es demoMode
-  if (req.demoMode) {
-    const TMP_DIR = path.join('/tmp/pipeline_demo', Date.now().toString());
-    await fs.mkdir(TMP_DIR, { recursive: true });
-    await fs.writeFile(path.join(TMP_DIR, 'plan.json'), Buffer.from(JSON.stringify(plan, null, 2)));
-    await fs.writeFile(path.join(TMP_DIR, 'scenes.json'), Buffer.from(JSON.stringify(scenes, null, 2)));
-    await fs.writeFile(path.join(TMP_DIR, 'clips.json'), Buffer.from(JSON.stringify(clips, null, 2)));
-    await fs.writeFile(path.join(TMP_DIR, 'finalUrl.txt'), Buffer.from(finalUrl));
-    logger.info(`[DEMO MODE] Outputs y logs guardados en ${TMP_DIR}`);
+  // Edición final por plan (lógica avanzada según plan)
+  // ...existing code...
+
+  // Exportación profesional
+  let finalUrl: string;
+  try {
+    finalUrl = await assembleVideo({
+      plan: videoPlan,
+      clips,
+      voiceOver: voiceBuffer,
+      music: [musicBuffer],
+      sfx: [sfxBuffer],
+    });
+    logger.info('[Pipeline] Video ensamblado correctamente', { finalUrl });
+  } catch (err) {
+    logger.error('[Pipeline] Error ensamblando video final', { error: err });
+    throw err;
   }
 
-  const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
-  logger.info(`✅ Render final OK en ${elapsed}s → ${finalUrl}`);
-  if (failedScenes.length > 0) {
-    logger.warn(`⚠️ Escenas fallidas (no incluidas en el video final): ${failedScenes.join(', ')}`);
+  let cdnUrl: string;
+  try {
+    cdnUrl = await uploadToCDN(finalUrl, `renders/${Date.now()}_video.mp4`);
+    logger.info('[Pipeline] Video subido al CDN', { cdnUrl });
+  } catch (err) {
+    logger.error('[Pipeline] Error subiendo video al CDN', { error: err });
+    throw err;
   }
 
-  // storyboardUrls reservado para futura integración con Kling (storyboards generados por IA)
-  return { url: finalUrl, storyboardUrls: [] };
+  return {
+    url: cdnUrl,
+    plan: videoPlan,
+    scenes,
+    clips,
+    resolution: videoPlan.metadata?.duration,
+    visualStyle: videoPlan.metadata?.visualStyle,
+  };
 }
-
