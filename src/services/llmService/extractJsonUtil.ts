@@ -10,7 +10,7 @@ export function extractFirstJsonBlock(text: string, options?: { returnParsed?: b
     try {
       return JSON.parse(candidate);
     } catch (e) {
-      if (debug && process?.env?.NODE_ENV === 'development') {
+      if (debug) {
         // eslint-disable-next-line no-console
         console.warn('[extractFirstJsonBlock] Falló parseo:', e, '\nTexto:', candidate);
       }
@@ -24,13 +24,45 @@ export function extractFirstJsonBlock(text: string, options?: { returnParsed?: b
     if (parsed !== null) return returnParsed ? parsed : trimmed;
   }
 
-  // Busca el primer bloque {...} o [...] que sea JSON válido
+  // Busca el primer bloque {...} o [...] que sea JSON válido, soporta anidados
+  let stack = [];
+  let start = -1;
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    if (char === '{' || char === '[') {
+      if (stack.length === 0) start = i;
+      stack.push(char);
+    } else if (char === '}' || char === ']') {
+      if (stack.length > 0) {
+        const last = stack.pop();
+        // Solo cierra si es el par correcto
+        if ((last === '{' && char === '}') || (last === '[' && char === ']')) {
+          if (stack.length === 0 && start !== -1) {
+            const candidate = text.slice(start, i + 1);
+            const parsed = tryParse(candidate);
+            if (parsed !== null) return returnParsed ? parsed : candidate;
+            // Si no es válido, sigue buscando
+            start = -1;
+          }
+        } else {
+          // Paréntesis desbalanceados, reiniciar stack
+          stack = [];
+          start = -1;
+        }
+      }
+    }
+  }
+  // Fallback: regex simple por si el anidado no encuentra nada
   const blockRegex = /({[\s\S]*?})|(\[[\s\S]*?\])/g;
   let match;
   while ((match = blockRegex.exec(text))) {
     const candidate = match[1] || match[2];
     const parsed = tryParse(candidate);
     if (parsed !== null) return returnParsed ? parsed : candidate;
+  }
+  if (debug) {
+    // eslint-disable-next-line no-console
+    console.warn('[extractFirstJsonBlock] No se encontró ningún bloque JSON válido.');
   }
   return null;
 }

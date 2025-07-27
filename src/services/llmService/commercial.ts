@@ -4,101 +4,35 @@ import { extractFirstJsonBlock } from './extractJsonUtil.js';
 import { RenderRequest, VideoPlan } from '../../utils/types.js';
 
 export async function generateCommercialVideoPlan(req: RenderRequest): Promise<VideoPlan> {
+  // Inicialización defensiva
   if (!req.metadata) req.metadata = {};
   if (!req.metadata.visualStyle) req.metadata.visualStyle = req.visualStyle || 'commercial';
   const duration = req.duration || 30;
   const style = req.metadata.visualStyle || 'commercial';
-  const userPrompt = req.prompt || '';
-  const systemPrompt = `
-  # INSTRUCCIONES ESTRICTAS PARA EL LLM:
-  - Devuelve SIEMPRE un objeto JSON con la siguiente estructura exacta:
-    {
-      "timeline": [
-        {
-          "t": 0,
-          "backgroundPrompt": "...",
-          "actorPrompt": "...",
-          "visual": "...",
-          "camera": "...",
-          "lighting": "...",
-          "colorPalette": "...",
-          "composition": "...",
-          "atmosphere": "...",
-          "effects": "...",
-          "emotion": "...",
-          "music": { "mood": "...", "trackId": "..." },
-          "dialogo": "...",
-          "voz": "...",
-          "lipSync": "...",
-          "overlays": [],
-          "luts": [],
-          "soundCue": "...",
-          "transition": "...",
-          "carryover": false,
-          "audioCarryover": false,
-          "faceAnimation": "..."
-        }, ...
-      ],
-      "visualStyle": "commercial"
-    }
-  - NO uses otros nombres de campo ni anides la timeline en otro objeto.
-  - Si algún campo no aplica, pon un string vacío o valor por defecto.
-  - No devuelvas arrays de objetos con campos distintos ni anidados.
-  - No devuelvas videoPlan, solo timeline y visualStyle en la raíz.
-      "voiceLine": "Descubre la nueva era de innovación.",
-      "music": "upbeat comercial",
-      "fx": ["brillo", "whoosh"],
-      "transition": "fade",
-      "carryover": false,
-      "audioCarryover": false
-    },
-    {
-      "t": 5,
-      "scene": "set_moderno_luz_blanca",
-      "camera": { "shot": "medium", "movement": "pan" },
-      "visual": "El producto es usado por una persona sonriente, mostrando su funcionalidad.",
-      "emotion": "entusiasmo",
-      "dialogue": "",
-      "voiceLine": "Tan fácil como un clic.",
-      "music": "upbeat comercial",
-      "fx": ["clic"],
-      "transition": "cut",
-      "carryover": true, // Mismo fondo y producto que la escena anterior
-      "audioCarryover": true, // Música y ambiente continúan
-      "lipSync": "wav2lip" // Plano medio, sincronización labial si hay voz
-    },
-    {
-      "t": 10,
-      "scene": "set_resultado_final",
-      "camera": { "shot": "close-up", "movement": "static" },
-      "visual": "Primer plano del rostro del usuario satisfecho, expresión de alegría.",
-      "emotion": "alegría",
-      "dialogue": "",
-      "voiceLine": "¡Funciona perfecto!",
-      "music": "upbeat comercial",
-      "fx": ["brillo"],
-      "transition": "fade",
-      "carryover": false,
-      "audioCarryover": true,
-      "faceAnimation": "sadtalker" // Primer plano con expresión facial y diálogo
-    },
-    ...
-  ]
-}
-
-📌 Reglas obligatorias:
-- La historia debe tener introducción, desarrollo, clímax y cierre (aunque sea corto).
-- Los fondos, productos y actores deben tener sentido en secuencia (ej: presentación → uso → resultado → cierre), y se debe indicar cuándo se reutilizan para continuidad.
-- Las emociones deben evolucionar (no saltar de entusiasmo a duda sin contexto).
-- Las tomas deben estar planificadas como en un spot profesional (estableces el producto, luego el detalle, luego el usuario o resultado).
-- Indica si hay cambio de fondo, producto o actor (corte), carryover visual, o es la misma escena desde otro ángulo.
-- Si hay movimientos de cámara, deben ser naturales y coordinados con la acción y el mensaje.
-- Si la música, efectos o voz continúan entre escenas, usa "audioCarryover": true.
-- Si la escena requiere animación facial avanzada, usa "faceAnimation": "sadtalker". Si solo requiere sincronización labial, usa "lipSync": "wav2lip".
-
-🎯 Tu output final debe ser un JSON tipo VideoPlan válido para ${duration} segundos, con campos de carryover, audioCarryover, faceAnimation y lipSync cuando corresponda.
-NO EXCEDAS la duración ni generes segundos vacíos.
-`;
+  console.log(`[Commercial] Duración solicitada: ${duration}, Estilo: ${style}`);
+  const { env } = await import('../../config/env.js');
+  const CDN_BASE = env.CDN_BUCKET_URL.endsWith('/') ? env.CDN_BUCKET_URL : env.CDN_BUCKET_URL + '/';
+  const fs = await import('fs/promises');
+  const path = await import('path');
+  let assetsIndex: Array<{ tipo: string; ruta: string; nombre: string; completitud: string; estilo: string; }> = [];
+  console.log('[Commercial] Cargando assets desde assets_index.json...');
+  try {
+    assetsIndex = JSON.parse(await fs.readFile(path.resolve(process.cwd(), 'assets_index.json'), 'utf-8'));
+  } catch (e) {
+    assetsIndex = [];
+  }
+  if (assetsIndex.length === 0) console.error('[Commercial] No se pudieron cargar assets, el índice está vacío.');
+  const fondos = assetsIndex.filter(a => a.tipo === 'escenas' && a.completitud === 'completa' && a.estilo === style);
+  const actores = assetsIndex.filter(a => a.tipo === 'actores' && a.completitud === 'completa' && a.estilo === style);
+  console.log(`[Commercial] Fondos encontrados: ${fondos.length}, Actores encontrados: ${actores.length}`);
+  if (fondos.length === 0) console.warn('[Commercial] No hay fondos completos para el estilo solicitado.');
+  if (actores.length === 0) console.warn('[Commercial] No hay actores completos para el estilo solicitado.');
+  const fondoDefault = fondos[0] ? CDN_BASE + fondos[0].ruta : '';
+  const actorDefault = actores[0] ? CDN_BASE + actores[0].ruta : '';
+  const fondosList = fondos.map(a => `- ${a.nombre}: ${CDN_BASE + a.ruta}`).join('\n');
+  const actoresList = actores.map(a => `- ${a.nombre}: ${CDN_BASE + a.ruta}`).join('\n');
+  const systemPrompt = `Eres un generador de planes de video para comerciales. Tu tarea es crear un objeto JSON llamado VideoPlan que contenga una timeline de escenas detalladas, cada una con los siguientes campos: t, visual, background, character, camera, lighting, emotion, music, fx, transition, carryover, audioCarryover, faceAnimation, lipSync. El campo visualStyle debe ser "commercial".\n\nFondos disponibles:\n${fondosList}\n\nActores disponibles:\n${actoresList}\n\nNo incluyas texto adicional, solo el JSON. Respeta la duración solicitada y no dejes segundos vacíos. Elige SIEMPRE los assets de las listas proporcionadas.`;
+  const userPrompt = `Genera un VideoPlan commercial para ${duration} segundos usando únicamente los fondos y actores de las listas proporcionadas y el estilo solicitado. El output debe ser estrictamente el JSON con los campos timeline y visualStyle.`;
   const models = [
     req.metadata?.llmModel,
     'openai/chatgpt-4o-latest',
@@ -109,62 +43,61 @@ NO EXCEDAS la duración ni generes segundos vacíos.
     'mistral/mistral-large',
   ].filter(Boolean);
   let llmResponse: string | undefined;
-  let lastError: any;
   const timeout = 300000; // 300 segundos (5 minutos)
-  for (const model of models) {
-    try {
-      // 1. Primera llamada al LLM para generar el plan
-      llmResponse = await callOpenRouter(systemPrompt, userPrompt, model, timeout);
-      if (!llmResponse) throw new Error('Respuesta vacía del modelo: ' + model);
-      const rawResponse = llmResponse as string;
-
-      // 2. Segunda llamada para forzar JSON válido con timeline y visualStyle
-      const transformSystemPrompt = `# JSON TRANSFORMER
-Devuelve exclusivamente un objeto JSON válido con la siguiente estructura exacta:
-{
-  "timeline": [ /* array de escenas */ ],
-  "visualStyle": "${style}"
-}
-Sin texto adicional.`;
-      const transformUserPrompt = `Por favor, toma la siguiente respuesta del modelo y devuélvela SOLO como JSON válido con los campos "timeline" y "visualStyle":
-
-${rawResponse}`;
-      const rectifyResponse = await callOpenRouter(transformSystemPrompt, transformUserPrompt, model, timeout);
-      const videoPlan = extractFirstJsonBlock(rectifyResponse as string, { returnParsed: true, debug: true }) as VideoPlan;
-
-      if (!videoPlan) {
-        console.error('[LLMService] No se encontró bloque JSON en la respuesta:', llmResponse);
-        throw new Error('No se encontró bloque JSON en la respuesta del modelo.');
+  let videoPlan: VideoPlan | undefined;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    for (const model of models) {
+      try {
+        llmResponse = await callOpenRouter(systemPrompt, userPrompt, model, timeout);
+        if (!llmResponse) throw new Error('Respuesta vacía del modelo: ' + model);
+        const rawResponse = llmResponse as string;
+        const transformSystemPrompt = `Solo responde con un objeto JSON válido con los campos timeline y visualStyle.`;
+        const transformUserPrompt = rawResponse;
+        const rectifyResponse = await callOpenRouter(transformSystemPrompt, transformUserPrompt, model, timeout);
+        const parsedPlan = extractFirstJsonBlock(rectifyResponse as string, { returnParsed: true, debug: true }) as VideoPlan | undefined;
+        if (!parsedPlan) throw new Error('No se encontró bloque JSON en la respuesta del modelo.');
+        if (!parsedPlan.visualStyle) parsedPlan.visualStyle = style;
+        if (!parsedPlan.timeline && (parsedPlan as any).videoPlan) {
+          parsedPlan.timeline = (parsedPlan as any).videoPlan;
+          delete (parsedPlan as any).videoPlan;
+        }
+        if (!parsedPlan.timeline || !Array.isArray(parsedPlan.timeline) || parsedPlan.timeline.length === 0) throw new Error('El modelo no devolvió un timeline válido y con contenido.');
+        parsedPlan.visualStyle = parsedPlan.visualStyle || style;
+        parsedPlan.metadata = req.metadata;
+        videoPlan = parsedPlan;
+        return videoPlan;
+      } catch (err) {
+        continue;
       }
-
-      // --- BLINDAJE Y NORMALIZACIÓN DEL PLAN ---
-      // 1. Forzar el visualStyle correcto para evitar el error de validación más común.
-      if (!videoPlan.visualStyle) {
-        videoPlan.visualStyle = style; // Usar el estilo de la petición original.
-      }
-
-      // 2. Adaptar automáticamente la estructura si el LLM usa 'videoPlan' en lugar de 'timeline'.
-      if (!videoPlan.timeline && (videoPlan as any).videoPlan) {
-        videoPlan.timeline = (videoPlan as any).videoPlan;
-        delete (videoPlan as any).videoPlan;
-      }
-
-      // 3. Validar que el timeline exista y sea un array con contenido.
-      if (!videoPlan.timeline || !Array.isArray(videoPlan.timeline) || videoPlan.timeline.length === 0) {
-        console.error('[LLMService] VideoPlan inválido o timeline vacío tras normalización:', videoPlan);
-        throw new Error('El modelo no devolvió un timeline válido y con contenido.');
-      }
-
-      // --- BLINDAJE FINAL: Forzar visualStyle antes de retornar ---
-      if (!videoPlan.visualStyle) {
-        videoPlan.visualStyle = style;
-      }
-
-      return videoPlan;
-    } catch (err) {
-      lastError = err;
-      continue;
     }
   }
-  throw new Error('Error al generar el VideoPlan con los modelos disponibles: ' + lastError);
+  // Fallback local robusto
+  console.warn('[Commercial] Todos los intentos LLM fallaron, usando fallback local.');
+  const timeline: any[] = [];
+  for (let t = 0; t < duration; t++) {
+    const fondo = fondos[t % fondos.length] ? CDN_BASE + fondos[t % fondos.length].ruta : fondoDefault;
+    const actor = actores[t % actores.length] ? CDN_BASE + actores[t % actores.length].ruta : actorDefault;
+    timeline.push({
+      t,
+      visual: `Escena ${t+1}: acción y ambiente para el estilo ${style}`,
+      background: fondo,
+      character: actor,
+      camera: { shot: 'wide', movement: 'pan' },
+      lighting: 'neutra',
+      emotion: '',
+      music: '',
+      fx: [],
+      transition: '',
+      carryover: false,
+      audioCarryover: false,
+      faceAnimation: '',
+      lipSync: ''
+    });
+  }
+  return {
+    timeline,
+    visualStyle: style,
+    metadata: req.metadata
+  };
+// Fin de la función
 }

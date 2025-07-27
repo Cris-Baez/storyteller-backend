@@ -7,6 +7,7 @@ import { generateKlingClip, KlingClipParams } from '../services/klingService.js'
 import { assembleVideo } from '../services/ffmpegService.js';
 import { uploadToCDN } from '../services/cdnService.js';
 import { RenderRequest, VideoPlan, TimelineSecond } from '../utils/types.js';
+import { cargarAssetsIndex, validarVideoPlanFondosActores, corregirFondosActoresInvalidos } from '../utils/menteFondos.js';
 import { generateQuickKlingVideo } from '../services/clipService.js';
 
 /**
@@ -20,112 +21,60 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   // LOGS Y MANEJO DE ERRORES EN TODO EL PIPELINE
   const logger = console; // Puedes cambiar por tu logger profesional
   logger.info('[Pipeline] Iniciando renderCinemaAI', { quickMode, actorCustomPath });
+
+  // Validar y rellenar los datos mínimos en req antes de llamar a LLMService
+  if (!req.visualStyle) req.visualStyle = 'cinematic';
+  if (!req.duration) req.duration = 30;
+  if (!req.prompt) req.prompt = '';
+
   let videoPlan: VideoPlan;
+  let sugerencias: any[] = [];
   try {
     videoPlan = await createVideoPlan(req);
-    // BLINDAJE: Rellenar campos vacíos o faltantes
-    if (!videoPlan.visualStyle) videoPlan.visualStyle = req.visualStyle || 'cinematic';
-    if (!videoPlan.metadata) videoPlan.metadata = {
-      visualStyle: videoPlan.visualStyle,
-      duration: req.duration || 30,
-      prompt: req.prompt || '',
-    };
-    if (!videoPlan.metadata.visualStyle) videoPlan.metadata.visualStyle = videoPlan.visualStyle;
-    if (!videoPlan.metadata.duration) videoPlan.metadata.duration = req.duration || 30;
-    if (!videoPlan.metadata.prompt) videoPlan.metadata.prompt = req.prompt || '';
-    if (!videoPlan.timeline || !Array.isArray(videoPlan.timeline)) videoPlan.timeline = [];
-    for (let i = 0; i < Math.max(videoPlan.timeline.length, 1); i++) {
-      const scene = videoPlan.timeline[i] || {};
-      if (typeof scene.t !== 'number') scene.t = i * 5;
-      if (!scene.backgroundPrompt) scene.backgroundPrompt = 'fondo por defecto';
-      if (!scene.actorPrompt) scene.actorPrompt = 'actor por defecto';
-      if (!scene.visual) scene.visual = 'visual por defecto';
-      if (!scene.camera) scene.camera = 'medium';
-      if (!scene.lighting) scene.lighting = 'normal';
-      if (!scene.colorPalette) scene.colorPalette = 'neutro';
-      if (!scene.composition) scene.composition = '';
-      if (!scene.atmosphere) scene.atmosphere = '';
-      if (!scene.effects) scene.effects = '';
-      if (!scene.emotion) scene.emotion = 'neutro';
-      if (!scene.music) scene.music = { mood: 'neutro', trackId: '' };
-      if (!scene.dialogo) scene.dialogo = '';
-      if (!scene.voz) scene.voz = '';
-      if (!scene.lipSync) scene.lipSync = '';
-      if (!scene.overlays) scene.overlays = [];
-      if (!scene.luts) scene.luts = [];
-      if (!scene.soundCue) scene.soundCue = 'ambiente';
-      if (!scene.transition) scene.transition = 'cut';
-      if (typeof scene.carryover !== 'boolean') scene.carryover = false;
-      if (typeof scene.audioCarryover !== 'boolean') scene.audioCarryover = false;
-      if (!scene.faceAnimation) scene.faceAnimation = '';
-      videoPlan.timeline[i] = scene;
+    // Validación final: el VideoPlan debe tener timeline válida y al menos una escena
+    if (!videoPlan || !videoPlan.timeline || !Array.isArray(videoPlan.timeline) || videoPlan.timeline.length === 0) {
+      logger.error('[Pipeline] VideoPlan inválido o vacío', { videoPlan });
+      throw new Error('El VideoPlan generado por LLMService es inválido o está vacío.');
     }
-    logger.info('[Pipeline] VideoPlan generado y blindado', { timeline: videoPlan.timeline?.length, visualStyle: videoPlan.metadata?.visualStyle });
-    if (!videoPlan || !videoPlan.timeline || videoPlan.timeline.length === 0) {
-      logger.warn('[Pipeline] VideoPlan vacío, se genera escena por defecto');
-      videoPlan.timeline = [{
-        t: 0,
-        backgroundPrompt: 'fondo por defecto',
-        actorPrompt: 'actor por defecto',
-        visual: 'visual por defecto',
-        camera: 'medium',
-        lighting: 'normal',
-        colorPalette: 'neutro',
-        composition: '',
-        atmosphere: '',
-        effects: '',
-        emotion: 'neutro',
-        music: { mood: 'neutro', trackId: '' },
-        dialogo: '',
-        voz: '',
-        lipSync: '',
-        overlays: [],
-        luts: [],
-        soundCue: 'ambiente',
-        transition: 'cut',
-        carryover: false,
-        audioCarryover: false,
-        faceAnimation: ''
-      }];
+    // Validar y corregir assets inventados/incompletos
+    const assetsIndex = await cargarAssetsIndex();
+    const { valido, errores } = validarVideoPlanFondosActores(videoPlan, assetsIndex);
+    if (!valido) {
+      const resultado = corregirFondosActoresInvalidos(videoPlan, assetsIndex);
+      videoPlan = resultado.videoPlan;
+      sugerencias = resultado.sugerencias;
+      logger.warn('[Pipeline] VideoPlan corregido por assets inválidos', { errores, sugerencias });
     }
+    logger.info('[Pipeline] VideoPlan generado, validado y corregido', { timeline: videoPlan.timeline.length, visualStyle: videoPlan.metadata?.visualStyle });
   } catch (err) {
-    logger.error('[Pipeline] Error generando VideoPlan', { error: err });
+    logger.error('[Pipeline] Error generando/corrigiendo VideoPlan', { error: err });
     throw err;
   }
 
   let scenes: any[] = [];
   try {
-    scenes = await Promise.all(videoPlan.timeline.map(async (scene: TimelineSecond, idx: number) => {
-      let angulo = typeof scene.camera === 'object' ? scene.camera.shot : scene.camera;
-      let fondoAsset = null;
+    // Usar directamente los campos corregidos del videoPlan (ya son URLs CDN)
+    scenes = videoPlan.timeline.map((scene: TimelineSecond, idx: number) => {
+      let fondoAsset = scene.background && typeof scene.background === 'string' ? { ruta: scene.background, tipo: 'escenas', nombre: scene.backgroundPrompt || '' } : null;
       let actorAsset = null;
-      try {
-        fondoAsset = await findBestAsset({ tipo: 'escenas', nombre: scene.backgroundPrompt, angulo });
-        if (!fondoAsset || !fondoAsset.ruta || typeof fondoAsset.ruta !== 'string') {
-          logger.error(`[Pipeline] Fondo no encontrado o inválido en escena ${idx}`, { scene });
-          throw new Error('Fondo no encontrado o inválido');
-        }
-      } catch (err) {
-        logger.error(`[Pipeline] Error buscando fondo en escena ${idx}`, { error: err });
-        throw err;
+      if (actorCustomPath) {
+        actorAsset = { ruta: actorCustomPath, tipo: 'actor', nombre: 'custom' };
+      } else {
+        actorAsset = scene.character && typeof scene.character === 'string' ? { ruta: scene.character, tipo: 'actor', nombre: scene.actorPrompt || '' } : null;
       }
-      try {
-        if (actorCustomPath) {
-          actorAsset = { ruta: actorCustomPath, tipo: 'actor', nombre: 'custom' };
-        } else {
-          actorAsset = await findBestAsset({ tipo: 'actor', nombre: scene.actorPrompt });
-        }
-        if (!actorAsset || !actorAsset.ruta || typeof actorAsset.ruta !== 'string') {
-          logger.error(`[Pipeline] Actor no encontrado o inválido en escena ${idx}`, { scene });
-          throw new Error('Actor no encontrado o inválido');
-        }
-      } catch (err) {
-        logger.error(`[Pipeline] Error buscando actor en escena ${idx}`, { error: err });
-        throw err;
+      // Si alguno está vacío, lanzar error
+      if (!fondoAsset || !fondoAsset.ruta) {
+        logger.error(`[Pipeline] Fondo no encontrado o inválido en escena ${idx}`, { scene });
+        throw new Error('Fondo no encontrado o inválido');
       }
+      if (!actorAsset || !actorAsset.ruta) {
+        logger.error(`[Pipeline] Actor no encontrado o inválido en escena ${idx}`, { scene });
+        throw new Error('Actor no encontrado o inválido');
+      }
+      logger.info(`[Pipeline] Escena ${idx} validada:`, { fondo: fondoAsset.ruta, actor: actorAsset.ruta, t: scene.t, visualStyle: scene.visualStyle, ambiente: scene.ambiente, angulo: scene.angulo });
       return { ...scene, fondoAsset, actorAsset };
-    }));
-    logger.info('[Pipeline] Assets seleccionados para todas las escenas', { scenes: scenes.length });
+    });
+    logger.info('[Pipeline] Assets seleccionados y validados para todas las escenas', { scenes: scenes.length });
   } catch (err) {
     logger.error('[Pipeline] Error seleccionando assets', { error: err });
     throw err;
@@ -161,7 +110,7 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
     }
   }
 
-  // Composición y animación en Kling
+  // Composición y animación en Kling con timeout generoso y logs detallados
   const clips: string[] = [];
   for (let i = 0; i < scenes.length; i++) {
     const scene = scenes[i];
@@ -176,9 +125,15 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
         logger.error(`[Pipeline] URLs de imagen insuficientes en escena ${i}`, { params });
         throw new Error('input_image_urls debe ser un array de al menos dos strings (fondo y actor)');
       }
-      const clipUrl = await generateKlingClip(params);
+      logger.info(`[Pipeline] Generando clip Kling para escena ${i} con timeout extendido...`, { params });
+      const clipPromise = generateKlingClip(params);
+      // Timeout extendido: 2 minutos por escena
+      const clipUrl = await Promise.race([
+        clipPromise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout generando clip Kling')), 120000))
+      ]);
       logger.info(`[Pipeline] Clip generado para escena ${i}`, { clipUrl });
-      clips.push(clipUrl);
+      clips.push(clipUrl as string);
     } catch (err) {
       logger.error(`[Pipeline] Error generando clip Kling en escena ${i}`, { error: err });
       throw err;

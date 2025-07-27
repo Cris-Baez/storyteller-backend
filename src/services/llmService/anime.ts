@@ -4,101 +4,53 @@ import { extractFirstJsonBlock } from './extractJsonUtil.js';
 import { RenderRequest, VideoPlan } from '../../utils/types.js';
 
 export async function generateAnimeVideoPlan(req: RenderRequest): Promise<VideoPlan> {
-  if (!req.metadata) req.metadata = {};
-  if (!req.metadata.visualStyle) req.metadata.visualStyle = req.visualStyle || 'anime';
+  console.log('[Anime] Iniciando generación de VideoPlan anime...');
+  if (!req.metadata) {
+    console.warn('[Anime] metadata faltante, creando objeto vacío.');
+    req.metadata = {};
+  }
+  if (!req.metadata.visualStyle) {
+    console.warn('[Anime] visualStyle faltante, usando "anime" por defecto.');
+    req.metadata.visualStyle = req.visualStyle || 'anime';
+  }
   const duration = req.duration || 30;
   const style = req.metadata.visualStyle || 'anime';
-  const userPrompt = req.prompt || '';
-  const systemPrompt = `
-  # INSTRUCCIONES ESTRICTAS PARA EL LLM:
-  - Devuelve SIEMPRE un objeto JSON con la siguiente estructura exacta:
-    {
-      "timeline": [
-        {
-          "t": 0,
-          "backgroundPrompt": "...",
-          "actorPrompt": "...",
-          "visual": "...",
-          "camera": "...",
-          "lighting": "...",
-          "colorPalette": "...",
-          "composition": "...",
-          "atmosphere": "...",
-          "effects": "...",
-          "emotion": "...",
-          "music": { "mood": "...", "trackId": "..." },
-          "dialogo": "...",
-          "voz": "...",
-          "lipSync": "...",
-          "overlays": [],
-          "luts": [],
-          "soundCue": "...",
-          "transition": "...",
-          "carryover": false,
-          "audioCarryover": false,
-          "faceAnimation": "..."
-        }, ...
-      ],
-      "visualStyle": "anime"
-    }
-  - NO uses otros nombres de campo ni anides la timeline en otro objeto.
-  - Si algún campo no aplica, pon un string vacío o valor por defecto.
-  - No devuelvas arrays de objetos con campos distintos ni anidados.
-  - No devuelvas videoPlan, solo timeline y visualStyle en la raíz.
-      "voiceLine": "¿Por qué siento que hoy todo cambiará?",
-      "music": "j-pop suave",
-      "fx": ["viento", "campana escolar"],
-      "transition": "fade",
-      "carryover": false,
-      "audioCarryover": false
-    },
-    {
-      "t": 5,
-      "scene": "aula_soleada",
-      "camera": { "shot": "close-up", "movement": "static" },
-      "visual": "Primer plano anime de la protagonista, ojos brillantes y expresión de sorpresa.",
-      "emotion": "sorpresa",
-      "dialogue": "",
-      "voiceLine": "¡No puede ser!",
-      "music": "j-pop suave",
-      "fx": ["viento"],
-      "transition": "cut",
-      "carryover": true, // Mismo fondo y personaje que la escena anterior
-      "audioCarryover": true, // Música y ambiente continúan
-      "faceAnimation": "sadtalker" // Primer plano anime con expresión intensa
-    },
-    {
-      "t": 10,
-      "scene": "pasillo_escuela",
-      "camera": { "shot": "medium", "movement": "pan" },
-      "visual": "La protagonista corre por el pasillo, la cámara la sigue.",
-      "emotion": "urgencia",
-      "dialogue": "",
-      "voiceLine": "",
-      "music": "j-pop suave",
-      "fx": ["pasos"],
-      "transition": "speedline",
-      "carryover": false,
-      "audioCarryover": true,
-      "lipSync": "wav2lip" // Plano medio, solo sincronización labial si hay voz
-    },
-    ...
-  ]
-}
-
-📌 Reglas obligatorias:
-- La historia debe tener introducción, desarrollo, clímax y cierre (aunque sea corto).
-- Los fondos y personajes deben tener sentido en secuencia (ej: casa → escuela → parque → atardecer), y se debe indicar cuándo se reutilizan para continuidad.
-- Las emociones deben evolucionar (no saltar de alegría a tristeza sin contexto).
-- Las tomas deben estar planificadas como en una serie anime (estableces el lugar, luego el detalle, luego el personaje o acción).
-- Indica si hay cambio de fondo (corte), carryover visual, o es la misma escena desde otro ángulo.
-- Si hay movimientos de cámara, deben ser naturales y coordinados con la acción y el estado emocional.
-- Si la música, efectos o voz continúan entre escenas, usa "audioCarryover": true.
-- Si la escena requiere animación facial avanzada, usa "faceAnimation": "sadtalker". Si solo requiere sincronización labial, usa "lipSync": "wav2lip".
-
-🎯 Tu output final debe ser un JSON tipo VideoPlan válido para ${duration} segundos, con campos de carryover, audioCarryover, faceAnimation y lipSync cuando corresponda.
-NO EXCEDAS la duración ni generes segundos vacíos.
-`;
+  console.log(`[Anime] Duración solicitada: ${duration}, Estilo: ${style}`);
+  const { env } = await import('../../config/env.js');
+  const CDN_BASE = env.CDN_BUCKET_URL.endsWith('/') ? env.CDN_BUCKET_URL : env.CDN_BUCKET_URL + '/';
+  const fs = await import('fs/promises');
+  const path = await import('path');
+  let assetsIndex: Array<{ tipo: string; ruta: string; nombre: string; completitud: string; estilo: string; }> = [];
+  console.log('[Anime] Cargando assets desde assets_index.json...');
+  try {
+    assetsIndex = JSON.parse(await fs.readFile(path.resolve(process.cwd(), 'assets_index.json'), 'utf-8'));
+  } catch (e) {
+    assetsIndex = [];
+  }
+  if (assetsIndex.length === 0) console.error('[Anime] No se pudieron cargar assets, el índice está vacío.');
+  const fondos = assetsIndex.filter(a => a.tipo === 'escenas' && a.completitud === 'completa' && a.estilo === style);
+  const actores = assetsIndex.filter(a => a.tipo === 'actores' && a.completitud === 'completa' && a.estilo === style);
+  console.log(`[Anime] Fondos encontrados: ${fondos.length}, Actores encontrados: ${actores.length}`);
+  if (fondos.length === 0) console.warn('[Anime] No hay fondos completos para el estilo solicitado.');
+  if (actores.length === 0) console.warn('[Anime] No hay actores completos para el estilo solicitado.');
+  const fondoDefault = fondos[0] ? CDN_BASE + fondos[0].ruta : '';
+  const actorDefault = actores[0] ? CDN_BASE + actores[0].ruta : '';
+  const fondosList = fondos.map(a => `- ${a.nombre}: ${CDN_BASE + a.ruta}`).join('\n');
+  const actoresList = actores.map(a => `- ${a.nombre}: ${CDN_BASE + a.ruta}`).join('\n');
+  // Prompt especializado para anime con assets reales
+  const systemPrompt = `Eres un generador de planes de video para producciones de estilo anime. Tu tarea es crear un objeto JSON llamado VideoPlan que contenga una timeline de escenas detalladas, cada una con los siguientes campos: t (segundo), visual, background, character, camera, lighting, emotion, music, fx, transition, carryover, audioCarryover, faceAnimation, lipSync. El campo visualStyle debe ser \"anime\".\n\nFondos disponibles:\n${fondosList}\n\nActores disponibles:\n${actoresList}\n\nNo incluyas texto adicional, solo el JSON. Respeta la duración solicitada y no dejes segundos vacíos. Elige SIEMPRE los assets de las listas proporcionadas.`;
+  const userPrompt = `Genera un VideoPlan anime para ${duration} segundos usando únicamente los fondos y actores de las listas proporcionadas y el estilo solicitado. El output debe ser estrictamente el JSON con los campos timeline y visualStyle.`;
+  console.log('[Anime] Prompt para LLM construido correctamente.');
+  console.log('[Anime] Iniciando generación de VideoPlan anime...');
+  if (!req.metadata) {
+    console.warn('[Anime] metadata faltante, creando objeto vacío.');
+    req.metadata = {};
+  }
+  if (!req.metadata.visualStyle) {
+    console.warn('[Anime] visualStyle faltante, usando "anime" por defecto.');
+    req.metadata.visualStyle = req.visualStyle || 'anime';
+  }
+  // Solo una secuencia robusta:
   const models = [
     req.metadata?.llmModel,
     'openai/chatgpt-4o-latest',
@@ -108,63 +60,68 @@ NO EXCEDAS la duración ni generes segundos vacíos.
     'anthropic/claude-3-opus',
     'mistral/mistral-large',
   ].filter(Boolean);
+  console.log(`[Anime] Modelos a probar: ${models.join(', ')}`);
   let llmResponse: string | undefined;
   let lastError: any;
   const timeout = 300000; // 300 segundos (5 minutos)
-  for (const model of models) {
-    try {
-      // 1. Primera llamada al LLM para generar el plan
-      llmResponse = await callOpenRouter(systemPrompt, userPrompt, model, timeout);
-      if (!llmResponse) throw new Error('Respuesta vacía del modelo: ' + model);
-      const rawResponse = llmResponse as string;
-
-      // 2. Segunda llamada para transformar la respuesta en JSON limpio y evitar omisiones
-      const transformSystemPrompt = `# JSON TRANSFORMER
-Devuelve exclusivamente un objeto JSON válido con la siguiente estructura exacta:
-{
-  "timeline": [ /* array de escenas */ ],
-  "visualStyle": "${style}"
-}
-Sin texto adicional.`;
-      const transformUserPrompt = `Por favor, toma la siguiente respuesta del modelo y devuélvela SOLO como JSON válido con los campos "timeline" y "visualStyle":
-
-${rawResponse}`;
-      const rectifyResponse = await callOpenRouter(transformSystemPrompt, transformUserPrompt, model, timeout);
-      const videoPlan = extractFirstJsonBlock(rectifyResponse as string, { returnParsed: true, debug: true }) as VideoPlan;
-
-      if (!videoPlan) {
-        console.error('[LLMService] No se encontró bloque JSON en la respuesta:', llmResponse);
-        throw new Error('No se encontró bloque JSON en la respuesta del modelo.');
+  let videoPlan: VideoPlan | undefined;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    console.log(`[Anime] Intento LLM #${attempt+1}`);
+    for (const model of models) {
+      console.log(`[Anime] Probando modelo: ${model}`);
+      try {
+        llmResponse = await callOpenRouter(systemPrompt, userPrompt, model, timeout);
+        if (!llmResponse) throw new Error('Respuesta vacía del modelo: ' + model);
+        const rawResponse = llmResponse as string;
+        const transformSystemPrompt = `Solo responde con un objeto JSON válido con los campos timeline y visualStyle.`;
+        const transformUserPrompt = rawResponse;
+        const rectifyResponse = await callOpenRouter(transformSystemPrompt, transformUserPrompt, model, timeout);
+        const parsedPlan = extractFirstJsonBlock(rectifyResponse as string, { returnParsed: true, debug: true }) as VideoPlan | undefined;
+        if (!parsedPlan) throw new Error('No se encontró bloque JSON en la respuesta del modelo.');
+        // Blindaje de campos
+        if (!parsedPlan.visualStyle) parsedPlan.visualStyle = style;
+        if (!parsedPlan.timeline && (parsedPlan as any).videoPlan) {
+          parsedPlan.timeline = (parsedPlan as any).videoPlan;
+          delete (parsedPlan as any).videoPlan;
+        }
+        if (!parsedPlan.timeline || !Array.isArray(parsedPlan.timeline) || parsedPlan.timeline.length === 0) throw new Error('El modelo no devolvió un timeline válido y con contenido.');
+        if (!parsedPlan.visualStyle) parsedPlan.visualStyle = style;
+        parsedPlan.metadata = req.metadata;
+        videoPlan = parsedPlan;
+        return videoPlan;
+      } catch (err) {
+        console.error(`[Anime] Error en modelo ${model}:`, err);
+        lastError = err;
+        continue;
       }
-
-      // --- BLINDAJE Y NORMALIZACIÓN DEL PLAN ---
-      // 1. Forzar el visualStyle correcto para evitar el error de validación más común.
-      if (!videoPlan.visualStyle) {
-        videoPlan.visualStyle = style; // Usar el estilo de la petición original.
-      }
-
-      // 2. Adaptar automáticamente la estructura si el LLM usa 'videoPlan' en lugar de 'timeline'.
-      if (!videoPlan.timeline && (videoPlan as any).videoPlan) {
-        videoPlan.timeline = (videoPlan as any).videoPlan;
-        delete (videoPlan as any).videoPlan;
-      }
-
-      // 3. Validar que el timeline exista y sea un array con contenido.
-      if (!videoPlan.timeline || !Array.isArray(videoPlan.timeline) || videoPlan.timeline.length === 0) {
-        console.error('[LLMService] VideoPlan inválido o timeline vacío tras normalización:', videoPlan);
-        throw new Error('El modelo no devolvió un timeline válido y con contenido.');
-      }
-
-      // --- BLINDAJE FINAL: Forzar visualStyle antes de retornar ---
-      if (!videoPlan.visualStyle) {
-        videoPlan.visualStyle = style;
-      }
-
-      return videoPlan;
-    } catch (err) {
-      lastError = err;
-      continue;
     }
   }
-  throw new Error('Error al generar el VideoPlan con los modelos disponibles: ' + lastError);
+  console.warn('[Anime] Todos los intentos LLM fallaron, usando fallback local.');
+  const timeline: any[] = [];
+  for (let t = 0; t < duration; t++) {
+    const fondo = fondos[t % fondos.length] ? CDN_BASE + fondos[t % fondos.length].ruta : fondoDefault;
+    const actor = actores[t % actores.length] ? CDN_BASE + actores[t % actores.length].ruta : actorDefault;
+    timeline.push({
+      t,
+      visual: `Escena ${t+1}: acción y ambiente para el estilo ${style}`,
+      background: fondo,
+      character: actor,
+      camera: { shot: 'wide', movement: 'pan' },
+      lighting: 'luz anime',
+      emotion: '',
+      music: '',
+      fx: [],
+      transition: '',
+      carryover: false,
+      audioCarryover: false,
+      faceAnimation: '',
+      lipSync: ''
+    });
+  }
+  console.log('[Anime] VideoPlan generado correctamente (LLM o fallback).');
+  return {
+    timeline,
+    visualStyle: style,
+    metadata: req.metadata
+  };
 }
