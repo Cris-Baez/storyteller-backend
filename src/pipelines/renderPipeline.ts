@@ -1,6 +1,6 @@
-import { createVideoPlan } from '../services/llmService/index.js';
-import { adaptarCerebrosAVideoPlan, debugAdaptador } from '../services/llmService/adaptador-cerebros.js';
-import { findBestAsset } from '../services/searchAsset.js';
+// ✨ ARQUITECTURA UNIFICADA: Todo pasa por el sistema de cerebros cinematográficos
+import { dispatchCerebros, RequestGeneracion, EstiloVisual as EstiloCerebros } from '../services/llmService/dispatcher.js';
+// ❌ ELIMINADO: import { createVideoPlan } from '../services/llmService/index.js'; - Ya no usamos sistema legacy
 import { getAdvancedMusic, getSfx } from '../services/audioEngine.js';  // ✨ MEJORADO: Reorganizado
 import { createVoiceBuffer } from '../services/voiceService.js';  // ✨ MEJORADO: Renombrado
 import { generateKlingClip, KlingClipParams } from '../services/klingService.js';
@@ -40,27 +40,52 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   let videoPlan: VideoPlan;
   let sugerencias: any[] = [];
   try {
-    // NUEVO: Usar sistema de cerebros cinematográficos para estilos soportados
-    const estilosSoportadosCerebros = ['cinematic'];
-    const usarSistemaCerebros = estilosSoportadosCerebros.includes(reqNormalizado.visualStyle);
+    // ✨ ARQUITECTURA UNIFICADA: Todo pasa por el sistema de cerebros
+    logger.info(`[Pipeline] 🧠 Usando SISTEMA DE CEREBROS CINEMATOGRÁFICOS para: ${reqNormalizado.visualStyle}`);
     
-    if (usarSistemaCerebros) {
-      logger.info('[Pipeline] Usando sistema de cerebros cinematográficos con adaptador');
-      
-      videoPlan = await adaptarCerebrosAVideoPlan(reqNormalizado);
-      
-      // Debug del adaptador en desarrollo
-      if (process.env.NODE_ENV === 'development') {
-        debugAdaptador(videoPlan);
+    // Mapear estilos del request al sistema de cerebros
+    const mapeoEstilos: Record<string, EstiloCerebros> = {
+      'cinematic': 'cinematic',
+      'anime': 'anime',
+      'cartoon': 'cartoon',
+      'commercial': 'commercial',
+      'realistic': 'cinematic',    // Realistic → Cinematic hasta implementar
+      'narrative': 'cinematic',    // Narrative → Cinematic hasta implementar  
+      'game': 'cartoon'           // Game → Cartoon hasta implementar
+    };
+    
+    const estiloMapeado = mapeoEstilos[reqNormalizado.visualStyle.toLowerCase()] || 'cinematic';
+    
+    // Crear request para sistema de cerebros
+    const requestCerebros: RequestGeneracion = {
+      prompt: reqNormalizado.prompt,
+      duracion: reqNormalizado.duration,
+      estilo: estiloMapeado,
+      configuracion: {
+        demoMode: reqNormalizado.demoMode,
+        previewMode: reqNormalizado.previewMode,
+        metadata: reqNormalizado.metadata,
+        estiloOriginal: reqNormalizado.visualStyle  // Preservar estilo original
       }
-      
-      logger.info(`[Pipeline] VideoPlan generado por cerebros: ${videoPlan.timeline.length} segundos`);
-      
-    } else {
-      // Usar sistema legacy para otros estilos
-      logger.info('[Pipeline] Usando sistema legacy para estilo:', req.visualStyle);
-      videoPlan = await createVideoPlan(req);
+    };
+    
+    // Despachar al equipo de cerebros (con fallbacks internos)
+    const resultadoCerebros = await dispatchCerebros(requestCerebros);
+    
+    if (!resultadoCerebros.success) {
+      throw new Error(`❌ Sistema de cerebros falló: ${resultadoCerebros.error}`);
     }
+    
+    // Convertir respuesta de cerebros al formato VideoPlan esperado
+    videoPlan = {
+      timeline: resultadoCerebros.videoPlan,
+      metadata: resultadoCerebros.metadata,
+      configuracionGlobal: resultadoCerebros.configuracion,
+      restricciones: resultadoCerebros.restricciones
+    };
+    
+    logger.info(`[Pipeline] ✅ Cerebros generaron: ${videoPlan.timeline.length} segundos (${estiloMapeado} para ${reqNormalizado.visualStyle})`);
+    
     // Validación final: el VideoPlan debe tener timeline válida y al menos una escena
     if (!videoPlan || !videoPlan.timeline || !Array.isArray(videoPlan.timeline) || videoPlan.timeline.length === 0) {
       logger.error('[Pipeline] VideoPlan inválido o vacío', { videoPlan });

@@ -1,11 +1,15 @@
 // estilos/cinematic/editor.ts - Cerebro Editor Cinematográfico
+// ✨ MEJORADO: Soporte para CarryoverLevel (none, soft, hard)
 
 import { segmentarPorEstilo } from '../../helpers/segmentador.js';
 import { validarDuracionClip } from '../../restricciones.js';
 
+// ✨ NUEVO: Tipos de carryover para mejor control cinematográfico
+export type CarryoverLevel = 'none' | 'soft' | 'hard';
+
 export interface ConfiguracionEdicion {
   duracionEscena: number;
-  carryover: boolean;
+  carryover: boolean | CarryoverLevel;  // ✨ MEJORADO: Soporte para niveles
   audioCarryover: boolean;
   tipoCorte: string;
   ritmo: 'lento' | 'medio' | 'rápido';
@@ -24,8 +28,8 @@ export function configurarEdicionCinematica(
   // Calcular duración óptima de escena
   const duracionEscena = calcularDuracionEscena(momentoNarrativo, esEmocional, duracionTotal);
   
-  // Determinar si necesita carryover visual
-  const carryover = determinarCarryover(segundoActual, momentoNarrativo, esEmocional);
+  // ✨ MEJORADO: Determinar nivel de carryover visual
+  const carryover = determinarCarryoverLevel(segundoActual, momentoNarrativo, esEmocional);
   
   // Carryover de audio (música/ambiente)
   const audioCarryover = determinarAudioCarryover(segundoActual, momentoNarrativo);
@@ -96,6 +100,37 @@ function determinarCarryover(segundo: number, momento: string, esEmocional: bool
   return necesitaCarryover;
 }
 
+// ✨ NUEVA FUNCIÓN: Determinar nivel de carryover para mayor control cinematográfico
+function determinarCarryoverLevel(segundo: number, momento: string, esEmocional: boolean): CarryoverLevel {
+  // No carryover en el primer segundo
+  if (segundo === 0) return 'none';
+  
+  // Lógica avanzada de carryover por momento narrativo
+  const carryoverConfig = {
+    setup: {
+      base: segundo % 8 === 0 ? 'soft' : 'none',
+      emocional: 'soft'
+    },
+    desarrollo: {
+      base: segundo % 6 === 0 ? 'soft' : 'none',
+      emocional: segundo % 4 === 0 ? 'hard' : 'soft'
+    },
+    climax: {
+      base: segundo % 3 === 0 ? 'hard' : 'soft',
+      emocional: 'hard'  // Carryover fuerte para intensidad máxima
+    },
+    cierre: {
+      base: segundo % 10 === 0 ? 'soft' : 'none',
+      emocional: 'soft'
+    }
+  } as const;
+  
+  const config = carryoverConfig[momento as keyof typeof carryoverConfig];
+  if (!config) return 'none';
+  
+  return esEmocional ? config.emocional : config.base;
+}
+
 function determinarAudioCarryover(segundo: number, momento: string): boolean {
   // Audio carryover más frecuente para fluidez
   if (segundo === 0) return false;
@@ -153,9 +188,15 @@ function determinarRitmoEdicion(momento: string, tono: string, esEmocional: bool
   return ritmosPorTono[tono] || ritmosPorMomento[momento] || 'medio';
 }
 
-function evaluarContinuidad(segundo: number, carryover: boolean): boolean {
+// ✨ MEJORADA: Evaluar continuidad con soporte para CarryoverLevel
+function evaluarContinuidad(segundo: number, carryover: boolean | CarryoverLevel): boolean {
+  // Convertir CarryoverLevel a boolean para compatibilidad
+  const tieneCarryover = typeof carryover === 'boolean' 
+    ? carryover 
+    : carryover !== 'none';
+  
   // La continuidad depende del carryover y la posición
-  return carryover || segundo % 4 === 0;
+  return tieneCarryover || segundo % 4 === 0;
 }
 
 export function aplicarEstructuraEdicion(timeline: any[], duracionTotal: number): any[] {

@@ -1,5 +1,8 @@
-// estilos/cinematic/sonido.ts - Cerebro Director de Sonido Cinematográfico
+// estilos/cinematic/sonido.ts - Cerebro Director de Sonido Cinematográfico con IA distribuida
 
+import { callOpenRouter } from '../../openRouterUtil.js';
+import { extractFirstJsonBlock } from '../../extractJsonUtil.js';
+import { cargarSystemPromptBase, construirPromptCompleto, CONFIG_CEREBROS } from '../../prompts/promptUtils.js';
 import { getEstiloLimitaciones } from '../../restricciones.js';
 
 export interface ConfiguracionSonido {
@@ -10,6 +13,95 @@ export interface ConfiguracionSonido {
   requiereVoz: boolean;
   tipoVoz?: string;
   intensidad: 'baja' | 'media' | 'alta';
+  justificacion?: string;
+  estilo_musical?: string;
+  emociones_clave?: string[];
+}
+
+/**
+ * Usa IA para configurar el diseño sonoro cinematográfico
+ */
+export async function configurarSonidoConIA(
+  narrativa: any,
+  momentoNarrativo: 'setup' | 'desarrollo' | 'climax' | 'cierre',
+  segundoActual: number,
+  prompt: string
+): Promise<ConfiguracionSonido> {
+  console.log(`[Sonido Cinematic] 🎵 Configurando sonido con IA para ${momentoNarrativo}...`);
+  
+  try {
+    // Cargar el prompt base compartido
+    const systemBase = await cargarSystemPromptBase();
+    
+    // Especialización del Director de Sonido
+    const especializacionSonido = `
+Ahora actúas como el DIRECTOR DE SONIDO del equipo CinemaAI.
+
+Tu responsabilidad es diseñar la banda sonora y efectos de audio para cada escena:
+- Seleccionar estilo musical apropiado
+- Elegir efectos sonoros que complementen la narrativa
+- Definir ambiente sonoro
+- Configurar intensidad emocional del audio
+- Asegurar coherencia con el tono cinematográfico
+
+OPCIONES DISPONIBLES:
+
+MÚSICA: orchestral, cinematic, electronic, ambient, dramatic, epic, emotional, mysterious, action, romantic, suspense
+EFECTOS: wind, rain, thunder, footsteps, doors, nature, urban, mechanical, magical, tension, impact
+AMBIENTE: quiet, bustling, tense, peaceful, mysterious, dramatic, action-packed, romantic, ethereal
+INTENSIDAD: baja, media, alta
+
+RESPONDE ÚNICAMENTE con este JSON:
+{
+  "musica": "uno_de_los_estilos_musicales",
+  "efectos": ["efecto1", "efecto2", "efecto3"],
+  "ambiente": "uno_de_los_ambientes",
+  "intensidad": "baja|media|alta",
+  "requiereVoz": true/false,
+  "tipoVoz": "narrador|personaje|voz_en_off|ninguna",
+  "justificacion": "por qué esta configuración sonora es perfecta",
+  "estilo_musical": "descripción del estilo musical específico",
+  "emociones_clave": ["emocion1", "emocion2"]
+}`;
+
+    const contextoUsuario = `
+NARRATIVA: ${narrativa.historia}
+TONO: ${narrativa.tono}
+GÉNERO: ${narrativa.genero}
+MOMENTO NARRATIVO: ${momentoNarrativo}
+SEGUNDO: ${segundoActual}
+PROMPT ORIGINAL: "${prompt}"
+
+Diseña el audio cinematográfico para esta escena.`;
+
+    const promptCompleto = construirPromptCompleto(systemBase, especializacionSonido, contextoUsuario);
+    
+    const response = await callOpenRouter(
+      promptCompleto,
+      '', 
+      CONFIG_CEREBROS.model,
+      CONFIG_CEREBROS.timeout
+    );
+    
+    const config = extractFirstJsonBlock(response as string, { returnParsed: true }) as ConfiguracionSonido;
+    
+    if (config && typeof config === 'object' && 'musica' in config) {
+      // Asegurar campos requeridos
+      config.lipSync = 'auto'; // Por defecto
+      
+      console.log('[Sonido Cinematic] ✅ Configuración sonora IA exitosa');
+      console.log(`- Música: ${config.musica}`);
+      console.log(`- Ambiente: ${config.ambiente}`);
+      console.log(`- Intensidad: ${config.intensidad}`);
+      return config;
+    }
+  } catch (error) {
+    console.error('[Sonido Cinematic] ❌ Error en configuración IA:', error);
+  }
+  
+  // Fallback a lógica tradicional
+  console.log('[Sonido Cinematic] 🔄 Usando configuración sonora fallback...');
+  return configurarSonidoCinematico(momentoNarrativo, segundoActual, false, narrativa.tono || 'dramático', 30);
 }
 
 export function configurarSonidoCinematico(

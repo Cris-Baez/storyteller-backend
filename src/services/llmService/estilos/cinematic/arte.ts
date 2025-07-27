@@ -1,7 +1,8 @@
-// estilos/cinematic/arte.ts - Cerebro Director de Arte Cinematográfico
+// estilos/cinematic/arte.ts - Cerebro Director de Arte Cinematográfico con IA distribuida
 
 import { callOpenRouter } from '../../openRouterUtil.js';
 import { extractFirstJsonBlock } from '../../extractJsonUtil.js';
+import { cargarSystemPromptBase, construirPromptCompleto, CONFIG_CEREBROS } from '../../prompts/promptUtils.js';
 import { AssetIndexItem, filtrarFondos, seleccionarAssetPorIndice } from '../../helpers/assetUtils.js';
 import { getEstiloLimitaciones } from '../../restricciones.js';
 
@@ -11,13 +12,130 @@ export interface SeleccionFondo {
   justificacion: string;
   ambiente: string;
   epoca: string;
+  estilo_visual: string;
+  paleta_colores: string;
+}
+
+export interface DecisionArte {
+  fondo_seleccionado: string;
+  justificacion: string;
+  ambiente: string;
+  epoca: string;
+  estilo_visual: string;
+  paleta_colores: string;
+  iluminacion: string;
+}
+
+/**
+ * Usa IA para tomar decisiones artísticas inteligentes sobre fondos y estilo visual
+ */
+export async function decidirArteConIA(
+  fondosDisponibles: AssetIndexItem[],
+  narrativa: any,
+  momentoNarrativo: 'setup' | 'desarrollo' | 'climax' | 'cierre',
+  segundoActual: number,
+  prompt: string
+): Promise<DecisionArte> {
+  console.log(`[Arte Cinematic] 🎨 Analizando arte con IA para ${momentoNarrativo}...`);
+  
+  try {
+    // Cargar el prompt base compartido
+    const systemBase = await cargarSystemPromptBase();
+    
+    // Especialización del Director de Arte
+    const especializacionArte = `
+Ahora actúas como el DIRECTOR DE ARTE del equipo CinemaAI.
+
+Tu responsabilidad es seleccionar fondos y definir el estilo visual de cada escena, basándote en:
+- La narrativa cinematográfica establecida por el Director
+- Los fondos disponibles en el catálogo
+- El momento narrativo específico (setup/desarrollo/climax/cierre)
+- La coherencia visual general de la producción
+
+FONDOS DISPONIBLES:
+${fondosDisponibles.map(f => `- ${f.nombre}: ${f.ambiente || 'ambiente neutro'}`).join('\n')}
+
+RESPONDE ÚNICAMENTE con este JSON:
+{
+  "fondo_seleccionado": "nombre_exacto_del_fondo_seleccionado",
+  "justificacion": "por qué este fondo es perfecto para este momento",
+  "ambiente": "descripción del ambiente (ej: misterioso, alegre, tenso)",
+  "epoca": "época temporal (moderno, clásico, futurista, etc)",
+  "estilo_visual": "estilo cinematográfico (realista, dramático, épico, etc)",
+  "paleta_colores": "paleta dominante (cálida, fría, contrastada, etc)",
+  "iluminacion": "tipo de iluminación (natural, dramática, suave, contrastada)"
+}`;
+
+    const contextoUsuario = `
+NARRATIVA: ${narrativa.historia}
+TONO: ${narrativa.tono}
+GÉNERO: ${narrativa.genero}
+MOMENTO NARRATIVO: ${momentoNarrativo}
+SEGUNDO: ${segundoActual}
+PROMPT ORIGINAL: "${prompt}"
+
+Selecciona el fondo más apropiado y define el estilo visual para esta escena.`;
+
+    const promptCompleto = construirPromptCompleto(systemBase, especializacionArte, contextoUsuario);
+    
+    const response = await callOpenRouter(
+      promptCompleto,
+      '', 
+      CONFIG_CEREBROS.model,
+      CONFIG_CEREBROS.timeout
+    );
+    
+    const decision = extractFirstJsonBlock(response as string, { returnParsed: true }) as DecisionArte;
+    
+    if (decision && typeof decision === 'object' && 'fondo_seleccionado' in decision) {
+      // Verificar que el fondo seleccionado existe
+      const fondoExiste = fondosDisponibles.find(f => f.nombre === decision.fondo_seleccionado);
+      
+      if (fondoExiste) {
+        console.log('[Arte Cinematic] ✅ Decisión artística IA exitosa');
+        console.log(`- Fondo: ${decision.fondo_seleccionado}`);
+        console.log(`- Ambiente: ${decision.ambiente}`);
+        return decision;
+      }
+    }
+  } catch (error) {
+    console.error('[Arte Cinematic] ❌ Error en decisión IA:', error);
+  }
+  
+  // Fallback inteligente
+  console.log('[Arte Cinematic] 🔄 Usando fallback inteligente...');
+  const fondoFallback = seleccionarFondoPorMomento(fondosDisponibles, momentoNarrativo, segundoActual) || 
+                       seleccionarAssetPorIndice(fondosDisponibles, segundoActual);
+
+  if (!fondoFallback) {
+    return {
+      fondo_seleccionado: 'fondo_fallback',
+      justificacion: `No se encontró fondo adecuado, usando fallback por defecto para ${momentoNarrativo}`,
+      ambiente: 'neutral',
+      epoca: 'moderno',
+      estilo_visual: 'cinematográfico',
+      paleta_colores: 'equilibrada',
+      iluminacion: 'natural'
+    };
+  }
+
+  return {
+    fondo_seleccionado: fondoFallback.nombre,
+    justificacion: `Fondo fallback apropiado para ${momentoNarrativo}`,
+    ambiente: fondoFallback.ambiente || 'neutral',
+    epoca: extraerEpoca(fondoFallback.nombre),
+    estilo_visual: 'cinematográfico',
+    paleta_colores: 'equilibrada',
+    iluminacion: 'natural'
+  };
 }
 
 export async function seleccionarFondoCinematico(
   fondosDisponibles: AssetIndexItem[],
   narrativa: any,
   momentoNarrativo: 'setup' | 'desarrollo' | 'climax' | 'cierre',
-  segundoActual: number
+  segundoActual: number,
+  prompt?: string
 ): Promise<SeleccionFondo> {
   console.log(`[Arte Cinematic] Seleccionando fondo para ${momentoNarrativo} - segundo ${segundoActual}`);
   
@@ -28,11 +146,31 @@ export async function seleccionarFondoCinematico(
       nombre: 'fondo_default',
       justificacion: 'Fallback por falta de assets',
       ambiente: 'neutral',
-      epoca: 'moderno'
+      epoca: 'moderno',
+      estilo_visual: 'neutro',
+      paleta_colores: 'equilibrada'
     };
   }
 
-  // Selección inteligente basada en momento narrativo
+  // Usar IA si tenemos prompt, sino lógica tradicional
+  if (prompt) {
+    const decisionIA = await decidirArteConIA(fondosDisponibles, narrativa, momentoNarrativo, segundoActual, prompt);
+    const fondoSeleccionado = fondosDisponibles.find(f => f.nombre === decisionIA.fondo_seleccionado);
+    
+    if (fondoSeleccionado) {
+      return {
+        ruta: fondoSeleccionado.ruta,
+        nombre: fondoSeleccionado.nombre,
+        justificacion: decisionIA.justificacion,
+        ambiente: decisionIA.ambiente,
+        epoca: decisionIA.epoca,
+        estilo_visual: decisionIA.estilo_visual,
+        paleta_colores: decisionIA.paleta_colores
+      };
+    }
+  }
+
+  // Lógica tradicional como fallback
   const fondoSeleccionado = seleccionarFondoPorMomento(fondosDisponibles, momentoNarrativo, segundoActual);
   
   if (fondoSeleccionado) {
@@ -41,7 +179,9 @@ export async function seleccionarFondoCinematico(
       nombre: fondoSeleccionado.nombre,
       justificacion: `Fondo seleccionado para ${momentoNarrativo}: ${fondoSeleccionado.ambiente || 'ambiente neutro'}`,
       ambiente: fondoSeleccionado.ambiente || 'neutral',
-      epoca: extraerEpoca(fondoSeleccionado.nombre)
+      epoca: extraerEpoca(fondoSeleccionado.nombre),
+      estilo_visual: 'cinematográfico',
+      paleta_colores: 'equilibrada'
     };
   }
 
@@ -52,7 +192,9 @@ export async function seleccionarFondoCinematico(
     nombre: fondoFallback?.nombre || 'fondo_fallback',
     justificacion: 'Selección por rotación sistemática',
     ambiente: fondoFallback?.ambiente || 'neutral',
-    epoca: 'moderno'
+    epoca: 'moderno',
+    estilo_visual: 'neutral',
+    paleta_colores: 'equilibrada'
   };
 }
 

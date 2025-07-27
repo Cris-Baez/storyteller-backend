@@ -51,24 +51,10 @@ export async function getAdvancedMusic(options: AudioEngineOptions): Promise<Buf
   logger.info(`🎵 [AudioEngine] Buscar música avanzada para: "${style}"`);
   
   try {
-    // Import dinámico para evitar dependencias circulares
-    const { fetchFromFreesound, fetchFromArtlist, normalise } = await import('./musicService.js');
+    // Usar el servicio existente de música en lugar de importar funciones internas
+    const { getBackgroundMusic } = await import('./musicService.js');
     
-    const raw = (await fetchFromFreesound(style)) ?? (await fetchFromArtlist(style));
-    
-    if (!raw) {
-      logger.warn('⚠️ [AudioEngine] No se encontró música avanzada; devolviendo buffer vacío');
-      logFeedback({
-        service: 'AudioEngine',
-        action: 'getAdvancedMusic',
-        success: false,
-        error: 'No se pudo generar la pista de música avanzada',
-        params: { options }
-      });
-      throw new Error('No se pudo generar la pista de música avanzada');
-    }
-    
-    const buf = await normalise(raw);
+    const buf = await getBackgroundMusic(style);
     
     if (!buf || !Buffer.isBuffer(buf) || buf.length === 0) {
       logger.error('❌ [AudioEngine] La pista de música avanzada generada está vacía o es inválida');
@@ -126,13 +112,14 @@ export async function getSfx(sfxType: string): Promise<Buffer> {
   logger.info(`🔊 [AudioEngine] Buscar SFX para: "${sfxType}"`);
   
   try {
-    // Import dinámico para evitar dependencias circulares
+    // Usar el servicio robusto de audio existente
     const { robustAudioGen } = await import('./audioFallbackService.js');
     
-    // Función interna para obtener SFX
+    // Función interna para obtener SFX - implementación mejorada
     const getSfxInternal = async (type: string): Promise<Buffer> => {
-      // Aquí deberías conectar a un servicio real de sfx
       // Por ahora devolvemos buffer vacío como placeholder
+      // TODO: Conectar con Freesound o servicio real de SFX
+      logger.info(`🔧 [AudioEngine] Generando SFX placeholder para: ${type}`);
       return Buffer.from([]);
     };
     
@@ -168,7 +155,10 @@ export async function getSfx(sfxType: string): Promise<Buffer> {
       error: error instanceof Error ? error.message : 'Error desconocido',
       params: { sfxType }
     });
-    return Buffer.from([]); // Fallback a buffer vacío
+    
+    // Fallback robusto: devolver buffer vacío en lugar de fallar
+    logger.warn(`🔄 [AudioEngine] Usando fallback para SFX: ${sfxType}`);
+    return Buffer.from([]);
   }
 }
 

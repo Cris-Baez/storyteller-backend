@@ -1,5 +1,8 @@
-// estilos/cinematic/fotografia.ts - Cerebro Director de Fotografía Cinematográfico
+// estilos/cinematic/fotografia.ts - Cerebro Director de Fotografía Cinematográfico con IA distribuida
 
+import { callOpenRouter } from '../../openRouterUtil.js';
+import { extractFirstJsonBlock } from '../../extractJsonUtil.js';
+import { cargarSystemPromptBase, construirPromptCompleto, CONFIG_CEREBROS } from '../../prompts/promptUtils.js';
 import { getCameraMovement, getEstiloLimitaciones } from '../../restricciones.js';
 
 export interface ConfiguracionCamara {
@@ -8,6 +11,90 @@ export interface ConfiguracionCamara {
   angulo: string;
   iluminacion: string;
   transicion: string;
+  justificacion?: string;
+  plano?: string;
+  profundidad_campo?: string;
+}
+
+/**
+ * Usa IA para configurar fotografía cinematográfica inteligente
+ */
+export async function configurarFotografiaConIA(
+  narrativa: any,
+  momentoNarrativo: 'setup' | 'desarrollo' | 'climax' | 'cierre',
+  segundoActual: number,
+  prompt: string
+): Promise<ConfiguracionCamara> {
+  console.log(`[Fotografía Cinematic] 📸 Configurando fotografía con IA para ${momentoNarrativo}...`);
+  
+  try {
+    // Cargar el prompt base compartido
+    const systemBase = await cargarSystemPromptBase();
+    
+    // Especialización del Director de Fotografía
+    const especializacionFotografia = `
+Ahora actúas como el DIRECTOR DE FOTOGRAFÍA del equipo CinemaAI.
+
+Tu responsabilidad es decidir los aspectos técnicos y artísticos de la cámara para cada escena:
+- Ángulos de cámara cinematográficos
+- Movimientos de cámara apropiados  
+- Tipos de plano según el momento narrativo
+- Configuración de iluminación
+- Transiciones cinematográficas
+
+OPCIONES DISPONIBLES (usa solo estas opciones):
+
+PLANOS (shot): close-up, medium, wide, extreme-wide, detail, over-shoulder
+MOVIMIENTOS (movement): static, pan-left, pan-right, zoom-in, zoom-out, tracking, dolly, crane
+ÁNGULOS (angulo): frontal, lateral, high, low, dutch, profile, three-quarter
+ILUMINACIÓN (iluminacion): natural, dramatic, soft, hard, side-lit, backlit, diffused
+TRANSICIONES (transicion): cut, fade, dissolve, wipe, zoom-transition
+
+RESPONDE ÚNICAMENTE con este JSON:
+{
+  "shot": "uno_de_los_planos_listados",
+  "movement": "uno_de_los_movimientos_listados",
+  "angulo": "uno_de_los_angulos_listados", 
+  "iluminacion": "una_de_las_iluminaciones_listadas",
+  "transicion": "una_de_las_transiciones_listadas",
+  "justificacion": "por qué esta configuración es perfecta cinematográficamente"
+}`;
+
+    const contextoUsuario = `
+NARRATIVA: ${narrativa.historia}
+TONO: ${narrativa.tono}
+GÉNERO: ${narrativa.genero}
+MOMENTO NARRATIVO: ${momentoNarrativo}
+SEGUNDO: ${segundoActual}
+PROMPT ORIGINAL: "${prompt}"
+
+Configura la cámara cinematográficamente para esta escena.`;
+
+    const promptCompleto = construirPromptCompleto(systemBase, especializacionFotografia, contextoUsuario);
+    
+    const response = await callOpenRouter(
+      promptCompleto,
+      '', 
+      CONFIG_CEREBROS.model,
+      CONFIG_CEREBROS.timeout
+    );
+    
+    const config = extractFirstJsonBlock(response as string, { returnParsed: true }) as ConfiguracionCamara;
+    
+    if (config && typeof config === 'object' && 'shot' in config) {
+      console.log('[Fotografía Cinematic] ✅ Configuración fotográfica IA exitosa');
+      console.log(`- Plano: ${config.shot}`);
+      console.log(`- Ángulo: ${config.angulo}`);
+      console.log(`- Movimiento: ${config.movement}`);
+      return config;
+    }
+  } catch (error) {
+    console.error('[Fotografía Cinematic] ❌ Error en configuración IA:', error);
+  }
+  
+  // Fallback a lógica tradicional
+  console.log('[Fotografía Cinematic] 🔄 Usando configuración fallback...');
+  return configurarCamaraCinematica(momentoNarrativo, segundoActual, false, narrativa.tono || 'dramático');
 }
 
 export function configurarCamaraCinematica(
