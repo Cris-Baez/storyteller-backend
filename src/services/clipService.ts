@@ -6,7 +6,7 @@ import os from 'os';
 import path from 'path';
 import { uploadToCDN } from './cdnService.js';
 import { generateKlingClip } from './klingService.js';
-import { getAdvancedMusic } from './musicService.js';
+import { getAdvancedMusic } from './audioEngine.js';  // ✨ MEJORADO: Reorganizado
 
 // Funciones para generar imágenes por estilo
 export async function generateImageRealista(prompt: string, backgroundUrl?: string): Promise<string> {

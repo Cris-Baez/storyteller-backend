@@ -3,7 +3,6 @@
 
 export type AllowedDuration = 5 | 8 | 10 | 12 | 15 | 20 | 25 | 30 | 45 | 60;
 export type EstiloVisual = 'cinematic' | 'anime' | 'cartoon' | 'commercial';
-export type CarryoverLevel = 'none' | 'soft' | 'hard';
 
 export interface RenderRequest {
   prompt: string;
@@ -79,35 +78,13 @@ export interface TimelineSecond {
   // Configuración de edición
   edicion?: {
     duracionEscena: number;
-    carryover: boolean | CarryoverLevel;    // ✨ MEJORADO: Ahora soporta niveles
+    carryover: boolean;
     audioCarryover?: boolean;
     tipoCorte: string;
     ritmo?: 'lento' | 'medio' | 'rápido';
     continuidad?: boolean;
   };
   transition?: string;
-  
-  // 📊 NUEVO: Métricas por escena para debugging y análisis
-  metricas?: {
-    usaLipSync?: boolean;
-    usaCarryover?: boolean | CarryoverLevel;
-    fondoGenerado?: string;
-    actorGenerado?: string;
-    musicaUsada?: string;
-    sfxUsados?: string[];
-    tiempoGeneracion?: number;
-    errorOcurrido?: string;
-  };
-  
-  // ✨ NUEVO: Campo VFX preparado para futuro cerebro de VFX
-  vfx?: {
-    efectos?: string[];
-    colorGrading?: string;
-    filtros?: string[];
-    composicion?: string;
-    particulas?: boolean;
-    iluminacionDinamica?: boolean;
-  };
   
   // Contexto narrativo (del sistema de cerebros)
   segmento?: string;

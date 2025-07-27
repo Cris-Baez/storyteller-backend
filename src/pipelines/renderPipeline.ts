@@ -1,12 +1,13 @@
 import { createVideoPlan } from '../services/llmService/index.js';
+import { adaptarCerebrosAVideoPlan, debugAdaptador } from '../services/llmService/adaptador-cerebros.js';
 import { findBestAsset } from '../services/searchAsset.js';
-import { getAdvancedMusic } from '../services/musicService.js';
-import { createVoiceOver } from '../services/voiceService.js';
-import { getSfx } from '../services/sceneAudioService.js';
+import { getAdvancedMusic, getSfx } from '../services/audioEngine.js';  // ✨ MEJORADO: Reorganizado
+import { createVoiceBuffer } from '../services/voiceService.js';  // ✨ MEJORADO: Renombrado
 import { generateKlingClip, KlingClipParams } from '../services/klingService.js';
 import { assembleVideo } from '../services/ffmpegService.js';
 import { uploadToCDN } from '../services/cdnService.js';
-import { RenderRequest, VideoPlan, TimelineSecond } from '../utils/types.js';
+import { RenderRequest, VideoPlan, TimelineSecond, EstiloVisual } from '../utils/types.js';
+import { validarRenderRequest } from '../utils/validadores.js';  // ✨ NUEVO: Validación estricta
 import { cargarAssetsIndex, validarVideoPlanFondosActores, corregirFondosActoresInvalidos } from '../utils/menteFondos.js';
 import { generateQuickKlingVideo } from '../services/clipService.js';
 
@@ -22,29 +23,66 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   const logger = console; // Puedes cambiar por tu logger profesional
   logger.info('[Pipeline] Iniciando renderCinemaAI', { quickMode, actorCustomPath });
 
-  // Validar y rellenar los datos mínimos en req antes de llamar a LLMService
-  if (!req.visualStyle) req.visualStyle = 'cinematic';
-  if (!req.duration) req.duration = 30;
-  if (!req.prompt) req.prompt = '';
+  // ⚠️ CRÍTICO: Validación estricta para prevenir errores silenciosos
+  const validacion = validarRenderRequest(req);
+  if (!validacion.valido) {
+    logger.warn(`⚠️ [Pipeline] Request con warnings: ${validacion.errores.join(', ')}`);
+  }
+  
+  // Usar datos normalizados si es necesario
+  const reqNormalizado = validacion.normalizado || req;
+  
+  // Validar y rellenar los datos mínimos restantes
+  if (!reqNormalizado.visualStyle) reqNormalizado.visualStyle = 'cinematic';
+  if (!reqNormalizado.duration) reqNormalizado.duration = 30;
+  if (!reqNormalizado.prompt) reqNormalizado.prompt = '';
 
   let videoPlan: VideoPlan;
   let sugerencias: any[] = [];
   try {
-    videoPlan = await createVideoPlan(req);
+    // NUEVO: Usar sistema de cerebros cinematográficos para estilos soportados
+    const estilosSoportadosCerebros = ['cinematic'];
+    const usarSistemaCerebros = estilosSoportadosCerebros.includes(reqNormalizado.visualStyle);
+    
+    if (usarSistemaCerebros) {
+      logger.info('[Pipeline] Usando sistema de cerebros cinematográficos con adaptador');
+      
+      videoPlan = await adaptarCerebrosAVideoPlan(reqNormalizado);
+      
+      // Debug del adaptador en desarrollo
+      if (process.env.NODE_ENV === 'development') {
+        debugAdaptador(videoPlan);
+      }
+      
+      logger.info(`[Pipeline] VideoPlan generado por cerebros: ${videoPlan.timeline.length} segundos`);
+      
+    } else {
+      // Usar sistema legacy para otros estilos
+      logger.info('[Pipeline] Usando sistema legacy para estilo:', req.visualStyle);
+      videoPlan = await createVideoPlan(req);
+    }
     // Validación final: el VideoPlan debe tener timeline válida y al menos una escena
     if (!videoPlan || !videoPlan.timeline || !Array.isArray(videoPlan.timeline) || videoPlan.timeline.length === 0) {
       logger.error('[Pipeline] VideoPlan inválido o vacío', { videoPlan });
       throw new Error('El VideoPlan generado por LLMService es inválido o está vacío.');
     }
-    // Validar y corregir assets inventados/incompletos
+    
+    // NOTA: Los modelos de LLMService ya aplican validación y corrección internamente
+    // Esta es una verificación adicional para garantizar que los assets son válidos
     const assetsIndex = await cargarAssetsIndex();
     const { valido, errores } = validarVideoPlanFondosActores(videoPlan, assetsIndex);
+    
     if (!valido) {
+      logger.warn('[Pipeline] Se detectaron assets inválidos en el VideoPlan final', { errores });
+      // Aplicar una última corrección por seguridad
       const resultado = corregirFondosActoresInvalidos(videoPlan, assetsIndex);
       videoPlan = resultado.videoPlan;
       sugerencias = resultado.sugerencias;
-      logger.warn('[Pipeline] VideoPlan corregido por assets inválidos', { errores, sugerencias });
+      logger.warn('[Pipeline] VideoPlan corregido nuevamente por assets inválidos', { sugerencias });
+    } else {
+      logger.info('[Pipeline] VideoPlan validado correctamente, todos los assets son válidos');
     }
+    
     logger.info('[Pipeline] VideoPlan generado, validado y corregido', { timeline: videoPlan.timeline.length, visualStyle: videoPlan.metadata?.visualStyle });
   } catch (err) {
     logger.error('[Pipeline] Error generando/corrigiendo VideoPlan', { error: err });
@@ -117,7 +155,7 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
     const params: KlingClipParams = {
       prompt: scene.visual || scene.backgroundPrompt || req.prompt,
       input_image_urls: [scene.fondoAsset?.ruta, scene.actorAsset?.ruta].filter((v): v is string => typeof v === 'string'),
-      duration: req.duration || 30,
+      duration: reqNormalizado.duration || 30,
       aspect_ratio: '16:9',
     };
     try {
@@ -145,7 +183,7 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   let musicBuffer: Buffer;
   let sfxBuffer: Buffer;
   try {
-    voiceBuffer = await createVoiceOver(videoPlan);
+    voiceBuffer = await createVoiceBuffer(videoPlan);  // ✨ MEJORADO: Nuevo nombre
     if (!voiceBuffer || !(voiceBuffer instanceof Buffer) || voiceBuffer.length === 0) {
       logger.warn('[Pipeline] Buffer de voz vacío, se usará silencio');
       voiceBuffer = Buffer.alloc(1);
@@ -175,7 +213,7 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
     finalUrl = await assembleVideo({
       plan: videoPlan,
       clips,
-      voiceOver: voiceBuffer,
+      voiceBuffer: voiceBuffer,  // ✨ MEJORADO: Renombrado para consistencia
       music: [musicBuffer],
       sfx: [sfxBuffer],
     });

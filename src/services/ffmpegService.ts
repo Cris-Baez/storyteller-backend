@@ -139,27 +139,30 @@ function buildVisualFilters(plan: VideoPlan): string[] {
   const advancedFilters: string[] = [];
   if (plan.timeline) {
     for (const sec of plan.timeline) {
+      // ✨ MEJORADO: Soporte unificado para tiempo (sistema de cerebros)
+      const timeStamp = sec.t ?? sec.segundo ?? 0;
+      
       if (Array.isArray(sec.overlays)) {
-        for (const o of sec.overlays) overlays.push({ ...o, start: sec.t, end: sec.t + 1 });
+        for (const o of sec.overlays) overlays.push({ ...o, start: timeStamp, end: timeStamp + 1 });
       }
       if (Array.isArray(sec.luts)) {
-        for (const l of sec.luts) luts.push({ ...l, start: sec.t, end: sec.t + 1 });
+        for (const l of sec.luts) luts.push({ ...l, start: timeStamp, end: timeStamp + 1 });
       }
       // Filtros visuales avanzados
-      if (sec.corteEdicion) advancedFilters.push(`trim=start=${sec.t}:duration=${sec.duracionPlano || 1}`);
+      if (sec.corteEdicion) advancedFilters.push(`trim=start=${timeStamp}:duration=${sec.duracionPlano || 1}`);
       if (sec.ritmoEdicion) advancedFilters.push(`setpts=PTS/${sec.ritmoEdicion}`);
-      if (sec.tipoTransicion) advancedFilters.push(`fade=t=${sec.tipoTransicion}:st=${sec.t}:d=0.5`);
-      if (sec.animacionTexto) advancedFilters.push(`drawtext=text='${sec.animacionTexto}':x=(w-text_w)/2:y=50:fontsize=48:fontcolor=white:enable='between(t,${sec.t},${sec.t+1})'`);
+      if (sec.tipoTransicion) advancedFilters.push(`fade=t=${sec.tipoTransicion}:st=${timeStamp}:d=0.5`);
+      if (sec.animacionTexto) advancedFilters.push(`drawtext=text='${sec.animacionTexto}':x=(w-text_w)/2:y=50:fontsize=48:fontcolor=white:enable='between(t,${timeStamp},${timeStamp+1})'`);
       // Subtítulos multilingües: si hay SRT (campo 'subtitulos' con URL), usarlo; si no, usar layoutSubtitulos
       if (sec.subtitulos && typeof sec.subtitulos === 'string' && sec.subtitulos.endsWith('.srt')) {
         advancedFilters.push(`subtitles='${sec.subtitulos}'`);
       } else if (sec.layoutSubtitulos) {
-        advancedFilters.push(`drawtext=text='${sec.layoutSubtitulos}':x=10:y=h-60:fontsize=32:fontcolor=yellow:enable='between(t,${sec.t},${sec.t+1})'`);
+        advancedFilters.push(`drawtext=text='${sec.layoutSubtitulos}':x=10:y=h-60:fontsize=32:fontcolor=yellow:enable='between(t,${timeStamp},${timeStamp+1})'`);
       }
-      if (sec.motivoVisual) advancedFilters.push(`drawbox=x=0:y=0:w=iw:h=ih:color=white@0.05:enable='between(t,${sec.t},${sec.t+1})'`);
+      if (sec.motivoVisual) advancedFilters.push(`drawbox=x=0:y=0:w=iw:h=ih:color=white@0.05:enable='between(t,${timeStamp},${timeStamp+1})'`);
       if (sec.direccionArte) advancedFilters.push(`eq=contrast=${sec.direccionArte === 'barroco' ? 1.5 : 1.0}`);
       if (sec.climaAtmosferico) advancedFilters.push(`curves=preset=${sec.climaAtmosferico}`);
-      if (sec.lente) advancedFilters.push(`vignette=enable='between(t,${sec.t},${sec.t+1})'`);
+      if (sec.lente) advancedFilters.push(`vignette=enable='between(t,${timeStamp},${timeStamp+1})'`);
       if (sec.texturaRealismo) advancedFilters.push(`unsharp=5:5:${sec.texturaRealismo === 'alta' ? 2 : 1}`);
     }
   }
@@ -199,7 +202,7 @@ function buildAudioFilters(plan: VideoPlan): string {
 export async function assembleVideo(opts:{
   plan: VideoPlan;
   clips: string[];
-  voiceOver: Buffer;
+  voiceBuffer: Buffer;  // ✨ MEJORADO: Renombrado de voiceOver para reflejar múltiples voces
   music: Buffer[];
   ambience?: Buffer[];
   sfx?: Buffer[];
@@ -207,7 +210,7 @@ export async function assembleVideo(opts:{
   logger.info('🎬  FFmpegService v7 — ensamblando 1080p60 con overlays/LUTs/EQ…');
   await fs.mkdir(TMP_DIR, { recursive: true });
 
-  const { plan, clips, voiceOver, music, ambience = [], sfx = [] } = opts;
+  const { plan, clips, voiceBuffer, music, ambience = [], sfx = [] } = opts;
   const id = uuid();
   const list = path.join(TMP_DIR, `${id}.txt`);
   const concat = path.join(TMP_DIR, `${id}_concat.mp4`);
@@ -387,8 +390,8 @@ export async function assembleVideo(opts:{
     }
   } catch {}
   // Voz
-  let voicePath = voiceOver && voiceOver.length > 0 ? voiceFile : null;
-  if (voiceOver && voiceOver.length > 0) {
+  let voicePath = voiceBuffer && voiceBuffer.length > 0 ? voiceFile : null;
+  if (voiceBuffer && voiceBuffer.length > 0) {
     voicePath = await ensureAudioFile(voiceFile, totalDuration, 'beep');
   }
   try {

@@ -417,10 +417,11 @@ async function generateVoice(text: string, gender: 'female' | 'male' = 'female')
 }
 
 /* ════════════════════════════════════════════════════════════
- * createVoiceOver – API pública
+ * createVoiceBuffer – API pública 
+ * ✨ MEJORADO: Renombrado de createVoiceOver para reflejar múltiples voces
  * ═══════════════════════════════════════════════════════════ */
-export async function createVoiceOver(plan: VideoPlan): Promise<Buffer> {
-  logger.info('🎙️  VoiceService v6.2 – iniciando…');
+export async function createVoiceBuffer(plan: VideoPlan): Promise<Buffer> {
+  logger.info('🎙️  VoiceService v6.3 – iniciando generación de voiceBuffer…');
   try {
     // Si el usuario pide un efecto de sonido explícito en el prompt, priorizarlo
     const audioBuffers = await Promise.all(
@@ -433,10 +434,21 @@ export async function createVoiceOver(plan: VideoPlan): Promise<Buffer> {
         }
         // Si hay SRT, podrías parsear y usar el texto (opcional, aquí solo si es texto)
         if (!textoVoz) return Buffer.from([]);
+        
+        // 📊 NUEVO: Registrar métricas por escena
+        const tiempoInicio = Date.now();
+        
         // Detectar si el usuario pide un efecto de sonido explícito
         const sfxMatch = typeof textoVoz === 'string' && textoVoz.match(/\[SFX:([^\]]+)\]/i);
         if (sfxMatch) {
           logger.info(`Efecto de sonido solicitado: ${sfxMatch[1]}`);
+          
+          // Actualizar métricas
+          if (sec.metricas) {
+            sec.metricas.sfxUsados = [sfxMatch[1]];
+            sec.metricas.tiempoGeneracion = Date.now() - tiempoInicio;
+          }
+          
           return await beepFallback();
         }
         // Parámetros avanzados de voz
@@ -450,17 +462,38 @@ export async function createVoiceOver(plan: VideoPlan): Promise<Buffer> {
         // Aquí podrías usar Murf, ElevenLabs, Google TTS, etc. con los parámetros avanzados
         try {
           // Ejemplo: pasar parámetros avanzados a la función de generación de voz
-          return await generateVoice(textoVoz ?? '', gender);
+          const voiceBuffer = await generateVoice(textoVoz ?? '', gender);
+          
+          // 📊 NUEVO: Actualizar métricas
+          if (sec.metricas) {
+            sec.metricas.usaLipSync = lipSync !== 'none';
+            sec.metricas.tiempoGeneracion = Date.now() - tiempoInicio;
+          }
+          
+          return voiceBuffer;
         } catch (e) {
           logger.error('Error generando voz para segmento: ' + (e instanceof Error ? e.message : e));
+          
+          // 📊 NUEVO: Registrar error en métricas
+          if (sec.metricas) {
+            sec.metricas.errorOcurrido = e instanceof Error ? e.message : 'Error desconocido';
+            sec.metricas.tiempoGeneracion = Date.now() - tiempoInicio;
+          }
+          
           return await beepFallback();
         }
       })
     );
-    return Buffer.concat(audioBuffers);
+    
+    const finalBuffer = Buffer.concat(audioBuffers);
+    logger.info(`✅ VoiceBuffer generado: ${finalBuffer.length} bytes`);
+    return finalBuffer;
   } catch (e) {
     logger.error(`VoiceService error: ${e instanceof Error ? e.message : 'Unknown error'}`);
     logger.warn('⚠️ Continuando con beep de emergencia debido a errores en la generación de voz.');
     return await beepFallback();
   }
 }
+
+// ✨ BACKWARD COMPATIBILITY: Mantener la función original como alias
+export const createVoiceOver = createVoiceBuffer;
