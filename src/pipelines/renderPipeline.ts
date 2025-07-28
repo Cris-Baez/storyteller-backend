@@ -6,6 +6,8 @@ import { createVoiceBuffer } from '../services/voiceService.js';  // ✨ MEJORAD
 import { generateKlingClip, KlingClipParams } from '../services/klingService.js';
 import { assembleVideo } from '../services/ffmpegService.js';
 import { uploadToCDN } from '../services/cdnService.js';
+import { applySadTalker } from '../services/sadtalkerService.js';
+import { applyWav2Lip } from '../services/wav2lipService.js';
 import { RenderRequest, VideoPlan, TimelineSecond, EstiloVisual } from '../utils/types.js';
 import { validarRenderRequest } from '../utils/validadores.js';  // ✨ NUEVO: Validación estricta
 import { cargarAssetsIndex, validarVideoPlanFondosActores, corregirFondosActoresInvalidos } from '../utils/menteFondos.js';
@@ -207,11 +209,19 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   let voiceBuffer: Buffer;
   let musicBuffer: Buffer;
   let sfxBuffer: Buffer;
+  let voiceAudioPath: string = ''; // Para el lip-sync
   try {
     voiceBuffer = await createVoiceBuffer(videoPlan);  // ✨ MEJORADO: Nuevo nombre
     if (!voiceBuffer || !(voiceBuffer instanceof Buffer) || voiceBuffer.length === 0) {
       logger.warn('[Pipeline] Buffer de voz vacío, se usará silencio');
       voiceBuffer = Buffer.alloc(1);
+    } else {
+      // Guardar el audio de voz temporalmente para lip-sync
+      const fs = await import('fs');
+      const path = await import('path');
+      voiceAudioPath = path.join(process.cwd(), 'tmp', `voice_${Date.now()}.wav`);
+      fs.writeFileSync(voiceAudioPath, voiceBuffer);
+      logger.info('[Pipeline] Audio de voz guardado para lip-sync:', voiceAudioPath);
     }
     musicBuffer = await getAdvancedMusic({ style: videoPlan.metadata?.visualStyle || 'cinematic' });
     if (!musicBuffer || !(musicBuffer instanceof Buffer) || musicBuffer.length === 0) {
@@ -227,6 +237,73 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   } catch (err) {
     logger.error('[Pipeline] Error generando audio', { error: err });
     throw err;
+  }
+
+  // ✨ NUEVO: Aplicar lip-sync inteligente según el estilo visual
+  if (voiceAudioPath && clips.length > 0) {
+    try {
+      logger.info('[Pipeline] 🎭 Aplicando lip-sync inteligente...');
+      
+      // Determinar qué tecnología usar según el estilo
+      const estiloVisual = videoPlan.metadata?.visualStyle || 'cinematic';
+      const usarSadTalker = ['anime', 'cartoon'].includes(estiloVisual);
+      
+      logger.info(`[Pipeline] Estilo detectado: ${estiloVisual} → Usando ${usarSadTalker ? 'SadTalker' : 'Wav2Lip'}`);
+      
+      // Aplicar lip-sync a todos los clips
+      for (let i = 0; i < clips.length; i++) {
+        const originalClip = clips[i];
+        logger.info(`[Pipeline] Procesando clip ${i + 1}/${clips.length} con ${usarSadTalker ? 'SadTalker' : 'Wav2Lip'}`);
+        
+        try {
+          let lipSyncClip: string;
+          if (usarSadTalker) {
+            // Para anime/cartoon: usar SadTalker
+            lipSyncClip = await applySadTalker(
+              originalClip, 
+              voiceAudioPath, 
+              scenes[i]?.ambiente || 'neutral',
+              estiloVisual
+            );
+          } else {
+            // Para realista/cinematic: usar Wav2Lip
+            lipSyncClip = await applyWav2Lip(
+              originalClip, 
+              voiceAudioPath, 
+              scenes[i]?.ambiente || 'neutral',
+              estiloVisual
+            );
+          }
+          
+          // Reemplazar el clip original con el que tiene lip-sync
+          clips[i] = lipSyncClip;
+          logger.info(`[Pipeline] ✅ Clip ${i + 1} procesado con lip-sync: ${lipSyncClip}`);
+          
+        } catch (lipSyncError) {
+          logger.warn(`[Pipeline] ⚠️ Error en lip-sync del clip ${i + 1}, usando clip original:`, lipSyncError);
+          // Mantener el clip original si hay error
+        }
+      }
+      
+      logger.info('[Pipeline] 🎭 Lip-sync completado para todos los clips');
+      
+    } catch (err) {
+      logger.warn('[Pipeline] ⚠️ Error general en lip-sync, continuando sin él:', err);
+      // Continuar con clips originales si hay error general
+    }
+    
+    // Limpiar archivo temporal de audio
+    try {
+      const fs = await import('fs');
+      if (fs.existsSync(voiceAudioPath)) {
+        fs.unlinkSync(voiceAudioPath);
+        logger.info('[Pipeline] Archivo temporal de audio limpiado');
+      }
+    } catch (cleanupError) {
+      logger.warn('[Pipeline] No se pudo limpiar archivo temporal:', cleanupError);
+    }
+  } else {
+    logger.info('[Pipeline] Saltando lip-sync (sin audio de voz o sin clips)');
   }
 
   // Edición final por plan (lógica avanzada según plan)

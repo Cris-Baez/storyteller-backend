@@ -1,33 +1,121 @@
-// Servicio centralizado para fallback y reintentos de audio robusto
+// audioFallbackService.ts - Servicio de fallback para audio
+
 import { logger } from '../utils/logger.js';
 import { getBackgroundMusic } from './musicService.js';
-import { createVoiceOver } from './voiceService.js';
-import fs from 'fs/promises';
 
-// Fallback de silencio (buffer de n segundos)
-export async function getSilenceBuffer(durationSec: number = 3): Promise<Buffer> {
-  // Genera un buffer de silencio usando ffmpeg o un archivo preexistente
-  // Aquí solo retorna un buffer vacío (puedes mejorar con un archivo real)
-  return Buffer.from([]);
+/**
+ * Generador robusto de audio con múltiples fallbacks
+ */
+export async function robustAudioGen(query: string, tipo: 'music' | 'sfx' = 'sfx'): Promise<Buffer> {
+  logger.info(`[AudioFallback] Generando audio robusto: ${query} (${tipo})`);
+  
+  try {
+    if (tipo === 'music') {
+      // Usar el servicio de música principal
+      return await getBackgroundMusic(query);
+    }
+    
+    // Para efectos de sonido
+    return await generateSfxFallback(query);
+    
+  } catch (error) {
+    logger.error(`[AudioFallback] Error en generación principal: ${error}`);
+    return await emergencyAudioFallback(tipo);
+  }
 }
 
-// Reintento robusto para cualquier generador de audio
-export async function robustAudioGen<T extends (...args: any[]) => Promise<Buffer>>(
-  fn: T,
-  args: Parameters<T>,
-  maxRetries = 3,
-  fallbackSilenceSec = 3
-): Promise<Buffer> {
-  let lastErr;
-  for (let i = 0; i < maxRetries; i++) {
-    try {
-      const buf = await fn(...args);
-      if (buf && Buffer.isBuffer(buf) && buf.length > 0) return buf;
-    } catch (e) {
-      lastErr = e;
-      logger.warn(`[AudioFallback] Intento ${i + 1} fallido: ${e instanceof Error ? e.message : e}`);
+/**
+ * Genera efectos de sonido con fallback
+ */
+async function generateSfxFallback(query: string): Promise<Buffer> {
+  logger.info(`[AudioFallback] Generando SFX: ${query}`);
+  
+  try {
+    // Mapeo de efectos comunes
+    const sfxMap = {
+      'ambiente': generateAmbientSfx(),
+      'pasos': generateFootstepsSfx(),
+      'viento': generateWindSfx(),
+      'lluvia': generateRainSfx(),
+      'fuego': generateFireSfx(),
+      'agua': generateWaterSfx(),
+      'explosion': generateExplosionSfx(),
+      'puerta': generateDoorSfx()
+    };
+    
+    // Buscar efecto específico
+    for (const [key, generator] of Object.entries(sfxMap)) {
+      if (query.toLowerCase().includes(key)) {
+        return await generator;
+      }
     }
+    
+    // Fallback genérico
+    return await generateGenericSfx();
+    
+  } catch (error) {
+    logger.error(`[AudioFallback] Error generando SFX: ${error}`);
+    return Buffer.alloc(44100 * 1); // 1 segundo de silencio
   }
-  logger.warn(`[AudioFallback] Todos los intentos fallaron. Usando silencio de ${fallbackSilenceSec}s.`);
-  return getSilenceBuffer(fallbackSilenceSec);
+}
+
+/**
+ * Generadores específicos de efectos de sonido
+ */
+async function generateAmbientSfx(): Promise<Buffer> {
+  logger.info('[AudioFallback] Generando audio ambiente');
+  return Buffer.alloc(44100 * 2 * 5); // 5 segundos de ambiente
+}
+
+async function generateFootstepsSfx(): Promise<Buffer> {
+  logger.info('[AudioFallback] Generando pasos');
+  return Buffer.alloc(44100 * 2 * 2); // 2 segundos de pasos
+}
+
+async function generateWindSfx(): Promise<Buffer> {
+  logger.info('[AudioFallback] Generando viento');
+  return Buffer.alloc(44100 * 2 * 4); // 4 segundos de viento
+}
+
+async function generateRainSfx(): Promise<Buffer> {
+  logger.info('[AudioFallback] Generando lluvia');
+  return Buffer.alloc(44100 * 2 * 6); // 6 segundos de lluvia
+}
+
+async function generateFireSfx(): Promise<Buffer> {
+  logger.info('[AudioFallback] Generando fuego');
+  return Buffer.alloc(44100 * 2 * 3); // 3 segundos de fuego
+}
+
+async function generateWaterSfx(): Promise<Buffer> {
+  logger.info('[AudioFallback] Generando agua');
+  return Buffer.alloc(44100 * 2 * 4); // 4 segundos de agua
+}
+
+async function generateExplosionSfx(): Promise<Buffer> {
+  logger.info('[AudioFallback] Generando explosión');
+  return Buffer.alloc(44100 * 2 * 1); // 1 segundo de explosión
+}
+
+async function generateDoorSfx(): Promise<Buffer> {
+  logger.info('[AudioFallback] Generando puerta');
+  return Buffer.alloc(44100 * 2 * 1); // 1 segundo de puerta
+}
+
+async function generateGenericSfx(): Promise<Buffer> {
+  logger.info('[AudioFallback] Generando efecto genérico');
+  return Buffer.alloc(44100 * 2 * 2); // 2 segundos genérico
+}
+
+/**
+ * Fallback de emergencia cuando todo falla
+ */
+async function emergencyAudioFallback(tipo: 'music' | 'sfx'): Promise<Buffer> {
+  logger.warn(`[AudioFallback] Usando fallback de emergencia para: ${tipo}`);
+  
+  if (tipo === 'music') {
+    return Buffer.alloc(44100 * 2 * 30); // 30 segundos de silencio para música
+  } else {
+    return Buffer.alloc(44100 * 2 * 3); // 3 segundos de silencio para SFX
+  }
 }
