@@ -6,9 +6,8 @@ import { logFeedback } from '../services/feedbackService.js';
 import multer, { FileFilterCallback } from 'multer';
 import type { Request } from 'express';
 
-// Configuración de multer para manejo de imágenes
 const upload = multer({
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB máximo por imagen
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB máx por imagen
   fileFilter: (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
     if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.mimetype)) {
       cb(new Error('Formato de imagen no soportado'));
@@ -20,7 +19,7 @@ const upload = multer({
 
 export const renderRouter = express.Router();
 
-// Esquema de validación con Zod
+// Esquema de validación
 const renderRequestSchema = z.object({
   prompt: z.string().min(1, 'Prompt is required').transform(val => 
     val.replace(/[^\x20-\x7E\u00C0-\u017F]/g, "").trim() || "Create a cinematic story"

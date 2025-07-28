@@ -6,9 +6,8 @@ import { logFeedback } from '../services/feedbackService.js';
 import multer, { FileFilterCallback } from 'multer';
 import type { Request } from 'express';
 
-// Configuración de multer para manejo de imágenes
 const upload = multer({
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB máximo por imagen
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB máx por imagen
   fileFilter: (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
     if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.mimetype)) {
       cb(new Error('Formato de imagen no soportado'));
@@ -20,7 +19,7 @@ const upload = multer({
 
 export const renderRouter = express.Router();
 
-// Esquema de validación con Zod
+// Esquema de validación
 const renderRequestSchema = z.object({
   prompt: z.string().min(1, 'Prompt is required').transform(val => 
     val.replace(/[^\x20-\x7E\u00C0-\u017F]/g, "").trim() || "Create a cinematic story"
@@ -135,26 +134,63 @@ renderRouter.post('/', upload.fields([
   }
 });
 
-// Endpoint para verificar estado de trabajo
-renderRouter.get('/status/:jobId', async (req, res) => {
+// Endpoint para verificar estado del trabajo
+renderRouter.get('/status/:jobId', (req, res) => {
+  const { jobId } = req.params;
+  
+  logger.info('[API] Consultando estado del trabajo:', { jobId });
+  
   try {
-    const status = await getJobStatus(req.params.jobId);
+    const status = getJobStatus(jobId);
     res.json(status);
-  } catch (error: any) {
-    logger.error('Error obteniendo estado:', error);
-    res.status(404).json({ error: 'Job not found' });
+  } catch (error) {
+    logger.error('[API] Error consultando estado:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Error consultando estado del trabajo'
+    });
   }
 });
 
-// Endpoint para obtener resultado
-renderRouter.get('/result/:jobId', async (req, res) => {
+// Endpoint para obtener resultado final
+renderRouter.get('/result/:jobId', (req, res) => {
+  const { jobId } = req.params;
+  
+  logger.info('[API] Consultando resultado del trabajo:', { jobId });
+  
   try {
-    const result = await getJobResult(req.params.jobId);
+    const result = getJobResult(jobId);
+    
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        error: 'Trabajo no encontrado o no completado'
+      });
+    }
+    
     res.json(result);
-  } catch (error: any) {
-    logger.error('Error obteniendo resultado:', error);
-    res.status(404).json({ error: 'Result not found' });
+  } catch (error) {
+    logger.error('[API] Error consultando resultado:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Error consultando resultado del trabajo'
+    });
   }
+});
+
+// Health check específico para renderizado
+renderRouter.get('/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    service: 'render',
+    timestamp: new Date().toISOString(),
+    version: '2.0.0',
+    features: {
+      lipSync: true,
+      cerebros: true,
+      styles: ['cinematic', 'anime', 'cartoon', 'realistic']
+    }
+  });
 });
 
 export default renderRouter;
