@@ -242,6 +242,6 @@ export function aplicarEstilizacionCinematica(timeline: any[]): any[] {
     colorGrading: 'teal-orange',
     aspectRatio: '2.35:1',
     cinematicStyle: 'hollywood',
-    lighting: limitaciones.lighting
+    lighting: 'natural' // Valor por defecto, ya que limitaciones.lighting no existe
   }));
 }

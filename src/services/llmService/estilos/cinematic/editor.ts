@@ -204,7 +204,7 @@ export function aplicarEstructuraEdicion(timeline: any[], duracionTotal: number)
   const segmentos = segmentarPorEstilo(duracionTotal, 'cinematic');
   
   return timeline.map((segundo, index) => {
-    const segmentoActual = segmentos.find(s => 
+    const segmentoActual = segmentos.find((s: any) => 
       index >= s.inicio && index < s.inicio + s.duracion
     );
     

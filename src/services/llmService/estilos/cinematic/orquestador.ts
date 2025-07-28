@@ -77,7 +77,7 @@ export async function orquestarEquipoCinematico(
       console.log(`[Orquestador] Procesando segundo ${segundo + 1}/${duracionTotal}`);
       
       // Determinar contexto narrativo
-      const segmentoActual = segmentos.find(s => 
+      const segmentoActual = segmentos.find((s: any) => 
         segundo >= s.inicio && segundo < s.inicio + s.duracion
       );
       

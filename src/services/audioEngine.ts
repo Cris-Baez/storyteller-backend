@@ -113,6 +113,8 @@ export async function getSfx(sfxType: string): Promise<Buffer> {
   
   try {
     // Usar el servicio robusto de audio existente
+    // Asegúrate de que el módulo existe o ajusta el path al correcto
+    // Por ejemplo, si el archivo se llama audioFallbackService.ts y está en la misma carpeta:
     const { robustAudioGen } = await import('./audioFallbackService.js');
     
     // Función interna para obtener SFX - implementación mejorada
@@ -123,7 +125,7 @@ export async function getSfx(sfxType: string): Promise<Buffer> {
       return Buffer.from([]);
     };
     
-    const sfxBuffer = await robustAudioGen(getSfxInternal, [sfxType], 3, 1);
+    const sfxBuffer = await robustAudioGen(sfxType, 'sfx');
     
     const metrics: AudioMetrics = {
       escena: 0, // Se rellenará desde el contexto

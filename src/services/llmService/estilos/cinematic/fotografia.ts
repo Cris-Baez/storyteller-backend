@@ -164,7 +164,7 @@ function seleccionarMovimientoCinematico(momento: string, segundo: number, esEmo
     cierre: ['dolly-out', 'crane-down', 'steadicam', 'static']
   };
   
-  const movimientosDisponibles = movimientosPorMomento[momento as keyof typeof movimientosPorMomento] || limitaciones.cameraMovements;
+  const movimientosDisponibles = movimientosPorMomento[momento as keyof typeof movimientosPorMomento] || limitaciones.movimientosCamara;
   return movimientosDisponibles[segundo % movimientosDisponibles.length];
 }
 
