@@ -98,63 +98,191 @@ function generarPromptCinematografico(params: {
   contextoPrevio?: string; // ✅ NUEVO: Continuidad narrativa
   fondoDescripcion?: string; // ✅ NUEVO: Descripción del escenario
   personajeDescripcion?: string; // ✅ NUEVO: Descripción del personaje
+  // ✅ NUEVO: Parámetros optimizados para Kling
+  objetivoEmocional?: string; // ✅ Objetivo emocional de la escena
+  accionPrincipal?: string; // ✅ Acción principal resumida
 }): string {
   const { 
     prompt, descripcionToma, promptKling, visual, duracion, momento, visualStyle,
-    tomaNumero = 1, totalTomas = 1, contextoPrevio, fondoDescripcion, personajeDescripcion
+    tomaNumero = 1, totalTomas = 1, contextoPrevio, fondoDescripcion, personajeDescripcion,
+    objetivoEmocional, accionPrincipal
   } = params;
   
-  // 1. Base narrativa específica
-  const contenidoBase = promptKling || descripcionToma || visual || prompt;
+  // 1. Base narrativa específica - ✅ OPTIMIZADO: Priorizar descripción de toma
+  const contenidoBase = descripcionToma || promptKling || visual || prompt;
   
-  // 2. Contexto de secuencia para continuidad
+  // ✅ NUEVO: Extraer acción principal de la descripción si no se proporciona
+  const accionExtraida = accionPrincipal || extraerAccionPrincipal(contenidoBase);
+  
+  // 2. Contexto de secuencia para continuidad - ✅ OPTIMIZADO
   let contextoSecuencia = '';
   if (totalTomas > 1) {
     if (tomaNumero === 1) {
-      contextoSecuencia = 'Opening sequence: ';
+      contextoSecuencia = 'Opening: ';
     } else if (tomaNumero === totalTomas) {
-      contextoSecuencia = 'Final sequence: ';
+      contextoSecuencia = 'Climax: ';
     } else {
-      contextoSecuencia = `Sequence ${tomaNumero} of ${totalTomas}: `;
+      contextoSecuencia = `Part ${tomaNumero}: `;
     }
   }
   
-  // 3. Continuidad narrativa específica
-  const continuidad = contextoPrevio ? `Continuing from previous scene, ${contextoPrevio}. ` : '';
+  // ✅ NUEVO: Continuidad resumida y específica
+  const continuidad = contextoPrevio ? 
+    `From: ${resumirEscenaPrevia(contextoPrevio)}. ` : '';
   
-  // 4. Descripción del ambiente específico - ✅ CORREGIDO: Validación robusta
+  // ✅ NUEVO: Objetivo emocional específico
+  const objetivoEmo = objetivoEmocional ? 
+    `Goal: ${objetivoEmocional}. ` : 
+    generarObjetivoEmocional(momento);
+  
+  // 4. Descripción del ambiente específico - ✅ OPTIMIZADO: Más conciso
   const ambiente = fondoDescripcion && fondoDescripcion !== 'scenic location' 
-    ? `Setting: ${fondoDescripcion}. ` 
+    ? `Location: ${fondoDescripcion}. ` 
     : '';
   const personaje = personajeDescripcion && personajeDescripcion !== 'character' 
-    ? `Character: ${personajeDescripcion}. ` 
+    ? `Subject: ${personajeDescripcion}. ` 
     : '';
   
-  // 5. Estilo visual coherente
-  const contextoEstilo = visualStyle === 'cinematic' ? 'photorealistic, cinematic style, film quality' :
-                        visualStyle === 'anime' ? 'anime style, vibrant colors, manga aesthetic' :
-                        visualStyle === 'cartoon' ? 'cartoon style, stylized animation' :
-                        visualStyle === 'commercial' ? 'commercial style, polished, professional' :
-                        'cinematic style';
+  // ✅ NUEVO: Acción principal resumida
+  const accion = accionExtraida ? `Action: ${accionExtraida}. ` : '';
   
-  // 6. Construcción del prompt coherente y específico - ✅ MEJORADO
-  const promptFinal = `${contextoSecuencia}${continuidad}${ambiente}${personaje}${contenidoBase}. ${contextoEstilo}, smooth camera movement, professional cinematography, ${duracion} seconds duration, dramatic lighting, high production value`;
+  // 5. Estilo visual coherente - ✅ OPTIMIZADO: Más específico para Kling
+  const contextoEstilo = generarEstiloKling(visualStyle, momento);
   
-  // ✅ DEBUG: Log del prompt final
-  console.log(`[Pipeline] 🔍 DEBUG Prompt generado:`, {
+  // ✅ OPTIMIZADO: Construcción priorizada para Kling (máximo impacto en menos tokens)
+  const promptFinal = `${contextoSecuencia}${objetivoEmo}${ambiente}${personaje}${accion}${contextoEstilo}`;
+  
+  // ✅ DEBUG: Log del prompt optimizado
+  console.log(`[Pipeline] 🔍 DEBUG Prompt optimizado:`, {
     tomaNumero,
+    length: promptFinal.length,
     contextoParts: {
       contextoSecuencia,
-      continuidad: continuidad.substring(0, 50) + '...',
+      objetivoEmo: objetivoEmo.substring(0, 30) + '...',
       ambiente,
       personaje,
-      contenidoBase: contenidoBase.substring(0, 50) + '...',
-      contextoEstilo
+      accion: accion.substring(0, 40) + '...',
+      contextoEstilo: contextoEstilo.substring(0, 50) + '...'
     },
-    promptFinal: promptFinal.substring(0, 100) + '...'
+    promptFinal: promptFinal.substring(0, 150) + '...'
   });
   
   return promptFinal;
+}
+
+/**
+ * ✨ NUEVO: Extrae la acción principal de una descripción larga
+ */
+function extraerAccionPrincipal(descripcion: string): string {
+  if (!descripcion) return '';
+  
+  // Buscar verbos de acción comunes y extraer la frase principal
+  const patronesAccion = [
+    /(\w+\s+(?:camina|escala|alcanza|levanta|mira|corre|salta|vuela)[^.]*)/i,
+    /([^.]*(?:hacia|por|en|sobre|bajo)[^.]*)/i,
+    /(el hombre[^.]*)/i,
+    /(la mujer[^.]*)/i
+  ];
+  
+  for (const patron of patronesAccion) {
+    const match = descripcion.match(patron);
+    if (match && match[1] && match[1].length > 10) {
+      return match[1].trim();
+    }
+  }
+  
+  // Fallback: tomar las primeras 8 palabras importantes
+  const palabras = descripcion.split(' ').filter(p => p.length > 3);
+  return palabras.slice(0, 8).join(' ');
+}
+
+/**
+ * ✨ NUEVO: Resume escena previa para continuidad
+ */
+function resumirEscenaPrevia(escenaPrevia: string): string {
+  if (!escenaPrevia || escenaPrevia.length < 20) return '';
+  
+  // Extraer elementos clave: ubicación, acción, emoción
+  const resumen = escenaPrevia
+    .replace(/^previous scene showed?/i, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  
+  // Limitar a elementos esenciales (máximo 6 palabras)
+  const palabrasClave = resumen.split(' ').slice(0, 6).join(' ');
+  return palabrasClave;
+}
+
+/**
+ * ✨ NUEVO: Genera objetivo emocional basado en momento narrativo
+ */
+function generarObjetivoEmocional(momento?: string): string {
+  const objetivosPorMomento = {
+    'setup': 'Goal: establish mood and context. ',
+    'desarrollo': 'Goal: build tension and character. ',
+    'climax': 'Goal: create emotional peak. ',
+    'cierre': 'Goal: provide resolution. '
+  };
+  
+  return objetivosPorMomento[momento as keyof typeof objetivosPorMomento] || 'Goal: engage viewer. ';
+}
+
+/**
+ * ✨ NUEVO: Genera estilo optimizado para Kling
+ */
+function generarEstiloKling(visualStyle?: EstiloVisualPrincipal, momento?: string): string {
+  const estiloBase = visualStyle === 'cinematic' ? 'cinematic film quality' :
+                     visualStyle === 'anime' ? 'anime style animation' :
+                     visualStyle === 'cartoon' ? 'cartoon animation' :
+                     visualStyle === 'commercial' ? 'commercial production' :
+                     'cinematic style';
+  
+  const tecnicaPorMomento = {
+    'setup': 'establishing shot, smooth movement',
+    'desarrollo': 'dynamic framing, controlled motion',
+    'climax': 'dramatic angles, intense focus',
+    'cierre': 'wide perspective, gentle movement'
+  };
+  
+  const tecnica = tecnicaPorMomento[momento as keyof typeof tecnicaPorMomento] || 'professional cinematography';
+  
+  return `${estiloBase}, ${tecnica}, high production value`;
+}
+
+/**
+ * ✨ NUEVO: Genera objetivo emocional específico para una toma
+ */
+function generarObjetivoEmocionalToma(tipoToma?: string, emocion?: string): string {
+  // Primero intentar usar la emoción específica de la toma
+  if (emocion) {
+    const objetivosPorEmocion = {
+      'intriga': 'create mystery and curiosity',
+      'tension': 'build suspense and anticipation', 
+      'emocion': 'evoke strong emotional response',
+      'triunfo': 'convey victory and achievement',
+      'melancolia': 'express nostalgia and reflection',
+      'excitement': 'generate energy and excitement',
+      'fear': 'create tension and unease',
+      'joy': 'convey happiness and celebration'
+    };
+    
+    const objetivo = objetivosPorEmocion[emocion as keyof typeof objetivosPorEmocion];
+    if (objetivo) return objetivo;
+  }
+  
+  // Fallback a tipo de toma
+  if (tipoToma) {
+    const objetivosPorTipo = {
+      'setup': 'establish context and mood',
+      'desarrollo': 'advance story and character',
+      'climax': 'create emotional peak',
+      'cierre': 'provide satisfying resolution'
+    };
+    
+    return objetivosPorTipo[tipoToma as keyof typeof objetivosPorTipo] || 'engage viewer';
+  }
+  
+  return 'create compelling visual narrative';
 }
 
 /**
@@ -431,11 +559,17 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
       
     const personajeDescripcion = actorInfo?.tipo || 'character';
     
+    // ✅ NUEVO: Extraer información adicional para prompt optimizado
+    const objetivoEmocional = generarObjetivoEmocionalToma(toma.tipoToma, toma.emocion);
+    const accionPrincipal = extraerAccionPrincipal(toma.descripcion);
+    
     // ✅ DEBUG: Log descripciones finales
     logger.info(`[Pipeline] 🔍 DEBUG Descripciones:`, {
       fondoDescripcion,
       personajeDescripcion,
-      contextoPrevio
+      contextoPrevio,
+      objetivoEmocional,
+      accionPrincipal
     });
       
     const promptCinematografico = generarPromptCinematografico({
@@ -450,7 +584,10 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
       totalTomas: tomasUnicas.length,
       contextoPrevio,
       fondoDescripcion,
-      personajeDescripcion
+      personajeDescripcion,
+      // ✅ NUEVO: Parámetros optimizados
+      objetivoEmocional,
+      accionPrincipal
     });
     
     const params: KlingClipParams = {
