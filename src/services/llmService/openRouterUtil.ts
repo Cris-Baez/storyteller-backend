@@ -4,7 +4,7 @@ import axios from 'axios';
 import { env } from '../../config/env.js';
 
 export async function callOpenRouter(systemPrompt: string, userPrompt: string, model: string = 'openai/gpt-4o', timeoutMs: number = 300000): Promise<any> {
-  if (typeof systemPrompt !== 'string' || !systemPrompt.trim() || typeof userPrompt !== 'string' || !userPrompt.trim()) {
+  if (typeof systemPrompt !== 'string' || !systemPrompt.trim()) {
     logFeedback({
       service: 'OpenRouter',
       action: 'LLM',

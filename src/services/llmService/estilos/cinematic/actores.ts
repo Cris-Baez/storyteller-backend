@@ -1,6 +1,7 @@
 // estilos/cinematic/actores.ts - Cerebro Selección de Actores Cinematográfico
 
 import { AssetIndexItem, filtrarActores, seleccionarAssetPorIndice } from '../../helpers/assetUtils.js';
+import { TomaCinematograficaPlan } from './director.js';
 
 export interface SeleccionActor {
   ruta: string;
@@ -15,20 +16,26 @@ export async function seleccionarActorCinematico(
   actoresDisponibles: AssetIndexItem[],
   narrativa: any,
   momentoEmocional: boolean,
-  segundoActual: number,
+  tomaInfo: TomaCinematograficaPlan | number, // ✅ TomaCinematograficaPlan o número para retrocompatibilidad
   requiereLipSync: boolean = false
 ): Promise<SeleccionActor> {
-  console.log(`[Actores Cinematic] Seleccionando actor para segundo ${segundoActual}, emocional: ${momentoEmocional}`);
+  
+  // ✅ Adaptar a sistema de tomas
+  const esToma = typeof tomaInfo === 'object';
+  const infoToma = esToma ? tomaInfo : { numero: Math.floor((tomaInfo as number) / 10) + 1, duracion: 10, tipoToma: 'desarrollo', descripcion: 'Toma automática' };
+  const segundoActual = esToma ? (tomaInfo as TomaCinematograficaPlan).numero * 10 : (tomaInfo as number);
+  
+  console.log(`[Actores Cinematic] Seleccionando actor para ${esToma ? `toma ${infoToma.numero} (${infoToma.duracion}s)` : `segundo ${segundoActual}`}, emocional: ${momentoEmocional}, tipo: ${infoToma.tipoToma}`);
   
   if (actoresDisponibles.length === 0) {
-    console.warn('[Actores Cinematic] No hay actores disponibles, usando fallback');
+    console.warn('[Actores Cinematic] No hay actores disponibles, usando actor real del CDN');
     return {
-      ruta: '',
-      nombre: 'actor_default',
-      edad: 'adulto',
-      expresion: 'neutral',
-      tipoVoz: 'neutral',
-      estiloVoz: 'neutro'
+      ruta: 'actores/anime/apartamento/cocina/día/ancianomasculinofelizescolar.png', // ✅ ARREGLO: Actor real del índice
+      nombre: 'ancianomasculinofelizescolar',
+      edad: 'mayor',
+      expresion: 'feliz',
+      tipoVoz: 'masculina',
+      estiloVoz: 'maduro'
     };
   }
 

@@ -1,8 +1,9 @@
 import express from 'express';
 import { startJob, getJobStatus, getJobResult } from '../jobs/jobQueue.js';
 import { z } from 'zod';
-import { logger } from '../utils/logger.js';
+import { logger, safeLog } from '../utils/logger.js';
 import { logFeedback } from '../services/feedbackService.js';
+import { ESTILOS_VALIDOS, normalizarEstilo, type EstiloVisualAPI } from '../types/estilos.js';
 import multer, { FileFilterCallback } from 'multer';
 import type { Request } from 'express';
 
@@ -20,12 +21,12 @@ const upload = multer({
 
 export const renderRouter = express.Router();
 
-// Esquema de validación con Zod
+// Esquema de validación con Zod - UNIFICADO con tipos de estilos
 const renderRequestSchema = z.object({
   prompt: z.string().min(1, 'Prompt is required').transform(val => 
     val.replace(/[^\x20-\x7E\u00C0-\u017F]/g, "").trim() || "Create a cinematic story"
   ),
-  visualStyle: z.enum(['realistic', 'anime', 'cartoon', 'cinematic', 'comercial', 'commercial']),
+  visualStyle: z.enum(ESTILOS_VALIDOS as [EstiloVisualAPI, ...EstiloVisualAPI[]]),
   duration: z.number().min(1).max(300, 'Duration must be between 1 and 300 seconds'),
 });
 
@@ -36,8 +37,10 @@ renderRouter.post('/', upload.fields([
   { name: 'productImage', maxCount: 1 }
 ]), async (req, res) => {
   try {
-    logger.info('[API] Nueva solicitud de renderizado recibida');
-    console.log('Datos recibidos:', req.body);
+    safeLog('[API] Nueva solicitud de renderizado', {
+      hasBody: !!req.body,
+      bodyKeys: req.body ? Object.keys(req.body) : []
+    });
 
     // Sanitizar el prompt
     if (req.body.prompt) {
@@ -47,12 +50,12 @@ renderRouter.post('/', upload.fields([
         .trim();
       
       if (req.body.prompt.length < 10) {
-        logger.warn('Prompt demasiado corto, usando prompt por defecto.');
+        logger.warn('[API] Prompt demasiado corto, usando prompt por defecto');
         req.body.prompt = "Create a cinematic story about a character's journey through an epic adventure";
       }
     }
 
-    console.log('Prompt sanitizado:', req.body.prompt);
+    safeLog('[API] Prompt sanitizado', { promptLength: req.body.prompt?.length || 0 });
 
     // Preparar datos para validación
     const requestBody = {
@@ -63,8 +66,15 @@ renderRouter.post('/', upload.fields([
 
     // Validar con Zod
     const validatedBody = renderRequestSchema.parse(requestBody);
+    
+    // ✅ NORMALIZAR ESTILO: Convertir alias a estilo principal
+    const estiloNormalizado = normalizarEstilo(validatedBody.visualStyle);
 
-    logger.info('Request validado:', validatedBody);
+    console.log('[API] Request validado exitosamente', { 
+      estiloOriginal: validatedBody.visualStyle,
+      estiloNormalizado,
+      duracion: validatedBody.duration
+    });
 
     // Procesar imágenes subidas si las hay
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
@@ -72,7 +82,7 @@ renderRouter.post('/', upload.fields([
     
     if (files?.userImage?.[0]) {
       actorCustomPath = files.userImage[0].path;
-      logger.info('[API] Imagen personalizada detectada:', actorCustomPath);
+      console.log('[API] Imagen personalizada detectada', { path: actorCustomPath });
     }
 
     // Log de feedback para métricas
@@ -80,12 +90,18 @@ renderRouter.post('/', upload.fields([
       service: 'RenderAPI',
       action: 'requestReceived',
       success: true,
-      params: { visualStyle: validatedBody.visualStyle, duration: validatedBody.duration }
+      params: { 
+        visualStyle: validatedBody.visualStyle,
+        estiloNormalizado,
+        duration: validatedBody.duration 
+      }
     });
 
-    // Crear trabajo en la cola
+    // Crear trabajo en la cola con estilo normalizado
     const jobData = {
       ...validatedBody,
+      visualStyle: estiloNormalizado, // ✅ Usar estilo normalizado
+      estiloOriginal: validatedBody.visualStyle, // Preservar para logs
       actorCustomPath,
       metadata: {
         userAgent: req.get('User-Agent'),
@@ -96,20 +112,30 @@ renderRouter.post('/', upload.fields([
 
     const jobId = await startJob(jobData);
     
-    logger.info('[API] Trabajo creado exitosamente:', { jobId });
+    console.log('[API] Trabajo creado exitosamente', { jobId });
 
-    res.status(202).json({ 
+    // ✅ RESPUESTA UNIFICADA
+    const respuesta = {
       success: true,
-      jobId,
-      status: 'queued',
       message: 'Video generation started',
-      estimatedTime: '20-30 minutes',
+      data: {
+        jobId,
+        estado: 'pendiente' as const,
+        estimadoTiempo: 1800, // 30 minutos en segundos
+        urlResultado: `/api/render/result/${jobId}`
+      },
+      timestamp: new Date().toISOString(),
+      source: 'API'
+    };
+
+    res.status(202).json({
+      ...respuesta,
       statusUrl: `/api/render/status/${jobId}`,
-      resultUrl: `/api/render/result/${jobId}`
+      estimatedTime: '20-30 minutes' // Compatibilidad
     });
 
   } catch (error: any) {
-    logger.error('Error procesando request:', error);
+    console.error('[API] Error procesando request', error);
     
     logFeedback({
       service: 'RenderAPI',
@@ -120,18 +146,26 @@ renderRouter.post('/', upload.fields([
     });
 
     if (error instanceof z.ZodError) {
-      return res.status(400).json({
+      const respuestaError = {
         success: false,
-        error: 'Datos de entrada inválidos',
-        details: error.errors
-      });
+        code: 'PARAMETROS_FALTANTES',
+        message: 'Datos de entrada inválidos',
+        error: error.errors,
+        timestamp: new Date().toISOString(),
+        source: 'API'
+      };
+      return res.status(400).json(respuestaError);
     }
 
-    res.status(500).json({
+    const respuestaError = {
       success: false,
-      error: 'Error interno del servidor',
-      message: error.message || 'Error desconocido'
-    });
+      code: 'ERROR_INTERNO',
+      message: error.message || 'Error desconocido',
+      error: error,
+      timestamp: new Date().toISOString(),
+      source: 'API'
+    };
+    res.status(500).json(respuestaError);
   }
 });
 

@@ -13044,3 +13044,397 @@ frame=  939 fps=164 q=-1.0 Lsize=   12616KiB time=00:00:31.30 bitrate=3301.9kbit
 2025-07-27T19:14:06.087Z [info] ::1 - - [27/Jul/2025:19:14:06 +0000] "POST /api/render HTTP/1.1" 202 70 "-" "curl/8.6.0"
 2025-07-27T19:14:15.772Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":300000,"elapsedMs":9645,"success":true,"timestamp":"2025-07-27T19:14:15.771Z"}
 2025-07-27T19:14:19.872Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":300000,"elapsedMs":4099,"success":true,"timestamp":"2025-07-27T19:14:19.872Z"}
+2025-07-28T01:00:19.846Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T01:00:38.421Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T01:00:38.435Z [info] Request validado:
+2025-07-28T01:00:38.437Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","duration":30},"timestamp":"2025-07-28T01:00:38.436Z"}
+2025-07-28T01:00:38.444Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T01:00:38.461Z [info] ::1 - - [28/Jul/2025:01:00:38 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T01:00:38.468Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T01:00:38.469Z [error] ❌ [Validador] Estilo visual inválido: realistic. Permitidos: cinematic, anime, cartoon, commercial
+2025-07-28T01:00:38.471Z [warn] ⚠️ [Validador] Estilo realistic normalizado a 'cinematic'
+2025-07-28T01:00:38.474Z [warn] ⚠️ [Validador] RenderRequest con 1 warning(s): Estilo realistic normalizado a cinematic
+2025-07-28T01:00:38.502Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","success":false,"error":"Prompts inválidos","params":{"systemPrompt":"Eres parte del sistema CinemaAI. Genera contenido cinematográfico realista y factible con IA actual.\n\n\nAhora actúas como el DIRECTOR CINEMATOGRÁFICO del equipo CinemaAI.\n\nTu responsabilidad es analizar el prompt del usuario y crear una estructura narrativa cinematográfica profesional que sea factible de producir con las herramientas de IA actuales.\n\nDEBES CONSIDERAR:\n- Estructura narrativa clásica de 3 actos\n- Arco emocional ascendente y coherente\n- Momentos de tensión y liberación\n- Géneros cinematográficos realistas (drama, acción, misterio, romance, thriller)\n- Ritmo apropiado para la duración del video\n- Coherencia con las capacidades técnicas de CinemaAI\n\nRESPONDE ÚNICAMENTE con este JSON:\n{\n  \"historia\": \"resumen conciso de la historia en 2-3 líneas\",\n  \"tono\": \"dramático|épico|emocional|misterioso|acción|romántico|thriller\",\n  \"estructura\": [\"setup\", \"desarrollo\", \"climax\", \"cierre\"],\n  \"momentosEmocionales\": [5, 15, 25],\n  \"genero\": \"drama|acción|misterio|romance|thriller|aventura|ciencia_ficcion\",\n  \"ritmo\": \"lento|medio|rapido\"\n}\n\nPROMPT DEL USUARIO: \"Quiero un video de un hombre en una aventura pica\"\n\nAnaliza este prompt y crea una narrativa cinematográfica profesional.","userPrompt":"","model":"openai/chatgpt-4o-latest"},"timestamp":"2025-07-28T01:00:38.502Z"}
+2025-07-28T01:05:09.217Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T01:05:22.057Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T01:05:22.066Z [info] Request validado:
+2025-07-28T01:05:22.068Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"cinematic","duration":30},"timestamp":"2025-07-28T01:05:22.067Z"}
+2025-07-28T01:05:22.070Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T01:05:22.080Z [info] ::1 - - [28/Jul/2025:01:05:22 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T01:05:22.084Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T01:05:22.085Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T01:05:22.099Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","success":false,"error":"Prompts inválidos","params":{"systemPrompt":"Eres parte del sistema CinemaAI. Genera contenido cinematográfico realista y factible con IA actual.\n\n\nAhora actúas como el DIRECTOR CINEMATOGRÁFICO del equipo CinemaAI.\n\nTu responsabilidad es analizar el prompt del usuario y crear una estructura narrativa cinematográfica profesional que sea factible de producir con las herramientas de IA actuales.\n\nDEBES CONSIDERAR:\n- Estructura narrativa clásica de 3 actos\n- Arco emocional ascendente y coherente\n- Momentos de tensión y liberación\n- Géneros cinematográficos realistas (drama, acción, misterio, romance, thriller)\n- Ritmo apropiado para la duración del video\n- Coherencia con las capacidades técnicas de CinemaAI\n\nRESPONDE ÚNICAMENTE con este JSON:\n{\n  \"historia\": \"resumen conciso de la historia en 2-3 líneas\",\n  \"tono\": \"dramático|épico|emocional|misterioso|acción|romántico|thriller\",\n  \"estructura\": [\"setup\", \"desarrollo\", \"climax\", \"cierre\"],\n  \"momentosEmocionales\": [5, 15, 25],\n  \"genero\": \"drama|acción|misterio|romance|thriller|aventura|ciencia_ficcion\",\n  \"ritmo\": \"lento|medio|rapido\"\n}\n\nPROMPT DEL USUARIO: \"Quiero un video de un hombre en una aventura pica\"\n\nAnaliza este prompt y crea una narrativa cinematográfica profesional.","userPrompt":"","model":"openai/chatgpt-4o-latest"},"timestamp":"2025-07-28T01:05:22.099Z"}
+2025-07-28T01:07:12.149Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T01:07:17.542Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T01:07:17.547Z [info] Request validado:
+2025-07-28T01:07:17.549Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","duration":30},"timestamp":"2025-07-28T01:07:17.549Z"}
+2025-07-28T01:07:17.551Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T01:07:17.558Z [info] ::1 - - [28/Jul/2025:01:07:17 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T01:07:17.565Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T01:07:17.566Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T01:07:20.382Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2801,"success":true,"timestamp":"2025-07-28T01:07:20.382Z"}
+2025-07-28T01:24:10.366Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T01:25:03.479Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T01:25:03.487Z [info] Request validado:
+2025-07-28T01:25:03.489Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","duration":30},"timestamp":"2025-07-28T01:25:03.489Z"}
+2025-07-28T01:25:03.493Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T01:25:03.505Z [info] ::1 - - [28/Jul/2025:01:25:03 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T01:25:03.513Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T01:25:03.515Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T01:25:05.272Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":1726,"success":true,"timestamp":"2025-07-28T01:25:05.272Z"}
+2025-07-28T12:40:26.002Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T12:40:58.786Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T12:40:58.793Z [info] Request validado:
+2025-07-28T12:40:58.794Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"cinematic","duration":30},"timestamp":"2025-07-28T12:40:58.794Z"}
+2025-07-28T12:40:58.797Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T12:40:58.804Z [info] ::1 - - [28/Jul/2025:12:40:58 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T12:40:58.809Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T12:40:58.810Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T12:41:03.288Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4459,"success":true,"timestamp":"2025-07-28T12:41:03.288Z"}
+2025-07-28T16:58:34.226Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T16:58:38.417Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T16:58:38.422Z [info] Request validado:
+2025-07-28T16:58:38.423Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","duration":30},"timestamp":"2025-07-28T16:58:38.422Z"}
+2025-07-28T16:58:38.426Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T16:58:38.439Z [info] ::1 - - [28/Jul/2025:16:58:38 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T16:58:38.444Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T16:58:38.446Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T16:58:43.707Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5243,"success":true,"timestamp":"2025-07-28T16:58:43.707Z"}
+2025-07-28T16:58:46.211Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2497,"success":true,"timestamp":"2025-07-28T16:58:46.211Z"}
+2025-07-28T16:58:48.854Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2637,"success":true,"timestamp":"2025-07-28T16:58:48.854Z"}
+2025-07-28T16:58:51.732Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2874,"success":true,"timestamp":"2025-07-28T16:58:51.732Z"}
+2025-07-28T17:13:54.087Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T17:14:16.183Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T17:14:38.133Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T17:14:38.139Z [info] Request validado:
+2025-07-28T17:14:38.140Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","duration":30},"timestamp":"2025-07-28T17:14:38.139Z"}
+2025-07-28T17:14:38.142Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T17:14:38.151Z [info] ::1 - - [28/Jul/2025:17:14:38 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T17:14:38.155Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T17:14:38.156Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T17:14:40.334Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2109,"success":true,"timestamp":"2025-07-28T17:14:40.334Z"}
+2025-07-28T17:14:42.784Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2438,"success":true,"timestamp":"2025-07-28T17:14:42.784Z"}
+2025-07-28T17:14:45.567Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2775,"success":true,"timestamp":"2025-07-28T17:14:45.567Z"}
+2025-07-28T17:14:48.695Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3120,"success":true,"timestamp":"2025-07-28T17:14:48.695Z"}
+2025-07-28T17:19:35.367Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T17:19:42.701Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T17:19:42.710Z [info] Request validado:
+2025-07-28T17:19:42.711Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","duration":30},"timestamp":"2025-07-28T17:19:42.710Z"}
+2025-07-28T17:19:42.714Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T17:19:42.725Z [info] ::1 - - [28/Jul/2025:17:19:42 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T17:19:42.729Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T17:19:42.729Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T17:19:44.748Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2005,"success":true,"timestamp":"2025-07-28T17:19:44.748Z"}
+2025-07-28T17:19:47.119Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2361,"success":true,"timestamp":"2025-07-28T17:19:47.119Z"}
+2025-07-28T17:19:49.174Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2045,"success":true,"timestamp":"2025-07-28T17:19:49.174Z"}
+2025-07-28T17:19:51.313Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2130,"success":true,"timestamp":"2025-07-28T17:19:51.313Z"}
+2025-07-28T17:35:30.801Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T17:35:39.596Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T17:35:39.603Z [info] Request validado:
+2025-07-28T17:35:39.603Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","duration":30},"timestamp":"2025-07-28T17:35:39.603Z"}
+2025-07-28T17:35:39.605Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T17:35:39.613Z [info] ::1 - - [28/Jul/2025:17:35:39 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T17:35:39.617Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T17:35:39.618Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T17:35:41.829Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2199,"success":true,"timestamp":"2025-07-28T17:35:41.829Z"}
+2025-07-28T17:35:43.658Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":1795,"success":true,"timestamp":"2025-07-28T17:35:43.658Z"}
+2025-07-28T17:35:46.068Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2401,"success":true,"timestamp":"2025-07-28T17:35:46.068Z"}
+2025-07-28T17:35:48.720Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2612,"success":true,"timestamp":"2025-07-28T17:35:48.720Z"}
+2025-07-28T17:36:55.189Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T17:36:57.253Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T17:36:57.257Z [info] Request validado:
+2025-07-28T17:36:57.257Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","duration":30},"timestamp":"2025-07-28T17:36:57.257Z"}
+2025-07-28T17:36:57.259Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T17:36:57.265Z [info] ::1 - - [28/Jul/2025:17:36:57 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T17:36:57.269Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T17:36:57.270Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T17:37:00.906Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3625,"success":true,"timestamp":"2025-07-28T17:37:00.906Z"}
+2025-07-28T17:37:03.505Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2588,"success":true,"timestamp":"2025-07-28T17:37:03.505Z"}
+2025-07-28T17:37:06.122Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2606,"success":true,"timestamp":"2025-07-28T17:37:06.122Z"}
+2025-07-28T17:37:08.943Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2814,"success":true,"timestamp":"2025-07-28T17:37:08.943Z"}
+2025-07-28T18:36:34.493Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T18:36:46.844Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T18:36:46.850Z [info] Request validado:
+2025-07-28T18:36:46.851Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","duration":30},"timestamp":"2025-07-28T18:36:46.851Z"}
+2025-07-28T18:36:46.855Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T18:36:46.863Z [info] ::1 - - [28/Jul/2025:18:36:46 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T18:36:46.869Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T18:36:46.870Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T18:36:49.747Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2858,"success":true,"timestamp":"2025-07-28T18:36:49.747Z"}
+2025-07-28T18:36:52.591Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2833,"success":true,"timestamp":"2025-07-28T18:36:52.591Z"}
+2025-07-28T18:36:55.666Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3059,"success":true,"timestamp":"2025-07-28T18:36:55.666Z"}
+2025-07-28T18:36:57.918Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2233,"success":true,"timestamp":"2025-07-28T18:36:57.918Z"}
+2025-07-28T18:41:41.138Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T18:41:47.671Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T18:41:47.681Z [info] Request validado:
+2025-07-28T18:41:47.682Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","duration":30},"timestamp":"2025-07-28T18:41:47.682Z"}
+2025-07-28T18:41:47.686Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T18:41:47.700Z [info] ::1 - - [28/Jul/2025:18:41:47 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T18:41:47.710Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T18:41:47.712Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T18:41:50.185Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2433,"success":true,"timestamp":"2025-07-28T18:41:50.185Z"}
+2025-07-28T18:41:52.139Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":1948,"success":true,"timestamp":"2025-07-28T18:41:52.139Z"}
+2025-07-28T18:41:54.924Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2598,"success":true,"timestamp":"2025-07-28T18:41:54.923Z"}
+2025-07-28T18:41:56.911Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":1825,"success":true,"timestamp":"2025-07-28T18:41:56.911Z"}
+2025-07-28T19:02:05.855Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T19:02:13.670Z [info] [API] Nueva solicitud de renderizado recibida
+2025-07-28T19:02:13.680Z [info] Request validado:
+2025-07-28T19:02:13.682Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","duration":30},"timestamp":"2025-07-28T19:02:13.681Z"}
+2025-07-28T19:02:13.685Z [info] [API] Trabajo creado exitosamente:
+2025-07-28T19:02:13.692Z [info] ::1 - - [28/Jul/2025:19:02:13 +0000] "POST /api/render HTTP/1.1" 202 290 "-" "curl/8.6.0"
+2025-07-28T19:02:13.696Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T19:02:13.696Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T19:02:18.801Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5076,"success":true,"timestamp":"2025-07-28T19:02:18.801Z"}
+2025-07-28T19:02:21.837Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3026,"success":true,"timestamp":"2025-07-28T19:02:21.837Z"}
+2025-07-28T19:02:25.048Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3072,"success":true,"timestamp":"2025-07-28T19:02:25.048Z"}
+2025-07-28T19:02:27.652Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2557,"success":true,"timestamp":"2025-07-28T19:02:27.652Z"}
+2025-07-28T19:48:41.378Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":6119,"success":true,"timestamp":"2025-07-28T19:48:41.368Z"}
+2025-07-28T19:48:43.503Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2115,"success":true,"timestamp":"2025-07-28T19:48:43.503Z"}
+2025-07-28T19:48:45.793Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2069,"success":true,"timestamp":"2025-07-28T19:48:45.793Z"}
+2025-07-28T19:48:47.938Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":1959,"success":true,"timestamp":"2025-07-28T19:48:47.938Z"}
+2025-07-28T20:36:36.014Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T20:36:48.963Z [info] [36m[🌐 API][0m 🚀 INICIANDO: Nueva solicitud de renderizado
+2025-07-28T20:36:48.965Z [info] [36m[🌐 API][0m Request validado exitosamente
+2025-07-28T20:36:48.966Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-28T20:36:48.966Z"}
+2025-07-28T20:36:48.968Z [info] [36m[🌐 API][0m ✅ Trabajo creado exitosamente
+2025-07-28T20:36:48.974Z [info] ::1 - - [28/Jul/2025:20:36:48 +0000] "POST /api/render HTTP/1.1" 202 418 "-" "curl/8.6.0"
+2025-07-28T20:36:48.984Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T20:36:48.985Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T20:36:48.992Z [info] [34m[🎼 Orquestador][0m 🚀 INICIANDO: Producción cinematográfica
+2025-07-28T20:36:48.993Z [info] [34m[🎼 Orquestador][0m 🗂️ Cargando assets con AssetManager unificado...
+2025-07-28T20:36:48.998Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-28T20:36:49.000Z [info] [AssetManager] Obtenidos 583 fondos para estilo 'cinematic'
+2025-07-28T20:36:49.002Z [info] [AssetManager] Obtenidos 0 actores para estilo 'cinematic'
+2025-07-28T20:36:49.002Z [info] [34m[🎼 Orquestador][0m Assets cargados exitosamente
+2025-07-28T20:36:49.003Z [info] [34m[🎼 Orquestador][0m 🧠 CEREBRO ARTE analizará fondos según contexto
+2025-07-28T20:36:49.006Z [info] [34m[🎼 Orquestador][0m 📈 MÉTRICAS Estadísticas de assets
+2025-07-28T20:36:49.007Z [info] [34m[🎼 Orquestador][0m Consultando al Cerebro Director...
+2025-07-28T20:36:53.371Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4360,"success":true,"timestamp":"2025-07-28T20:36:53.371Z"}
+2025-07-28T20:36:53.376Z [info] [34m[🎼 Orquestador][0m Plan cinematográfico generado
+2025-07-28T20:36:53.378Z [info] [34m[🎼 Orquestador][0m 📊 Procesando tomas: [███████             ] 1/3 (33%)
+2025-07-28T20:36:58.099Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4706,"success":true,"timestamp":"2025-07-28T20:36:58.099Z"}
+2025-07-28T20:36:58.132Z [info] [34m[🎼 Orquestador][0m 📊 Procesando tomas: [█████████████       ] 2/3 (67%)
+2025-07-28T20:37:00.683Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2541,"success":true,"timestamp":"2025-07-28T20:37:00.683Z"}
+2025-07-28T20:37:00.702Z [info] [34m[🎼 Orquestador][0m 📊 Procesando tomas: [████████████████████] 3/3 (100%)
+2025-07-28T20:37:05.130Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4422,"success":true,"timestamp":"2025-07-28T20:37:05.130Z"}
+2025-07-28T21:14:15.334Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T21:14:22.493Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-28T21:14:22.492Z"}
+2025-07-28T21:14:22.508Z [info] ::1 - - [28/Jul/2025:21:14:22 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-28T21:14:22.514Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T21:14:22.516Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T21:14:22.522Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-28T21:14:22.524Z [info] [AssetManager] Obtenidos 583 fondos para estilo 'cinematic'
+2025-07-28T21:14:22.525Z [info] [AssetManager] Obtenidos 0 actores para estilo 'cinematic'
+2025-07-28T21:14:29.085Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":6551,"success":true,"timestamp":"2025-07-28T21:14:29.085Z"}
+2025-07-28T23:40:41.062Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-28T23:40:41.256Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-28T23:40:41.256Z"}
+2025-07-28T23:40:41.265Z [info] ::1 - - [28/Jul/2025:23:40:41 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-28T23:40:41.268Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-28T23:40:41.269Z [info] ✅ [Validador] RenderRequest válido
+2025-07-28T23:40:41.278Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-28T23:40:41.279Z [info] [AssetManager] Obtenidos 583 fondos para estilo 'cinematic'
+2025-07-28T23:40:41.280Z [info] [AssetManager] Obtenidos 0 actores para estilo 'cinematic'
+2025-07-28T23:40:48.067Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":6780,"success":true,"timestamp":"2025-07-28T23:40:48.067Z"}
+2025-07-28T23:40:52.846Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4773,"success":true,"timestamp":"2025-07-28T23:40:52.846Z"}
+2025-07-28T23:40:55.360Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2496,"success":true,"timestamp":"2025-07-28T23:40:55.360Z"}
+2025-07-28T23:40:59.682Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4311,"success":true,"timestamp":"2025-07-28T23:40:59.682Z"}
+2025-07-28T23:41:02.701Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3010,"success":true,"timestamp":"2025-07-28T23:41:02.701Z"}
+2025-07-28T23:41:05.432Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2727,"success":true,"timestamp":"2025-07-28T23:41:05.432Z"}
+2025-07-28T23:41:07.908Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2471,"success":true,"timestamp":"2025-07-28T23:41:07.907Z"}
+2025-07-28T23:41:13.634Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5720,"success":true,"timestamp":"2025-07-28T23:41:13.634Z"}
+2025-07-28T23:41:19.274Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5629,"success":true,"timestamp":"2025-07-28T23:41:19.274Z"}
+2025-07-28T23:41:22.576Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3283,"success":true,"timestamp":"2025-07-28T23:41:22.576Z"}
+2025-07-28T23:41:25.796Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3216,"success":true,"timestamp":"2025-07-28T23:41:25.796Z"}
+2025-07-28T23:41:30.991Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5188,"success":true,"timestamp":"2025-07-28T23:41:30.991Z"}
+2025-07-28T23:41:36.490Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5475,"success":true,"timestamp":"2025-07-28T23:41:36.490Z"}
+2025-07-28T23:41:42.170Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5669,"success":true,"timestamp":"2025-07-28T23:41:42.170Z"}
+2025-07-28T23:41:44.794Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2596,"success":true,"timestamp":"2025-07-28T23:41:44.794Z"}
+2025-07-28T23:41:50.050Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5235,"success":true,"timestamp":"2025-07-28T23:41:50.050Z"}
+2025-07-28T23:41:52.808Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2744,"success":true,"timestamp":"2025-07-28T23:41:52.808Z"}
+2025-07-28T23:41:55.269Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2447,"success":true,"timestamp":"2025-07-28T23:41:55.269Z"}
+2025-07-28T23:41:58.595Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3320,"success":true,"timestamp":"2025-07-28T23:41:58.595Z"}
+2025-07-28T23:42:02.414Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3799,"success":true,"timestamp":"2025-07-28T23:42:02.414Z"}
+2025-07-28T23:42:05.125Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2697,"success":true,"timestamp":"2025-07-28T23:42:05.125Z"}
+2025-07-28T23:42:07.848Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2714,"success":true,"timestamp":"2025-07-28T23:42:07.848Z"}
+2025-07-28T23:42:10.406Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2544,"success":true,"timestamp":"2025-07-28T23:42:10.406Z"}
+2025-07-28T23:42:12.846Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2426,"success":true,"timestamp":"2025-07-28T23:42:12.846Z"}
+2025-07-28T23:42:15.114Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2257,"success":true,"timestamp":"2025-07-28T23:42:15.114Z"}
+2025-07-28T23:42:18.847Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3712,"success":true,"timestamp":"2025-07-28T23:42:18.847Z"}
+2025-07-29T18:54:43.247Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-29T18:54:49.213Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-29T18:54:49.213Z"}
+2025-07-29T18:54:49.224Z [info] ::1 - - [29/Jul/2025:18:54:49 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-29T18:54:49.230Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-29T18:54:49.232Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T18:54:49.253Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-29T18:54:49.255Z [info] [AssetManager] Obtenidos 583 fondos para estilo 'cinematic'
+2025-07-29T18:54:49.258Z [info] [AssetManager] Obtenidos 0 actores para estilo 'cinematic'
+2025-07-29T18:54:58.379Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":9100,"success":true,"timestamp":"2025-07-29T18:54:58.379Z"}
+2025-07-29T18:55:00.236Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":1849,"success":true,"timestamp":"2025-07-29T18:55:00.236Z"}
+2025-07-29T18:55:02.248Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":1986,"success":true,"timestamp":"2025-07-29T18:55:02.248Z"}
+2025-07-29T18:55:05.047Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2727,"success":true,"timestamp":"2025-07-29T18:55:05.047Z"}
+2025-07-29T18:57:45.936Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":20},"timestamp":"2025-07-29T18:57:45.936Z"}
+2025-07-29T18:57:45.938Z [info] ::1 - - [29/Jul/2025:18:57:45 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.13.0"
+2025-07-29T18:57:45.939Z [info] ✅ [Validador] Duración válida: 20s
+2025-07-29T18:57:45.940Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T18:57:45.948Z [info] [AssetManager] Obtenidos 583 fondos para estilo 'cinematic'
+2025-07-29T18:57:45.951Z [info] [AssetManager] Obtenidos 0 actores para estilo 'cinematic'
+2025-07-29T18:57:54.761Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8804,"success":true,"timestamp":"2025-07-29T18:57:54.761Z"}
+2025-07-29T18:57:59.166Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4392,"success":true,"timestamp":"2025-07-29T18:57:59.166Z"}
+2025-07-29T18:58:04.203Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4979,"success":true,"timestamp":"2025-07-29T18:58:04.203Z"}
+2025-07-29T18:58:06.748Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2456,"success":true,"timestamp":"2025-07-29T18:58:06.748Z"}
+2025-07-29T19:08:25.869Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-29T19:08:42.083Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-29T19:08:42.083Z"}
+2025-07-29T19:08:42.096Z [info] ::1 - - [29/Jul/2025:19:08:42 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-29T19:08:42.107Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-29T19:08:42.109Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T19:08:42.157Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-29T19:08:42.160Z [info] [AssetManager] Obtenidos 583 fondos para estilo 'cinematic'
+2025-07-29T19:08:42.172Z [info] [AssetManager] Obtenidos 0 actores para estilo 'cinematic'
+2025-07-29T19:08:50.038Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":7842,"success":true,"timestamp":"2025-07-29T19:08:50.038Z"}
+2025-07-29T19:08:54.211Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4154,"success":true,"timestamp":"2025-07-29T19:08:54.210Z"}
+2025-07-29T19:08:57.466Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3215,"success":true,"timestamp":"2025-07-29T19:08:57.466Z"}
+2025-07-29T19:09:01.022Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3467,"success":true,"timestamp":"2025-07-29T19:09:01.022Z"}
+2025-07-29T19:13:26.778Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-29T19:13:38.683Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-29T19:13:38.682Z"}
+2025-07-29T19:13:38.700Z [info] ::1 - - [29/Jul/2025:19:13:38 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-29T19:13:38.711Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-29T19:13:38.713Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T19:13:38.737Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-29T19:13:38.740Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-29T19:13:38.743Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-29T19:13:51.353Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":12594,"success":true,"timestamp":"2025-07-29T19:13:51.353Z"}
+2025-07-29T19:13:53.978Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2607,"success":true,"timestamp":"2025-07-29T19:13:53.978Z"}
+2025-07-29T19:13:56.970Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2904,"success":true,"timestamp":"2025-07-29T19:13:56.970Z"}
+2025-07-29T19:13:59.451Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2381,"success":true,"timestamp":"2025-07-29T19:13:59.451Z"}
+2025-07-29T19:19:18.895Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-29T19:19:26.717Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-29T19:19:26.717Z"}
+2025-07-29T19:19:26.755Z [info] ::1 - - [29/Jul/2025:19:19:26 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-29T19:19:26.771Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-29T19:19:26.774Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T19:19:26.793Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-29T19:19:26.795Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-29T19:19:26.797Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-29T19:19:33.741Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":6928,"success":true,"timestamp":"2025-07-29T19:19:33.741Z"}
+2025-07-29T19:19:36.274Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2516,"success":true,"timestamp":"2025-07-29T19:19:36.274Z"}
+2025-07-29T19:19:38.527Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2152,"success":true,"timestamp":"2025-07-29T19:19:38.527Z"}
+2025-07-29T19:19:40.925Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2310,"success":true,"timestamp":"2025-07-29T19:19:40.924Z"}
+2025-07-29T19:44:50.491Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-29T19:45:05.541Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-29T19:45:05.540Z"}
+2025-07-29T19:45:05.550Z [info] ::1 - - [29/Jul/2025:19:45:05 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-29T19:45:05.554Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-29T19:45:05.556Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T19:45:05.567Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-29T19:45:05.568Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-29T19:45:05.569Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-29T19:45:12.912Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":7331,"success":true,"timestamp":"2025-07-29T19:45:12.911Z"}
+2025-07-29T19:45:15.037Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2118,"success":true,"timestamp":"2025-07-29T19:45:15.037Z"}
+2025-07-29T19:45:17.972Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2871,"success":true,"timestamp":"2025-07-29T19:45:17.972Z"}
+2025-07-29T19:45:20.507Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2482,"success":true,"timestamp":"2025-07-29T19:45:20.507Z"}
+2025-07-29T20:11:23.748Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-29T20:11:32.979Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-29T20:11:32.979Z"}
+2025-07-29T20:11:32.989Z [info] ::1 - - [29/Jul/2025:20:11:32 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-29T20:11:32.994Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-29T20:11:32.995Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T20:11:33.005Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-29T20:11:33.006Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-29T20:11:33.007Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-29T20:11:42.277Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":9263,"success":true,"timestamp":"2025-07-29T20:11:42.276Z"}
+2025-07-29T20:11:45.172Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2885,"success":true,"timestamp":"2025-07-29T20:11:45.172Z"}
+2025-07-29T20:11:47.644Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2457,"success":true,"timestamp":"2025-07-29T20:11:47.644Z"}
+2025-07-29T20:11:50.089Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2415,"success":true,"timestamp":"2025-07-29T20:11:50.089Z"}
+2025-07-29T20:24:56.916Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-29T20:25:10.486Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-29T20:25:10.485Z"}
+2025-07-29T20:25:10.520Z [info] ::1 - - [29/Jul/2025:20:25:10 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-29T20:25:10.528Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-29T20:25:10.528Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T20:25:10.547Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-29T20:25:10.548Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-29T20:25:10.549Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-29T20:25:19.176Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8612,"success":true,"timestamp":"2025-07-29T20:25:19.176Z"}
+2025-07-29T20:25:21.452Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2264,"success":true,"timestamp":"2025-07-29T20:25:21.452Z"}
+2025-07-29T20:25:23.668Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2187,"success":true,"timestamp":"2025-07-29T20:25:23.668Z"}
+2025-07-29T20:25:26.653Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2943,"success":true,"timestamp":"2025-07-29T20:25:26.653Z"}
+2025-07-29T20:33:16.322Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-29T20:33:30.110Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-29T20:33:30.110Z"}
+2025-07-29T20:33:30.118Z [info] ::1 - - [29/Jul/2025:20:33:30 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-29T20:33:30.121Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-29T20:33:30.121Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T20:33:30.128Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-29T20:33:30.128Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-29T20:33:30.130Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-29T20:33:41.440Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":11304,"success":true,"timestamp":"2025-07-29T20:33:41.440Z"}
+2025-07-29T20:33:44.286Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2840,"success":true,"timestamp":"2025-07-29T20:33:44.286Z"}
+2025-07-29T20:33:47.212Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2888,"success":true,"timestamp":"2025-07-29T20:33:47.212Z"}
+2025-07-29T20:33:49.649Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2407,"success":true,"timestamp":"2025-07-29T20:33:49.649Z"}
+2025-07-29T21:20:03.790Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-29T21:20:25.565Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-29T21:20:25.564Z"}
+2025-07-29T21:20:25.594Z [info] ::1 - - [29/Jul/2025:21:20:25 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-29T21:20:25.608Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-29T21:20:25.609Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T21:20:25.638Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-29T21:20:25.640Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-29T21:20:25.644Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-29T21:20:32.543Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":6870,"success":true,"timestamp":"2025-07-29T21:20:32.543Z"}
+2025-07-29T21:20:34.642Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2081,"success":true,"timestamp":"2025-07-29T21:20:34.642Z"}
+2025-07-29T21:20:37.016Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2301,"success":true,"timestamp":"2025-07-29T21:20:37.016Z"}
+2025-07-29T21:20:39.315Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2217,"success":true,"timestamp":"2025-07-29T21:20:39.315Z"}
+2025-07-29T22:17:01.594Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-29T22:17:14.989Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-29T22:17:14.989Z"}
+2025-07-29T22:17:15.002Z [info] ::1 - - [29/Jul/2025:22:17:15 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-29T22:17:15.008Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-29T22:17:15.010Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T22:17:15.025Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-29T22:17:15.027Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-29T22:17:15.030Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-29T22:17:23.094Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8051,"success":true,"timestamp":"2025-07-29T22:17:23.094Z"}
+2025-07-29T22:17:29.178Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":6076,"success":true,"timestamp":"2025-07-29T22:17:29.178Z"}
+2025-07-29T22:17:35.249Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":6040,"success":true,"timestamp":"2025-07-29T22:17:35.249Z"}
+2025-07-29T22:17:39.779Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4512,"success":true,"timestamp":"2025-07-29T22:17:39.778Z"}
+2025-07-29T22:39:05.195Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-29T22:39:14.097Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-29T22:39:14.097Z"}
+2025-07-29T22:39:14.105Z [info] ::1 - - [29/Jul/2025:22:39:14 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-29T22:39:14.109Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-29T22:39:14.109Z [info] ✅ [Validador] RenderRequest válido
+2025-07-29T22:39:14.120Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-29T22:39:14.121Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-29T22:39:14.124Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-29T22:39:19.858Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5727,"success":true,"timestamp":"2025-07-29T22:39:19.858Z"}
+2025-07-29T22:39:29.283Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":9413,"success":true,"timestamp":"2025-07-29T22:39:29.283Z"}
+2025-07-29T22:40:13.276Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":43968,"success":true,"timestamp":"2025-07-29T22:40:13.276Z"}
+2025-07-29T22:40:17.242Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3912,"success":true,"timestamp":"2025-07-29T22:40:17.242Z"}
+2025-07-30T15:30:25.011Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-30T15:30:40.169Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-30T15:30:40.169Z"}
+2025-07-30T15:30:40.175Z [info] ::1 - - [30/Jul/2025:15:30:40 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-30T15:30:40.178Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-30T15:30:40.179Z [info] ✅ [Validador] RenderRequest válido
+2025-07-30T15:30:40.186Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-30T15:30:40.187Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-30T15:30:40.188Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-30T15:30:50.428Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":10234,"success":true,"timestamp":"2025-07-30T15:30:50.428Z"}
+2025-07-30T15:30:53.464Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3025,"success":true,"timestamp":"2025-07-30T15:30:53.464Z"}
+2025-07-30T15:30:56.035Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2485,"success":true,"timestamp":"2025-07-30T15:30:56.035Z"}
+2025-07-30T15:30:58.647Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2536,"success":true,"timestamp":"2025-07-30T15:30:58.647Z"}
+2025-07-30T16:29:44.938Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-30T16:30:13.575Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-30T16:30:13.574Z"}
+2025-07-30T16:30:13.597Z [info] ::1 - - [30/Jul/2025:16:30:13 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-30T16:30:13.608Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-30T16:30:13.610Z [info] ✅ [Validador] RenderRequest válido
+2025-07-30T16:30:13.633Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-30T16:30:13.635Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-30T16:30:13.638Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-30T16:30:20.649Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":6993,"success":true,"timestamp":"2025-07-30T16:30:20.649Z"}
+2025-07-30T16:30:23.339Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2683,"success":true,"timestamp":"2025-07-30T16:30:23.339Z"}
+2025-07-30T16:30:25.878Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2445,"success":true,"timestamp":"2025-07-30T16:30:25.878Z"}
+2025-07-30T16:30:28.757Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2793,"success":true,"timestamp":"2025-07-30T16:30:28.757Z"}
+2025-07-30T16:37:13.237Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-30T16:37:22.169Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"realistic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-07-30T16:37:22.169Z"}
+2025-07-30T16:37:22.179Z [info] ::1 - - [30/Jul/2025:16:37:22 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-07-30T16:37:22.189Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-30T16:37:22.191Z [info] ✅ [Validador] RenderRequest válido
+2025-07-30T16:37:22.213Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-30T16:37:22.216Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-30T16:37:22.219Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-30T16:37:29.269Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":7034,"success":true,"timestamp":"2025-07-30T16:37:29.269Z"}
+2025-07-30T16:37:32.212Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2935,"success":true,"timestamp":"2025-07-30T16:37:32.212Z"}
+2025-07-30T16:37:39.251Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":7022,"success":true,"timestamp":"2025-07-30T16:37:39.251Z"}
+2025-07-30T16:37:44.490Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5181,"success":true,"timestamp":"2025-07-30T16:37:44.490Z"}

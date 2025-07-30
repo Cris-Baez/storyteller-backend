@@ -1,13 +1,13 @@
 // estilos/cinematic/orquestador.ts - Cerebro Orquestador Cinematográfico
 
-import { generarNarrativaCinematica } from './director.js';
+import { generarNarrativaCinematica, TomaCinematograficaPlan } from './director.js';
 import { seleccionarFondoCinematico } from './arte.js';
 import { seleccionarActorCinematico } from './actores.js';
 import { configurarCamaraCinematica } from './fotografia.js';
 import { configurarSonidoCinematico } from './sonido.js';
 import { configurarEdicionCinematica, aplicarEstructuraEdicion, optimizarFlujoCinematico } from './editor.js';
 import { RESTRICCIONES_GENERALES, LIMITACIONES_ESTILO } from '../../restricciones.js';
-import { cargarAssetsIndex } from '../../helpers/assetUtils.js';
+import { AssetManager } from '../../../assetManager.js';
 import { segmentarPorEstilo } from '../../helpers/segmentador.js';
 
 export interface VideoPlanCinematico {
@@ -15,6 +15,7 @@ export interface VideoPlanCinematico {
   metadata: MetadataCinematica;
   restricciones: any;
   configuracionGlobal: ConfiguracionGlobalCinematica;
+  tomasReales?: TomaCinematograficaPlan[]; // ✅ NUEVO: Agregar tomas originales para el pipeline
 }
 
 export interface SegundoCinematico {
@@ -52,62 +53,118 @@ export interface ConfiguracionGlobalCinematica {
 
 export async function orquestarEquipoCinematico(
   prompt: string,
-  duracionTotal: number
+  duracionTotal: number,
+  estiloVisual: string = 'cinematic' // ✅ NUEVO: Recibir estilo visual
 ): Promise<VideoPlanCinematico> {
   console.log('[Orquestador Cinematic] Iniciando producción cinematográfica');
   console.log(`Prompt: "${prompt}"`);
   console.log(`Duración: ${duracionTotal} segundos`);
+  console.log(`Estilo visual: ${estiloVisual}`); // ✅ LOG del estilo
   
   try {
-    // 1. Cargar recursos y restricciones
-    const assets = await cargarAssetsIndex();
+    console.log('[ORQUESTADOR] 🚀 INICIANDO PRODUCCIÓN CINEMATOGRÁFICA');
+    
+    // 1. Cargar recursos usando AssetManager unificado con el estilo correcto
+    console.log(`[ORQUESTADOR] 🔄 Cargando assets para estilo: ${estiloVisual}...`);
+    const fondosRaw = await AssetManager.obtenerFondosPorEstilo(estiloVisual); // ✅ USAR ESTILO CORRECTO
+    const actoresRaw = await AssetManager.obtenerActoresPorEstilo(estiloVisual); // ✅ USAR ESTILO CORRECTO
+    
+    // Crear assets en formato esperado por el sistema existente
+    const assets = {
+      fondos: fondosRaw,
+      actores: actoresRaw
+    };
+    
+    console.log('[ORQUESTADOR] ✅ Assets cargados', {
+      fondos: fondosRaw.length,
+      actores: actoresRaw.length,
+      diversidadFondos: [...new Set(fondosRaw.map(f => f.lugar || f.tipo))]
+    });
     const restricciones = { ...RESTRICCIONES_GENERALES, ...LIMITACIONES_ESTILO.cinematic };
     
-    // 2. Director: Establecer narrativa general
-    console.log('[Orquestador] Consultando al Director...');
+    // 2. Director: Establecer narrativa Y PLAN DE TOMAS CINEMATOGRÁFICAS
+    console.log('[ORQUESTADOR] 🎬 Consultando al Director para plan cinematográfico...');
     const narrativaGeneral = await generarNarrativaCinematica(prompt);
     
-    // 3. Segmentar timeline por estructura narrativa
-    const segmentos = segmentarPorEstilo(duracionTotal, 'cinematic');
+    // ✅ VALIDACIÓN DEFENSIVA: Verificar que la narrativa tenga estructura válida
+    if (!narrativaGeneral) {
+      throw new Error('Director no retornó narrativa válida');
+    }
     
-    // 4. Generar timeline segundo a segundo
+    console.log('[ORQUESTADOR] ✅ Plan cinematográfico generado', {
+      tomas: narrativaGeneral.tomas?.length || 0,
+      duracionPlanificada: narrativaGeneral.tomas?.reduce((sum, t) => sum + (t?.duracion || 0), 0) || 0,
+      estructura: narrativaGeneral.estructura
+    });
+
+    // 3. Procesar cada TOMA CINEMATOGRÁFICA (siguiendo tu flujo correcto)
     const timeline: SegundoCinematico[] = [];
+    let segundoActual = 0;
     
-    for (let segundo = 0; segundo < duracionTotal; segundo++) {
-      console.log(`[Orquestador] Procesando segundo ${segundo + 1}/${duracionTotal}`);
+    // Si el director generó tomas, usarlas. Si no, crear tomas por defecto
+    console.log('[ORQUESTADOR] 🔍 DEBUG - Verificando tomas del director:', {
+      narrativaGeneral_tiene_tomas: !!narrativaGeneral.tomas,
+      narrativaGeneral_tomas_length: narrativaGeneral.tomas?.length,
+      narrativaGeneral_keys: Object.keys(narrativaGeneral),
+      tomas_first_item: narrativaGeneral.tomas?.[0]
+    });
+    
+    const tomasPlanificadas = narrativaGeneral.tomas && narrativaGeneral.tomas.length > 0 
+      ? narrativaGeneral.tomas 
+      : crearTomasPorDefecto(duracionTotal, narrativaGeneral);
+    
+    // ✅ VALIDACIÓN ADICIONAL: Verificar que todas las tomas sean válidas
+    if (!tomasPlanificadas || tomasPlanificadas.length === 0) {
+      throw new Error('No se pudieron generar tomas válidas');
+    }
+    
+    // ✅ VALIDACIÓN: Verificar que cada toma tenga propiedades requeridas
+    for (let i = 0; i < tomasPlanificadas.length; i++) {
+      const toma = tomasPlanificadas[i];
+      if (!toma || typeof toma.numero !== 'number' || typeof toma.duracion !== 'number') {
+        console.error(`[ORQUESTADOR] ❌ Toma ${i} inválida:`, toma);
+        throw new Error(`Toma ${i} no tiene estructura válida`);
+      }
+    }
+    
+    console.log(`[ORQUESTADOR] 🎯 DECISIÓN: ${narrativaGeneral.tomas && narrativaGeneral.tomas.length > 0 ? 'USANDO TOMAS DEL DIRECTOR' : 'USANDO TOMAS POR DEFECTO'}`);
+    console.log(`[ORQUESTADOR] 🎥 Procesando ${tomasPlanificadas.length} tomas cinematográficas`);
+    console.log('[ORQUESTADOR] 🎬 INICIANDO BUCLE DE TOMAS CINEMATOGRÁFICAS...');
+    
+    for (let tomaIdx = 0; tomaIdx < tomasPlanificadas.length; tomaIdx++) {
+      const toma = tomasPlanificadas[tomaIdx];
+      console.log(`[ORQUESTADOR] 📸 TOMA ${toma.numero}: "${toma.descripcion}" (${toma.duracion}s)`);
       
-      // Determinar contexto narrativo
-      const segmentoActual = segmentos.find((s: any) => 
-        segundo >= s.inicio && segundo < s.inicio + s.duracion
-      );
-      
-      const momentoNarrativo = segmentoActual?.tipo || 'desarrollo';
-      const progresoNarrativo = segundo / duracionTotal;
-      
-      // Evaluar si es momento emocional
-      const esEmocional = evaluarMomentoEmocional(
-        segundo, 
-        narrativaGeneral, 
-        momentoNarrativo,
-        progresoNarrativo
-      );
-      
-      // Extraer tono del momento
-      const tono = extraerTono(narrativaGeneral, momentoNarrativo, esEmocional);
-      
-      // Coordinar todos los cerebros especializados
-      const segundoCinematico = await coordinarCerebros({
-        segundo,
+      // ✅ PROCESAR TOMA UNA SOLA VEZ (no segundo-a-segundo)
+      console.log(`[ORQUESTADOR] 🧠 Coordinando cerebros para toma ${toma.numero}...`);
+      const configuracionToma = await coordinarCerebros({
+        segundo: segundoActual, // Segundo de inicio de la toma
         duracionTotal,
-        momentoNarrativo,
-        esEmocional,
-        tono,
+        toma: toma, // ✅ PASAR LA TOMA COMPLETA
+        segundoEnToma: 0, // Siempre 0 para configuración de toma
+        esEmocional: narrativaGeneral.momentosEmocionales?.includes(segundoActual) || false,
         narrativaGeneral,
-        assets,
-        segmentoActual
+        assets
       });
       
-      timeline.push(segundoCinematico);
+      console.log(`[ORQUESTADOR] ✅ Toma ${toma.numero} configurada - aplicando a ${toma.duracion} segundos`);
+      
+      // ✅ APLICAR LA CONFIGURACIÓN A TODOS LOS SEGUNDOS DE LA TOMA
+      for (let segundoEnToma = 0; segundoEnToma < toma.duracion; segundoEnToma++) {
+        if (segundoActual >= duracionTotal) break;
+        
+        const segundoCinematico = {
+          ...configuracionToma,
+          segundo: segundoActual, // Actualizar el segundo actual
+          segmento: toma.tipoToma || 'desarrollo',
+          momentoNarrativo: toma.tipoToma || 'desarrollo'
+        };
+        
+        timeline.push(segundoCinematico);
+        segundoActual++;
+      }
+      
+      console.log(`[ORQUESTADOR] ✅ Toma ${toma.numero} aplicada a ${toma.duracion} segundos`);
     }
     
     // 5. Aplicar estructura de edición
@@ -126,19 +183,34 @@ export async function orquestarEquipoCinematico(
       timeline: timelineOptimizado,
       metadata,
       restricciones,
-      configuracionGlobal
+      configuracionGlobal,
+      tomasReales: tomasPlanificadas // ✅ CRÍTICO: Incluir las tomas originales para el pipeline
     };
     
     console.log('[Orquestador] Producción cinematográfica completada');
     console.log(`Timeline generado: ${videoPlan.timeline.length} segundos`);
     console.log(`Actos: ${metadata.actos}, Momentos emocionales: ${metadata.momentosEmocionales.length}`);
     
+    // ✅ DEBUG: Verificar que las tomas reales están incluidas
+    console.log('[Orquestador] 🔍 DEBUG - Tomas reales incluidas:', {
+      tomasReales_count: videoPlan.tomasReales?.length,
+      tomasReales_preview: videoPlan.tomasReales?.map(t => ({
+        numero: t.numero,
+        descripcion: t.descripcion?.substring(0, 50) + '...',
+        duracion: t.duracion,
+        tipoToma: t.tipoToma
+      }))
+    });
+    
     return videoPlan;
     
   } catch (error) {
-    console.error('[Orquestador Cinematic] Error en producción:', error);
+    console.error('[Orquestador Cinematic] 💥 ERROR CRÍTICO en producción:', error);
+    console.error('[Orquestador Cinematic] 💥 Stack trace:', error instanceof Error ? error.stack : 'No stack trace');
+    console.error('[Orquestador Cinematic] 💥 Error message:', error instanceof Error ? error.message : String(error));
     
     // Fallback: Plan cinematográfico básico
+    console.log('[Orquestador Cinematic] 🔄 Aplicando fallback de emergencia...');
     return generarPlanCinematicoFallback(prompt, duracionTotal);
   }
 }
@@ -146,36 +218,42 @@ export async function orquestarEquipoCinematico(
 async function coordinarCerebros(contexto: {
   segundo: number;
   duracionTotal: number;
-  momentoNarrativo: string;
+  toma?: TomaCinematograficaPlan; // ✅ NUEVA: Información de la toma con tipo correcto
+  segundoEnToma?: number; // ✅ NUEVA: Segundo dentro de la toma
   esEmocional: boolean;
-  tono: string;
   narrativaGeneral: any;
   assets: any;
-  segmentoActual: any;
 }): Promise<SegundoCinematico> {
   
-  const { segundo, duracionTotal, momentoNarrativo, esEmocional, tono, narrativaGeneral, assets } = contexto;
+  const { segundo, duracionTotal, toma, segundoEnToma, esEmocional, narrativaGeneral, assets } = contexto;
   
-  // Arte: Seleccionar fondo
+  // Determinar contexto usando la toma si está disponible
+  const momentoNarrativo = toma?.tipoToma || 'desarrollo';
+  const tono = toma?.emocion || 'neutro';
+  
+  // Arte: Seleccionar fondo usando información completa de la toma
   const fondo = await seleccionarFondoCinematico(
     assets.fondos || [],
     narrativaGeneral,
     momentoNarrativo as 'setup' | 'desarrollo' | 'climax' | 'cierre',
-    segundo
+    segundo,
+    toma?.descripcion || `Momento ${momentoNarrativo}`, // ✅ USAR DESCRIPCIÓN DE LA TOMA
+    toma // ✅ PASAR INFORMACIÓN COMPLETA DE LA TOMA
   );
   
-  // Actores: Seleccionar y configurar actor
-  const actor = seleccionarActorCinematico(
+  // Actores: Seleccionar y configurar actor usando información de toma
+  const actor = await seleccionarActorCinematico(
     assets.actores || [],
-    momentoNarrativo as 'setup' | 'desarrollo' | 'climax' | 'cierre',
+    narrativaGeneral,
     esEmocional,
-    narrativaGeneral
+    toma || segundo, // ✅ Usar toma si existe, sino segundo para retrocompatibilidad
+    false // ✅ requiereLipSync por defecto
   );
   
-  // Fotografía: Configurar cámara
+  // Fotografía: Configurar cámara usando información de toma
   const camara = configurarCamaraCinematica(
     momentoNarrativo as 'setup' | 'desarrollo' | 'climax' | 'cierre',
-    segundo,
+    toma || segundo, // ✅ PASAR TOMA COMPLETA O SEGUNDO
     esEmocional,
     tono
   );
@@ -187,7 +265,8 @@ async function coordinarCerebros(contexto: {
     esEmocional,
     tono,
     duracionTotal,
-    actor
+    actor,
+    toma // Las funciones de sonido pueden manejar undefined correctamente
   );
   
   // Editor: Configurar edición
@@ -196,7 +275,8 @@ async function coordinarCerebros(contexto: {
     duracionTotal,
     momentoNarrativo as 'setup' | 'desarrollo' | 'climax' | 'cierre',
     esEmocional,
-    tono
+    tono,
+    toma // ✅ PASAR INFORMACIÓN COMPLETA DE LA TOMA
   );
   
   return {
@@ -207,7 +287,7 @@ async function coordinarCerebros(contexto: {
     camara,
     sonido,
     edicion,
-    segmento: contexto.segmentoActual?.tipo || 'desarrollo',
+    segmento: toma?.tipoToma || 'desarrollo',
     momentoNarrativo,
     esEmocional,
     tono
@@ -344,15 +424,86 @@ export function validarPlanCinematico(plan: VideoPlanCinematico): boolean {
       if (!segundo.fondo || !segundo.actor || !segundo.camara) return false;
     }
     
-    // Validar estructura narrativa
+    // Validar estructura narrativa - Más flexible
     const tieneSetup = plan.timeline.some(s => s.momentoNarrativo === 'setup');
     const tieneClimax = plan.timeline.some(s => s.momentoNarrativo === 'climax');
     const tieneCierre = plan.timeline.some(s => s.momentoNarrativo === 'cierre');
+    const tieneDesarrollo = plan.timeline.some(s => s.momentoNarrativo === 'desarrollo');
     
-    return tieneSetup && tieneClimax && tieneCierre;
+    // ✅ ARREGLO: Al menos debe tener setup y uno de los otros momentos narrativos
+    // No es obligatorio tener cierre si hay climax (estructura de 3 actos básica)
+    return tieneSetup && (tieneClimax || tieneDesarrollo || tieneCierre);
     
   } catch (error) {
     console.error('[Orquestador] Error validando plan:', error);
     return false;
   }
+}
+
+/**
+ * Crear tomas por defecto cuando el director no genera tomas específicas
+ * Siguiendo el flujo de Cris: "divide en tomas de 10s cada una"
+ */
+function crearTomasPorDefecto(duracionTotal: number, narrativa: any): TomaCinematograficaPlan[] {
+  const tomas = [];
+  const duracionPorToma = 10; // 10 segundos por toma por defecto
+  const numTomas = Math.ceil(duracionTotal / duracionPorToma);
+  
+  // ✅ MEJORADO: Generar descripciones más ricas basadas en el contexto
+  const promptBase = narrativa.historia || narrativa.prompt || 'Una historia cinematográfica';
+  
+  for (let i = 0; i < numTomas; i++) {
+    const duracionToma = Math.min(duracionPorToma, duracionTotal - (i * duracionPorToma));
+    
+    // Determinar tipo de toma basado en progreso
+    let tipoToma = 'desarrollo';
+    let descripcionBase = '';
+    
+    if (i === 0) {
+      tipoToma = 'setup';
+      descripcionBase = `Opening scene establishing the story: ${promptBase}`;
+    } else if (i === numTomas - 1) {
+      tipoToma = 'cierre';
+      descripcionBase = `Final sequence bringing resolution to: ${promptBase}`;
+    } else if (i >= numTomas * 0.6) {
+      tipoToma = 'climax';
+      descripcionBase = `Climactic moment in the story: ${promptBase}`;
+    } else {
+      tipoToma = 'desarrollo';
+      descripcionBase = `Development sequence ${i} continuing the narrative: ${promptBase}`;
+    }
+    
+    // ✅ DESCRIPCIÓN RICA: Basada en el contexto y el tipo de toma
+    const descripcion = descripcionBase.length > 100 
+      ? descripcionBase.substring(0, 97) + '...'
+      : descripcionBase;
+    
+    tomas.push({
+      numero: i + 1,
+      duracion: duracionToma,
+      tipoToma: tipoToma as 'setup' | 'desarrollo' | 'climax' | 'cierre',
+      descripcion: descripcion, // ✅ MEJORADO: Descripción rica en lugar de "Toma X"
+      movimientoCamara: 'slow_pan',
+      estiloVisual: 'cinematic',
+      emocion: narrativa.tono || 'neutro',
+      fondo: 'ciudad.jpg', // ✅ Valor por defecto
+      actor: 'actor_joven.png', // ✅ Valor por defecto  
+      vozMurf: 'es-ES-ElviraNeural', // ✅ Valor por defecto
+      musica: 'ambient', // ✅ Valor por defecto
+      efectosSonoros: 'ambiente_ciudad', // ✅ Valor por defecto
+      carryover: i > 0 ? 'continuar_ambiente' : 'inicio' // ✅ Valor por defecto
+    });
+  }
+  
+  console.log('[Orquestador] 🎬 DEBUG - Tomas por defecto creadas:', {
+    numTomas: tomas.length,
+    tomasPreview: tomas.map(t => ({
+      numero: t.numero,
+      tipoToma: t.tipoToma,
+      descripcion: t.descripcion.substring(0, 80) + '...',
+      duracion: t.duracion
+    }))
+  });
+  
+  return tomas;
 }

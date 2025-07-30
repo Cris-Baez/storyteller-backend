@@ -13,6 +13,32 @@ export interface NarrativaCinematica {
   momentosEmocionales: number[];
   genero: string;
   ritmo: 'lento' | 'medio' | 'rapido';
+  tomas: TomaCinematograficaPlan[]; // ✅ NUEVO: Plan específico de tomas
+  continuidad: ContinuidadVisual; // ✅ NUEVO: Reglas de continuidad
+}
+
+export interface TomaCinematograficaPlan {
+  numero: number;
+  duracion: number;
+  tipoToma: 'setup' | 'desarrollo' | 'climax' | 'cierre';
+  descripcion: string;
+  movimientoCamara: string;
+  estiloVisual: string;
+  emocion: string;
+  fondo: string; // ✅ OBLIGATORIO: Fondo específico del CDN
+  actor: string; // ✅ OBLIGATORIO: Actor específico
+  vozMurf: string; // ✅ OBLIGATORIO: Voz Murf.ai
+  musica: string; // ✅ OBLIGATORIO: Música/emoción
+  efectosSonoros: string; // ✅ OBLIGATORIO: Efectos sonoros
+  carryover: string; // ✅ OBLIGATORIO: Conexión con toma anterior
+}
+
+export interface ContinuidadVisual {
+  paletaColores: string;
+  iluminacion: string;
+  ambiente: string;
+  locacion: string;
+  estiloGeneral: string;
 }
 
 export async function generarNarrativaCinematica(prompt: string): Promise<NarrativaCinematica> {
@@ -22,19 +48,26 @@ export async function generarNarrativaCinematica(prompt: string): Promise<Narrat
     // Cargar el prompt base compartido
     const systemBase = await cargarSystemPromptBase();
     
-    // Especialización del Director
+    // Especialización del Director de CinemaAI
     const especializacionDirector = `
-Ahora actúas como el DIRECTOR CINEMATOGRÁFICO del equipo CinemaAI.
+Ahora actúas como el CEREBRO DIRECTOR CINEMATOGRÁFICO de CinemaAI.
 
-Tu responsabilidad es analizar el prompt del usuario y crear una estructura narrativa cinematográfica profesional que sea factible de producir con las herramientas de IA actuales.
+CONTEXTO TÉCNICO:
+- CinemaAI NO genera videos desde cero
+- Usa fondos pre-generados del CDN (seleccionas de catálogo existente)
+- Usa actores pre-generados del CDN (seleccionas de catálogo existente)  
+- Kling Elements anima los fondos como tomas en movimiento
+- Murf.ai proporciona voces (catálogo existente)
+- Freesound.org proporciona música/efectos (catálogo existente)
+- FFmpeg renderiza el resultado final
 
-DEBES CONSIDERAR:
-- Estructura narrativa clásica de 3 actos
-- Arco emocional ascendente y coherente
-- Momentos de tensión y liberación
-- Géneros cinematográficos realistas (drama, acción, misterio, romance, thriller)
-- Ritmo apropiado para la duración del video
-- Coherencia con las capacidades técnicas de CinemaAI
+TU TRABAJO COMO DIRECTOR:
+✅ Crear estructura narrativa profesional (introducción → desarrollo → clímax → final)
+✅ Planificar tomas que tengan continuidad visual y emocional
+✅ La primera toma DEBE ser visualmente impactante para captar atención
+✅ Asegurar carryover emocional entre tomas (no cortes bruscos)
+✅ Pensar en movimientos de cámara factibles para Kling (zoom, pan, tilt)
+✅ Mantener coherencia de colores, iluminación y estilo
 
 RESPONDE ÚNICAMENTE con este JSON:
 {
@@ -43,12 +76,43 @@ RESPONDE ÚNICAMENTE con este JSON:
   "estructura": ["setup", "desarrollo", "climax", "cierre"],
   "momentosEmocionales": [5, 15, 25],
   "genero": "drama|acción|misterio|romance|thriller|aventura|ciencia_ficcion",
-  "ritmo": "lento|medio|rapido"
+  "ritmo": "lento|medio|rapido",
+  "tomas": [
+    {
+      "numero": 1,
+      "duracion": 10,
+      "tipoToma": "setup",
+      "descripcion": "Descripción específica de la toma",
+      "movimientoCamara": "slow_zoom_in|pan_left|pan_right|tilt_up|tilt_down|static",
+      "estiloVisual": "cinematico|dramatico|epico",
+      "emocion": "intriga|tension|emocion|accion|calma",
+      "fondo": "categoria_del_CDN_o_ID_especifico",
+      "actor": "descripcion_del_actor_necesario",
+      "vozMurf": "masculina_seria|femenina_emotiva|joven_energica|adulto_narrativo",
+      "musica": "epica|dramatica|misteriosa|emotiva|accion",
+      "efectosSonoros": "viento|lluvia|pasos|naturaleza|silencio",
+      "carryover": "descripcion_de_continuidad_desde_toma_anterior"
+    }
+  ],
+  "continuidad": {
+    "paletaColores": "natural|dramatica|epica|calida|fria",
+    "iluminacion": "natural|dramatica|suave|intensa",
+    "ambiente": "coherente|progresivo|contrastante",
+    "locacion": "epica|urbana|natural|interior|exterior",
+    "estiloGeneral": "realista_cinematico|dramatico|aventura"
+  }
 }`;
 
     const contextoUsuario = `PROMPT DEL USUARIO: "${prompt}"
 
-Analiza este prompt y crea una narrativa cinematográfica profesional.`;
+INSTRUCCIONES ESPECÍFICAS:
+- Crea EXACTAMENTE 3 tomas de 10 segundos cada una (total 30s)
+- La PRIMERA toma debe ser visualmente IMPACTANTE para captar atención
+- Asegura CONTINUIDAD VISUAL entre las 3 tomas
+- Usa movimientos de cámara apropiados para Kling Elements
+- Mantén coherencia de paleta de colores y estilo
+
+Analiza este prompt y crea un plan cinematográfico completo de 3 tomas.`;
 
     const promptCompleto = construirPromptCompleto(systemBase, especializacionDirector, contextoUsuario);
     
@@ -80,7 +144,61 @@ Analiza este prompt y crea una narrativa cinematográfica profesional.`;
     estructura: ['setup', 'desarrollo', 'climax', 'cierre'] as ActoNarrativo[],
     momentosEmocionales: [5, 15, 25],
     genero: 'drama',
-    ritmo: 'medio'
+    ritmo: 'medio',
+    tomas: [
+      {
+        numero: 1,
+        duracion: 10,
+        tipoToma: 'setup',
+        descripcion: 'Establecimiento visual impactante - plano general épico',
+        movimientoCamara: 'slow_zoom_in',
+        estiloVisual: 'cinematico',
+        emocion: 'intriga',
+        fondo: 'escenario_epico_general',
+        actor: 'protagonista_heroico',
+        vozMurf: 'masculina_narrativa',
+        musica: 'epica_inicio',
+        efectosSonoros: 'ambiente_natural',
+        carryover: 'inicio'
+      },
+      {
+        numero: 2,
+        duracion: 10,
+        tipoToma: 'desarrollo',
+        descripcion: 'Desarrollo dinámico de la acción',
+        movimientoCamara: 'pan_right',
+        estiloVisual: 'cinematico',
+        emocion: 'tension',
+        fondo: 'escenario_epico_accion',
+        actor: 'protagonista_accion',
+        vozMurf: 'masculina_dramatica',
+        musica: 'tension_creciente',
+        efectosSonoros: 'movimiento_dinamico',
+        carryover: 'continuidad_visual'
+      },
+      {
+        numero: 3,
+        duracion: 10,
+        tipoToma: 'climax',
+        descripcion: 'Momento culminante épico',
+        movimientoCamara: 'tilt_up',
+        estiloVisual: 'cinematico',
+        emocion: 'climax',
+        fondo: 'escenario_epico_culminante',
+        actor: 'protagonista_heroico',
+        vozMurf: 'masculina_epica',
+        musica: 'climax_orquestal',
+        efectosSonoros: 'impacto_dramatico',
+        carryover: 'resolucion'
+      }
+    ],
+    continuidad: {
+      paletaColores: 'cinematica_natural',
+      iluminacion: 'natural_dramatica',
+      ambiente: 'coherente',
+      locacion: 'epica_aventura',
+      estiloGeneral: 'realista_cinematico'
+    }
   };
 }
 

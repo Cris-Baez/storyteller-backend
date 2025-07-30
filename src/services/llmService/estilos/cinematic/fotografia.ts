@@ -4,6 +4,7 @@ import { callOpenRouter } from '../../openRouterUtil.js';
 import { extractFirstJsonBlock } from '../../extractJsonUtil.js';
 import { cargarSystemPromptBase, construirPromptCompleto, CONFIG_CEREBROS } from '../../prompts/promptUtils.js';
 import { getCameraMovement, getEstiloLimitaciones } from '../../restricciones.js';
+import { TomaCinematograficaPlan } from './director.js';
 
 export interface ConfiguracionCamara {
   shot: string;
@@ -99,19 +100,33 @@ Configura la cámara cinematográficamente para esta escena.`;
 
 export function configurarCamaraCinematica(
   momentoNarrativo: 'setup' | 'desarrollo' | 'climax' | 'cierre',
-  segundoActual: number,
+  infoToma: TomaCinematograficaPlan | number, // ✅ Usa interfaz correcta o segundo
   esEmocional: boolean,
   tono: string
 ): ConfiguracionCamara {
-  console.log(`[Fotografía Cinematic] Configurando cámara para ${momentoNarrativo} - segundo ${segundoActual}`);
+  
+  // ✅ Adaptar a sistema de tomas
+  const esToma = typeof infoToma === 'object';
+  const tomaInfo = esToma ? infoToma : { numero: Math.floor((infoToma as number) / 10) + 1, duracion: 10 };
+  const segundoActual = esToma ? (infoToma as TomaCinematograficaPlan).numero * 10 : (infoToma as number);
+  
+  console.log(`[Fotografía Cinematic] Configurando cámara para ${momentoNarrativo} - ${esToma ? `toma ${tomaInfo.numero} (${tomaInfo.duracion}s)` : `segundo ${segundoActual}`}`);
   
   const limitaciones = getEstiloLimitaciones('cinematic');
   
-  // Selección de plano según momento narrativo
-  const shot = seleccionarPlanoCinematico(momentoNarrativo, esEmocional);
+  // ✅ NUEVO: Si es una toma con movimiento específico, usarlo
+  let movement: string;
+  if (esToma && (infoToma as TomaCinematograficaPlan).movimientoCamara) {
+    movement = adaptarMovimientoKling((infoToma as TomaCinematograficaPlan).movimientoCamara);
+    console.log(`[Fotografía] Usando movimiento: ${(infoToma as TomaCinematograficaPlan).movimientoCamara} → ${movement}`);
+  } else {
+    // Movimiento de cámara según estilo y momento tradicional
+    movement = seleccionarMovimientoCinematico(momentoNarrativo, segundoActual, esEmocional);
+  }
   
-  // Movimiento de cámara según estilo y momento
-  const movement = seleccionarMovimientoCinematico(momentoNarrativo, segundoActual, esEmocional);
+  // Selección de plano según momento narrativo y duración de toma
+  const duracionToma = esToma ? (infoToma as TomaCinematograficaPlan).duracion : 10;
+  const shot = seleccionarPlanoCinematico(momentoNarrativo, esEmocional, duracionToma);
   
   // Ángulo cinematográfico
   const angulo = seleccionarAnguloCinematico(momentoNarrativo, tono);
@@ -131,17 +146,24 @@ export function configurarCamaraCinematica(
   };
 }
 
-function seleccionarPlanoCinematico(momento: string, esEmocional: boolean): string {
+/**
+ * Adapta selección de plano considerando duración de toma
+ */
+function seleccionarPlanoCinematico(momento: string, esEmocional: boolean, duracionToma?: number): string {
+  // ✅ Adaptar plano según duración de toma
+  const estomaLarga = duracionToma && duracionToma >= 8;
+  
   if (esEmocional) {
     // Para momentos emocionales, usar planos más íntimos
-    return ['close-up', 'extreme-close-up', 'medium-close-up'][Math.floor(Math.random() * 3)];
+    const planosEmocionales = estomaLarga ? ['medium-close-up', 'close-up'] : ['close-up', 'extreme-close-up'];
+    return planosEmocionales[Math.floor(Math.random() * planosEmocionales.length)];
   }
   
   const planosPorMomento = {
-    setup: ['wide', 'medium', 'establishing'],
-    desarrollo: ['medium', 'close-up', 'medium-wide'],
-    climax: ['close-up', 'extreme-close-up', 'dutch-angle'],
-    cierre: ['wide', 'medium-wide', 'establishing']
+    setup: estomaLarga ? ['wide', 'extreme-wide', 'establishing'] : ['wide', 'medium'],
+    desarrollo: estomaLarga ? ['medium', 'medium-wide'] : ['medium', 'close-up'],
+    climax: estomaLarga ? ['close-up', 'medium-close-up'] : ['close-up', 'extreme-close-up'],
+    cierre: estomaLarga ? ['wide', 'establishing'] : ['wide', 'medium-wide']
   };
   
   const planosDisponibles = planosPorMomento[momento as keyof typeof planosPorMomento] || ['medium'];
@@ -223,6 +245,41 @@ function seleccionarTransicionCinematica(segundo: number, momento: string): stri
   const transicionesEstandar = ['cut', 'dissolve', 'fade'];
   return transicionesEstandar[segundo % transicionesEstandar.length];
 }
+
+// ✅ NUEVAS FUNCIONES PARA SISTEMA DE TOMAS
+
+/**
+ * Adapta movimientos de cámara a nomenclatura fluida para Kling
+ */
+function adaptarMovimientoKling(movimientoKling: string): string {
+  const mapeoMovimientos: Record<string, string> = {
+    // Movimientos básicos mejorados para fluidez
+    'camera_zoom_in': 'smooth zoom in',
+    'camera_zoom_out': 'smooth zoom out',
+    'camera_pan_right': 'slow pan right',
+    'camera_pan_left': 'slow pan left',
+    'camera_static': 'static shot',
+    'camera_tilt_up': 'gentle tilt up',
+    'camera_tilt_down': 'gentle tilt down',
+    'camera_dolly_in': 'dolly in',
+    'camera_dolly_out': 'dolly out',
+    // Mapeos directos para nombres sin 'camera_'
+    'zoom_in': 'smooth zoom in',
+    'zoom_out': 'smooth zoom out', 
+    'pan_right': 'slow pan right',
+    'pan_left': 'slow pan left',
+    'static': 'static shot',
+    'tilt_up': 'gentle tilt up',
+    'tilt_down': 'gentle tilt down',
+    'slow_zoom_in': 'smooth zoom in'
+  };
+  
+  const movimientoAdaptado = mapeoMovimientos[movimientoKling] || 'static shot';
+  console.log(`[Fotografía] 🎥 Movimiento adaptado: ${movimientoKling} → ${movimientoAdaptado}`);
+  return movimientoAdaptado;
+}
+
+
 
 export function aplicarEstiloFotograficoCinematico(timeline: any[]): any[] {
   return timeline.map((segundo, index) => ({

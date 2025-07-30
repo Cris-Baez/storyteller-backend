@@ -1,6 +1,7 @@
 import { callOpenRouter } from '../services/llmService/openRouterUtil.js';
 import { findBestAsset } from '../services/searchAsset.js';
 import { VideoPlan, TimelineSecond } from '../utils/types.js';
+import { EstiloVisualPrincipal, normalizarEstilo } from '../types/estilos.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { z } from 'zod';
@@ -8,6 +9,20 @@ import { z } from 'zod';
 // Configuración CDN
 const CDN_BASE_URL = 'https://storage.googleapis.com';
 const CDN_BUCKET = process.env.GCP_BUCKET_NAME || 'mi-bucket';
+
+/**
+ * Mapea estilos principales a nombres de carpetas de assets
+ */
+function mapearEstiloACarpetaAssets(estilo: EstiloVisualPrincipal): string {
+  const mapeoAssets: Record<EstiloVisualPrincipal, string> = {
+    'cinematic': 'realista',
+    'anime': 'anime',
+    'cartoon': 'comic',
+    'commercial': 'realista'
+  };
+  return mapeoAssets[estilo] || 'realista';
+}
+
 function assetToCDNUrl(asset: AssetIndexItem): string {
   // assets van bajo la carpeta raíz del repo, por ejemplo: escenas/realista/casa/baño/día/aerea.png
   return `${CDN_BASE_URL}/${CDN_BUCKET}/${asset.ruta}`;
@@ -94,9 +109,14 @@ export async function cargarAssetsIndex(): Promise<AssetIndexItem[]> {
  * Corrige los fondos y actores inválidos en el VideoPlan, sugiriendo alternativas válidas
  */
 export function corregirFondosActoresInvalidos(videoPlan: VideoPlan, assetsIndex: AssetIndexItem[]): { videoPlan: VideoPlan; sugerencias: any[] } {
-  const visualStyle = videoPlan.metadata?.visualStyle || 'realistic';
-  const fondosValidos = assetsIndex.filter((a: AssetIndexItem) => a.tipo === 'escenas' && a.completitud === 'completa' && a.estilo === visualStyle);
-  const actoresValidos = assetsIndex.filter((a: AssetIndexItem) => a.tipo === 'actores' && a.completitud === 'completa' && a.estilo === visualStyle);
+  const visualStyleRaw = videoPlan.metadata?.visualStyle || 'realistic';
+  
+  // Normalizar el estilo a EstiloVisualPrincipal y luego mapear a carpeta
+  const estiloNormalizado = normalizarEstilo(visualStyleRaw as any);
+  const carpetaAssets = mapearEstiloACarpetaAssets(estiloNormalizado);
+  
+  const fondosValidos = assetsIndex.filter((a: AssetIndexItem) => a.tipo === 'escenas' && a.completitud === 'completa' && a.estilo === carpetaAssets);
+  const actoresValidos = assetsIndex.filter((a: AssetIndexItem) => a.tipo === 'actores' && a.completitud === 'completa' && a.estilo === carpetaAssets);
   const sugerencias: any[] = [];
   for (const scene of videoPlan.timeline as TimelineSecond[]) {
     // Fondo

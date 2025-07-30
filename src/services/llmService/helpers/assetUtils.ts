@@ -18,22 +18,62 @@ export interface AssetIndexItem {
  * Filtra fondos por estilo y completitud
  */
 export function filtrarFondos(assets: AssetIndexItem[], estilo: string = 'cinematic'): AssetIndexItem[] {
-  return assets.filter(asset => 
+  // Mapear estilos que pueden compartir assets
+  const estilosCompatibles = getEstilosCompatibles(estilo);
+  
+  console.log(`[AssetUtils] 🔍 Filtrando fondos para estilo '${estilo}' → estilos compatibles: [${estilosCompatibles.join(', ')}]`);
+  
+  const fondosFiltrados = assets.filter(asset => 
     asset.tipo === 'escenas' && 
     asset.completitud === 'completa' && 
-    (asset.estilo === estilo || asset.estilo === 'universal')
+    (estilosCompatibles.includes(asset.estilo) || asset.estilo === 'universal')
   );
+  
+  console.log(`[AssetUtils] 📊 Fondos encontrados: ${fondosFiltrados.length}/${assets.length}`);
+  
+  // Log de muestra de los primeros 5 fondos encontrados
+  fondosFiltrados.slice(0, 5).forEach((fondo, idx) => {
+    console.log(`  [${idx + 1}] ${fondo.nombre} (estilo: ${fondo.estilo}) → ${fondo.ruta}`);
+  });
+  
+  return fondosFiltrados;
 }
 
 /**
  * Filtra actores por estilo y completitud
  */
 export function filtrarActores(assets: AssetIndexItem[], estilo: string = 'cinematic'): AssetIndexItem[] {
+  // Mapear estilos que pueden compartir assets
+  const estilosCompatibles = getEstilosCompatibles(estilo);
+  
   return assets.filter(asset => 
     asset.tipo === 'actores' && 
     asset.completitud === 'completa' && 
-    (asset.estilo === estilo || asset.estilo === 'universal')
+    (estilosCompatibles.includes(asset.estilo) || asset.estilo === 'universal')
   );
+}
+
+/**
+ * Obtiene estilos compatibles para compartir assets
+ */
+function getEstilosCompatibles(estilo: string): string[] {
+  const mapeosCompatibilidad: Record<string, string[]> = {
+    // ✅ MAPEO CORRECTO: Usar los estilos exactos que existen en assets_index.json
+    'cinematic': ['realista', 'anime', 'comic'], // cinematic compatible con estilos reales
+    'realistic': ['realista', 'anime'], // realistic → realista (exacto)
+    'anime': ['anime', 'realista'], // anime sigue siendo compatible
+    'cartoon': ['comic', 'anime'], // cartoon → comic (exacto)
+    'commercial': ['realista', 'anime', 'comic'],
+    
+    // Mapeos directos para los estilos que existen exactamente
+    'realista': ['realista', 'anime', 'comic'], // realista puede usar todos
+    'comic': ['comic', 'anime', 'realista'], // comic puede usar todos
+    'pixelart': ['pixelart', 'anime'] // pixelart limitado
+  };
+  
+  const estilosEncontrados = mapeosCompatibilidad[estilo] || ['realista', 'anime', 'comic']; // fallback amplio
+  console.log(`[AssetUtils] 🎨 Mapeo de estilos '${estilo}' → [${estilosEncontrados.join(', ')}]`);
+  return estilosEncontrados;
 }
 
 /**
@@ -76,6 +116,7 @@ export async function cargarAssetsIndex(): Promise<AssetIndexItem[]> {
 
 /**
  * Busca el mejor asset por nombre o descripción
+ * Los diferentes ángulos (aerea, frontal, lateral) son assets únicos para continuidad cinematográfica
  */
 export function buscarAssetPorNombre(assets: AssetIndexItem[], nombre: string): AssetIndexItem | null {
   if (!assets || assets.length === 0 || !nombre) return null;
@@ -83,11 +124,11 @@ export function buscarAssetPorNombre(assets: AssetIndexItem[], nombre: string): 
   const nombreLower = nombre.toLowerCase();
   
   // Búsqueda exacta por nombre
-  let found = assets.find(asset => asset.nombre.toLowerCase() === nombreLower);
+  let found = assets.find(asset => asset.nombre?.toLowerCase() === nombreLower);
   if (found) return found;
   
   // Búsqueda parcial por nombre
-  found = assets.find(asset => asset.nombre.toLowerCase().includes(nombreLower));
+  found = assets.find(asset => asset.nombre?.toLowerCase().includes(nombreLower));
   if (found) return found;
   
   // Búsqueda por ambiente si existe

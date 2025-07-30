@@ -1,7 +1,9 @@
 // adaptador-cerebros.ts - Adaptador entre Sistema de Cerebros y Pipeline Legacy
 
-import { dispatchCerebros, RequestGeneracion, EstiloVisual } from './dispatcher.js';
+import { dispatchCerebros, type RequestGeneracion } from './dispatcher.js';
+import { safeLog } from '../../utils/logger.js';
 import { RenderRequest, VideoPlan, TimelineSecond } from '../../utils/types.js';
+import { EstiloVisualPrincipal, normalizarEstilo } from '../../types/estilos.js';
 
 /**
  * Adaptador principal que convierte el sistema de cerebros al formato esperado
@@ -10,18 +12,8 @@ import { RenderRequest, VideoPlan, TimelineSecond } from '../../utils/types.js';
 export async function adaptarCerebrosAVideoPlan(req: RenderRequest): Promise<VideoPlan> {
   console.log('[Adaptador] Convirtiendo request a formato de cerebros...');
   
-  // Mapear estilos del sistema legacy al nuevo
-  const mapeoEstilos: Record<string, EstiloVisual> = {
-    'cinematic': 'cinematic',
-    'anime': 'anime',
-    'cartoon': 'cartoon', 
-    'commercial': 'commercial',
-    'realistic': 'cinematic', // Realistic → Cinematic
-    'narrative': 'cinematic', // Narrative → Cinematic
-    'game': 'cartoon'         // Game → Cartoon
-  };
-  
-  const estiloVisual = mapeoEstilos[req.visualStyle] || 'cinematic';
+  // Normalizar estilo usando el sistema unificado
+  const estiloVisual = normalizarEstilo(req.visualStyle);
   
   // Crear request para sistema de cerebros
   const requestCerebros: RequestGeneracion = {
@@ -44,7 +36,10 @@ export async function adaptarCerebrosAVideoPlan(req: RenderRequest): Promise<Vid
       throw new Error(`Sistema de cerebros falló: ${resultadoCerebros.error}`);
     }
     
-    console.log(`[Adaptador] Cerebros generaron ${resultadoCerebros.videoPlan.length} segundos`);
+    safeLog('[Adaptador] Cerebros generaron timeline:', { 
+      segundos: resultadoCerebros.videoPlan.length,
+      hasMetadata: !!resultadoCerebros.metadata
+    });
     
     // Convertir formato de cerebros al formato legacy esperado por el pipeline
     const timelineLegacy: TimelineSecond[] = resultadoCerebros.videoPlan.map((segundo: any, index: number) => {

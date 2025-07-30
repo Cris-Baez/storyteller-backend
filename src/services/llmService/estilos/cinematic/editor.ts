@@ -3,6 +3,7 @@
 
 import { segmentarPorEstilo } from '../../helpers/segmentador.js';
 import { validarDuracionClip } from '../../restricciones.js';
+import { TomaCinematograficaPlan } from './director.js';
 
 // ✨ NUEVO: Tipos de carryover para mejor control cinematográfico
 export type CarryoverLevel = 'none' | 'soft' | 'hard';
@@ -21,24 +22,31 @@ export function configurarEdicionCinematica(
   duracionTotal: number,
   momentoNarrativo: 'setup' | 'desarrollo' | 'climax' | 'cierre',
   esEmocional: boolean,
-  tono: string
+  tono: string,
+  tomaInfo?: TomaCinematograficaPlan
 ): ConfiguracionEdicion {
   console.log(`[Editor Cinematic] Configurando edición para segundo ${segundoActual}/${duracionTotal}`);
   
-  // Calcular duración óptima de escena
-  const duracionEscena = calcularDuracionEscena(momentoNarrativo, esEmocional, duracionTotal);
+  // ✅ Usar información de toma si está disponible
+  const duracionToma = tomaInfo?.duracion || 10;
+  const tipoToma = tomaInfo?.tipoToma || momentoNarrativo;
+  
+  console.log(`[Editor Cinematic] 🎬 Editando toma: ${tipoToma}, duración: ${duracionToma}s`);
+  
+  // Calcular duración óptima de escena adaptada a toma
+  const duracionEscena = calcularDuracionEscena(tipoToma, esEmocional, duracionToma);
   
   // ✨ MEJORADO: Determinar nivel de carryover visual
-  const carryover = determinarCarryoverLevel(segundoActual, momentoNarrativo, esEmocional);
+  const carryover = determinarCarryoverLevel(segundoActual, tipoToma, esEmocional);
   
   // Carryover de audio (música/ambiente)
-  const audioCarryover = determinarAudioCarryover(segundoActual, momentoNarrativo);
+  const audioCarryover = determinarAudioCarryover(segundoActual, tipoToma);
   
   // Tipo de corte cinematográfico
-  const tipoCorte = seleccionarTipoCorte(momentoNarrativo, esEmocional, segundoActual);
+  const tipoCorte = seleccionarTipoCorte(tipoToma, esEmocional, segundoActual);
   
   // Ritmo de edición
-  const ritmo = determinarRitmoEdicion(momentoNarrativo, tono, esEmocional);
+  const ritmo = determinarRitmoEdicion(tipoToma, tono, esEmocional);
   
   // Continuidad visual
   const continuidad = evaluarContinuidad(segundoActual, carryover);
@@ -53,29 +61,32 @@ export function configurarEdicionCinematica(
   };
 }
 
-function calcularDuracionEscena(momento: string, esEmocional: boolean, duracionTotal: number): number {
-  // Duraciones base por momento narrativo
-  const duracionesMomento = {
-    setup: 8,      // Establecimiento más lento
-    desarrollo: 6,  // Ritmo medio
-    climax: 4,     // Cortes más rápidos
-    cierre: 10     // Resolución pausada
+function calcularDuracionEscena(momento: string, esEmocional: boolean, duracionToma: number): number {
+  // ✅ Usar duración de toma como base
+  let duracionBase = duracionToma;
+  
+  // Duraciones base por momento narrativo (como porcentaje de la toma)
+  const factoresMomento = {
+    setup: 0.8,      // 80% de la toma para establecimiento
+    desarrollo: 0.6,  // 60% de la toma para desarrollo
+    climax: 0.4,     // 40% de la toma para climax (más dinámico)
+    cierre: 1.0      // 100% de la toma para resolución
   };
   
-  let duracionBase = duracionesMomento[momento as keyof typeof duracionesMomento] || 6;
+  const factor = factoresMomento[momento as keyof typeof factoresMomento] || 0.6;
+  duracionBase = Math.floor(duracionToma * factor);
   
   // Ajustar por momento emocional
   if (esEmocional) {
     if (momento === 'climax') {
-      duracionBase = 3; // Cortes muy rápidos en climax emocional
+      duracionBase = Math.max(3, Math.floor(duracionToma * 0.3)); // Cortes muy rápidos
     } else {
-      duracionBase += 2; // Más tiempo para momentos emocionales
+      duracionBase = Math.min(duracionToma, duracionBase + 2); // Más tiempo para momentos emocionales
     }
   }
   
-  // Asegurar que no exceda límites
-  const duracionMaxima = Math.min(10, Math.floor(duracionTotal / 3));
-  return Math.min(duracionBase, duracionMaxima);
+  // Asegurar que no exceda límites de Kling (10s máximo)
+  return Math.min(duracionBase, 10, duracionToma);
 }
 
 function determinarCarryover(segundo: number, momento: string, esEmocional: boolean): boolean {

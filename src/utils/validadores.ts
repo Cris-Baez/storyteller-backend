@@ -2,6 +2,7 @@
 // ⚠️ CRÍTICO: Validación de duración implementada para prevenir errores silenciosos
 
 import { AllowedDuration, EstiloVisual, CarryoverLevel } from './types.js';
+import { EstiloVisualAPI, normalizarEstilo } from '../types/estilos.js';
 import { logger } from './logger.js';
 
 /**
@@ -55,17 +56,30 @@ export function validarEstiloVisual(style: string): style is EstiloVisual {
 }
 
 /**
- * Normalizar estilo visual con fallback
+ * 🎨 Normalizar estilo visual - usando sistema unificado
  */
 export function normalizarEstiloVisual(style: string): EstiloVisual {
-  const estilosPermitidos: EstiloVisual[] = ['cinematic', 'anime', 'cartoon', 'commercial'];
+  // Usar el normalizador unificado del sistema de tipos (maneja strings)
+  const estiloUnificado = normalizarEstilo(style as any);
   
-  if (estilosPermitidos.includes(style as EstiloVisual)) {
-    return style as EstiloVisual;
+  // Mapear de EstiloVisualAPI a EstiloVisual manteniendo compatibilidad
+  const mapeoRetrocompatible: Partial<Record<EstiloVisualAPI, EstiloVisual>> = {
+    'cinematic': 'cinematic',
+    'realistic': 'cinematic', // realistic usa los mismos assets que cinematic
+    'anime': 'anime',
+    'comic': 'cartoon',      // comic se mapea a cartoon para retrocompatibilidad
+    'commercial': 'commercial',
+    'cartoon': 'cartoon',    // mapeo directo
+    'realista': 'cinematic', // alias español
+    'comercial': 'commercial' // alias español
+  };
+  
+  const estiloMapeado = mapeoRetrocompatible[estiloUnificado] || 'cinematic';
+  if (estiloMapeado !== style) {
+    logger.warn(`⚠️ [Validador] Estilo ${style} normalizado a '${estiloMapeado}' via sistema unificado`);
   }
   
-  logger.warn(`⚠️ [Validador] Estilo ${style} normalizado a 'cinematic'`);
-  return 'cinematic';
+  return estiloMapeado;
 }
 
 /**

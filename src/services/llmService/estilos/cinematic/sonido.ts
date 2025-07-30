@@ -4,6 +4,7 @@ import { callOpenRouter } from '../../openRouterUtil.js';
 import { extractFirstJsonBlock } from '../../extractJsonUtil.js';
 import { cargarSystemPromptBase, construirPromptCompleto, CONFIG_CEREBROS } from '../../prompts/promptUtils.js';
 import { getEstiloLimitaciones } from '../../restricciones.js';
+import { TomaCinematograficaPlan } from './director.js';
 
 export interface ConfiguracionSonido {
   musica: string;
@@ -110,32 +111,39 @@ export function configurarSonidoCinematico(
   esEmocional: boolean,
   tono: string,
   duracionTotal: number,
-  actorInfo?: any
+  actorInfo?: any,
+  tomaInfo?: TomaCinematograficaPlan
 ): ConfiguracionSonido {
   console.log(`[Sonido Cinematic] Configurando audio para ${momentoNarrativo} - segundo ${segundoActual}`);
   
+  // ✅ Usar información de toma si está disponible
+  const duracionToma = tomaInfo?.duracion || 10;
+  const tipoToma = tomaInfo?.tipoToma || momentoNarrativo;
+  
+  console.log(`[Sonido Cinematic] 🎬 Toma: ${tipoToma}, duración: ${duracionToma}s`);
+  
   const limitaciones = getEstiloLimitaciones('cinematic');
   
-  // Configurar música orquestal
-  const musica = configurarMusicaCinematica(momentoNarrativo, segundoActual, esEmocional, tono);
+  // Configurar música orquestal adaptada a la duración de toma
+  const musica = configurarMusicaCinematica(tipoToma, segundoActual, esEmocional, tono, duracionToma);
   
   // Efectos sonoros cinematográficos
-  const efectos = seleccionarEfectosSonoros(momentoNarrativo, tono, esEmocional);
+  const efectos = seleccionarEfectosSonoros(tipoToma, tono, esEmocional);
   
   // Ambiente sonoro
-  const ambiente = configurarAmbienteCinematico(momentoNarrativo, tono);
+  const ambiente = configurarAmbienteCinematico(tipoToma, tono);
   
   // Configuración de lip-sync para momentos clave
   const { lipSync, requiereVoz, tipoVoz } = configurarLipSyncCinematico(
     esEmocional, 
-    momentoNarrativo, 
+    tipoToma, 
     segundoActual, 
-    duracionTotal,
+    duracionToma,
     actorInfo
   );
   
   // Intensidad general
-  const intensidad = determinarIntensidadSonora(momentoNarrativo, esEmocional);
+  const intensidad = determinarIntensidadSonora(tipoToma, esEmocional);
   
   return {
     musica,
@@ -148,18 +156,21 @@ export function configurarSonidoCinematico(
   };
 }
 
-function configurarMusicaCinematica(momento: string, segundo: number, esEmocional: boolean, tono: string): string {
+function configurarMusicaCinematica(momento: string, segundo: number, esEmocional: boolean, tono: string, duracionToma?: number): string {
+  // ✅ Adaptar música según duración de toma
+  const estomaLarga = duracionToma && duracionToma >= 8;
+  
   // Primera escena siempre inicia música
   if (segundo === 0) {
     return tono === 'épico' ? 'orchestral-epic' : 'orchestral-dramatic';
   }
   
-  // Cambios musicales en momentos clave
+  // Cambios musicales en momentos clave adaptados a duración
   const cambiosMusicales = {
-    setup: segundo === 0 ? 'orchestral-introduction' : 'continue',
-    desarrollo: esEmocional ? getMusicalThemeByTone(tono) : 'continue',
-    climax: 'orchestral-climax',
-    cierre: 'orchestral-resolution'
+    setup: segundo === 0 ? 'orchestral-introduction' : (estomaLarga ? 'orchestral-buildup' : 'continue'),
+    desarrollo: esEmocional ? getMusicalThemeByTone(tono) : (estomaLarga ? 'orchestral-development' : 'continue'),
+    climax: estomaLarga ? 'orchestral-climax-extended' : 'orchestral-climax',
+    cierre: estomaLarga ? 'orchestral-resolution-full' : 'orchestral-resolution'
   };
   
   return cambiosMusicales[momento as keyof typeof cambiosMusicales] || 'continue';

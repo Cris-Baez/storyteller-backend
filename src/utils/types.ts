@@ -1,8 +1,15 @@
 // Storyteller AI · Contract Types (LIMPIO Y UNIFICADO)
 // Actualizado para Sistema de Cerebros Cinematográficos
 
+// ✅ IMPORTAR TIPOS UNIFICADOS
+import { EstiloVisualPrincipal, EstiloVisualAPI } from '../types/estilos.js';
+
 export type AllowedDuration = 5 | 8 | 10 | 12 | 15 | 20 | 25 | 30 | 45 | 60;
-export type EstiloVisual = 'cinematic' | 'anime' | 'cartoon' | 'commercial';
+
+// ✅ USAR SISTEMA UNIFICADO DE ESTILOS
+export type EstiloVisual = EstiloVisualPrincipal; // Tipo principal para uso interno
+export type EstiloVisualEntrada = EstiloVisualAPI; // Tipo para entrada API
+
 export type CarryoverLevel = 'none' | 'soft' | 'hard';
 
 export interface RenderRequest {

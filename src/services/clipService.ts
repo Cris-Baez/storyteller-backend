@@ -6,6 +6,7 @@ import os from 'os';
 import path from 'path';
 import { uploadToCDN } from './cdnService.js';
 import { generateKlingClip } from './klingService.js';
+import { safeLog } from '../utils/logger.js';
 import { getAdvancedMusic } from './audioEngine.js';  // ✨ MEJORADO: Reorganizado
 
 // Funciones para generar imágenes por estilo
@@ -170,7 +171,7 @@ export async function generateClipsKling(
             const diff = scene.backgroundPrompt.replace(lastBackground, '').trim();
             if (diff.length < 40) { // Si la diferencia es pequeña, generar variante coherente
                 backgroundImageUrl = await generateImageRealista(scene.backgroundPrompt);
-                console.log(`[Carryover] SUTIL: Generando fondo variante para escena ${i} (cambio menor: ${diff})`);
+                safeLog('[Carryover] SUTIL: Generando fondo variante para escena', { escena: i, cambioMenor: diff.substring(0, 20) });
                 lastBackground = scene.backgroundPrompt;
                 lastBackgroundUrl = backgroundImageUrl;
             } else {
@@ -181,7 +182,7 @@ export async function generateClipsKling(
             }
         } else if (scene.carryover && scene.backgroundPrompt === lastBackground) {
             backgroundImageUrl = lastBackgroundUrl;
-            console.log(`[Carryover] (avanzado) Reutilizando fondo EXACTO para escena ${i}: ${backgroundImageUrl}`);
+            safeLog('[Carryover] (avanzado) Reutilizando fondo EXACTO para escena', { escena: i, reutilizado: true });
         } else if (scene.backgroundPrompt) {
             if (preview) {
                 backgroundImageUrl = 'https://placehold.co/640x360/EEE/333?text=PREVIEW';
