@@ -13438,3 +13438,400 @@ frame=  939 fps=164 q=-1.0 Lsize=   12616KiB time=00:00:31.30 bitrate=3301.9kbit
 2025-07-30T16:37:32.212Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2935,"success":true,"timestamp":"2025-07-30T16:37:32.212Z"}
 2025-07-30T16:37:39.251Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":7022,"success":true,"timestamp":"2025-07-30T16:37:39.251Z"}
 2025-07-30T16:37:44.490Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5181,"success":true,"timestamp":"2025-07-30T16:37:44.490Z"}
+2025-07-31T13:39:53.173Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T13:39:53.175Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T13:39:53.181Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-31T13:39:53.182Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T13:39:53.183Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T13:39:53.186Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T13:39:53.186Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T13:40:01.394Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8199,"success":true,"timestamp":"2025-07-31T13:40:01.394Z"}
+2025-07-31T13:40:04.058Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2656,"success":true,"timestamp":"2025-07-31T13:40:04.058Z"}
+2025-07-31T13:40:06.697Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2606,"success":true,"timestamp":"2025-07-31T13:40:06.696Z"}
+2025-07-31T13:40:09.493Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2759,"success":true,"timestamp":"2025-07-31T13:40:09.493Z"}
+2025-07-31T13:40:09.541Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T13:40:09.541Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T13:40:09.544Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T13:40:09.544Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T13:40:28.088Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":18541,"success":true,"timestamp":"2025-07-31T13:40:28.087Z"}
+2025-07-31T13:40:31.230Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3137,"success":true,"timestamp":"2025-07-31T13:40:31.230Z"}
+2025-07-31T13:40:34.009Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2772,"success":true,"timestamp":"2025-07-31T13:40:34.009Z"}
+2025-07-31T13:40:36.591Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2570,"success":true,"timestamp":"2025-07-31T13:40:36.591Z"}
+2025-07-31T13:40:39.179Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2582,"success":true,"timestamp":"2025-07-31T13:40:39.179Z"}
+2025-07-31T13:40:42.975Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3790,"success":true,"timestamp":"2025-07-31T13:40:42.975Z"}
+2025-07-31T13:40:45.560Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2576,"success":true,"timestamp":"2025-07-31T13:40:45.560Z"}
+2025-07-31T13:40:45.657Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T13:40:45.657Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T13:40:45.666Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T13:40:45.668Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T13:40:59.705Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":14032,"success":true,"timestamp":"2025-07-31T13:40:59.705Z"}
+2025-07-31T13:40:59.791Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T13:40:59.793Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T13:40:59.799Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T13:40:59.800Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T13:41:28.036Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":28229,"success":true,"timestamp":"2025-07-31T13:41:28.036Z"}
+2025-07-31T13:46:44.950Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T13:46:44.954Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T13:46:44.960Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-31T13:46:44.962Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T13:46:44.962Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T13:46:44.966Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T13:46:44.967Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T13:46:55.433Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":10460,"success":true,"timestamp":"2025-07-31T13:46:55.433Z"}
+2025-07-31T13:46:57.566Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2125,"success":true,"timestamp":"2025-07-31T13:46:57.566Z"}
+2025-07-31T13:47:00.551Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2951,"success":true,"timestamp":"2025-07-31T13:47:00.550Z"}
+2025-07-31T13:47:03.050Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2471,"success":true,"timestamp":"2025-07-31T13:47:03.050Z"}
+2025-07-31T16:11:48.515Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T16:11:48.518Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T16:11:48.525Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-31T16:11:48.526Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T16:11:48.527Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T16:11:48.530Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T16:11:48.532Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T16:11:58.086Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":9549,"success":true,"timestamp":"2025-07-31T16:11:58.086Z"}
+2025-07-31T16:12:01.898Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3801,"success":true,"timestamp":"2025-07-31T16:12:01.898Z"}
+2025-07-31T16:12:04.794Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2864,"success":true,"timestamp":"2025-07-31T16:12:04.794Z"}
+2025-07-31T16:12:07.786Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2963,"success":true,"timestamp":"2025-07-31T16:12:07.786Z"}
+2025-07-31T16:22:07.895Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T16:22:07.902Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T16:22:07.913Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-31T16:22:07.914Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T16:22:07.915Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T16:22:07.932Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T16:22:07.933Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T16:22:11.075Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3119,"success":false,"error":"{\"error\":{\"message\":\"Timed out. Please try again.\",\"code\":408}}","timestamp":"2025-07-31T16:22:11.075Z"}
+2025-07-31T16:22:14.077Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2975,"success":true,"timestamp":"2025-07-31T16:22:14.077Z"}
+2025-07-31T16:22:17.040Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2959,"success":true,"timestamp":"2025-07-31T16:22:17.040Z"}
+2025-07-31T16:22:20.587Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3542,"success":true,"timestamp":"2025-07-31T16:22:20.586Z"}
+2025-07-31T16:22:23.068Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2471,"success":true,"timestamp":"2025-07-31T16:22:23.068Z"}
+2025-07-31T16:22:25.603Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2528,"success":true,"timestamp":"2025-07-31T16:22:25.603Z"}
+2025-07-31T16:22:26.865Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T16:22:26.866Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T16:22:26.874Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T16:22:26.875Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T16:22:26.880Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T16:22:26.882Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T16:22:27.127Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T16:22:27.128Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T16:22:27.136Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T16:22:27.137Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T16:22:27.141Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T16:22:27.142Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T16:22:27.358Z [info] ✅ [Validador] Duración válida: 10s
+2025-07-31T16:22:27.358Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T16:22:27.361Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T16:22:27.362Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T16:22:27.363Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T16:22:27.364Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T16:22:34.416Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":7032,"success":true,"timestamp":"2025-07-31T16:22:34.416Z"}
+2025-07-31T16:22:37.911Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3488,"success":true,"timestamp":"2025-07-31T16:22:37.911Z"}
+2025-07-31T16:22:42.782Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4759,"success":true,"timestamp":"2025-07-31T16:22:42.782Z"}
+2025-07-31T16:22:45.848Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2975,"success":true,"timestamp":"2025-07-31T16:22:45.848Z"}
+2025-07-31T16:22:45.908Z [info] ✅ [Validador] Duración válida: 10s
+2025-07-31T16:22:45.908Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T16:22:45.913Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T16:22:45.914Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T16:22:45.917Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T16:22:45.918Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T16:22:54.521Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8600,"success":true,"timestamp":"2025-07-31T16:22:54.521Z"}
+2025-07-31T16:22:57.813Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3284,"success":true,"timestamp":"2025-07-31T16:22:57.813Z"}
+2025-07-31T16:23:01.918Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3997,"success":true,"timestamp":"2025-07-31T16:23:01.918Z"}
+2025-07-31T16:23:07.643Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5642,"success":true,"timestamp":"2025-07-31T16:23:07.643Z"}
+2025-07-31T17:15:07.755Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-07-31T17:16:44.236Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:16:44.238Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:16:44.247Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-31T17:16:44.249Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T17:16:44.249Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T17:16:44.255Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T17:16:44.256Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T17:16:52.962Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8694,"success":true,"timestamp":"2025-07-31T17:16:52.962Z"}
+2025-07-31T17:17:33.192Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":40220,"success":true,"timestamp":"2025-07-31T17:17:33.192Z"}
+2025-07-31T17:17:35.928Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2704,"success":true,"timestamp":"2025-07-31T17:17:35.928Z"}
+2025-07-31T17:17:38.675Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2668,"success":true,"timestamp":"2025-07-31T17:17:38.674Z"}
+2025-07-31T17:27:41.085Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:27:41.096Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:27:41.105Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-31T17:27:41.105Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T17:27:41.106Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T17:27:41.113Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T17:27:41.113Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T17:28:01.826Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":20701,"success":true,"timestamp":"2025-07-31T17:28:01.826Z"}
+2025-07-31T17:28:04.970Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3135,"success":true,"timestamp":"2025-07-31T17:28:04.970Z"}
+2025-07-31T17:28:08.366Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3339,"success":true,"timestamp":"2025-07-31T17:28:08.366Z"}
+2025-07-31T17:28:11.041Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2633,"success":true,"timestamp":"2025-07-31T17:28:11.041Z"}
+2025-07-31T17:38:13.121Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:38:13.123Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:38:13.127Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-31T17:38:13.127Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T17:38:13.128Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T17:38:13.129Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T17:38:13.129Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T17:38:21.677Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8543,"success":true,"timestamp":"2025-07-31T17:38:21.677Z"}
+2025-07-31T17:38:25.141Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3457,"success":true,"timestamp":"2025-07-31T17:38:25.141Z"}
+2025-07-31T17:38:29.099Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3915,"success":true,"timestamp":"2025-07-31T17:38:29.099Z"}
+2025-07-31T17:38:31.819Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2691,"success":true,"timestamp":"2025-07-31T17:38:31.819Z"}
+2025-07-31T17:48:31.974Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:48:31.983Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:48:31.991Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-31T17:48:31.992Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T17:48:31.992Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T17:48:32.001Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T17:48:32.002Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T17:48:34.878Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2854,"success":true,"timestamp":"2025-07-31T17:48:34.878Z"}
+2025-07-31T17:48:37.512Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2627,"success":true,"timestamp":"2025-07-31T17:48:37.511Z"}
+2025-07-31T17:48:39.639Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2123,"success":true,"timestamp":"2025-07-31T17:48:39.639Z"}
+2025-07-31T17:48:43.054Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3410,"success":true,"timestamp":"2025-07-31T17:48:43.054Z"}
+2025-07-31T17:48:46.550Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3492,"success":true,"timestamp":"2025-07-31T17:48:46.550Z"}
+2025-07-31T17:48:49.240Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2686,"success":true,"timestamp":"2025-07-31T17:48:49.240Z"}
+2025-07-31T17:48:52.120Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:48:52.121Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:48:52.127Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T17:48:52.128Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T17:48:52.131Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T17:48:52.132Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T17:48:54.746Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2607,"success":true,"timestamp":"2025-07-31T17:48:54.746Z"}
+2025-07-31T17:48:57.009Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2259,"success":true,"timestamp":"2025-07-31T17:48:57.009Z"}
+2025-07-31T17:49:00.186Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3172,"success":true,"timestamp":"2025-07-31T17:49:00.186Z"}
+2025-07-31T17:49:02.652Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2460,"success":true,"timestamp":"2025-07-31T17:49:02.652Z"}
+2025-07-31T17:49:05.341Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2685,"success":true,"timestamp":"2025-07-31T17:49:05.341Z"}
+2025-07-31T17:49:08.008Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2664,"success":true,"timestamp":"2025-07-31T17:49:08.008Z"}
+2025-07-31T17:49:10.345Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:49:10.345Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:49:10.346Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T17:49:10.347Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T17:49:10.347Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T17:49:10.348Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T17:49:13.986Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3636,"success":true,"timestamp":"2025-07-31T17:49:13.986Z"}
+2025-07-31T17:49:16.271Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2282,"success":true,"timestamp":"2025-07-31T17:49:16.271Z"}
+2025-07-31T17:49:18.322Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2048,"success":true,"timestamp":"2025-07-31T17:49:18.322Z"}
+2025-07-31T17:49:21.063Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2736,"success":true,"timestamp":"2025-07-31T17:49:21.063Z"}
+2025-07-31T17:49:25.469Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4400,"success":true,"timestamp":"2025-07-31T17:49:25.469Z"}
+2025-07-31T17:49:28.898Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3426,"success":true,"timestamp":"2025-07-31T17:49:28.898Z"}
+2025-07-31T17:49:29.274Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:49:29.275Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:49:29.278Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T17:49:29.279Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T17:49:29.284Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T17:49:29.286Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T17:49:31.523Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:49:31.524Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:49:31.528Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T17:49:31.528Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T17:49:31.530Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T17:49:31.530Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T17:49:33.694Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:49:33.695Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:49:33.698Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T17:49:33.700Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T17:49:33.702Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T17:49:33.703Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T17:49:33.875Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:49:33.876Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:49:33.879Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T17:49:33.879Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T17:49:33.884Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T17:49:33.885Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T17:49:36.071Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:49:36.072Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:49:36.076Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T17:49:36.078Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T17:49:36.081Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T17:49:36.082Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T17:49:38.255Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T17:49:38.256Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T17:49:38.258Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T17:49:38.258Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T17:49:38.260Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T17:49:38.261Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T18:09:29.536Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:09:29.538Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:09:29.547Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-31T18:09:29.550Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:09:29.552Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:09:29.558Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:09:29.559Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:09:42.420Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":12854,"success":true,"timestamp":"2025-07-31T18:09:42.420Z"}
+2025-07-31T18:09:50.496Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8067,"success":true,"timestamp":"2025-07-31T18:09:50.496Z"}
+2025-07-31T18:09:54.886Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4359,"success":true,"timestamp":"2025-07-31T18:09:54.886Z"}
+2025-07-31T18:10:00.655Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5752,"success":true,"timestamp":"2025-07-31T18:10:00.655Z"}
+2025-07-31T18:10:19.291Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:10:19.293Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:10:19.297Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:10:19.297Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:10:19.302Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:10:19.303Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:10:27.883Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8578,"success":true,"timestamp":"2025-07-31T18:10:27.883Z"}
+2025-07-31T18:10:32.102Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4215,"success":true,"timestamp":"2025-07-31T18:10:32.102Z"}
+2025-07-31T18:10:36.974Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4833,"success":true,"timestamp":"2025-07-31T18:10:36.974Z"}
+2025-07-31T18:10:41.037Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4024,"success":true,"timestamp":"2025-07-31T18:10:41.037Z"}
+2025-07-31T18:11:01.384Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:11:01.385Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:11:01.389Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:11:01.389Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:11:01.393Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:11:01.394Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:11:08.815Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":7419,"success":true,"timestamp":"2025-07-31T18:11:08.815Z"}
+2025-07-31T18:11:12.301Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3480,"success":true,"timestamp":"2025-07-31T18:11:12.301Z"}
+2025-07-31T18:11:15.615Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3293,"success":true,"timestamp":"2025-07-31T18:11:15.615Z"}
+2025-07-31T18:11:20.488Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4847,"success":true,"timestamp":"2025-07-31T18:11:20.488Z"}
+2025-07-31T18:11:39.525Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:11:39.526Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:11:39.535Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:11:39.536Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:11:39.546Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:11:39.547Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:11:42.884Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3300,"success":true,"timestamp":"2025-07-31T18:11:42.884Z"}
+2025-07-31T18:11:48.270Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5379,"success":true,"timestamp":"2025-07-31T18:11:48.269Z"}
+2025-07-31T18:11:51.334Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3060,"success":true,"timestamp":"2025-07-31T18:11:51.334Z"}
+2025-07-31T18:11:54.501Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3163,"success":true,"timestamp":"2025-07-31T18:11:54.501Z"}
+2025-07-31T18:11:57.824Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3320,"success":true,"timestamp":"2025-07-31T18:11:57.824Z"}
+2025-07-31T18:12:02.037Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4209,"success":true,"timestamp":"2025-07-31T18:12:02.037Z"}
+2025-07-31T18:12:04.414Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:12:04.415Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:12:04.418Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:12:04.420Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:12:04.425Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:12:04.428Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:12:07.768Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3331,"success":true,"timestamp":"2025-07-31T18:12:07.768Z"}
+2025-07-31T18:12:10.490Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2719,"success":true,"timestamp":"2025-07-31T18:12:10.490Z"}
+2025-07-31T18:12:13.035Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2533,"success":true,"timestamp":"2025-07-31T18:12:13.035Z"}
+2025-07-31T18:12:16.099Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3061,"success":true,"timestamp":"2025-07-31T18:12:16.099Z"}
+2025-07-31T18:12:19.228Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3127,"success":true,"timestamp":"2025-07-31T18:12:19.228Z"}
+2025-07-31T18:12:22.715Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3482,"success":true,"timestamp":"2025-07-31T18:12:22.715Z"}
+2025-07-31T18:12:25.050Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:12:25.051Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:12:25.057Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:12:25.058Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:12:25.062Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:12:25.063Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:12:28.228Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3156,"success":true,"timestamp":"2025-07-31T18:12:28.227Z"}
+2025-07-31T18:12:31.441Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3209,"success":true,"timestamp":"2025-07-31T18:12:31.441Z"}
+2025-07-31T18:12:34.875Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3431,"success":true,"timestamp":"2025-07-31T18:12:34.875Z"}
+2025-07-31T18:12:37.490Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2611,"success":true,"timestamp":"2025-07-31T18:12:37.490Z"}
+2025-07-31T18:12:40.059Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2565,"success":true,"timestamp":"2025-07-31T18:12:40.059Z"}
+2025-07-31T18:12:43.226Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3158,"success":true,"timestamp":"2025-07-31T18:12:43.226Z"}
+2025-07-31T18:12:43.578Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:12:43.579Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:12:43.585Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T18:12:43.586Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T18:12:43.606Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T18:12:43.607Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T18:12:45.773Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:12:45.773Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:12:45.775Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T18:12:45.775Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T18:12:45.777Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T18:12:45.777Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T18:12:48.068Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:12:48.068Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:12:48.069Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T18:12:48.069Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T18:12:48.071Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cartoon'
+2025-07-31T18:12:48.071Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cartoon'
+2025-07-31T18:12:48.367Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:12:48.367Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:12:48.370Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T18:12:48.371Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T18:12:48.383Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T18:12:48.384Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T18:12:50.744Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:12:50.744Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:12:50.746Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T18:12:50.747Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T18:12:50.750Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T18:12:50.750Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T18:12:52.946Z [info] ✅ [Validador] Duración válida: 15s
+2025-07-31T18:12:52.947Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:12:52.956Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T18:12:52.957Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T18:12:52.962Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'commercial'
+2025-07-31T18:12:52.963Z [info] [AssetManager] Obtenidos 207 actores para estilo 'commercial'
+2025-07-31T18:42:05.500Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-31T18:42:05.502Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:42:05.515Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-31T18:42:05.518Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:42:05.519Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:42:05.528Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:42:05.529Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:42:13.288Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":7743,"success":true,"timestamp":"2025-07-31T18:42:13.288Z"}
+2025-07-31T18:42:17.496Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4200,"success":true,"timestamp":"2025-07-31T18:42:17.496Z"}
+2025-07-31T18:42:22.689Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5171,"success":true,"timestamp":"2025-07-31T18:42:22.689Z"}
+2025-07-31T18:42:25.969Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3234,"success":true,"timestamp":"2025-07-31T18:42:25.969Z"}
+2025-07-31T18:42:54.454Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-31T18:42:54.456Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:42:54.460Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:42:54.461Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:42:54.467Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:42:54.469Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:43:05.324Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":10852,"success":true,"timestamp":"2025-07-31T18:43:05.324Z"}
+2025-07-31T18:43:11.529Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":6199,"success":true,"timestamp":"2025-07-31T18:43:11.529Z"}
+2025-07-31T18:43:14.987Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3429,"success":true,"timestamp":"2025-07-31T18:43:14.987Z"}
+2025-07-31T18:43:18.453Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3438,"success":true,"timestamp":"2025-07-31T18:43:18.453Z"}
+2025-07-31T18:43:56.530Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-31T18:43:56.532Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:43:56.536Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:43:56.537Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:43:56.541Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T18:43:56.542Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T18:44:04.702Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8154,"success":true,"timestamp":"2025-07-31T18:44:04.702Z"}
+2025-07-31T18:44:08.386Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3679,"success":true,"timestamp":"2025-07-31T18:44:08.386Z"}
+2025-07-31T18:44:23.790Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":15363,"success":true,"timestamp":"2025-07-31T18:44:23.790Z"}
+2025-07-31T18:44:27.736Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3929,"success":true,"timestamp":"2025-07-31T18:44:27.736Z"}
+2025-07-31T18:44:51.841Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-31T18:44:51.842Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:44:51.849Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:44:51.851Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:44:51.855Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:44:51.855Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:44:56.867Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4990,"success":true,"timestamp":"2025-07-31T18:44:56.866Z"}
+2025-07-31T18:45:00.811Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3938,"success":true,"timestamp":"2025-07-31T18:45:00.811Z"}
+2025-07-31T18:45:04.660Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3846,"success":true,"timestamp":"2025-07-31T18:45:04.660Z"}
+2025-07-31T18:45:08.273Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3609,"success":true,"timestamp":"2025-07-31T18:45:08.273Z"}
+2025-07-31T18:45:11.457Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3179,"success":true,"timestamp":"2025-07-31T18:45:11.457Z"}
+2025-07-31T18:45:15.447Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3981,"success":true,"timestamp":"2025-07-31T18:45:15.447Z"}
+2025-07-31T18:45:48.457Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-31T18:45:48.460Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:45:48.469Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:45:48.471Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:45:48.478Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:45:48.479Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:45:52.093Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3604,"success":true,"timestamp":"2025-07-31T18:45:52.093Z"}
+2025-07-31T18:45:54.890Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2789,"success":true,"timestamp":"2025-07-31T18:45:54.890Z"}
+2025-07-31T18:45:58.623Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3729,"success":true,"timestamp":"2025-07-31T18:45:58.623Z"}
+2025-07-31T18:46:02.088Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3457,"success":true,"timestamp":"2025-07-31T18:46:02.088Z"}
+2025-07-31T18:46:06.125Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4031,"success":true,"timestamp":"2025-07-31T18:46:06.125Z"}
+2025-07-31T18:46:09.463Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3331,"success":true,"timestamp":"2025-07-31T18:46:09.463Z"}
+2025-07-31T18:46:48.567Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-31T18:46:48.576Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T18:46:48.582Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:46:48.583Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:46:48.603Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'anime'
+2025-07-31T18:46:48.604Z [info] [AssetManager] Obtenidos 207 actores para estilo 'anime'
+2025-07-31T18:46:56.186Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":7563,"success":true,"timestamp":"2025-07-31T18:46:56.186Z"}
+2025-07-31T18:46:59.749Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3551,"success":true,"timestamp":"2025-07-31T18:46:59.749Z"}
+2025-07-31T18:47:04.821Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5065,"success":true,"timestamp":"2025-07-31T18:47:04.821Z"}
+2025-07-31T18:47:08.517Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3690,"success":true,"timestamp":"2025-07-31T18:47:08.516Z"}
+2025-07-31T18:47:12.573Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4043,"success":true,"timestamp":"2025-07-31T18:47:12.572Z"}
+2025-07-31T18:47:15.661Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3074,"success":true,"timestamp":"2025-07-31T18:47:15.661Z"}
+2025-07-31T19:06:37.824Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-31T19:06:37.827Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T19:06:37.836Z [info] [AssetManager] Cargados 583 assets desde assets_index.json
+2025-07-31T19:06:37.838Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T19:06:37.840Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T19:06:37.847Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T19:06:37.849Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T19:06:46.582Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8724,"success":true,"timestamp":"2025-07-31T19:06:46.582Z"}
+2025-07-31T19:06:52.233Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":5642,"success":true,"timestamp":"2025-07-31T19:06:52.233Z"}
+2025-07-31T19:06:56.805Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4551,"success":true,"timestamp":"2025-07-31T19:06:56.805Z"}
+2025-07-31T19:06:59.346Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2522,"success":true,"timestamp":"2025-07-31T19:06:59.346Z"}
+2025-07-31T19:07:27.026Z [info] ✅ [Validador] Duración válida: 30s
+2025-07-31T19:07:27.032Z [info] ✅ [Validador] RenderRequest válido
+2025-07-31T19:07:27.039Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T19:07:27.041Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T19:07:27.063Z [info] [AssetManager] Obtenidos 376 fondos para estilo 'cinematic'
+2025-07-31T19:07:27.065Z [info] [AssetManager] Obtenidos 207 actores para estilo 'cinematic'
+2025-07-31T19:07:34.583Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":7510,"success":true,"timestamp":"2025-07-31T19:07:34.582Z"}
+2025-07-31T19:07:37.343Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2739,"success":true,"timestamp":"2025-07-31T19:07:37.343Z"}
+2025-07-31T19:07:40.056Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2619,"success":true,"timestamp":"2025-07-31T19:07:40.056Z"}
+2025-07-31T19:07:43.782Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3668,"success":true,"timestamp":"2025-07-31T19:07:43.782Z"}

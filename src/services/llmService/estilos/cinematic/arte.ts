@@ -106,23 +106,20 @@ MOMENTO NARRATIVO: ${momentoNarrativo}
 SEGUNDO: ${segundoActual}
 PROMPT ORIGINAL: "${prompt}"
 
-CONTINUIDAD VISUAL PLANIFICADA:
-${narrativa.continuidad ? `
-- Paleta de colores: ${narrativa.continuidad.paletaColores}
-- Iluminación: ${narrativa.continuidad.iluminacion}
-- Ambiente: ${narrativa.continuidad.ambiente}
-- Locación: ${narrativa.continuidad.locacion}
-- Estilo general: ${narrativa.continuidad.estiloGeneral}
-` : 'Sin plan de continuidad específico'}
-
 ${tomaInfo ? `
-INFORMACIÓN DE TOMA:
+INFORMACIÓN ESPECÍFICA DE TOMA DEL DIRECTOR:
 - Número: ${tomaInfo.numero}
-- Duración: ${tomaInfo.duracion}s
 - Descripción: ${tomaInfo.descripcion}
+- Duración: ${tomaInfo.duracion}s
 - Tipo: ${tomaInfo.tipoToma}
+- Emoción: ${tomaInfo.emocion}
+- Fondo especificado por Director: ${tomaInfo.fondo || 'No especificado'}
+- Actor especificado por Director: ${tomaInfo.actor || 'No especificado'}
 - Movimiento de cámara: ${tomaInfo.movimientoCamara}
-- Carryover: ${tomaInfo.carryover || 'ninguno'}
+- Estilo visual: ${tomaInfo.estiloVisual}
+
+⚠️ IMPORTANTE: Si el Director especificó un fondo específico, DEBES usar exactamente ese fondo.
+⚠️ El Director ya analizó la narrativa y seleccionó assets apropiados.
 ` : ''}
 
 INSTRUCCIONES CRÍTICAS:
@@ -309,6 +306,43 @@ export async function seleccionarFondoCinematico(
   tomaInfo?: TomaCinematograficaPlan
 ): Promise<SeleccionFondo> {
   console.log(`[Arte Cinematic] Seleccionando fondo para ${momentoNarrativo} - segundo ${segundoActual}`);
+  
+  // ✅ PRIORIDAD 1: Si el Director ya especificó un fondo, usarlo directamente
+  if (tomaInfo?.fondo) {
+    console.log(`[Arte Cinematic] 🎯 Director especificó fondo: ${tomaInfo.fondo}`);
+    
+    // Buscar el asset exacto especificado por el Director
+    let fondoEspecifico: AssetIndexItem | undefined;
+    
+    // Intentar encontrar por ruta completa primero
+    fondoEspecifico = fondosDisponibles.find(f => f.ruta === tomaInfo.fondo);
+    
+    // Si no se encuentra por ruta, buscar por nombre con contexto
+    if (!fondoEspecifico && typeof tomaInfo.fondo === 'string') {
+      const nombreFondo = tomaInfo.fondo.includes('/') 
+        ? tomaInfo.fondo.split('/').pop()?.replace(/\.(png|jpg|jpeg)$/, '') 
+        : tomaInfo.fondo;
+      
+      if (nombreFondo) {
+        fondoEspecifico = fondosDisponibles.find(f => f.nombre === nombreFondo);
+      }
+    }
+    
+    if (fondoEspecifico) {
+      console.log(`[Arte Cinematic] ✅ Usando fondo especificado por Director: ${fondoEspecifico.ruta}`);
+      return {
+        ruta: fondoEspecifico.ruta,
+        nombre: fondoEspecifico.nombre,
+        justificacion: `Fondo especificado por el Director cinematográfico`,
+        ambiente: fondoEspecifico.ambiente || 'apropiado',
+        epoca: 'moderno',
+        estilo_visual: 'cinematico',
+        paleta_colores: 'según director'
+      };
+    } else {
+      console.warn(`[Arte Cinematic] ⚠️ No se encontró el fondo especificado por Director: ${tomaInfo.fondo}`);
+    }
+  }
   
   // ✅ Usar información de toma si está disponible
   if (tomaInfo) {

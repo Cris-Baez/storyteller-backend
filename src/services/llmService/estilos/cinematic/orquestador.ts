@@ -382,8 +382,8 @@ function generarPlanCinematicoFallback(prompt: string, duracion: number): VideoP
     timeline.push({
       segundo,
       narrativa: { prompt, tono: 'dramático' },
-      fondo: { archivo: 'default_cinematic.jpg', tipo: 'escenario' },
-      actor: { archivo: 'default_actor.jpg', tipo: 'principal' },
+      fondo: { archivo: 'escenas/realista/apartamento/baño/día/frontal.png', tipo: 'escenario' },
+      actor: { archivo: 'actores/realista/apartamento/baño/día/jovenmasculinoneutrointelectual.png', tipo: 'principal' },
       camara: { shot: 'medium', movement: 'static', angle: 'frontal' },
       sonido: { musica: 'orchestral', efectos: [], lipSync: false },
       edicion: { duracionEscena: 6, carryover: false, tipoCorte: 'cut' },

@@ -27,6 +27,45 @@ export async function seleccionarActorCinematico(
   
   console.log(`[Actores Cinematic] Seleccionando actor para ${esToma ? `toma ${infoToma.numero} (${infoToma.duracion}s)` : `segundo ${segundoActual}`}, emocional: ${momentoEmocional}, tipo: ${infoToma.tipoToma}`);
   
+  // ✅ PRIORIDAD 1: Si el Director especificó un actor, usarlo directamente
+  if (esToma && (tomaInfo as TomaCinematograficaPlan).actor) {
+    const actorEspecificado = (tomaInfo as TomaCinematograficaPlan).actor;
+    console.log(`[Actores Cinematic] 🎯 Director especificó actor: ${actorEspecificado}`);
+    
+    // Buscar el actor exacto especificado por el Director
+    let actorDirector: AssetIndexItem | undefined;
+    
+    // Intentar encontrar por ruta completa primero
+    actorDirector = actoresDisponibles.find(a => a.ruta === actorEspecificado);
+    
+    // Si no se encuentra por ruta, buscar por nombre
+    if (!actorDirector && typeof actorEspecificado === 'string') {
+      const nombreActor = actorEspecificado.includes('/') 
+        ? actorEspecificado.split('/').pop()?.replace(/\.(png|jpg|jpeg)$/, '') 
+        : actorEspecificado;
+      
+      if (nombreActor) {
+        actorDirector = actoresDisponibles.find(a => a.nombre === nombreActor);
+      }
+    }
+    
+    if (actorDirector) {
+      console.log(`[Actores Cinematic] ✅ Usando actor especificado por Director: ${actorDirector.ruta}`);
+      const edad = extraerEdadActor(actorDirector.nombre);
+      const tipoVoz = determinarTipoVoz(actorDirector.nombre);
+      
+      return {
+        ruta: actorDirector.ruta,
+        nombre: actorDirector.nombre,
+        edad,
+        expresion: momentoEmocional ? getExpresionEmocional(narrativa.tono) : 'neutral',
+        tipoVoz,
+        estiloVoz: requiereLipSync ? getEstiloVozCinematico(narrativa.tono, edad) : 'sin_voz'
+      };
+    } else {
+      console.warn(`[Actores Cinematic] ⚠️ No se encontró el actor especificado por Director: ${actorEspecificado}`);
+    }
+  }
   if (actoresDisponibles.length === 0) {
     console.warn('[Actores Cinematic] No hay actores disponibles, usando actor real del CDN');
     return {

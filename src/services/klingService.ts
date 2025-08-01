@@ -65,8 +65,32 @@ export async function generateKlingClip(params: KlingClipParams): Promise<string
     flujo: 'fondo → actor → base64 → Kling → Kontext → voz/música → edición → exportar'
   });
   
-  // Validación estricta de campos requeridos según flujo profesional
+  // ✅ VALIDACIONES DEFINITIVAS AGREGADAS
   const { prompt, input_image_urls, duration, aspect_ratio, negative_prompt } = params;
+  
+  // Validar que existen URLs de background y actor
+  if (!input_image_urls || input_image_urls.length < 2) {
+    throw new Error('Se requieren al menos 2 URLs de imagen (background y actor)');
+  }
+  
+  const [background, actor] = input_image_urls;
+  
+  // Validar background con URL válida
+  if (!background?.startsWith("https://")) {
+    throw new Error("🎨 Background no tiene URL válida.");
+  }
+  
+  // Validar actor con URL válida  
+  if (!actor?.startsWith("https://")) {
+    throw new Error("🧍 Actor no tiene URL válida.");
+  }
+  
+  // Validar prompt visual
+  if (!prompt || prompt.length < 20) {
+    throw new Error("🧠 Prompt visual demasiado corto o inválido.");
+  }
+  
+  // Validación estricta de campos requeridos según flujo profesional
   if (!prompt || typeof prompt !== 'string') {
     console.log('[KlingService] [Error] Prompt inválido:', { prompt });
     throw new Error('El campo prompt es requerido y debe ser string');
@@ -150,54 +174,116 @@ export async function generateKlingClip(params: KlingClipParams): Promise<string
   });
   console.log('[KlingService] [Fal.ai] Enviando solicitud a Fal.ai Kling Elements:', { model: "fal-ai/kling-video/v1.6/pro/elements" });
 
-  try {
-    const result = await fal.subscribe("fal-ai/kling-video/v1.6/pro/elements", {
-      input: payload,
-      logs: true
-    });
-    
-    // Logging seguro de la respuesta
-    if (hasLargeBase64(result)) {
-      safeLog('[KlingService] [Respuesta] Respuesta de Fal.ai recibida (contiene datos base64):', { 
-        hasVideo: !!result?.data?.video, 
-        videoUrl: result?.data?.video?.url ? 'URL recibida' : 'No URL',
-        dataKeys: result?.data ? Object.keys(result.data) : [],
-        resultKeys: result ? Object.keys(result) : []
+  // ✅ MEJORADO: Polling inteligente con queue status
+  const TIMEOUT_MS = 1500000; // 90 segundos
+  const MAX_RETRIES = 2;
+  const POLL_INTERVAL = 5000; // Revisar cada 5 segundos
+  
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      console.log(`[KlingService] [Intento ${attempt}/${MAX_RETRIES}] Enviando a Fal.ai con polling...`);
+      
+      // Iniciar la generación de video
+      const result: any = await fal.queue.submit("fal-ai/kling-video/v1.6/pro/elements", {
+        input: payload
       });
-    } else {
-      safeLog('[KlingService] [Respuesta] Respuesta de Fal.ai recibida:', { 
-        hasVideo: !!result?.data?.video, 
-        videoUrl: result?.data?.video?.url ? 'URL recibida' : 'No URL' 
+      
+      const requestId = result.request_id;
+      console.log(`[KlingService] [Queue] Video en cola con ID: ${requestId}`);
+      
+      // Polling para verificar el estado
+      let status = 'IN_QUEUE';
+      let videoResult = null;
+      const startTime = Date.now();
+      
+      while (status === 'IN_QUEUE' || status === 'IN_PROGRESS') {
+        // Verificar timeout
+        if (Date.now() - startTime > TIMEOUT_MS) {
+          throw new Error(`Timeout después de ${TIMEOUT_MS/1000} segundos`);
+        }
+        
+        // Esperar antes de la siguiente verificación
+        await new Promise(resolve => setTimeout(resolve, POLL_INTERVAL));
+        
+        // Verificar estado
+        try {
+          const statusResult: any = await fal.queue.status("fal-ai/kling-video/v1.6/pro/elements", {
+            requestId: requestId,
+            logs: true
+          });
+          
+          status = statusResult.status;
+          console.log(`[KlingService] [Polling] Estado: ${status} - Tiempo transcurrido: ${Math.round((Date.now() - startTime)/1000)}s`);
+          
+          if (status === 'COMPLETED') {
+            videoResult = statusResult.data;
+            break;
+          } else if (status === 'FAILED') {
+            throw new Error(`Fal.ai failed: ${statusResult.error || 'Unknown error'}`);
+          }
+        } catch (pollError) {
+          console.warn(`[KlingService] [Polling] Error verificando estado: ${pollError}`);
+          // Continuar polling si es un error temporal
+        }
+      }
+      
+      // ✅ VALIDACIÓN DEFINITIVA DEL RESULTADO
+      console.log("🔍 Resultado completo de Kling:", videoResult);
+      
+      if (!videoResult?.video?.url) {
+        console.error("❌ Kling falló. Resultado:", videoResult);
+        throw new Error("Kling no devolvió video_url");
+      }
+      
+      // Validar resultado original
+      if (!videoResult?.video?.url) {
+        console.log('[KlingService] [Error] Kling no devolvió video.url:', { 
+          hasData: !!videoResult,
+          dataKeys: videoResult ? Object.keys(videoResult) : [],
+          status,
+          attempt
+        });
+        throw new Error('Kling no devolvió video.url válido');
+      }
+      
+      safeLog('[KlingService] [Success] Video generado exitosamente:', { 
+        hasUrl: !!videoResult.video.url,
+        urlPrefix: videoResult.video.url.substring(0, 50) + '...',
+        attempt,
+        totalTime: Math.round((Date.now() - startTime)/1000) + 's'
       });
+      
+      return videoResult.video.url;
+      
+    } catch (error: any) {
+      const errorData = {
+        status: error.status,
+        message: error.message,
+        body: error.body,
+        fieldErrors: error.fieldErrors || 'No field errors',
+        detail: error.body?.detail,
+        attempt,
+        isTimeout: error.message?.includes('Timeout'),
+        isQueueError: error.message?.includes('queue') || error.message?.includes('Queue')
+      };
+      
+      safeLog(`[KlingService] [Error] Intento ${attempt}/${MAX_RETRIES} falló:`, errorData);
+      
+      // Si es el último intento o no es un error recuperable, no reintentar
+      if (attempt === MAX_RETRIES || (!errorData.isTimeout && !errorData.isQueueError && error.status !== 408 && error.status !== 429 && error.status !== 503)) {
+        console.error('❌ Error final de Fal.ai después de', attempt, 'intentos:', errorData.message || 'Error desconocido');
+        throw error;
+      }
+      
+      // Esperar antes del siguiente intento (backoff exponencial)
+      const waitMs = Math.min(5000 * Math.pow(2, attempt - 1), 30000);
+      console.log(`[KlingService] [Retry] Esperando ${waitMs}ms antes del siguiente intento...`);
+      await new Promise(resolve => setTimeout(resolve, waitMs));
     }
-    
-    if (!result?.data?.video?.url) {
-      console.log('[KlingService] [Error] Kling no devolvió video.url:', { 
-        hasData: !!result?.data,
-        dataKeys: result?.data ? Object.keys(result.data) : [],
-        resultKeys: result ? Object.keys(result) : [],
-        resultType: typeof result
-      });
-      throw new Error('Kling no devolvió video.url');
-    }
-    safeLog('[KlingService] [Success] Video generado exitosamente:', { 
-      hasUrl: !!result.data.video.url,
-      urlPrefix: result.data.video.url.substring(0, 50) + '...'
-    });
-    return result.data.video.url;
-  } catch (error: any) {
-    const errorData = {
-      status: error.status,
-      message: error.message,
-      body: error.body,
-      fieldErrors: error.fieldErrors || 'No field errors',
-      detail: error.body?.detail
-    };
-    
-    safeLog('[KlingService] [Error] Error detallado de Fal.ai:', errorData);
-    console.error('❌ Error detallado de Fal.ai:', errorData.message || 'Error desconocido');
-    throw error;
   }
+  
+  // Esta línea nunca debería alcanzarse debido al throw en el último intento
+  throw new Error('Todos los intentos fallaron');
 }
 
 

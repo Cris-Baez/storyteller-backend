@@ -211,6 +211,17 @@ export async function assembleVideo(opts:{
   await fs.mkdir(TMP_DIR, { recursive: true });
 
   const { plan, clips, voiceBuffer, music, ambience = [], sfx = [] } = opts;
+  
+  // ✅ VALIDACIÓN DEFINITIVA DE CLIPS ANTES DEL MONTAJE
+  for (const clip of clips) {
+    if (!clip || typeof clip !== 'string') {
+      throw new Error("Clip sin URL válida detectado.");
+    }
+    if (!clip.includes('http')) {
+      throw new Error(`Clip con URL inválida: ${clip}`);
+    }
+  }
+  
   const id = uuid();
   const list = path.join(TMP_DIR, `${id}.txt`);
   const concat = path.join(TMP_DIR, `${id}_concat.mp4`);

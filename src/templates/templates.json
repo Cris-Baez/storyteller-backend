@@ -1,0 +1,94 @@
+{
+  "cinematic": {
+    "accion": {
+      "title": "Acción Cinemática",
+      "description": "Escenas de acción con alta producción cinematográfica",
+      "prompt": "Una escena épica de acción cinematográfica con efectos espectaculares y composición dramática. Movimientos de cámara dinámicos que capturan la intensidad del momento con iluminación profesional y efectos visuales de alta calidad.",
+      "duracion": 30,
+      "tono": "épico"
+    },
+    "drama": {
+      "title": "Drama Emocional",
+      "description": "Narrativa dramática con profundidad emocional",
+      "prompt": "Una escena dramática profundamente emocional con actuaciones intensas y cinematografía que refuerza el estado emocional de los personajes. Iluminación atmosférica y composición que enfatiza la tensión narrativa.",
+      "duracion": 30,
+      "tono": "dramático"
+    },
+    "misterio": {
+      "title": "Misterio Cinematográfico",
+      "description": "Atmósfera misteriosa con tensión cinematográfica",
+      "prompt": "Una escena misteriosa llena de tensión con iluminación atmosférica y sombras dramáticas. Cinematografía que crea suspense y mantiene al espectador en vilo con composiciones inquietantes.",
+      "duracion": 25,
+      "tono": "misterioso"
+    }
+  },
+  "anime": {
+    "batalla": {
+      "title": "Batalla Épica Anime",
+      "description": "Combate anime con poderes especiales y efectos dinámicos",
+      "prompt": "Una batalla épica al estilo anime con poderes especiales, efectos de energía brillantes y movimientos ultra dinámicos. Explosiones coloridas, auras de poder y técnicas especiales con nombres épicos.",
+      "duracion": 30,
+      "tono": "épico"
+    },
+    "escuela": {
+      "title": "Vida Escolar Anime",
+      "description": "Escenas de la vida diaria en un anime escolar",
+      "prompt": "Una escena típica de anime escolar con personajes expresivos, emociones exageradas y situaciones cómicas o dramáticas. Ambientación japonesa tradicional con estética anime vibrante.",
+      "duracion": 25,
+      "tono": "divertido"
+    },
+    "fantasia": {
+      "title": "Fantasía Mágica Anime",
+      "description": "Mundo fantástico con magia y criaturas anime",
+      "prompt": "Un mundo fantástico anime lleno de magia, criaturas místicas y paisajes imposibles. Efectos mágicos brillantes, transformaciones espectaculares y aventuras épicas en mundos coloridos.",
+      "duracion": 35,
+      "tono": "mágico"
+    }
+  },
+  "cartoon": {
+    "aventura": {
+      "title": "Aventura Familiar",
+      "description": "Aventura divertida apropiada para toda la familia",
+      "prompt": "Una aventura colorida y divertida con personajes entrañables en un mundo cartoon vibrante. Situaciones cómicas, lecciones positivas y diversión para toda la familia con animación suave y expresiva.",
+      "duracion": 30,
+      "tono": "divertido"
+    },
+    "comedia": {
+      "title": "Comedia Cartoon",
+      "description": "Humor cartoon con gags visuales",
+      "prompt": "Una escena cómica cartoon con gags visuales exagerados, expresiones divertidas y situaciones absurdas. Humor físico estilo cartoon clásico con colores brillantes y animación expresiva.",
+      "duracion": 20,
+      "tono": "cómico"
+    },
+    "musical": {
+      "title": "Número Musical Cartoon",
+      "description": "Secuencia musical animada y colorida",
+      "prompt": "Un número musical cartoon vibrante con personajes cantando y bailando en un mundo colorido. Coreografías creativas, efectos visuales musicales y una atmósfera festiva y alegre.",
+      "duracion": 40,
+      "tono": "alegre"
+    }
+  },
+  "commercial": {
+    "producto": {
+      "title": "Presentación de Producto",
+      "description": "Spot comercial profesional para producto",
+      "prompt": "Un comercial profesional que presenta un producto de manera elegante y persuasiva. Iluminación perfecta, composición limpia y enfoque en los beneficios del producto con estética corporativa premium.",
+      "duracion": 30,
+      "tono": "profesional"
+    },
+    "marca": {
+      "title": "Branding Corporativo",
+      "description": "Video corporativo de marca y valores",
+      "prompt": "Un video corporativo que comunica los valores de marca de manera profesional y emotiva. Imágenes aspiracionales, mensaje claro y estética que refuerza la identidad corporativa.",
+      "duracion": 25,
+      "tono": "inspiracional"
+    },
+    "testimonio": {
+      "title": "Testimonio de Cliente",
+      "description": "Video testimonial auténtico y persuasivo",
+      "prompt": "Un testimonio auténtico de cliente que demuestra satisfacción y resultados reales. Ambiente profesional pero cálido, enfoque en la credibilidad y conexión emocional con la audiencia.",
+      "duracion": 35,
+      "tono": "auténtico"
+    }
+  }
+}

@@ -18,6 +18,8 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import { renderRouter } from './routes/render.js';
+import marketingRouter from './routes/marketing.js';  // ✨ NUEVO: Marketing AI
+//import { templatesRouter } from './routes/templates.js';
 import { logger } from './utils/logger.js';
 import dotenv from "dotenv";
 import path from "path";
@@ -66,6 +68,8 @@ app.get('/healthz', (_req, res) => {
 
 // Rutas principales
 app.use('/api/render', renderRouter);
+app.use('/api/marketing', marketingRouter);  // ✨ NUEVO: Marketing AI Routes
+//app.use('/api/templates', templatesRouter);
 
 // Nueva ruta para compilar el video final
 app.post('/api/compile', async (req, res) => {

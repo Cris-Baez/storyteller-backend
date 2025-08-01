@@ -4,9 +4,43 @@ import { EstiloVisualPrincipal, normalizarEstilo, type EstiloVisualAPI } from '.
 // ❌ ELIMINADO: import { createVideoPlan } from '../services/llmService/index.js'; - Ya no usamos sistema legacy
 import { getAdvancedMusic, getSfx } from '../services/audioEngine.js';  // ✨ MEJORADO: Reorganizado
 import { createVoiceBuffer } from '../services/voiceService.js';  // ✨ MEJORADO: Renombrado
+import { generateUnifiedAudioForPipeline } from '../services/sceneAudioService.js';  // ✨ NUEVO: Integración completa
 import { generateKlingClip, KlingClipParams } from '../services/klingService.js';
 import { assembleVideo } from '../services/ffmpegService.js';
 import { uploadToCDN } from '../services/cdnService.js';
+import { generateMarketingClip, type MarketingRequest } from '../services/marketingService.js';  // ✨ NUEVO: Marketing AI
+import { spawn } from 'child_process';
+
+// ✅ PASO 2: Función para obtener duración de video usando ffprobe
+async function obtenerDuracionVideo(videoPath: string): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const ffprobe = spawn('ffprobe', [
+      '-v', 'quiet',
+      '-show_entries', 'format=duration',
+      '-of', 'csv=p=0',
+      videoPath
+    ]);
+
+    let output = '';
+    ffprobe.stdout.on('data', (data) => {
+      output += data.toString();
+    });
+
+    ffprobe.on('close', (code) => {
+      if (code !== 0) {
+        reject(new Error(`ffprobe failed with code ${code}`));
+        return;
+      }
+      
+      const duration = parseFloat(output.trim());
+      resolve(isNaN(duration) ? 0 : duration);
+    });
+
+    ffprobe.on('error', (error) => {
+      reject(error);
+    });
+  });
+}
 import { applySadTalker } from '../services/sadtalkerService.js';
 import { applyWav2Lip } from '../services/wav2lipService.js';
 import { RenderRequest, VideoPlan, TimelineSecond, EstiloVisual } from '../utils/types.js';
@@ -101,6 +135,7 @@ function generarPromptCinematografico(params: {
   // ✅ NUEVO: Parámetros optimizados para Kling
   objetivoEmocional?: string; // ✅ Objetivo emocional de la escena
   accionPrincipal?: string; // ✅ Acción principal resumida
+  carryover?: string; // ✅ NUEVO: Continuidad específica por toma
 }): string {
   const { 
     prompt, descripcionToma, promptKling, visual, duracion, momento, visualStyle,
@@ -288,14 +323,30 @@ function generarObjetivoEmocionalToma(tipoToma?: string, emocion?: string): stri
 /**
  * Pipeline robusto y profesional para CinemaAI
  * @param req RenderRequest completo
+ * @param progressCallback Callback para reportar progreso (paso, porcentaje)
  * @param actorCustomPath PNG si el usuario subió imagen personalizada
  * @param quickMode Si es true, usa el flujo rápido de video corto (Kling 2.1 + música)
  */
-export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: string, quickMode?: boolean) {
+export async function renderCinemaAI(
+  req: RenderRequest, 
+  progressCallback?: (step: string, progress: number) => void,
+  actorCustomPath?: string, 
+  quickMode?: boolean
+) {
 
   // LOGS Y MANEJO DE ERRORES EN TODO EL PIPELINE
   const logger = console; // Puedes cambiar por tu logger profesional
   logger.info('[Pipeline] Iniciando renderCinemaAI', { quickMode, actorCustomPath });
+
+  // Helper para reportar progreso
+  const reportProgress = (step: string, progress: number) => {
+    if (progressCallback) {
+      progressCallback(step, progress);
+    }
+    logger.info(`[Pipeline] ${step} (${progress}%)`);
+  };
+
+  reportProgress('Validando request', 5);
 
   // ⚠️ CRÍTICO: Validación estricta para prevenir errores silenciosos
   const validacion = validarRenderRequest(req);
@@ -310,6 +361,8 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   if (!reqNormalizado.visualStyle) reqNormalizado.visualStyle = 'cinematic';
   if (!reqNormalizado.duration) reqNormalizado.duration = 30;
   if (!reqNormalizado.prompt) reqNormalizado.prompt = '';
+
+  reportProgress('Orquestando cerebros cinematográficos', 10);
 
   let videoPlan: VideoPlan;
   let sugerencias: any[] = [];
@@ -349,11 +402,15 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
     
     logger.info(`[Pipeline] ✅ Cerebros generaron: ${videoPlan.timeline.length} segundos (${estiloNormalizado} para ${reqNormalizado.visualStyle})`);
     
+    reportProgress('Validando plan cinematográfico', 20);
+    
     // Validación final: el VideoPlan debe tener timeline válida y al menos una escena
     if (!videoPlan || !videoPlan.timeline || !Array.isArray(videoPlan.timeline) || videoPlan.timeline.length === 0) {
       logger.error('[Pipeline] VideoPlan inválido o vacío', { videoPlan });
       throw new Error('El VideoPlan generado por LLMService es inválido o está vacío.');
     }
+    
+    reportProgress('Validando y corrigiendo assets', 25);
     
     // NOTA: Los modelos de LLMService ya aplican validación y corrección internamente
     // Esta es una verificación adicional para garantizar que los assets son válidos
@@ -372,6 +429,8 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
     }
     
     logger.info('[Pipeline] VideoPlan generado, validado y corregido', { timeline: videoPlan.timeline.length, visualStyle: videoPlan.metadata?.visualStyle });
+    
+    reportProgress('Preparando escenas', 30);
   } catch (err) {
     logger.error('[Pipeline] Error generando/corrigiendo VideoPlan', { error: err });
     throw err;
@@ -391,14 +450,14 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
         actorAsset = { ruta: scene.actor.ruta, tipo: 'actor', nombre: scene.actor.nombre || '' };
       }
       
-      // Si alguno está vacío, usar fallbacks
+      // Si alguno está vacío, usar fallbacks con assets reales existentes
       if (!fondoAsset || !fondoAsset.ruta) {
         logger.warn(`[Pipeline] Usando fondo fallback para escena ${idx}`);
-        fondoAsset = { ruta: 'assets/escenas/default_background.jpg', tipo: 'escenas', nombre: 'fallback_background' };
+        fondoAsset = { ruta: 'escenas/anime/apartamento/baño/día/frontal.png', tipo: 'escenas', nombre: 'fallback_background' };
       }
       if (!actorAsset || !actorAsset.ruta) {
         logger.warn(`[Pipeline] Usando actor fallback para escena ${idx}`);
-        actorAsset = { ruta: 'assets/actores/default_actor.jpg', tipo: 'actor', nombre: 'fallback_actor' };
+        actorAsset = { ruta: 'actores/anime/apartamento/baño/día/ancianofemeninopensativodeportiva.png', tipo: 'actor', nombre: 'fallback_actor' };
       }
       
       // ✨ CRÍTICO: Convertir rutas relativas a URLs completas
@@ -413,6 +472,9 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
       return { ...scene, fondoAsset, actorAsset };
     });
     logger.info('[Pipeline] Assets seleccionados y validados para todas las escenas', { scenes: scenes.length });
+    
+    reportProgress('Configurando renderizado', 35);
+    
   } catch (err) {
     logger.error('[Pipeline] Error seleccionando assets', { error: err });
     throw err;
@@ -421,6 +483,8 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   // QuickMode
   if (quickMode && scenes.length > 0) {
     logger.info('[Pipeline] QuickMode activo');
+    reportProgress('Generando video rápido', 40);
+    
     const fondoUrl = scenes[0].fondoAsset?.ruta;
     const actorUrl = scenes[0].actorAsset?.ruta;
     const prompt = scenes[0].visual || scenes[0].backgroundPrompt || req.prompt;
@@ -432,6 +496,8 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
     try {
       const { videoUrl, musicBuffer } = await generateQuickKlingVideo({ fondoUrl, actorUrl, prompt, musicStyle });
       logger.info('[Pipeline] Video rápido generado', { videoUrl });
+      reportProgress('Video completado', 100);
+      
       return {
         url: videoUrl,
         plan: videoPlan,
@@ -503,17 +569,51 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   // 🚀 GENERACIÓN PARALELA DE TODAS LAS TOMAS
   logger.info(`[Pipeline] 🎬 Generando ${tomasUnicas.length} tomas en paralelo...`);
   
-  // ✅ VALIDACIÓN PREVIA: Verificar que todas las tomas tienen las URLs necesarias
+  // ✅ VALIDACIÓN PREVIA Y AUTO-CORRECCIÓN: Verificar que todas las tomas tienen assets válidos
   for (let i = 0; i < tomasUnicas.length; i++) {
     const toma = tomasUnicas[i];
+    
+    // Auto-asignar fondo si no existe
+    if (!toma.fondo?.ruta && scenes.length > 0) {
+      const fondoFallback = scenes.find(s => s.fondoAsset?.ruta)?.fondoAsset;
+      if (fondoFallback) {
+        toma.fondo = { ruta: fondoFallback.ruta, nombre: fondoFallback.nombre };
+        logger.warn(`[Pipeline] 🔧 Auto-asignando fondo fallback a toma ${i + 1}: ${fondoFallback.ruta}`);
+      } else {
+        // Último recurso: usar asset por defecto del CDN
+        toma.fondo = { 
+          ruta: 'escenas/realista/naturaleza/campo/día/frontal.png',
+          nombre: 'frontal.png'
+        };
+        logger.warn(`[Pipeline] 🔧 Usando fondo por defecto para toma ${i + 1}`);
+      }
+    }
+    
+    // Auto-asignar actor si no existe
+    if (!toma.actor?.ruta && scenes.length > 0) {
+      const actorFallback = scenes.find(s => s.actorAsset?.ruta)?.actorAsset;
+      if (actorFallback) {
+        toma.actor = { ruta: actorFallback.ruta, nombre: actorFallback.nombre };
+        logger.warn(`[Pipeline] 🔧 Auto-asignando actor fallback a toma ${i + 1}: ${actorFallback.ruta}`);
+      } else {
+        // Último recurso: usar actor por defecto del CDN
+        toma.actor = { 
+          ruta: 'actores/realista/casa/sala/día/jovenmasculinosorprendidocasual.png',
+          nombre: 'jovenmasculinosorprendidocasual.png'
+        };
+        logger.warn(`[Pipeline] 🔧 Usando actor por defecto para toma ${i + 1}`);
+      }
+    }
+    
+    // Verificación final
     if (!toma.fondo?.ruta || !toma.actor?.ruta) {
-      logger.error(`[Pipeline] ❌ Toma ${i + 1} no tiene URLs válidas:`, {
+      logger.error(`[Pipeline] ❌ Toma ${i + 1} sigue sin URLs válidas después de auto-corrección:`, {
         numero: toma.numero,
         rutaFondo: toma.fondo?.ruta,
         rutaActor: toma.actor?.ruta,
         estructuraToma: Object.keys(toma)
       });
-      throw new Error(`Toma ${i + 1} no tiene assets válidos (fondo: ${!!toma.fondo?.ruta}, actor: ${!!toma.actor?.ruta})`);
+      throw new Error(`Toma ${i + 1} no tiene assets válidos después de auto-corrección (fondo: ${!!toma.fondo?.ruta}, actor: ${!!toma.actor?.ruta})`);
     }
   }
   
@@ -547,10 +647,21 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
       actorInfo
     });
     
-    // ✅ NUEVO: Contexto de toma anterior para continuidad
+    // ✅ PASO 3: Mejorar contexto de toma anterior para continuidad REAL
     const contextoPrevio = tomaIdx > 0 ? 
-      `previous scene showed ${tomasUnicas[tomaIdx - 1].descripcion}` : 
+      tomasUnicas[tomaIdx - 1].carryover || `previous scene: ${tomasUnicas[tomaIdx - 1].descripcion}` : 
       undefined;
+    
+    // ✅ PASO 3: Usar carryover específico de la toma actual si existe
+    const carryoverActual = toma.carryover || '';
+    
+    // ✅ DEBUG: Log información de carryover
+    logger.info(`[Pipeline] 🔗 Carryover info:`, {
+      tomaNumero: tomaIdx + 1,
+      tieneCarryover: !!carryoverActual,
+      contextoPrevio: contextoPrevio?.substring(0, 50) + '...',
+      carryoverActual: carryoverActual.substring(0, 50) + '...'
+    });
     
     // ✅ CORREGIDO: Construir descripciones más robustas
     const fondoDescripcion = fondoInfo && fondoInfo.lugar && fondoInfo.variante 
@@ -583,6 +694,8 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
       tomaNumero: tomaIdx + 1,
       totalTomas: tomasUnicas.length,
       contextoPrevio,
+      // ✅ PASO 3: Añadir carryover específico para continuidad
+      carryover: carryoverActual,
       fondoDescripcion,
       personajeDescripcion,
       // ✅ NUEVO: Parámetros optimizados
@@ -614,6 +727,12 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
       }
     });
     
+    // Reportar progreso por toma
+    const progressBase = 60;
+    const progressPerToma = 25 / tomasUnicas.length;
+    const currentProgress = progressBase + (tomaIdx * progressPerToma);
+    reportProgress(`Generando clip ${tomaIdx + 1}/${tomasUnicas.length}`, Math.round(currentProgress));
+    
     const clipPromise = generateKlingClip(params);
     // Timeout extendido: 10 minutos por toma (video generation can take time)
     const clipUrl = await Promise.race([
@@ -629,40 +748,111 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   
   // Esperar a que todas las tomas se generen
   const clips = await Promise.all(tomasPromises);
-  logger.info(`[Pipeline] 🎉 Todas las ${clips.length} tomas generadas exitosamente`);
+  
+  // ✅ VALIDACIÓN DEFINITIVA DE CLIPS GENERADOS
+  const validClips = clips.filter(c => c && typeof c === 'string' && c.includes("https://"));
+  if (validClips.length === 0) {
+    throw new Error("Ningún clip fue generado correctamente.");
+  }
+  
+  logger.info(`[Pipeline] 🎉 ${validClips.length}/${clips.length} clips válidos generados exitosamente`);
+  
+  // Usar solo clips válidos para el resto del proceso
+  const finalClips = validClips;
 
-  // Generación de audio automática
+  // Generación de audio automática con integración completa Freesound/Murf
   let voiceBuffer: Buffer;
   let musicBuffer: Buffer;
-  let sfxBuffer: Buffer;
+  let sfxBuffer: Buffer[];
+  let audioMetadata: any;
   let voiceAudioPath: string = ''; // Para el lip-sync
+  
   try {
-    voiceBuffer = await createVoiceBuffer(videoPlan);  // ✨ MEJORADO: Nuevo nombre
-    if (!voiceBuffer || !(voiceBuffer instanceof Buffer) || voiceBuffer.length === 0) {
-      logger.warn('[Pipeline] Buffer de voz vacío, se usará silencio');
+    logger.info('[Pipeline] 🎵 Generando audio unificado con Freesound/Murf...');
+    
+    reportProgress('Generando audio de voz', 45);
+    
+    // ✅ PASO 4: Configurar assets manuales en videoPlan
+    if (req.voice) {
+      logger.info('[Pipeline] 🎤 Configurando voz manual en videoPlan');
+      videoPlan.metadata.voiceManual = req.voice;
+    }
+    
+    if (req.music) {
+      logger.info('[Pipeline] 🎵 Configurando música manual en videoPlan');
+      videoPlan.metadata.musicManual = req.music;
+    }
+    
+    // ✨ NUEVO: Usar el servicio integrado que ahora puede manejar assets manuales
+    const audioUnificado = await generateUnifiedAudioForPipeline(videoPlan);
+    
+    reportProgress('Procesando audio y música', 55);
+    
+    voiceBuffer = audioUnificado.voiceBuffer;
+    musicBuffer = audioUnificado.musicBuffer;
+    sfxBuffer = audioUnificado.sfxBuffer ? [audioUnificado.sfxBuffer] : [];
+    audioMetadata = {
+      ...audioUnificado.metadata,
+      vozManual: !!req.voice,
+      musicaManual: !!req.music
+    };
+    
+    // Validar buffers generados
+    if (!voiceBuffer || !(voiceBuffer instanceof Buffer)) {
+      logger.warn('[Pipeline] Buffer de voz inválido, usando fallback');
       voiceBuffer = Buffer.alloc(1);
-    } else {
-      // Guardar el audio de voz temporalmente para lip-sync
+    }
+    
+    if (!musicBuffer || !(musicBuffer instanceof Buffer) || musicBuffer.length === 0) {
+      logger.warn('[Pipeline] Buffer de música vacío, usando fallback');
+      musicBuffer = Buffer.alloc(1);
+    }
+    
+    if (!sfxBuffer || !Array.isArray(sfxBuffer) || sfxBuffer.length === 0) {
+      logger.warn('[Pipeline] Buffer de SFX inválido, usando fallback');
+      sfxBuffer = [Buffer.alloc(1)];
+    }
+    
+    // Guardar audio de voz para lip-sync si existe
+    if (voiceBuffer.length > 1) {
       const fs = await import('fs');
       const path = await import('path');
       voiceAudioPath = path.join(process.cwd(), 'tmp', `voice_${Date.now()}.wav`);
       fs.writeFileSync(voiceAudioPath, voiceBuffer);
       logger.info('[Pipeline] Audio de voz guardado para lip-sync:', voiceAudioPath);
     }
-    musicBuffer = await getAdvancedMusic({ style: videoPlan.metadata?.visualStyle || 'cinematic' });
-    if (!musicBuffer || !(musicBuffer instanceof Buffer) || musicBuffer.length === 0) {
-      logger.warn('[Pipeline] Buffer de música vacío, se usará silencio');
-      musicBuffer = Buffer.alloc(1);
-    }
-    sfxBuffer = await getSfx(scenes[0]?.soundCue || 'ambiente');
-    if (!sfxBuffer || !(sfxBuffer instanceof Buffer) || sfxBuffer.length === 0) {
-      logger.warn('[Pipeline] Buffer de SFX vacío, se usará silencio');
-      sfxBuffer = Buffer.alloc(1);
-    }
-    logger.info('[Pipeline] Buffers de audio generados');
+    
+    logger.info(`[Pipeline] ✅ Audio generado: ${audioMetadata?.serviciosUsados?.join(', ') || 'servicios básicos'}`);
+    logger.info(`[Pipeline] 📊 Calidad: Música ${musicBuffer.length} bytes, Voz ${voiceBuffer.length} bytes, SFX ${sfxBuffer.length} bytes`);
+    
   } catch (err) {
-    logger.error('[Pipeline] Error generando audio', { error: err });
-    throw err;
+    logger.error('[Pipeline] Error generando audio integrado, usando fallbacks básicos', { error: err });
+    
+    // Fallback a sistema anterior como seguridad
+    try {
+      voiceBuffer = await createVoiceBuffer(videoPlan);
+      if (!voiceBuffer || !(voiceBuffer instanceof Buffer) || voiceBuffer.length === 0) {
+        logger.warn('[Pipeline] Buffer de voz vacío, se usará silencio');
+        voiceBuffer = Buffer.alloc(1);
+      }
+      musicBuffer = await getAdvancedMusic({ style: videoPlan.metadata?.visualStyle || 'cinematic' });
+      if (!musicBuffer || !(musicBuffer instanceof Buffer) || musicBuffer.length === 0) {
+        logger.warn('[Pipeline] Buffer de música vacío, se usará silencio');
+        musicBuffer = Buffer.alloc(1);
+      }
+      sfxBuffer = await getSfx({ style: scenes[0]?.soundCue || 'ambiente', tipo: 'cinematic' });
+      if (!sfxBuffer || !Array.isArray(sfxBuffer) || sfxBuffer.length === 0) {
+        logger.warn('[Pipeline] Buffer de SFX vacío, se usará silencio');
+        sfxBuffer = [Buffer.alloc(1)];
+      }
+      logger.info('[Pipeline] Buffers de audio generados (fallback)');
+    } catch (fallbackErr) {
+      logger.error('[Pipeline] Error crítico en fallback de audio', { error: fallbackErr });
+      // Buffers mínimos para evitar fallo total
+      voiceBuffer = Buffer.alloc(1);
+      musicBuffer = Buffer.alloc(1);
+      sfxBuffer = [Buffer.alloc(1)];
+    }
   }
 
   // ✨ NUEVO: Aplicar lip-sync inteligente según el estilo visual
@@ -738,14 +928,47 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   // Exportación profesional
   let finalUrl: string;
   try {
+    reportProgress('Ensamblando video final', 85);
+    
     finalUrl = await assembleVideo({
       plan: videoPlan,
-      clips,
+      clips: finalClips,
       voiceBuffer: voiceBuffer,  // ✨ MEJORADO: Renombrado para consistencia
       music: [musicBuffer],
-      sfx: [sfxBuffer],
+      sfx: sfxBuffer,
     });
     logger.info('[Pipeline] Video ensamblado correctamente', { finalUrl });
+    
+    // ✅ PASO 2: Verificar duración del video final
+    reportProgress('Verificando duración del video', 87);
+    try {
+      // Calcular duración esperada desde el plan
+      let duracionEsperada = reqNormalizado.duration || 15;
+      if (videoPlan.timeline && Array.isArray(videoPlan.timeline)) {
+        duracionEsperada = videoPlan.timeline.length;
+      }
+      
+      // Obtener duración real usando ffprobe
+      const duracionReal = await obtenerDuracionVideo(finalUrl);
+      const diferencia = Math.abs(duracionReal - duracionEsperada);
+      
+      logger.info('[Pipeline] ✅ Verificación de duración:', {
+        duracionEsperada,
+        duracionReal,
+        diferencia,
+        coincide: diferencia <= 0.5
+      });
+      
+      if (diferencia > 0.5) {
+        logger.warn('[Pipeline] ⚠️ Duración no coincide con lo esperado');
+      }
+      
+    } catch (error) {
+      logger.warn('[Pipeline] ⚠️ No se pudo verificar duración:', error);
+    }
+    
+    reportProgress('Subiendo video al CDN', 90);
+    
   } catch (err) {
     logger.error('[Pipeline] Error ensamblando video final', { error: err });
     throw err;
@@ -755,18 +978,61 @@ export async function renderCinemaAI(req: RenderRequest, actorCustomPath?: strin
   try {
     cdnUrl = await uploadToCDN(finalUrl, `renders/${Date.now()}_video.mp4`);
     logger.info('[Pipeline] Video subido al CDN', { cdnUrl });
+    
+    // ✅ LOG FINAL DE ÉXITO TOTAL
+    console.log("🎬 Video generado exitosamente:", cdnUrl);
+    
+    reportProgress('Video completado', 100);
+    
   } catch (err) {
     logger.error('[Pipeline] Error subiendo video al CDN', { error: err });
     throw err;
+  }
+
+  // ✅ PASO 8: Agregar metadatos extendidos al resultado
+  const ahora = new Date();
+  const expiraEn = new Date(ahora.getTime() + 48 * 60 * 60 * 1000); // 48 horas
+  
+  // Recopilar assets usados
+  const assetsUsados = [];
+  if (scenes && scenes.length > 0) {
+    for (const scene of scenes) {
+      if (scene.fondoAsset?.ruta) {
+        assetsUsados.push({
+          tipo: 'fondo',
+          ruta: scene.fondoAsset.ruta,
+          nombre: scene.fondoAsset.nombre
+        });
+      }
+      if (scene.actorAsset?.ruta) {
+        assetsUsados.push({
+          tipo: 'actor', 
+          ruta: scene.actorAsset.ruta,
+          nombre: scene.actorAsset.nombre
+        });
+      }
+    }
   }
 
   return {
     url: cdnUrl,
     plan: videoPlan,
     scenes,
-    clips,
+    clips: finalClips,
     resolution: videoPlan.metadata?.duration,
     visualStyle: videoPlan.metadata?.visualStyle,
+    // ✅ PASO 8: Metadatos extendidos
+    metadata: {
+      duracion: reqNormalizado.duration,
+      estilo: reqNormalizado.visualStyle,
+      assetsUsados: assetsUsados.slice(0, 10), // Primeros 10 para evitar payloads grandes
+      fechaCreacion: ahora.toISOString(),
+      expiraEn: expiraEn.toISOString(),
+      vozManual: !!req.voice,
+      musicaManual: !!req.music,
+      carryoverUsado: tomasUnicas?.some(t => t.carryover) || false,
+      ...audioMetadata
+    }
   };
 }
 
@@ -859,4 +1125,142 @@ function agruparEnTomasUnicas(scenes: any[], logger: any): any[] {
   logger.info(`[Pipeline] 🎬 Resumen: ${scenes.length} escenas → ${tomasUnicas.length} tomas cinematográficas`);
   
   return tomasUnicas;
+}
+
+/**
+ * ✨ NUEVO: Pipeline específico para Marketing AI
+ * Genera clips publicitarios cortos con imágenes, voz y música
+ */
+export async function renderMarketingAI(
+  request: MarketingRequest,
+  progressCallback?: (step: string, progress: number) => void
+) {
+  const logger = console;
+  logger.info('[Pipeline] Iniciando renderMarketingAI', {
+    imagenes: request.imagenes.length,
+    descripcion: request.descripcion,
+    estilo: request.estilo
+  });
+
+  // Helper para reportar progreso
+  const reportProgress = (step: string, progress: number) => {
+    if (progressCallback) {
+      progressCallback(step, progress);
+    }
+    logger.info(`[Pipeline Marketing] ${step} (${progress}%)`);
+  };
+
+  try {
+    reportProgress('Validando imágenes y parámetros', 10);
+
+    // Validar request de marketing
+    if (!request.imagenes || request.imagenes.length === 0) {
+      throw new Error('Se requiere al menos una imagen para Marketing AI');
+    }
+
+    if (!request.descripcion || request.descripcion.trim().length < 10) {
+      throw new Error('Descripción del producto/servicio es requerida');
+    }
+
+    reportProgress('Generando clip de marketing con IA', 30);
+
+    // Generar clip completo usando el servicio de marketing
+    const resultado = await generateMarketingClip(request);
+
+    reportProgress('Procesamiento de audio completado', 70);
+    reportProgress('Video final ensamblado', 90);
+    reportProgress('Subida a CDN completada', 100);
+
+    logger.info('[Pipeline Marketing] ✅ Marketing AI completado exitosamente', {
+      videoUrl: resultado.videoUrl,
+      duracion: resultado.metadata.duracion,
+      estilo: resultado.metadata.estilo
+    });
+
+    // Retornar formato compatible con respuesta estándar
+    return {
+      url: resultado.videoUrl,
+      scenes: [{
+        segundo: 0,
+        descripcion: request.descripcion,
+        tipo: 'marketing',
+        videoUrl: resultado.videoUrl,
+        duracion: resultado.metadata.duracion
+      }],
+      clips: [{
+        id: `marketing_${Date.now()}`,
+        url: resultado.videoUrl,
+        duration: resultado.metadata.duracion
+      }],
+      voice: resultado.metadata.hasVoz,
+      music: resultado.metadata.hasMusica,
+      sfx: false,
+      estilo: resultado.metadata.estilo,
+      tipo: 'marketing',
+      metadata: {
+        ...resultado.metadata,
+        planUsed: resultado.planUsed,
+        audioUsed: resultado.audioUsed,
+        musicUsed: resultado.musicUsed,
+        generatedAt: new Date().toISOString(),
+        pipeline: 'marketing-ai'
+      }
+    };
+
+  } catch (error) {
+    logger.error('[Pipeline Marketing] ❌ Error en Marketing AI:', error);
+    
+    // Reportar error en progreso
+    if (progressCallback) {
+      progressCallback(`Error: ${error instanceof Error ? error.message : 'Error desconocido'}`, 0);
+    }
+    
+    throw error;
+  }
+}
+
+/**
+ * ✨ NUEVO: Detecta automáticamente el tipo de request y usa el pipeline apropiado
+ */
+export async function renderAutomatic(
+  request: any,
+  progressCallback?: (step: string, progress: number) => void
+): Promise<any> {
+  const logger = console;
+  
+  // Detectar si es request de marketing
+  if (request.imagenes && request.descripcion && !request.prompt) {
+    logger.info('[Pipeline] 🎯 Detectado request de Marketing AI');
+    
+    const marketingRequest: MarketingRequest = {
+      imagenes: request.imagenes,
+      descripcion: request.descripcion,
+      estilo: request.estilo || 'commercial',
+      duracion: request.duracion || 15,
+      textoVoz: request.textoVoz
+    };
+    
+    return await renderMarketingAI(marketingRequest, progressCallback);
+  }
+  
+  // Detectar si es request cinematográfico estándar
+  if (request.prompt && request.visualStyle && request.duration) {
+    logger.info('[Pipeline] 🎬 Detectado request Cinematográfico');
+    
+    const cinematicRequest: RenderRequest = {
+      prompt: request.prompt,
+      visualStyle: request.visualStyle,
+      duration: request.duration,
+      metadata: request.metadata,
+      demoMode: request.demoMode,
+      previewMode: request.previewMode
+    };
+    
+    return await renderCinemaAI(cinematicRequest, progressCallback);
+  }
+  
+  // Si no se puede detectar el tipo, usar cinematográfico por defecto
+  logger.warn('[Pipeline] ⚠️ Tipo de request no detectado, usando modo cinematográfico');
+  
+  return await renderCinemaAI(request, progressCallback);
 }

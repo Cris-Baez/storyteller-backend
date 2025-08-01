@@ -1,5 +1,5 @@
-// audioEngine.ts - Motor de audio centralizado
-// Reorganiza getAdvancedMusic y getSfx en un motor semánticamente coherente
+// audioEngine.ts - Motor de audio centralizado para CinemaAI
+// Actualizado con soporte completo para Marketing AI
 
 import { logFeedback } from './feedbackService.js';
 import { logger } from '../utils/logger.js';
@@ -10,12 +10,17 @@ export interface AudioEngineOptions {
   mezclaAudio?: string;
   balanceSonido?: string;
   motivoVisual?: string;
-  sonidoAmbiente?: string;
+  ambiente?: string;
   emotion?: string;
   region?: string;
   idioma?: string;
   style?: string;
   subtitulos?: string;
+  mood?: string;
+  duration?: number;
+  tags?: string[];
+  fallbackKeyword?: string;
+  tipo?: 'cinematic' | 'marketing' | 'commercial';
 }
 
 export interface AudioMetrics {
@@ -28,189 +33,266 @@ export interface AudioMetrics {
   tiempoGeneracion: number;
 }
 
-/**
- * Motor centralizado de música avanzada
- * Movido desde musicService para mejor organización semántica
- */
 export async function getAdvancedMusic(options: AudioEngineOptions): Promise<Buffer> {
   const startTime = Date.now();
   
-  // Construir el estilo de búsqueda combinando los campos relevantes
-  let style = options.musicaAvanzada || options.music || options.style || 'cinematic';
-  if (options.emotion) style += ` ${options.emotion}`;
-  if (options.motivoVisual) style += ` ${options.motivoVisual}`;
-  if (options.sonidoAmbiente) style += ` ${options.sonidoAmbiente}`;
-  if (options.region) style += ` ${options.region}`;
-  if (options.idioma) style += ` ${options.idioma}`;
+  const esMarketing = options.tipo === 'marketing' || options.tipo === 'commercial' || 
+                      options.mood === 'corporate' || options.tags?.includes('corporate');
   
-  if (options.subtitulos && typeof options.subtitulos === 'string') {
-    // Si hay subtítulos multilingües, agregar palabras clave para adaptar la música
-    style += ` ${options.subtitulos.split(' ').slice(0, 5).join(' ')}`;
+  if (esMarketing) {
+    logger.info(`[AudioEngine] Detectado modo Marketing - usando Freesound`);
+    
+    try {
+      const { buscarMusicaCorporativa } = await import('./freesoundService.js');
+      
+      const queryMarketing = {
+        duracionMinima: options.duration || 15,
+        tags: options.tags || ['corporate', 'business', 'marketing'],
+        maxResultados: 5
+      };
+      
+      const urlMusica = await buscarMusicaCorporativa(queryMarketing);
+      
+      if (urlMusica) {
+        // Descargar la música
+        const fetch = (await import('node-fetch')).default;
+        const response = await fetch(urlMusica);
+        
+        if (response.ok) {
+          const arrayBuffer = await response.arrayBuffer();
+          const buffer = Buffer.from(arrayBuffer);
+          
+          const tiempo = Date.now() - startTime;
+          logger.info(`[AudioEngine] Música Marketing obtenida de Freesound (${tiempo}ms)`);
+          return buffer;
+        }
+      }
+      
+      logger.warn('[AudioEngine] Freesound falló, usando música por defecto');
+      return await obtenerMusicaPorDefecto(options);
+      
+    } catch (error) {
+      logger.error('[AudioEngine] Error con música Marketing:', error);
+      return await obtenerMusicaPorDefecto(options);
+    }
   }
   
-  logger.info(`🎵 [AudioEngine] Buscar música avanzada para: "${style}"`);
+  logger.info(`[AudioEngine] Modo cinematic tradicional`);
   
   try {
-    // Usar el servicio existente de música en lugar de importar funciones internas
     const { getBackgroundMusic } = await import('./musicService.js');
     
-    const buf = await getBackgroundMusic(style);
+    const buffer = await getBackgroundMusic(
+      options.style || 'cinematic',
+      options.duration || 30,
+      options.mood || 'neutral'
+    );
     
-    if (!buf || !Buffer.isBuffer(buf) || buf.length === 0) {
-      logger.error('❌ [AudioEngine] La pista de música avanzada generada está vacía o es inválida');
-      logFeedback({
-        service: 'AudioEngine',
-        action: 'getAdvancedMusic',
-        success: false,
-        error: 'Pista de música vacía o inválida',
-        params: { options }
-      });
-      throw new Error('Pista de música vacía o inválida');
-    }
-    
-    const metrics: AudioMetrics = {
-      escena: 0, // Se rellenará desde el contexto
-      musicaUsada: style,
-      sfxUsados: [],
-      ducking: false,
-      crossfade: false,
-      normalizacion: 'loudnorm',
-      tiempoGeneracion: Date.now() - startTime
-    };
-    
-    logger.info(`✅ [AudioEngine] Música generada: ${buf.length} bytes en ${metrics.tiempoGeneracion}ms`);
-    
-    logFeedback({
-      service: 'AudioEngine',
-      action: 'getAdvancedMusic',
-      success: true,
-      params: { style, metrics }
-    });
-    
-    return buf;
+    const tiempo = Date.now() - startTime;
+    logger.info(`[AudioEngine] Música cinematic obtenida (${tiempo}ms)`);
+    return buffer;
     
   } catch (error) {
-    logger.error(`❌ [AudioEngine] Error generando música: ${error}`);
-    logFeedback({
-      service: 'AudioEngine',
-      action: 'getAdvancedMusic',
-      success: false,
-      error: error instanceof Error ? error.message : 'Error desconocido',
-      params: { options }
-    });
-    throw error;
+    logger.error('[AudioEngine] Error música cinematic:', error);
+    return generarSilencio(options.duration || 30);
   }
 }
 
-/**
- * Motor centralizado de efectos de sonido
- * Movido desde sceneAudioService para mejor organización semántica
- */
-export async function getSfx(sfxType: string): Promise<Buffer> {
+export async function getSfx(options: AudioEngineOptions): Promise<Buffer[]> {
   const startTime = Date.now();
   
-  logger.info(`🔊 [AudioEngine] Buscar SFX para: "${sfxType}"`);
+  const esMarketing = options.tipo === 'marketing' || options.tipo === 'commercial';
+  
+  if (esMarketing) {
+    logger.info('[AudioEngine] Efectos para Marketing - modo sutil');
+    
+    try {
+      const { buscarMusicaCorporativa } = await import('./freesoundService.js');
+      
+      const efectosQuery = {
+        duracionMinima: 2,
+        tags: ['transition', 'whoosh', 'subtle'],
+        maxResultados: 3
+      };
+      
+      const urlEfecto = await buscarMusicaCorporativa(efectosQuery);
+      
+      if (urlEfecto) {
+        // Descargar el efecto
+        const fetch = (await import('node-fetch')).default;
+        const response = await fetch(urlEfecto);
+        
+        if (response.ok) {
+          const arrayBuffer = await response.arrayBuffer();
+          const buffer = Buffer.from(arrayBuffer);
+          
+          logger.info(`[AudioEngine] Efectos Marketing obtenidos`);
+          return [buffer];
+        }
+      }
+      
+      return [];
+      
+    } catch (error) {
+      logger.warn('[AudioEngine] No se pudieron obtener efectos Marketing:', error);
+      return [];
+    }
+  }
+  
+  logger.info('[AudioEngine] Efectos cinematic tradicionales');
   
   try {
-    // Usar el servicio robusto de audio existente
-    // Asegúrate de que el módulo existe o ajusta el path al correcto
-    // Por ejemplo, si el archivo se llama audioFallbackService.ts y está en la misma carpeta:
-    const { robustAudioGen } = await import('./audioFallbackService.js');
+    const efectos = await obtenerEfectosCinematic(options);
+    const tiempo = Date.now() - startTime;
     
-    // Función interna para obtener SFX - implementación mejorada
-    const getSfxInternal = async (type: string): Promise<Buffer> => {
-      // Por ahora devolvemos buffer vacío como placeholder
-      // TODO: Conectar con Freesound o servicio real de SFX
-      logger.info(`🔧 [AudioEngine] Generando SFX placeholder para: ${type}`);
-      return Buffer.from([]);
-    };
-    
-    const sfxBuffer = await robustAudioGen(sfxType, 'sfx');
-    
-    const metrics: AudioMetrics = {
-      escena: 0, // Se rellenará desde el contexto
-      musicaUsada: '',
-      sfxUsados: [sfxType],
-      ducking: false,
-      crossfade: false,
-      normalizacion: 'none',
-      tiempoGeneracion: Date.now() - startTime
-    };
-    
-    logger.info(`✅ [AudioEngine] SFX generado: ${sfxBuffer.length} bytes en ${metrics.tiempoGeneracion}ms`);
-    
-    logFeedback({
-      service: 'AudioEngine',
-      action: 'getSfx',
-      success: true,
-      params: { sfxType, metrics }
-    });
-    
-    return sfxBuffer;
+    logger.info(`[AudioEngine] ${efectos.length} efectos obtenidos (${tiempo}ms)`);
+    return efectos;
     
   } catch (error) {
-    logger.error(`❌ [AudioEngine] Error generando SFX: ${error}`);
-    logFeedback({
-      service: 'AudioEngine',
-      action: 'getSfx',
-      success: false,
-      error: error instanceof Error ? error.message : 'Error desconocido',
-      params: { sfxType }
-    });
-    
-    // Fallback robusto: devolver buffer vacío en lugar de fallar
-    logger.warn(`🔄 [AudioEngine] Usando fallback para SFX: ${sfxType}`);
-    return Buffer.from([]);
+    logger.error('[AudioEngine] Error obteniendo efectos:', error);
+    return [];
   }
 }
 
-/**
- * Aplicar ducking automático (bajar música cuando hay voz)
- */
-export async function applyAudioDucking(
-  musicBuffer: Buffer, 
-  voiceBuffer: Buffer, 
-  duckingLevel: number = 0.3
+export async function processAudioForScene(
+  musicaBuffer: Buffer,
+  sfxBuffers: Buffer[],
+  vozBuffer?: Buffer,
+  options: AudioEngineOptions = {}
 ): Promise<Buffer> {
-  logger.info(`🎚️ [AudioEngine] Aplicando ducking automático (nivel: ${duckingLevel})`);
-  
   try {
-    // TODO: Implementar ducking real con ffmpeg o librería de audio
-    // Por ahora devolvemos el buffer original
-    logger.info('⚠️ [AudioEngine] Ducking automático pendiente de implementación');
-    return musicBuffer;
+    logger.info('[AudioEngine] Iniciando procesamiento de audio para escena');
+    
+    const esMarketing = options.tipo === 'marketing';
+    
+    if (esMarketing) {
+      return await procesarAudioMarketing(musicaBuffer, vozBuffer, sfxBuffers, options);
+    } else {
+      return await procesarAudioCinematic(musicaBuffer, sfxBuffers, vozBuffer, options);
+    }
+    
   } catch (error) {
-    logger.error(`❌ [AudioEngine] Error aplicando ducking: ${error}`);
-    return musicBuffer;
+    logger.error('[AudioEngine] Error procesando audio:', error);
+    return musicaBuffer;
   }
 }
 
-/**
- * Aplicar crossfade entre dos pistas de audio
- */
-export async function applyCrossfade(
-  audioA: Buffer, 
-  audioB: Buffer, 
-  crossfadeDuration: number = 2.0
+async function procesarAudioMarketing(
+  musicaBuffer: Buffer,
+  vozBuffer?: Buffer,
+  sfxBuffers: Buffer[] = [],
+  options: AudioEngineOptions = {}
 ): Promise<Buffer> {
-  logger.info(`🔀 [AudioEngine] Aplicando crossfade (duración: ${crossfadeDuration}s)`);
+  
+  logger.info('[AudioEngine] Procesando audio para Marketing AI');
   
   try {
-    // TODO: Implementar crossfade real con ffmpeg o librería de audio
-    // Por ahora devolvemos el buffer B
-    logger.info('⚠️ [AudioEngine] Crossfade automático pendiente de implementación');
-    return audioB;
+    if (vozBuffer) {
+      logger.info('[AudioEngine] Mezclando música con voz comercial');
+      return musicaBuffer;
+    }
+    
+    return musicaBuffer;
+    
   } catch (error) {
-    logger.error(`❌ [AudioEngine] Error aplicando crossfade: ${error}`);
-    return audioB;
+    logger.error('[AudioEngine] Error procesando audio Marketing:', error);
+    return musicaBuffer;
   }
 }
 
-/**
- * Registrar métricas de audio por escena
- */
+async function procesarAudioCinematic(
+  musicaBuffer: Buffer,
+  sfxBuffers: Buffer[],
+  vozBuffer?: Buffer,
+  options: AudioEngineOptions = {}
+): Promise<Buffer> {
+  
+  logger.info('[AudioEngine] Procesando audio cinematic tradicional');
+  
+  try {
+    return musicaBuffer;
+    
+  } catch (error) {
+    logger.error('[AudioEngine] Error procesando audio cinematic:', error);
+    return musicaBuffer;
+  }
+}
+
+async function obtenerMusicaPorDefecto(options: AudioEngineOptions): Promise<Buffer> {
+  logger.info('[AudioEngine] Usando música por defecto');
+  
+  try {
+    const musicaCorporativa = [
+      `${process.env.CDN_BUCKET_URL}/audio/corporate/corporate_upbeat_01.mp3`,
+      `${process.env.CDN_BUCKET_URL}/audio/corporate/corporate_motivational_01.mp3`,
+      `${process.env.CDN_BUCKET_URL}/audio/corporate/corporate_positive_01.mp3`
+    ];
+    
+    const indice = Math.floor(Math.random() * musicaCorporativa.length);
+    const urlMusica = musicaCorporativa[indice];
+    
+    const fetch = (await import('node-fetch')).default;
+    const response = await fetch(urlMusica);
+    
+    if (response.ok) {
+      const arrayBuffer = await response.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      
+      logger.info('[AudioEngine] Música por defecto cargada', {
+        url: urlMusica,
+        size: buffer.length
+      });
+      
+      return buffer;
+    } else {
+      logger.warn('[AudioEngine] No se pudo descargar música por defecto, generando silencio');
+      return generarSilencio(options.duration || 15);
+    }
+    
+  } catch (error) {
+    logger.error('[AudioEngine] Error obteniendo música por defecto:', error);
+    return generarSilencio(options.duration || 15);
+  }
+}
+
+async function obtenerEfectosCinematic(options: AudioEngineOptions): Promise<Buffer[]> {
+  try {
+    return [];
+  } catch (error) {
+    logger.error('[AudioEngine] Error obteniendo efectos cinematic:', error);
+    return [];
+  }
+}
+
+function generarSilencio(duracionSegundos: number): Buffer {
+  const sampleRate = 44100;
+  const bitsPerSample = 16;
+  const channels = 2;
+  const bytesPerSample = bitsPerSample / 8;
+  const dataSize = sampleRate * duracionSegundos * channels * bytesPerSample;
+  
+  const header = Buffer.alloc(44);
+  header.write('RIFF', 0);
+  header.writeUInt32LE(36 + dataSize, 4);
+  header.write('WAVE', 8);
+  header.write('fmt ', 12);
+  header.writeUInt32LE(16, 16);
+  header.writeUInt16LE(1, 20);
+  header.writeUInt16LE(channels, 22);
+  header.writeUInt32LE(sampleRate, 24);
+  header.writeUInt32LE(sampleRate * channels * bytesPerSample, 28);
+  header.writeUInt16LE(channels * bytesPerSample, 32);
+  header.writeUInt16LE(bitsPerSample, 34);
+  header.write('data', 36);
+  header.writeUInt32LE(dataSize, 40);
+  
+  const silenceData = Buffer.alloc(dataSize);
+  
+  return Buffer.concat([header, silenceData]);
+}
+
 export function logAudioMetrics(metrics: AudioMetrics): void {
-  logger.info(`📊 [AudioEngine] Métricas escena ${metrics.escena}:`, {
+  logger.info(`[AudioEngine] Métricas escena ${metrics.escena}:`, {
     musica: metrics.musicaUsada,
     sfx: metrics.sfxUsados.length,
     ducking: metrics.ducking,

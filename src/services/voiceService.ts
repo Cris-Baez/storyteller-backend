@@ -497,3 +497,50 @@ export async function createVoiceBuffer(plan: VideoPlan): Promise<Buffer> {
 
 // ✨ BACKWARD COMPATIBILITY: Mantener la función original como alias
 export const createVoiceOver = createVoiceBuffer;
+
+/**
+ * ✨ NUEVO: Función específica para Marketing AI con soporte directo para Murf
+ * Genera voz comercial usando el servicio de Murf optimizado para marketing
+ */
+export async function createMarketingVoiceBuffer(options: {
+  text: string;
+  voice?: string;
+  style?: 'commercial' | 'professional' | 'energetic' | 'calm';
+  speed?: number;
+  pitch?: number;
+}): Promise<Buffer> {
+  
+  logger.info(`🎤 [VoiceService] Generando voz para Marketing AI`);
+  
+  try {
+    const { generarVozComercial } = await import('./murfService.js');
+    
+    const resultado = await generarVozComercial({
+      text: options.text,
+      voice: options.voice || 'en-US-mark',
+      style: options.style || 'commercial',
+      speed: options.speed || 1.0,
+      pitch: options.pitch || 0
+    });
+    
+    if (resultado.success && resultado.audioBuffer) {
+      logger.info(`✅ [VoiceService] Voz comercial generada exitosamente con Murf`);
+      return resultado.audioBuffer;
+    } else {
+      throw new Error(resultado.error || 'Murf no pudo generar la voz');
+    }
+    
+  } catch (error) {
+    logger.warn(`⚠️ [VoiceService] Murf falló, usando fallback ElevenLabs:`, error);
+    
+    try {
+      // Fallback a ElevenLabs para marketing
+      const fallbackVoice = await generateVoice(options.text, 'female');
+      logger.info(`✅ [VoiceService] Voz generada con ElevenLabs fallback`);
+      return fallbackVoice;
+    } catch (fallbackError) {
+      logger.error(`❌ [VoiceService] Fallback ElevenLabs también falló:`, fallbackError);
+      return await beepFallback();
+    }
+  }
+}

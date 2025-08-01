@@ -1,5 +1,5 @@
 import express from 'express';
-import { startJob, getJobStatus, getJobResult } from '../jobs/jobQueue.js';
+import { startJob, getJobStatus, getJobResult, getJobProgress, getJobState } from '../jobs/jobQueue.js';
 import { z } from 'zod';
 import { logger, safeLog } from '../utils/logger.js';
 import { logFeedback } from '../services/feedbackService.js';
@@ -172,18 +172,43 @@ renderRouter.post('/', upload.fields([
 // Endpoint para verificar estado de trabajo
 renderRouter.get('/status/:jobId', async (req, res) => {
   try {
-    const status = await getJobStatus(req.params.jobId);
-    res.json(status);
+    const status = getJobStatus(req.params.jobId);
+    res.json({ status });
   } catch (error: any) {
     logger.error('Error obteniendo estado:', error);
     res.status(404).json({ error: 'Job not found' });
   }
 });
 
+// Endpoint para obtener progreso detallado del trabajo
+renderRouter.get('/progress/:jobId', async (req, res) => {
+  try {
+    const progress = getJobProgress(req.params.jobId);
+    res.json(progress);
+  } catch (error: any) {
+    logger.error('Error obteniendo progreso:', error);
+    res.status(404).json({ error: 'Job not found' });
+  }
+});
+
+// Endpoint para obtener estado completo del trabajo
+renderRouter.get('/state/:jobId', async (req, res) => {
+  try {
+    const state = getJobState(req.params.jobId);
+    if (!state) {
+      return res.status(404).json({ error: 'Job not found' });
+    }
+    res.json(state);
+  } catch (error: any) {
+    logger.error('Error obteniendo estado completo:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Endpoint para obtener resultado
 renderRouter.get('/result/:jobId', async (req, res) => {
   try {
-    const result = await getJobResult(req.params.jobId);
+    const result = getJobResult(req.params.jobId);
     res.json(result);
   } catch (error: any) {
     logger.error('Error obteniendo resultado:', error);

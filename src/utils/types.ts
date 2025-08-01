@@ -19,6 +19,9 @@ export interface RenderRequest {
   metadata?: any;
   demoMode?: boolean;
   previewMode?: boolean;
+  // ✅ PASO 4: Soporte para voz y música manual
+  voice?: string | CharacterVoiceSpec; // ID de voz o spec completa
+  music?: string | MusicSpec; // ID de música o spec completa
 }
 
 export interface MusicSpec {

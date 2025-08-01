@@ -45,31 +45,50 @@ export async function generarNarrativaCinematica(prompt: string): Promise<Narrat
   console.log('[Director Cinematic] 🎬 Generando narrativa cinematográfica con IA...');
   
   try {
+    // ✅ CORRECCIÓN CRÍTICA: Cargar assets reales ANTES de generar plan
+    const { AssetManager } = await import('../../../assetManager.js');
+    const fondosDisponibles = await AssetManager.obtenerFondosPorEstilo('cinematic');
+    const actoresDisponibles = await AssetManager.obtenerActoresPorEstilo('cinematic');
+    
+    console.log('[Director] 🎯 Assets disponibles:', {
+      fondos: fondosDisponibles.length,
+      actores: actoresDisponibles.length,
+      ejemplosFondos: fondosDisponibles.slice(0, 5).map(f => ({ lugar: f.lugar, variante: f.variante, ambiente: f.ambiente })),
+      ejemplosActores: actoresDisponibles.slice(0, 3).map(a => a.nombre)
+    });
+    
     // Cargar el prompt base compartido
     const systemBase = await cargarSystemPromptBase();
     
-    // Especialización del Director de CinemaAI
+    // Especialización del Director de CinemaAI con assets reales
     const especializacionDirector = `
 Ahora actúas como el CEREBRO DIRECTOR CINEMATOGRÁFICO de CinemaAI.
 
-CONTEXTO TÉCNICO:
-- CinemaAI NO genera videos desde cero
-- Usa fondos pre-generados del CDN (seleccionas de catálogo existente)
-- Usa actores pre-generados del CDN (seleccionas de catálogo existente)  
-- Kling Elements anima los fondos como tomas en movimiento
-- Murf.ai proporciona voces (catálogo existente)
-- Freesound.org proporciona música/efectos (catálogo existente)
-- FFmpeg renderiza el resultado final
+ASSETS REALES DISPONIBLES EN EL CDN:
+FONDOS: ${fondosDisponibles.map(f => `${f.lugar}/${f.variante}/${f.ambiente} (${f.angulo})`).slice(0, 20).join(', ')}
+ACTORES: ${actoresDisponibles.map(a => a.nombre.replace('.png', '')).slice(0, 10).join(', ')}
+
+CONTEXTO TÉCNICO REAL:
+- CinemaAI usa ÚNICAMENTE los fondos listados arriba del CDN
+- Debes elegir fondos ESPECÍFICOS que existan realmente
+- Los actores están pre-generados, elige nombres EXACTOS de la lista
+- Kling Elements anima estos fondos como tomas en movimiento
+- La narrativa DEBE ser comprensible y tener continuidad visual
 
 TU TRABAJO COMO DIRECTOR:
-✅ Crear estructura narrativa profesional (introducción → desarrollo → clímax → final)
-✅ Planificar tomas que tengan continuidad visual y emocional
-✅ La primera toma DEBE ser visualmente impactante para captar atención
-✅ Asegurar carryover emocional entre tomas (no cortes bruscos)
-✅ Pensar en movimientos de cámara factibles para Kling (zoom, pan, tilt)
-✅ Mantener coherencia de colores, iluminación y estilo
+✅ Crear historia coherente que use ÚNICAMENTE assets disponibles
+✅ Primera toma DEBE ser impactante y establecer contexto
+✅ Cada toma debe conectar visualmente con la anterior (carryover)
+✅ Usar lugares reales del CDN que tengan sentido narrativo
+✅ Los fondos DEBEN existir en la lista de arriba
 
-RESPONDE ÚNICAMENTE con este JSON:
+EJEMPLOS DE FONDOS CORRECTOS:
+- "apartamento/cocina/día" para escenas caseras
+- "casa/patio/día" para exteriores
+- "naturaleza/montaña/día" para aventuras
+- "ciudad/calle/noche" para drama urbano
+
+RESPONDE ÚNICAMENTE con este JSON usando ASSETS REALES:
 {
   "historia": "resumen conciso de la historia en 2-3 líneas",
   "tono": "dramático|épico|emocional|misterioso|acción|romántico|thriller",
@@ -105,14 +124,31 @@ RESPONDE ÚNICAMENTE con este JSON:
 
     const contextoUsuario = `PROMPT DEL USUARIO: "${prompt}"
 
-INSTRUCCIONES ESPECÍFICAS:
-- Crea EXACTAMENTE 3 tomas de 10 segundos cada una (total 30s)
-- La PRIMERA toma debe ser visualmente IMPACTANTE para captar atención
-- Asegura CONTINUIDAD VISUAL entre las 3 tomas
-- Usa movimientos de cámara apropiados para Kling Elements
-- Mantén coherencia de paleta de colores y estilo
+INSTRUCCIONES ESPECÍFICAS PARA NARRATIVA CINEMATOGRÁFICA:
+- Analiza el prompt y determina la duración óptima de tomas (entre 6-15 segundos cada una)
+- Para videos de 30s: crear 3 tomas (10s cada una)
+- Para videos de 60s: crear 6 tomas (10s cada una)
+- Para videos de 90s: crear 6 tomas (15s cada una)
 
-Analiza este prompt y crea un plan cinematográfico completo de 3 tomas.`;
+ESTRUCTURA NARRATIVA OBLIGATORIA:
+1. SETUP (25%): Establece personaje, lugar, situación inicial
+2. DESARROLLO (50%): Presenta conflicto, tensión, complicaciones
+3. CLIMAX (20%): Momento de máxima tensión o revelación
+4. CIERRE (5%): Resolución satisfactoria
+
+CADA TOMA DEBE TENER:
+- Movimiento de cámara intencional (no static salvo que sea por tensión)
+- Emoción específica que escale progresivamente
+- Fondo del CDN que exista realmente
+- Actor coherente con la historia
+- Continuidad visual clara con la toma anterior
+
+PROGRESIÓN EMOCIONAL REQUERIDA:
+- Toma 1: Intriga/curiosidad (desengancha inmediato)
+- Toma 2: Desarrollo/tensión (mantiene interés)
+- Toma 3: Climax/resolución (impacto final)
+
+Analiza este prompt y crea un plan cinematográfico dinámico y emocionalmente progresivo.`;
 
     const promptCompleto = construirPromptCompleto(systemBase, especializacionDirector, contextoUsuario);
     
@@ -136,62 +172,82 @@ Analiza este prompt y crea un plan cinematográfico completo de 3 tomas.`;
     console.error('[Director Cinematic] ❌ Error generando narrativa:', error);
   }
   
-  // Fallback estructurado y profesional
-  console.log('[Director Cinematic] 🔄 Usando narrativa fallback...');
+  // Fallback estructurado y profesional con narrativa dinámica
+  console.log('[Director Cinematic] 🔄 Usando narrativa fallback mejorada...');
+  
+  // Obtener fondos reales del AssetManager para el fallback
+  const { AssetManager } = await import('../../../assetManager.js');
+  const fondosReales = await AssetManager.obtenerFondosPorEstilo('cinematic');
+  const actoresReales = await AssetManager.obtenerActoresPorEstilo('cinematic');
+  
+  // Determinar número de tomas basado en duración del prompt
+  const palabras = prompt.split(' ').length;
+  const duracionEstimada = Math.max(30, palabras * 2); // Estimación básica
+  const numeroTomas = Math.ceil(duracionEstimada / 10); // 10s por toma promedio
+  
+  const tomasFallback: TomaCinematograficaPlan[] = [];
+  
+  // Generar tomas dinámicas basadas en el prompt
+  const estilosMovimiento = ['slow_zoom_in', 'pan_right', 'pan_left', 'tilt_up', 'tilt_down', 'dolly_forward'];
+  const emociones = ['intriga', 'tension', 'emocion', 'climax', 'resolucion'];
+  
+  // ✅ CRÍTICO: Usar fondos reales del assets_index.json
+  const fondosParaFallback = fondosReales.length > 0 ? fondosReales.slice(0, 4) : [];
+  const actoresParaFallback = actoresReales.length > 0 ? actoresReales.slice(0, 2) : [];
+  
+  console.log(`[Director Cinematic] 🏗️ Fondos reales disponibles para fallback: ${fondosParaFallback.length}`);
+  fondosParaFallback.forEach((f, idx) => {
+    console.log(`  [${idx + 1}] ${f.ruta} (${f.lugar}/${f.variante})`);
+  });
+  
+  console.log(`[Director Cinematic] 🎭 Actores reales disponibles para fallback: ${actoresParaFallback.length}`);
+  actoresParaFallback.forEach((a, idx) => {
+    console.log(`  [${idx + 1}] ${a.ruta}`);
+  });
+  
+  for (let i = 0; i < Math.min(numeroTomas, 6); i++) {
+    const progreso = i / (numeroTomas - 1);
+    let tipoToma: 'setup' | 'desarrollo' | 'climax' | 'cierre';
+    
+    if (progreso <= 0.25) tipoToma = 'setup';
+    else if (progreso <= 0.75) tipoToma = 'desarrollo';
+    else if (progreso <= 0.9) tipoToma = 'climax';
+    else tipoToma = 'cierre';
+    
+    // Seleccionar fondo y actor reales del assets_index
+    const fondoSeleccionado = fondosParaFallback.length > 0 
+      ? fondosParaFallback[i % fondosParaFallback.length]
+      : null;
+      
+    const actorSeleccionado = actoresParaFallback.length > 0
+      ? actoresParaFallback[i % actoresParaFallback.length]
+      : null;
+    
+    tomasFallback.push({
+      numero: i + 1,
+      duracion: 10,
+      tipoToma,
+      descripcion: `${tipoToma.charAt(0).toUpperCase() + tipoToma.slice(1)}: ${prompt.substring(0, 50)}... - Toma ${i + 1}`,
+      movimientoCamara: estilosMovimiento[i % estilosMovimiento.length],
+      estiloVisual: 'cinematico',
+      emocion: emociones[Math.min(i, emociones.length - 1)],
+      fondo: fondoSeleccionado ? fondoSeleccionado.ruta : 'escenas/anime/apartamento/baño/día/frontal.png', // ✅ Usar ruta real del assets_index
+      actor: actorSeleccionado ? actorSeleccionado.ruta : 'actores/anime/casa/estudio/día/jovenmasculinotristeformal.png', // ✅ Usar actor real del assets_index
+      vozMurf: i === 0 ? 'masculina_narrativa' : 'masculina_dramatica',
+      musica: i < 2 ? 'tension_creciente' : 'climax_orquestal',
+      efectosSonoros: i % 2 === 0 ? 'ambiente_interior' : 'naturaleza_viento',
+      carryover: i === 0 ? 'inicio' : `continuidad_visual_toma_${i}`
+    });
+  }
+  
   return {
-    historia: `Historia cinematográfica profesional basada en: ${prompt}`,
+    historia: `Historia cinematográfica basada en: ${prompt}`,
     tono: 'dramático',
     estructura: ['setup', 'desarrollo', 'climax', 'cierre'] as ActoNarrativo[],
-    momentosEmocionales: [5, 15, 25],
+    momentosEmocionales: tomasFallback.map(t => t.numero * 10 - 5), // Momento emocional a mitad de cada toma
     genero: 'drama',
     ritmo: 'medio',
-    tomas: [
-      {
-        numero: 1,
-        duracion: 10,
-        tipoToma: 'setup',
-        descripcion: 'Establecimiento visual impactante - plano general épico',
-        movimientoCamara: 'slow_zoom_in',
-        estiloVisual: 'cinematico',
-        emocion: 'intriga',
-        fondo: 'escenario_epico_general',
-        actor: 'protagonista_heroico',
-        vozMurf: 'masculina_narrativa',
-        musica: 'epica_inicio',
-        efectosSonoros: 'ambiente_natural',
-        carryover: 'inicio'
-      },
-      {
-        numero: 2,
-        duracion: 10,
-        tipoToma: 'desarrollo',
-        descripcion: 'Desarrollo dinámico de la acción',
-        movimientoCamara: 'pan_right',
-        estiloVisual: 'cinematico',
-        emocion: 'tension',
-        fondo: 'escenario_epico_accion',
-        actor: 'protagonista_accion',
-        vozMurf: 'masculina_dramatica',
-        musica: 'tension_creciente',
-        efectosSonoros: 'movimiento_dinamico',
-        carryover: 'continuidad_visual'
-      },
-      {
-        numero: 3,
-        duracion: 10,
-        tipoToma: 'climax',
-        descripcion: 'Momento culminante épico',
-        movimientoCamara: 'tilt_up',
-        estiloVisual: 'cinematico',
-        emocion: 'climax',
-        fondo: 'escenario_epico_culminante',
-        actor: 'protagonista_heroico',
-        vozMurf: 'masculina_epica',
-        musica: 'climax_orquestal',
-        efectosSonoros: 'impacto_dramatico',
-        carryover: 'resolucion'
-      }
-    ],
+    tomas: tomasFallback,
     continuidad: {
       paletaColores: 'cinematica_natural',
       iluminacion: 'natural_dramatica',

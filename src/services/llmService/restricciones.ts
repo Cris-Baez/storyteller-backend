@@ -26,6 +26,12 @@ export const LIMITACIONES_ESTILO = {
     movimientosCamara: ['estatica', 'zoom'],
     transiciones: ['corte'],
     efectos: ['ninguno', 'saturacion']
+  },
+  commercial: {
+    duracionMaxima: 40,
+    movimientosCamara: ['estatica', 'pan', 'zoom', 'smooth_professional'],
+    transiciones: ['corte', 'fade', 'professional_cut'],
+    efectos: ['ninguno', 'brand_colors', 'professional_look']
   }
 };
 
