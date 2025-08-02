@@ -142,6 +142,7 @@ export interface TimelineSecond {
 export interface VideoPlan {
   visualStyle?: EstiloVisual;
   timeline: TimelineSecond[];
+  tomasReales?: any[]; // ✅ NUEVO: Tomas del orquestador cinematográfico
   metadata: {
     visualStyle: EstiloVisual;
     duration: AllowedDuration;

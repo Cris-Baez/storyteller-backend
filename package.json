@@ -8,7 +8,10 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "nodemon dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prod": "npm run build && npm start",
+    "demo": "npm run build && NODE_ENV=demo npm start",
+    "health": "node -e \"import('node-fetch').then(f => f.default('http://localhost:3000/healthz').then(r => r.json()).then(console.log))\""
   },
   "keywords": [],
   "author": "",

@@ -62,8 +62,8 @@ export async function generateMarketingClip(request: MarketingRequest): Promise<
       prompt: promptMarketing,
       input_image_urls: [imagenPrincipal],
       duration: duracion,
-      aspect_ratio: '16:9',
-      negative_prompt: 'blurry, low quality, distorted, bad lighting'
+      aspectRatio: '16:9',
+      creativity: 0.7
     });
 
     if (!videoClip) {

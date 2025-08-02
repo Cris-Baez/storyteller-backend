@@ -126,6 +126,7 @@ RESPONDE ÚNICAMENTE con este JSON usando ASSETS REALES:
 
 INSTRUCCIONES ESPECÍFICAS PARA NARRATIVA CINEMATOGRÁFICA:
 - Analiza el prompt y determina la duración óptima de tomas (entre 6-15 segundos cada una)
+- Para videos de 10s: crear 1 toma (10s) - concentrada y directa
 - Para videos de 30s: crear 3 tomas (10s cada una)
 - Para videos de 60s: crear 6 tomas (10s cada una)
 - Para videos de 90s: crear 6 tomas (15s cada una)
@@ -143,10 +144,9 @@ CADA TOMA DEBE TENER:
 - Actor coherente con la historia
 - Continuidad visual clara con la toma anterior
 
-PROGRESIÓN EMOCIONAL REQUERIDA:
-- Toma 1: Intriga/curiosidad (desengancha inmediato)
-- Toma 2: Desarrollo/tensión (mantiene interés)
-- Toma 3: Climax/resolución (impacto final)
+PROGRESIÓN EMOCIONAL DINÁMICA:
+- Para 1 toma (10s): Completa setup→desarrollo→climax en una sola toma
+- Para 3+ tomas: Toma 1: Intriga/curiosidad, Toma 2: Desarrollo/tensión, Toma 3: Climax/resolución
 
 Analiza este prompt y crea un plan cinematográfico dinámico y emocionalmente progresivo.`;
 

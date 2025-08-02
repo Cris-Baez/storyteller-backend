@@ -96,6 +96,48 @@ export async function generateSceneAudio(
 }
 
 /**
+ * ✨ NUEVO: Genera audio para tomas del orquestador cinematográfico
+ */
+async function generateBatchTomaAudio(
+  plan: VideoPlan, 
+  tomas: any[]
+): Promise<SceneAudioResult[]> {
+  logger.info(`🎬 [SceneAudio] Procesando lote: tomas 1-${tomas.length} (${tomas.length} tomas)`);
+  
+  const audioResults: SceneAudioResult[] = [];
+  
+  // Procesar cada toma como una escena larga
+  for (let i = 0; i < tomas.length; i++) {
+    const toma = tomas[i];
+    logger.info(`🎭 [SceneAudio] Generando audio para toma ${i + 1}/${tomas.length}`);
+    
+    // Convertir toma a formato de escena para compatibilidad
+    const escenaVirtual = {
+      segundo: i * (toma.duracion || 10),
+      narrativa: { descripcion: toma.descripcion, tipo: toma.tipoToma },
+      fondo: toma.fondo,
+      actor: toma.actor,
+      camara: toma.camara || {},
+      sonido: toma.sonido || {},
+      edicion: toma.edicion || {},
+      segmento: toma.tipoToma || 'desarrollo',
+      momentoNarrativo: toma.descripcion || '',
+      esEmocional: toma.emocion !== 'neutral',
+      tono: toma.emocion || plan.metadata?.tono || 'neutral'
+    };
+    
+    const audioResult = await generateSceneAudio(escenaVirtual, plan, i);
+    audioResults.push(audioResult);
+    
+    logger.info(`✅ [SceneAudio] Toma ${i + 1} completada en ${Date.now()}ms`);
+    logger.info(`📊 [SceneAudio] Servicios usados: ${audioResult.metadata.usedServices.join(', ')}`);
+  }
+  
+  logger.info(`🔄 [SceneAudio] Lote completado: 1-${tomas.length} de ${tomas.length}`);
+  return audioResults;
+}
+
+/**
  * Genera audio optimizado para múltiples escenas del plan
  * Optimiza las llamadas a APIs y reutiliza música cuando es apropiado
  */
@@ -211,11 +253,18 @@ export async function generateUnifiedAudioForPipeline(
   sfxBuffer: Buffer;
   metadata: any;
 }> {
-  logger.info(`🎼 [SceneAudio] Generando audio unificado para pipeline (${plan.timeline.length} escenas)`);
+  // ✅ NUEVO: Usar tomas del orquestador si existen, sino usar timeline
+  const usarTomas = plan.tomasReales && plan.tomasReales.length > 0;
+  const items = (usarTomas ? plan.tomasReales : plan.timeline) ?? [];
+  const itemType = usarTomas ? 'tomas' : 'escenas';
+  
+  logger.info(`🎼 [SceneAudio] Generando audio unificado para pipeline (${items.length} ${itemType})`);
 
   try {
-    // 1. Generar audio para todas las escenas
-    const audioResults = await generateBatchSceneAudio(plan);
+    // 1. Generar audio para todas las tomas/escenas
+    const audioResults = usarTomas 
+      ? await generateBatchTomaAudio(plan, plan.tomasReales!)
+      : await generateBatchSceneAudio(plan);
 
     // 2. Sincronizar con el formato esperado por renderPipeline
     const syncResult = await syncAudioWithVideoClips(audioResults, []);
@@ -232,9 +281,9 @@ export async function generateUnifiedAudioForPipeline(
 
     // 5. Metadata consolidada
     const metadata = {
-      totalEscenas: plan.timeline.length,
-      serviciosUsados: audioResults.flatMap(r => r.metadata.usedServices),
-      duracionTotal: audioResults.reduce((sum, r) => sum + r.metadata.duration, 0),
+      totalEscenas: (items ?? []).length,
+      serviciosUsados: audioResults.flatMap((r: any) => r.metadata.usedServices),
+      duracionTotal: audioResults.reduce((sum: number, r: any) => sum + r.metadata.duration, 0),
       calidad: {
         musicaTamaño: musicBuffer.length,
         vozTamaño: syncResult.voiceBuffer.length,

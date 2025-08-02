@@ -212,13 +212,14 @@ export async function assembleVideo(opts:{
 
   const { plan, clips, voiceBuffer, music, ambience = [], sfx = [] } = opts;
   
-  // ✅ VALIDACIÓN DEFINITIVA DE CLIPS ANTES DEL MONTAJE
+  // ✅ VALIDACIÓN DEFINITIVA DE CLIPS ANTES DEL MONTAJE (acepta URLs y archivos locales)
   for (const clip of clips) {
     if (!clip || typeof clip !== 'string') {
       throw new Error("Clip sin URL válida detectado.");
     }
-    if (!clip.includes('http')) {
-      throw new Error(`Clip con URL inválida: ${clip}`);
+    // Validar que sea URL HTTP o archivo local válido
+    if (!clip.includes('http') && !clip.includes('tmp') && !clip.includes('.mp4')) {
+      throw new Error(`Clip con formato inválido: ${clip}`);
     }
   }
   
@@ -233,19 +234,29 @@ export async function assembleVideo(opts:{
   const hlsDir = path.join(TMP_DIR, `hls_${id}`);
   const hlsIndex = path.join(hlsDir, 'index.m3u8');
 
-  // Validar existencia de todos los clips antes de continuar
+  // Validar existencia de clips locales, URLs HTTP se validan en runtime
   for (const c of clips) {
-    try {
-      await fs.access(c);
-    } catch {
-      logger.error(`❌ Clip no encontrado o inaccesible: ${c}`);
-      throw new Error(`Clip no encontrado o inaccesible: ${c}`);
+    // Solo validar existencia para archivos locales
+    if (!c.includes('http')) {
+      try {
+        await fs.access(c);
+        logger.info(`✅ Clip local validado: ${c}`);
+      } catch {
+        logger.error(`❌ Clip local no encontrado: ${c}`);
+        throw new Error(`Clip local no encontrado: ${c}`);
+      }
+    } else {
+      logger.info(`🔗 Clip remoto (se validará en runtime): ${c}`);
     }
   }
 
   /* 1️⃣ concat clips (24→1080p60) + filtros visuales + watermark si Free */
   const listContent = clips
-    .map(c => `file '${toPosix(c)}'`)
+    .map(c => {
+      // Convertir rutas relativas a absolutas
+      const absolutePath = path.isAbsolute(c) ? c : path.resolve(process.cwd(), c);
+      return `file '${toPosix(absolutePath)}'`;
+    })
     .join('\n');
   await fs.writeFile(list, listContent);
   try {

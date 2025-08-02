@@ -1,0 +1,220 @@
+Perfecto, Cris. Aquí tienes la **versión final extendida del flujo lógico de CinemaAI**, donde ya no solo vemos qué ocurre desde la perspectiva del usuario o la narrativa, sino también:
+
+✅ Qué sucede realmente **en el backend (paso a paso)**
+✅ Cómo los **cerebros funcionan como un equipo de producción real**, pasándose la información uno a otro
+✅ Cómo se **piden imágenes y videos al CDN y a Kling Elements correctamente**
+✅ Cómo se ejecutan las tareas **en paralelo**, con tiempos y control profesional
+
+---
+
+# 🎬 FLUJO LÓGICO COMPLETO – MVP CINEMAAI
+
+### (Estilo productora de cine + backend real)
+
+---
+
+## 🎯 CONTEXTO GENERAL
+
+CinemaAI funciona como si fuera un estudio cinematográfico profesional, pero automatizado con inteligencia artificial. El backend actúa como el equipo técnico, donde cada “cerebro” (IA modular) representa un rol dentro del equipo de producción.
+
+El usuario inicia un proyecto, y el sistema automáticamente:
+
+* Planea la narrativa
+* Elige los assets desde el CDN (fondos y actores preexistentes)
+* Genera prompts cinematográficos
+* Pide clips a Kling Elements en paralelo
+* Genera audio y lip-sync
+* Ensambla todo con FFmpeg
+* Sube el resultado al CDN y devuelve la URL
+
+---
+
+## 🧠 ETAPA POR ETAPA – EQUIPO CINEMATOGRÁFICO IA (BACKEND)
+
+---
+
+### 🎬 Escena 1 – El usuario entra en acción
+
+**Input:**
+
+* Prompt: `"Un joven inicia una aventura épica en una aldea japonesa."`
+* Estilo visual: `"cinematic"`
+* Duración: `30s`
+
+Sistema recibe la solicitud por la ruta `POST /api/render`.
+
+Se inicializa un `jobId`, se guarda el estado, y se lanza el proceso en segundo plano.
+
+---
+
+### 🧠 Escena 2 – Director comienza la historia
+
+🧠 **Cerebro: Director**
+
+* Interpreta el prompt del usuario.
+* Divide los 30 segundos en bloques narrativos:
+
+  * Setup (10s), Desarrollo (10s), Clímax (10s)
+* Asigna descripciones de tomas:
+
+  * “Caminando por la aldea”, “Mira el horizonte”, “Decide partir”
+
+📤 **Pasa el plan al siguiente cerebro (como un storyboard real).**
+
+---
+
+### 🎥 Escena 3 – Cinematógrafo lo convierte en escenas visuales
+
+🧠 **Cerebro: Cinematógrafo**
+
+* Asigna cámara: frontal, lateral, picado, traveling
+* Define la emoción por toma
+* Detecta continuidad (carryover entre tomas)
+* Prepara metadatos para render
+
+📤 **Entrega la toma estructurada al diseñador de producción**
+
+---
+
+### 🖼️ Escena 4 – AssetsMaster busca los visuales
+
+🧠 **Cerebro: AssetsMaster**
+
+* Consulta el índice del CDN de Google Cloud
+* Elige:
+
+  * Fondo: `/escenas/realista/aldea/japonesa/frontal.png`
+  * Actor: `/actores/realista/jovenmasculinoaventurero.png`
+* Convierte rutas relativas a URLs públicas:
+
+```ts
+fondoURL = "https://cdn.storyteller.com/escenas/realista/aldea/...png"
+actorURL = "https://cdn.storyteller.com/actores/realista/...png"
+```
+
+📤 **Pasa las URLs al PromptMaster**
+
+---
+
+### ✍️ Escena 5 – PromptMaster escribe el guion visual
+
+🧠 **Cerebro: PromptMaster**
+
+* Genera prompt tipo:
+
+```txt
+Opening: Goal: establish setting. Location: traditional Japanese village. Subject: young warrior. Action: walks through street. cinematic film quality, soft light, camera panning
+```
+
+📤 **Entrega prompt + imágenes al generador de video**
+
+---
+
+### 🎞️ Escena 6 – Kling Elements graba la toma
+
+🧠 **Cerebro: VideoEngine**
+
+* Lanza 3 peticiones a Kling Elements en paralelo (1 por toma)
+* Cada una tiene:
+
+  * Prompt
+  * Fondo + actor (`init_images`)
+  * Duración 10s
+* Se espera \~1–3 minutos por clip
+* Verifica que cada respuesta tenga URL válida (`videoUrl`)
+* Guarda los clips en array `clips[]`
+
+📤 **Envía los clips al diseñador de sonido**
+
+---
+
+### 🎧 Escena 7 – SoundDesigner trabaja el audio
+
+🧠 **Cerebro: SoundDesigner**
+
+* Genera locución con Murf.ai (voz masculina/femenina)
+* Busca música ambiente en Freesound (según emoción/tipo)
+* Añade efectos:
+
+  * Viento, pasos, multitudes, eco…
+
+🔁 Si alguno falla → usa buffers de silencio como fallback
+
+📤 **Entrega audio final al lip-sync master**
+
+---
+
+### 👄 Escena 8 – LipSyncMaster ajusta los labios
+
+🧠 **Cerebro: LipSyncMaster**
+
+* Según el estilo:
+
+  * `realistic/cinematic` → Wav2Lip
+  * `anime/cartoon` → SadTalker
+* Aplica lip-sync a cada clip de video usando el `.wav` generado
+* Si falla, mantiene clip original y registra log
+
+📤 **Pasa clips con voz al editor final**
+
+---
+
+### ✂️ Escena 9 – Editor ensambla la película
+
+🧠 **Cerebro: Editor**
+
+* Usa FFmpeg para unir los clips
+* Inserta voz, música, efectos en sincronía
+* Controla duración exacta (ej: 30.0s)
+* Guarda archivo temporal `final.mp4`
+
+📤 **Entrega archivo al uploader**
+
+---
+
+### ☁️ Escena 10 – CDN Uploader publica el estreno
+
+🧠 **Cerebro: CDN**
+
+* Usa `uploadToCDN()` para subir `final.mp4` a Google Cloud
+* Devuelve URL final pública
+
+📤 Resultado final:
+
+```json
+{
+  "url": "https://cdn.cinemaai.com/videos/job-12345.mp4",
+  "duracion": 30,
+  "estilo": "cinematic",
+  "clips": [...],
+  "voz": true,
+  "musica": true,
+  "carryoverUsado": true,
+  "assetsUsados": [...]
+}
+```
+
+---
+
+## 💼 FLUJO PARA MARKETING AI (resumen técnico real)
+
+* Usuario sube imágenes de producto o negocio
+* Se genera prompt comercial simple + voz estilo locutor
+* Se toma una sola imagen y se genera animación (Kling Elements con cámara suave)
+* Se pega voz + música y se exporta
+* No hay lip-sync
+* Duración: 10 a 30s
+* Subida al CDN y respuesta como en modo cinematográfico
+
+---
+
+## 🧠 EJECUCIÓN EN PARALELO
+
+Durante el pipeline:
+
+* Las tomas con Kling Elements se piden en paralelo con `Promise.all()`
+* Cada clip tiene su propio `prompt`, `init_image`, `carryover`
+* Lip-sync se hace en loop por cada clip
+* Audio (voz + música) se prepara mientras se renderiza video
+* Al final, FFmpeg junta todo
+

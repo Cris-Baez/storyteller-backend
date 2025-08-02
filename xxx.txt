@@ -1,259 +1,278 @@
-import type { RenderRequest, RenderResponse } from '../utils/types.js';
-import { logger } from '../utils/logger.js';
-import { retry  } from '../utils/retry.js';
-import fs from 'fs/promises';
-import path from 'path';
+Perfecto, Cris. Aquí te dejo la **versión final y completa** de todas las funciones que tendrá tu app **Marketing AI**, organizada como una plataforma SaaS **profesional y simple de lanzar**, con visión clara de negocio:
 
-// Nuevo: servicios para el flujo Kling + ChatGPT
-import { createVideoPlan } from '../services/llmService.js';
-import { generateClipsKling } from '../services/clipService.js';
-import { segmentVideoByStyle } from '../services/videoEngine.js';
+---
 
-const TIMEOUT = 600_000; // 10 min
+# ✅ FUNCIONES COMPLETAS — **Marketing AI**
+
+## 🧠 1. **Modo Agente de Marketing (Autónomo / Semiautónomo)**
+
+Tu app no solo crea contenido, **también planifica, propone y actúa como un verdadero asistente de marketing**. El usuario puede:
+
+* ✅ Recibir **ideas automáticas de contenido** para su negocio cada semana (basado en sus imágenes, categoría o producto).
+* ✅ Aceptar, editar o rechazar las ideas propuestas.
+* ✅ Programar que el sistema le genere **1 a 5 videos semanales automáticos**.
+* ✅ Recibir un **resumen semanal por email** con:
+
+  * Los videos generados
+  * El calendario semanal
+  * Recomendaciones para redes
+
+## 🎥 2. **Generación de Videos de Marketing**
+
+El sistema crea automáticamente **reels o videos cortos comerciales** con:
+
+* 🧠 Guion generado por IA (GPT) según input del usuario
+* 🔊 Voz generada por IA (Murf o ElevenLabs)
+* 👩 Actor virtual (opcional, generado con Kling o D-ID)
+* 🎵 Música de fondo (según tono/emoción)
+* 🖼️ Imágenes del usuario (productos, lugar, etc.)
+* 🎞️ Montaje con transiciones, texto, CTA, logo
+
+## ⚙️ 3. **Dos Modos de Uso**
+
+* **Modo manual**: el usuario sube imágenes + texto → crea 1 video a pedido.
+* **Modo agente**: el sistema le planifica y entrega los videos semanales.
+
+## 🧑‍🎤 4. **Actor IA (opcional)**
+
+* El usuario puede elegir si su video tendrá:
+
+  * ❌ Solo voz + imágenes (estilo presentación)
+  * ✅ Actor virtual en cámara diciendo el guion
+* Puede elegir entre varios actores IA:
+
+  * Hombre, mujer, joven, mayor, formal, relajado
+  * O dejar que el sistema lo seleccione automáticamente
+
+## ✨ 5. **Estilos de video**
+
+* Comercial simple
+* Reel relajado
+* Testimonial
+* Promoción urgente
+* Story inspirador
+
+## 📥 6. **Subida de Activos**
+
+El usuario puede:
+
+* Subir imágenes de su negocio
+* Escribir qué quiere promocionar
+* Elegir estilo, tono, voz, actor, etc.
+
+## 📅 7. **Calendario de publicaciones (modo agente)**
+
+* El sistema le muestra visualmente los días que se publicará contenido
+* Puede editar el calendario
+* En el futuro, podrá conectar Instagram o TikTok
+
+## 📤 8. **Exportación / Descarga**
+
+* Cada video generado se puede:
+
+  * Descargar
+  * Compartir directamente (en el futuro)
+  * Ver historial
+
+## 📊 9. **Aprendizaje automático (versión Pro)**
+
+* En el plan pago más avanzado:
+
+  * El sistema **aprende qué funciona mejor** con base en:
+
+    * Interacciones
+    * Engagement
+    * Tono usado
+  * Y mejora sus recomendaciones futuras
+
+---
+
+# 💼 PLANES DE USUARIO
+
+| Plan       | Precio   | Funciones incluidas                                      |
+| ---------- | -------- | -------------------------------------------------------- |
+| Free       | Gratis   | 1 video a la semana, sin actor, sin calendario           |
+| Creator    | \$29/mes | Hasta 5 videos/semana, con voz y actor IA, email resumen |
+| Studio Pro | \$99/mes | Todo lo anterior + auto-programación, aprendizaje, API   |
+
+---
+
+# 🎯 ¿QUÉ PROBLEMA RESUELVE?
+
+> **"No sé qué contenido subir, no tengo tiempo, y contratar a alguien cuesta mucho."**
+
+Tu app **piensa, escribe, graba y entrega contenido listo para publicar** sin que el usuario tenga que hacer nada complicado.
+
+Sirve especialmente para:
+
+* Pequeños negocios (tiendas, hoteles, restaurantes)
+* Profesionales (masajistas, coaches, tatuadores)
+* Freelancers, creadores, marcas locales
+
+---
+
+¿Querés que ahora te dé una tabla de navegación o el flujo lógico según estas funciones para terminar el frontend y backend correctamente?
 
 
-export async function runRenderPipeline(req: RenderRequest): Promise<RenderResponse> {
-  logger.info('🚀 Pipeline Kling+LLMService+Segmentación – inicio');
-  const t0 = Date.now();
+Perfecto, Cris. Aquí va la **versión más completa, detallada y profesional** de tu plataforma **Marketing AI**, con:
 
-  // 1. Calcular la segmentación óptima (clips de 5s/10s) según estilo y duración
-  const segments = segmentVideoByStyle(req.duration, req.visualStyle);
-  logger.info(`🧩 Segmentos calculados: ${segments.map(s => s.duration).join('+')}s`);
+* Casos de uso por tipo de usuario
+* Explicación clara de cómo se usa en la vida real
+* Flujo completo de backend sin código, pero con todas las funciones
 
-  // 2. Obtener el VideoPlan completo usando llmService
-  logger.info('🎬 Llamando a llmService para obtener VideoPlan...');
-  const plan = await retry(() => createVideoPlan(req));
-  const timeline = plan.timeline || [];
+---
 
-  // 3. Dividir el timeline en escenas según los segmentos calculados
-  let scenes = [];
-  let idx = 0;
-  for (const seg of segments) {
-    const sceneTimeline = timeline.slice(idx, idx + seg.duration);
-    scenes.push({
-      start: seg.start,
-      duration: seg.duration,
-      style: seg.style,
-      timeline: sceneTimeline
-    });
-    idx += seg.duration;
-  }
-  logger.info(`🎬 ${scenes.length} escenas/tomas generadas por segmentación.`);
+## 🔥 VISIÓN GENERAL — Marketing AI
 
-  // 4. Generar clips con Kling para cada escena
-  logger.info('🎥 Generando clips con Kling...');
-  const result = await retry(() => generateClipsKling(scenes));
-  const finalUrl = (result as any).finalUrl;
-  const clips = (result as any).clips;
-  if (!finalUrl) throw new Error('generateClipsKling no devolvió video final');
-  if (!finalUrl) throw new Error('generateClipsKling no devolvió video final');
+**Marketing AI es un agente de contenido para negocios.**
+No solo genera videos bonitos, **crea por ti las campañas, el contenido, y te entrega material profesional cada semana**.
 
-  // 5. (Opcional) Guardar logs/outputs si es demoMode
-  if (req.demoMode) {
-    const TMP_DIR = path.join('/tmp/pipeline_demo', Date.now().toString());
-    await fs.mkdir(TMP_DIR, { recursive: true });
-    await fs.writeFile(path.join(TMP_DIR, 'plan.json'), Buffer.from(JSON.stringify(plan, null, 2)));
-    await fs.writeFile(path.join(TMP_DIR, 'segments.json'), Buffer.from(JSON.stringify(segments, null, 2)));
-    await fs.writeFile(path.join(TMP_DIR, 'scenes.json'), Buffer.from(JSON.stringify(scenes, null, 2)));
-    await fs.writeFile(path.join(TMP_DIR, 'clips.json'), Buffer.from(JSON.stringify(clips, null, 2)));
-    await fs.writeFile(path.join(TMP_DIR, 'finalUrl.txt'), Buffer.from(finalUrl));
-    logger.info(`[DEMO MODE] Outputs y logs guardados en ${TMP_DIR}`);
-  }
+Es como tener tu propio **community manager, editor y guionista IA** que te conoce y trabaja para ti.
 
-  const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
-  logger.info(`✅ Render final OK en ${elapsed}s → ${finalUrl}`);
+---
 
-  // storyboardUrls reservado para futura integración con Kling (storyboards generados por IA)
-  return { url: finalUrl, storyboardUrls: [] };
+## 👥 CASOS DE USO (Reales y concretos)
 
+### 🧘‍♀️ Caso 1: *Sofía, instructora de yoga en la playa (Plan Creator)*
 
-  import { readFile } from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
-// Enriquecer el timeline con reglas visuales automáticas
-export async function enrichTimeline(timeline: any[]): Promise<any[]> {
-  const __dirname = path.dirname(fileURLToPath(import.meta.url));
-  const rulesPath = path.join(__dirname, '../utils/sceneRules.json');
-  const rulesRaw = await readFile(rulesPath, 'utf-8');
-  const sceneRules = JSON.parse(rulesRaw);
-  return timeline.map((sec: any) => {
-    const rules = sceneRules[sec.emotion] || {};
-    return {
-      ...sec,
-      camera: rules.camera || sec.camera || 'plano medio',
-      movement: rules.movement || sec.movement || 'estático',
-      lighting: rules.lighting || sec.lighting || 'neutro',
-      transition: rules.transition || sec.transition || 'cut',
-      music: rules.music || sec.music || 'ambient'
-    };
-  });
-}
-// src/services/llmService.ts
-/**
- * LLM Service para Storyteller AI (flujo Kling)
- * ---------------------------------------------
- * Genera un VideoPlan con granularidad 1s, eligiendo fondo y actor de una lista fija.
- * El LLM debe devolver para cada segundo el nombre exacto del fondo y actor, y una breve descripción de la escena y la luz.
- */
+* **Problema**: No sabe cómo hacer reels y no tiene tiempo.
+* **Uso**:
 
-import { OpenAI } from 'openai';
-import { RenderRequest, VideoPlan } from '../utils/types.js';
-import { env } from '../config/env.js';
-import { logger } from '../utils/logger.js';
-import { retry } from '../utils/retry.js';
+  * Sube 5 fotos de su clase al amanecer
+  * Pone: "Quiero promocionar mis clases de yoga en la playa"
+  * Elige: tono relajado, voz femenina, sin actor
+  * Marketing AI:
 
-const client = new OpenAI({
-  apiKey: env.OPENROUTER_API_KEY,
-  baseURL: env.OPENROUTER_BASE_URL,
-  defaultHeaders: {
-    'HTTP-Referer': env.OPENROUTER_HTTP_REFERER,
-    'X-Title': env.OPENROUTER_X_TITLE
-  }
-});
+    * Escribe un guion emocional
+    * Genera voz y música suave
+    * Monta un reel de 15s con sus imágenes y texto animado
+  * Sofía recibe su video por correo + lo ve en el calendario
 
-const TIMEOUT_MS = 300_000;
-const RETRIES = 3;
+---
 
-function withTimeout<T>(p: Promise<T>, ms = TIMEOUT_MS): Promise<T> {
-  return Promise.race([
-    p,
-    new Promise<T>((_, rej) => setTimeout(() => rej(new Error('LLM timeout')), ms))
-  ]);
-}
+### 🍕 Caso 2: *Marco, dueño de pizzería local (Modo Agente, Studio Pro)*
 
-// Lista de fondos y actores disponibles (edítala según tus assets locales)
-const FONDOS = [
-  "escenario_japon_frontal.jpg",
-  "escenario_japon_lateral.jpg",
-  "escenario_japon_aerea.jpg",
-  "escenario_japon_ventana.jpg",
-  "escenario_japon_entrada.jpg",
-  "escenario_japon_interior.jpg",
-  "escenario_japon_noche.jpg",
-  "escenario_japon_suelo.jpg"
-];
-const ACTORES = [
-  "actor_prueba_1.jpg"
-];
+* **Problema**: Quiere que le hagan contenido sin pensar
+* **Uso**:
 
-function buildSystemPrompt(visualStyle: string, duration: number, mode: string) {
-  return `
-Eres un director de cine IA. Debes crear un VideoPlan JSON para un video de ${duration} segundos, usando SOLO los siguientes fondos y actores:
+  * Activa el modo agente
+  * Sube 10 fotos de sus platos y local
+  * Pone su eslogan y horario
+  * El sistema:
 
-Fondos disponibles:
-${FONDOS.map(f=>`- ${f}`).join('\n')}
-Actores disponibles:
-${ACTORES.map(a=>`- ${a}`).join('\n')}
+    * Planifica 3 videos semanales
+    * Usa IA para proponer promociones: “Pizza del martes”, “Combo familiar”, “Delivery exprés”
+    * Genera cada video con actor virtual
+    * Le llega el resumen por email y calendario de publicación
 
-Para cada segundo (t), elige el fondo y el actor más apropiado de la lista, según la acción, la luz y el ángulo de cámara. Usa exactamente los nombres de archivo. Describe la escena y la iluminación de forma breve y realista. Los movimientos deben ser naturales y fluidos, no exagerados.
+---
 
-Formato JSON ESTRICTO:
-{
-  "timeline": [
-    {
-      "t": 0,
-      "visual": "Descripción breve de la acción y ambiente",
-      "background": "nombre_fondo.png",
-      "character": "nombre_actor.png",
-      "camera": {"shot": "wide|close-up|...", "movement": "pan|tilt|..."},
-      "lighting": "descripción de la luz (ej: luz cálida lateral)"
-    }
-  ],
-  "metadata": {
-    "mode": "${mode}",
-    "visualStyle": "${visualStyle}",
-    "duration": ${duration}
-  }
-}
+### 💇 Caso 3: *Carla, estilista freelance (Plan Free)*
 
-NO incluyas texto fuera del JSON. timeline.length debe ser exactamente ${duration}.
-`;
-}
+* **Problema**: Quiere ver si funciona sin pagar
+* **Uso**:
 
-export async function createVideoPlan(req: RenderRequest): Promise<VideoPlan> {
-  const { prompt, mode, visualStyle, duration } = req;
-  if (!prompt || typeof prompt !== 'string' || prompt.trim().length < 10) {
-    throw new Error('El prompt está vacío, no es válido o es demasiado corto');
-  }
-  const cleanPrompt = prompt.trim().replace(/[^-]/g, "");
-  logger.info(`🎬 Prompt limpio: ${cleanPrompt.substring(0, 100)}...`);
+  * Sube 3 fotos de peinados
+  * Escribe: “Quiero un video mostrando esto”
+  * El sistema le da 1 video gratis a la semana
+  * Elige si lo quiere con voz o texto solo
 
-  const systemPrompt = buildSystemPrompt(visualStyle, duration, mode);
-  let raw = '';
-  // Modelos de fallback ordenados por calidad 2025 (OpenRouter)
-  const MODELS = [
-    'openai/chatgpt-4o-latest',
-    'openai/gpt-4-turbo',
-    'anthropic/claude-3-opus',
-    'anthropic/claude-3-sonnet',
-    'google/gemini-1.5-pro',
-    'meta/llama-3-70b-instruct',
-    'mistralai/mixtral-8x22b-instruct',
-    'perplexity/sonar-large-online',
-    'perplexity/sonar-medium-online'
-  ];
-  let lastError = null;
-  for (const model of MODELS) {
-    try {
-      logger.info(`🔄 Probando modelo: ${model}`);
-      const res = await withTimeout(
-        retry(() =>
-          client.chat.completions.create({
-            model,
-            temperature: 0.6,
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: cleanPrompt }
-            ]
-          }),
-          RETRIES
-        )
-      );
-      if (!res.choices || res.choices.length === 0 || !res.choices[0].message.content) {
-        throw new Error('La respuesta de la API no contiene contenido válido');
-      }
-      raw = res.choices[0].message.content;
-      logger.info(`📝 Contenido raw: ${raw.substring(0, 200)}...`);
-      // Intentar parsear el JSON directamente
-      let parsed;
-      try {
-        parsed = JSON.parse(raw);
-      } catch {
-        // Si el JSON viene con texto extra, intentar extraer el objeto
-        const jsonMatch = raw.match(/\{[\s\S]*\}/);
-        if (jsonMatch) parsed = JSON.parse(jsonMatch[0]);
-        else throw new Error('No se pudo extraer JSON válido de la respuesta');
-      }
-      // Validar timeline
-      if (!Array.isArray(parsed.timeline) || parsed.timeline.length !== duration) {
-        throw new Error('El timeline generado no es válido o no tiene la duración correcta');
-      }
-      // Validar que cada segundo tiene fondo y actor
-      for (const sec of parsed.timeline) {
-        if (!FONDOS.includes(sec.background)) throw new Error(`Fondo inválido: ${sec.background}`);
-        if (!ACTORES.includes(sec.character)) throw new Error(`Actor inválido: ${sec.character}`);
-      }
-      // Enriquecer timeline con reglas visuales automáticas
-      const enrichedTimeline = await enrichTimeline(parsed.timeline);
-      // Armar VideoPlan
-      const plan: VideoPlan = {
-        timeline: enrichedTimeline,
-        metadata: {
-          mode,
-          visualStyle,
-          duration,
-          prompt: cleanPrompt
-        }
-      };
-      logger.info(`🎞️  VideoPlan listo (${duration}s) usando modelo: ${model}`);
-      return plan;
-    } catch (e: any) {
-      logger.warn(`❌ Modelo ${model} falló: ${e.message}`);
-      lastError = e;
-    }
-  }
-  throw new Error('No se pudo generar un VideoPlan válido con ningún modelo. Último error: ' + (lastError?.message || 'desconocido'));
-}
-import { generateClipsKling } from './clipService.js'; 
+---
 
-// (LIMPIO) No legacy, no duplicados. Sólo la versión moderna y funcional arriba.
+## 🧩 FLUJO COMPLETO DEL BACKEND — sin código
+
+---
+
+### 🟡 Paso 1: Input inicial del usuario
+
+* El usuario:
+
+  * Sube imágenes de su producto o servicio
+  * Escribe lo que quiere promocionar (o lo deja al agente)
+  * Elige tono, estilo, actor (opcional)
+  * Marca si quiere modo agente activo
+
+---
+
+### 🟡 Paso 2: Procesamiento de guion (IA)
+
+* Se genera un guion optimizado para video corto (tipo Reel o anuncio)
+* Basado en:
+
+  * Texto del usuario
+  * CTA deseado
+  * Tipo de video (urgente, relajado, inspirador, etc.)
+  * Estilo visual seleccionado
+
+---
+
+### 🟡 Paso 3: Elección de voz y actor (IA)
+
+* Si el usuario eligió voz:
+
+  * Se genera voz con Murf o ElevenLabs
+* Si eligió actor:
+
+  * Se selecciona imagen de actor IA
+  * Se genera video hablando con Kling (Fal.ai)
+
+---
+
+### 🟡 Paso 4: Montaje del video
+
+* Si **usa actor IA**:
+
+  * Se renderiza un video con el actor diciendo el guion
+  * Se añaden texto animado, CTA y música encima
+* Si **no usa actor**:
+
+  * Se hace un montaje de imágenes + voz + texto animado
+  * Se agregan efectos simples tipo presentación moderna
+
+*El montaje final se realiza con Shotstack o FFmpeg Cloud*
+
+---
+
+### 🟡 Paso 5: Exportación
+
+* El video se sube automáticamente a un CDN
+* Se obtiene una URL segura y se guarda en el historial del usuario
+
+---
+
+### 🟡 Paso 6: Si está en modo Agente…
+
+* El sistema genera nuevas ideas semanales (con GPT)
+* Elige imágenes del usuario o anteriores
+* Crea guion + actor/voz + montaje
+* Envía resumen semanal por correo
+* Muestra calendario de entregas dentro de la app
+
+---
+
+## 📦 OTROS ELEMENTOS DEL SISTEMA
+
+### 📂 Historial de videos
+
+* El usuario puede ver, descargar o volver a publicar cualquiera de sus videos generados
+
+### 📤 Programación (futuro)
+
+* El sistema podrá publicar automáticamente en redes conectadas
+
+### 📈 Mejora de contenido (versión avanzada)
+
+* Si el usuario conecta sus redes, el sistema aprenderá qué estilo de contenido funciona mejor
+
+---
+
+## 🔁 FLUJO EN LÍNEA TEMPORAL
+
+1. Usuario ingresa a la app
+2. Entra a pantalla principal (crear video o activar modo agente)
+3. Elige estilo, sube imágenes o escribe idea
+4. Clic en “Crear Video”
+5. El sistema crea todo automáticamente
+6. Muestra resultado + permite descargarlo
+7. Si está en modo agente → los siguientes videos se generan solos
+

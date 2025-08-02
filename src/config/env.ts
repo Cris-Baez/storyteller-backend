@@ -9,6 +9,7 @@ if (result.error) {
 }
 
 const schema = z.object({
+  FAL_KEY: z.string(), // ✅ AGREGADO: FAL_KEY para acceder a Kling via fal.ai
   OPENAI_API_KEY: z.string(),
   REPLICATE_API_TOKEN: z.string(),
   MURF_API_KEY: z.string(), // Cambiar de opcional a requerido

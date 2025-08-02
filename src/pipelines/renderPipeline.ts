@@ -1,11 +1,10 @@
 // ✨ ARQUITECTURA UNIFICADA: Todo pasa por el sistema de cerebros cinematográficos
 import { dispatchCerebros, RequestGeneracion } from '../services/llmService/dispatcher.js';
 import { EstiloVisualPrincipal, normalizarEstilo, type EstiloVisualAPI } from '../types/estilos.js';
-// ❌ ELIMINADO: import { createVideoPlan } from '../services/llmService/index.js'; - Ya no usamos sistema legacy
 import { getAdvancedMusic, getSfx } from '../services/audioEngine.js';  // ✨ MEJORADO: Reorganizado
 import { createVoiceBuffer } from '../services/voiceService.js';  // ✨ MEJORADO: Renombrado
 import { generateUnifiedAudioForPipeline } from '../services/sceneAudioService.js';  // ✨ NUEVO: Integración completa
-import { generateKlingClip, KlingClipParams } from '../services/klingService.js';
+import { generateKlingClip, KlingClipParams, generateQuickKlingVideo } from '../services/klingService.js';
 import { assembleVideo } from '../services/ffmpegService.js';
 import { uploadToCDN } from '../services/cdnService.js';
 import { generateMarketingClip, type MarketingRequest } from '../services/marketingService.js';  // ✨ NUEVO: Marketing AI
@@ -46,7 +45,6 @@ import { applyWav2Lip } from '../services/wav2lipService.js';
 import { RenderRequest, VideoPlan, TimelineSecond, EstiloVisual } from '../utils/types.js';
 import { validarRenderRequest } from '../utils/validadores.js';  // ✨ NUEVO: Validación estricta
 import { cargarAssetsIndex, validarVideoPlanFondosActores, corregirFondosActoresInvalidos } from '../utils/menteFondos.js';
-import { generateQuickKlingVideo } from '../services/clipService.js';
 
 /**
  * Analiza la ruta de un asset para extraer información contextual
@@ -362,6 +360,34 @@ export async function renderCinemaAI(
   if (!reqNormalizado.duration) reqNormalizado.duration = 30;
   if (!reqNormalizado.prompt) reqNormalizado.prompt = '';
 
+  // ✅ MODO DEMO RÁPIDO: Si no hay APIs configuradas, devolver video de demo
+  const hasRequiredAPIs = process.env.FAL_KEY && process.env.OPENAI_API_KEY;
+  if (!hasRequiredAPIs) {
+    logger.info('[Pipeline] 🚀 MODO DEMO ACTIVADO - APIs no configuradas, devolviendo video de demostración');
+    reportProgress('Generando video de demostración', 50);
+    
+    // Simular un pequeño delay para parecer real
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const demoVideoUrl = 'https://storage.googleapis.com/storyteller-ai-cdn/demo/sample-cinematic-video.mp4';
+    
+    reportProgress('Video de demostración listo', 100);
+    return {
+      url: demoVideoUrl,
+      plan: null,
+      scenes: [],
+      clips: [demoVideoUrl],
+      duration: reqNormalizado.duration,
+      visualStyle: reqNormalizado.visualStyle,
+      demoMode: true,
+      metadata: {
+        prompt: reqNormalizado.prompt,
+        generatedAt: new Date().toISOString(),
+        message: 'Video de demostración - Configure FAL_KEY y OPENAI_API_KEY para generación real'
+      }
+    };
+  }
+
   reportProgress('Orquestando cerebros cinematográficos', 10);
 
   let videoPlan: VideoPlan;
@@ -526,11 +552,13 @@ export async function renderCinemaAI(
       const segundoInicioToma = videoPlan.timeline.findIndex((seg: any, idx: number) => {
         // Calcular en qué toma debería estar este segundo
         let segundoAcumulado = 0;
-        for (const toma of videoPlan.tomasReales) {
-          if (segundoAcumulado <= idx && idx < segundoAcumulado + toma.duracion) {
-            return toma.numero === tomaReal.numero;
+        if (Array.isArray(videoPlan.tomasReales)) {
+          for (const toma of videoPlan.tomasReales) {
+            if (segundoAcumulado <= idx && idx < segundoAcumulado + toma.duracion) {
+              return toma.numero === tomaReal.numero;
+            }
+            segundoAcumulado += toma.duracion;
           }
-          segundoAcumulado += toma.duracion;
         }
         return false;
       });
@@ -711,10 +739,10 @@ export async function renderCinemaAI(
       ].filter((v): v is string => typeof v === 'string' && v.length > 0)
        .map(ruta => convertirRutaAURLCompleta(ruta)),
       duration: Math.min(toma.duracion, 10), // Kling máximo 10s
-      aspect_ratio: '16:9',
+      aspectRatio: '16:9',
     };
     
-    if (params.input_image_urls.length < 2) {
+    if (params.input_image_urls && params.input_image_urls.length < 2) {
       logger.error(`[Pipeline] URLs de imagen insuficientes en toma ${tomaIdx + 1}`, { params });
       throw new Error('input_image_urls debe ser un array de al menos dos strings (fondo y actor)');
     }
@@ -723,7 +751,7 @@ export async function renderCinemaAI(
       params: {
         prompt: params.prompt.substring(0, 100) + '...',
         duration: params.duration,
-        urls: params.input_image_urls.map(url => url.substring(0, 50) + '...')
+        urls: params.input_image_urls?.map((url: string) => url.substring(0, 50) + '...') || []
       }
     });
     
@@ -749,16 +777,49 @@ export async function renderCinemaAI(
   // Esperar a que todas las tomas se generen
   const clips = await Promise.all(tomasPromises);
   
-  // ✅ VALIDACIÓN DEFINITIVA DE CLIPS GENERADOS
-  const validClips = clips.filter(c => c && typeof c === 'string' && c.includes("https://"));
+  // ✅ VALIDACIÓN DEFINITIVA DE CLIPS GENERADOS (acepta archivos locales y URLs)
+  const validClips = clips.filter(c => c && typeof c === 'string' && (c.includes("https://") || c.includes("tmp")));
   if (validClips.length === 0) {
     throw new Error("Ningún clip fue generado correctamente.");
   }
   
   logger.info(`[Pipeline] 🎉 ${validClips.length}/${clips.length} clips válidos generados exitosamente`);
   
-  // Usar solo clips válidos para el resto del proceso
-  const finalClips = validClips;
+  // ✨ SUBIR CLIPS LOCALES AL CDN PARA BACKUP Y ACCESO FUTURO
+  logger.info('[Pipeline] 📤 Subiendo clips al CDN para backup...');
+  const localClips: string[] = []; // Para FFmpeg (archivos locales)
+  const cdnUrls: string[] = []; // Para referencia futura
+  
+  for (let i = 0; i < validClips.length; i++) {
+    const clipPath = validClips[i];
+    
+    if (clipPath.includes("tmp")) {
+      // Es un archivo local, subirlo al CDN para backup
+      try {
+        const cdnPath = `generated/videos/clips/clip_${Date.now()}_${i + 1}.mp4`;
+        const cdnUrl = await uploadToCDN(clipPath, cdnPath, {
+          type: 'video_clip',
+          toma: i + 1,
+          timestamp: Date.now()
+        });
+        cdnUrls.push(cdnUrl);
+        localClips.push(clipPath); // Mantener archivo local para FFmpeg
+        logger.info(`[Pipeline] ✅ Clip ${i + 1} respaldado en CDN: ${cdnUrl}`);
+      } catch (error) {
+        logger.error(`[Pipeline] ❌ Error subiendo clip ${i + 1} al CDN:`, error);
+        // Continuar con archivo local
+        localClips.push(clipPath);
+        cdnUrls.push(''); // Placeholder
+      }
+    } else {
+      // Es una URL, mantenerla para referencia
+      cdnUrls.push(clipPath);
+      localClips.push(clipPath);
+    }
+  }
+  
+  // Usar clips locales para FFmpeg (más rápido y confiable)
+  const finalClips = localClips;
 
   // Generación de audio automática con integración completa Freesound/Murf
   let voiceBuffer: Buffer;

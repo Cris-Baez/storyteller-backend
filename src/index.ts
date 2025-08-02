@@ -1,3 +1,24 @@
+// src/index.ts
+import 'express-async-errors';
+import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import morgan from 'morgan';
+import { renderRouter } from './routes/render.js';
+import marketingRouter from './routes/marketing.js';  // ✨ NUEVO: Marketing AI
+import adminRouter from './routes/admin.js';
+import { logger } from './utils/logger.js';
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Carga SIEMPRE el .env desde la raíz, sin importar el directorio de ejecución
+const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".." );
+dotenv.config({ path: path.join(projectRoot, ".env") });
+
+const app = express();
+
 // Manejo global de errores no capturados y promesas no manejadas
 process.on('uncaughtException', (err) => {
   logger.error(`[FATAL] Excepción no capturada: ${err.message}\n${err.stack}`);
@@ -9,33 +30,9 @@ process.on('unhandledRejection', (reason) => {
   // Opcional: salir para que un orquestador reinicie el proceso
   process.exit(1);
 });
-// ...existing code...
-// src/index.ts
-import 'express-async-errors';
-import express, { Request, Response, NextFunction } from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
-import morgan from 'morgan';
-import { renderRouter } from './routes/render.js';
-import marketingRouter from './routes/marketing.js';  // ✨ NUEVO: Marketing AI
-//import { templatesRouter } from './routes/templates.js';
-import { logger } from './utils/logger.js';
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-
-// Carga SIEMPRE el .env desde la raíz, sin importar el directorio de ejecución
-const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".." );
-dotenv.config({ path: path.join(projectRoot, ".env") });
-const app = express();
-
 
 // Seguridad HTTP headers
 app.use(helmet());
-app.use('/admin', adminRouter);
-
-import adminRouter from './routes/admin.js';
 // Rutas de administración y monitoreo (solo para admins/desarrollo)
 app.use('/admin', adminRouter);
 
@@ -61,9 +58,28 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// Health check
+// Health check - debe ser lo más simple posible
 app.get('/healthz', (_req, res) => {
-  res.status(200).send('OK');
+  res.status(200).json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    mode: process.env.NODE_ENV || 'development',
+    apis: {
+      fal: !!process.env.FAL_KEY,
+      openai: !!process.env.OPENAI_API_KEY,
+      replicate: !!process.env.REPLICATE_API_TOKEN
+    }
+  });
+});
+
+// ✅ RUTA DE TEST SIMPLE
+app.get('/api/test', (_req, res) => {
+  res.json({
+    message: 'Storyteller AI Backend funcionando correctamente',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0'
+  });
 });
 
 // Rutas principales

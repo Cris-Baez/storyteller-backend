@@ -33,6 +33,19 @@ export interface AudioMetrics {
   tiempoGeneracion: number;
 }
 
+/**
+ * ✅ FALLBACK: Genera un buffer de audio silencioso para fallbacks
+ */
+async function generateSilentBuffer(durationSeconds: number): Promise<Buffer> {
+  // Crear buffer de silencio (16-bit, 44.1kHz, mono)
+  const sampleRate = 44100;
+  const samples = Math.floor(durationSeconds * sampleRate);
+  const buffer = Buffer.alloc(samples * 2); // 2 bytes por sample (16-bit)
+  
+  logger.info(`[AudioEngine] 🔇 Generado buffer silencioso de ${durationSeconds}s`);
+  return buffer;
+}
+
 export async function getAdvancedMusic(options: AudioEngineOptions): Promise<Buffer> {
   const startTime = Date.now();
   
@@ -43,6 +56,12 @@ export async function getAdvancedMusic(options: AudioEngineOptions): Promise<Buf
     logger.info(`[AudioEngine] Detectado modo Marketing - usando Freesound`);
     
     try {
+      // ✅ VERIFICAR API KEY ANTES DE USAR FREESOUND
+      if (!process.env.FREESOUND_API_KEY) {
+        logger.warn('[AudioEngine] FREESOUND_API_KEY no configurada, usando fallback');
+        return await generateSilentBuffer(options.duration || 15);
+      }
+      
       const { buscarMusicaCorporativa } = await import('./freesoundService.js');
       
       const queryMarketing = {

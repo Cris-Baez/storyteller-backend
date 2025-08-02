@@ -414,25 +414,46 @@ function generarPlanCinematicoFallback(prompt: string, duracion: number): VideoP
 export function validarPlanCinematico(plan: VideoPlanCinematico): boolean {
   try {
     // Validaciones básicas
-    if (!plan.timeline || plan.timeline.length === 0) return false;
-    if (!plan.metadata || !plan.configuracionGlobal) return false;
-    
-    // Validar continuidad de timeline
-    for (let i = 0; i < plan.timeline.length; i++) {
-      const segundo = plan.timeline[i];
-      if (segundo.segundo !== i) return false;
-      if (!segundo.fondo || !segundo.actor || !segundo.camara) return false;
+    if (!plan.timeline || plan.timeline.length === 0) {
+      console.log('[Validacion] ❌ Timeline vacío o inexistente');
+      return false;
+    }
+    if (!plan.metadata || !plan.configuracionGlobal) {
+      console.log('[Validacion] ❌ Faltan metadata o configuracionGlobal');
+      return false;
     }
     
-    // Validar estructura narrativa - Más flexible
-    const tieneSetup = plan.timeline.some(s => s.momentoNarrativo === 'setup');
-    const tieneClimax = plan.timeline.some(s => s.momentoNarrativo === 'climax');
-    const tieneCierre = plan.timeline.some(s => s.momentoNarrativo === 'cierre');
-    const tieneDesarrollo = plan.timeline.some(s => s.momentoNarrativo === 'desarrollo');
+    // Validar que cada segundo tenga los assets básicos necesarios
+    for (let i = 0; i < plan.timeline.length; i++) {
+      const segundo = plan.timeline[i];
+      if (segundo.segundo !== i) {
+        console.log(`[Validacion] ❌ Segundo ${i} tiene número incorrecto: ${segundo.segundo}`);
+        return false;
+      }
+      if (!segundo.fondo || !segundo.actor || !segundo.camara) {
+        console.log(`[Validacion] ❌ Segundo ${i} faltan assets básicos`);
+        return false;
+      }
+    }
     
-    // ✅ ARREGLO: Al menos debe tener setup y uno de los otros momentos narrativos
-    // No es obligatorio tener cierre si hay climax (estructura de 3 actos básica)
-    return tieneSetup && (tieneClimax || tieneDesarrollo || tieneCierre);
+    // ✅ ARREGLO: Validación más flexible de estructura narrativa
+    // Para videos cortos (10s), es suficiente con que tenga algún momento narrativo válido
+    const momentosPresentes = [...new Set(plan.timeline.map(s => s.momentoNarrativo))];
+    const momentosValidos = ['setup', 'desarrollo', 'climax', 'cierre'];
+    const tieneAlgunMomentoValido = momentosPresentes.some(m => momentosValidos.includes(m));
+    
+    if (!tieneAlgunMomentoValido) {
+      console.log('[Validacion] ❌ No hay momentos narrativos válidos:', momentosPresentes);
+      return false;
+    }
+    
+    console.log('[Validacion] ✅ Plan cinematográfico válido:', {
+      segundos: plan.timeline.length,
+      momentos: momentosPresentes,
+      tomas: plan.tomasReales?.length || 0
+    });
+    
+    return true;
     
   } catch (error) {
     console.error('[Orquestador] Error validando plan:', error);

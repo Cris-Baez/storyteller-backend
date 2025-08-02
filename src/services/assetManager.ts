@@ -38,6 +38,54 @@ let cacheTimestamp: number = 0;
 export class AssetManager {
   
   /**
+   * Assets por defecto para fallback cuando no hay conexión al CDN
+   */
+  private static getDefaultAssets(): AssetItem[] {
+    return [
+      // Fondos por defecto
+      {
+        nombre: 'campo_frontal.png',
+        ruta: 'escenas/realista/naturaleza/campo/día/frontal.png',
+        tipo: 'fondo',
+        lugar: 'naturaleza',
+        variante: 'campo',
+        angulo: 'frontal',
+        ambiente: 'día',
+        url: `${CDN_CONFIG.baseUrl}/escenas/realista/naturaleza/campo/día/frontal.png`
+      },
+      {
+        nombre: 'ciudad_lateral.png',
+        ruta: 'escenas/realista/ciudad/calle/día/lateral.png',
+        tipo: 'fondo',
+        lugar: 'ciudad',
+        variante: 'calle',
+        angulo: 'lateral',
+        ambiente: 'día',
+        url: `${CDN_CONFIG.baseUrl}/escenas/realista/ciudad/calle/día/lateral.png`
+      },
+      // Actores por defecto
+      {
+        nombre: 'joven_aventurero.png',
+        ruta: 'actores/realista/naturaleza/campo/día/jovenmasculinoaventureroexplorador.png',
+        tipo: 'actor',
+        lugar: 'naturaleza',
+        variante: 'campo',
+        ambiente: 'día',
+        url: `${CDN_CONFIG.baseUrl}/actores/realista/naturaleza/campo/día/jovenmasculinoaventureroexplorador.png`
+      },
+      {
+        nombre: 'mujer_ciudad.png',
+        ruta: 'actores/realista/ciudad/calle/día/mujerfemeninaseguraurbana.png',
+        tipo: 'actor',
+        lugar: 'ciudad',
+        variante: 'calle',
+        ambiente: 'día',
+        url: `${CDN_CONFIG.baseUrl}/actores/realista/ciudad/calle/día/mujerfemeninaseguraurbana.png`
+      }
+    ];
+  }
+  
+  /**
    * Cargar todos los assets desde assets_index.json con cache
    */
   static async cargarTodosLosAssets(): Promise<AssetItem[]> {
@@ -53,12 +101,24 @@ export class AssetManager {
       const assetsPath = path.join(process.cwd(), 'assets_index.json');
       
       if (!fs.existsSync(assetsPath)) {
-        logger.error('[AssetManager] assets_index.json no encontrado');
-        return [];
+        logger.warn('[AssetManager] assets_index.json no encontrado, usando assets por defecto');
+        const defaultAssets = this.getDefaultAssets();
+        assetsCache = defaultAssets;
+        cacheTimestamp = ahora;
+        return defaultAssets;
       }
       
       const contenido = fs.readFileSync(assetsPath, 'utf-8');
       const assetsRaw = JSON.parse(contenido);
+      
+      // Validar que el JSON tenga datos válidos
+      if (!Array.isArray(assetsRaw) || assetsRaw.length === 0) {
+        logger.warn('[AssetManager] assets_index.json vacío o inválido, usando assets por defecto');
+        const defaultAssets = this.getDefaultAssets();
+        assetsCache = defaultAssets;
+        cacheTimestamp = ahora;
+        return defaultAssets;
+      }
       
       // Normalizar y enriquecer assets
       const assetsNormalizados = assetsRaw.map((asset: any) => ({
@@ -72,16 +132,24 @@ export class AssetManager {
         url: this.convertirRutaAURL(asset.ruta)
       })) as AssetItem[];
       
+      // Mezclar con assets por defecto para garantizar que siempre hay fallbacks
+      const defaultAssets = this.getDefaultAssets();
+      const assetsCombinados = [...assetsNormalizados, ...defaultAssets];
+      
       // Actualizar cache
-      assetsCache = assetsNormalizados;
+      assetsCache = assetsCombinados;
       cacheTimestamp = ahora;
       
-      logger.info(`[AssetManager] Cargados ${assetsNormalizados.length} assets desde assets_index.json`);
-      return assetsNormalizados;
+      logger.info(`[AssetManager] Cargados ${assetsCombinados.length} assets (${assetsNormalizados.length} del índice + ${defaultAssets.length} por defecto)`);
+      return assetsCombinados;
       
     } catch (error) {
       logger.error('[AssetManager] Error cargando assets:', error);
-      return [];
+      logger.warn('[AssetManager] Usando assets por defecto como fallback');
+      const defaultAssets = this.getDefaultAssets();
+      assetsCache = defaultAssets;
+      cacheTimestamp = ahora;
+      return defaultAssets;
     }
   }
   
