@@ -41,20 +41,25 @@ export async function getBackgroundMusic(style: string, duration: number = 30, m
       return createSilenceBuffer(duration);
     }
 
-    // Mapear estilos cinematográficos a tags de Freesound
+    // Mapear estilos cinematográficos a tags de Freesound con términos más amplios
     const musicStyles = {
-      'cinematic': 'cinematic epic orchestral film score',
-      'anime': 'electronic upbeat japanese anime',
-      'cartoon': 'playful orchestral cartoon comedy',
-      'dramatic': 'dramatic tense strings emotional',
-      'adventure': 'adventure heroic brass epic',
-      'mystery': 'mystery dark ambient suspense',
-      'romance': 'romantic soft piano emotional',
-      'action': 'action intense drums fast',
-      'orchestral': 'orchestral symphony classical strings',
-      'ambient': 'ambient atmospheric calm peaceful',
-      'suspense': 'suspense mysterious dark tension',
-      'fantasy': 'fantasy magical mystical enchanted'
+      'cinematic': 'cinematic movie film orchestral background instrumental',
+      'anime': 'electronic music instrumental background loop',
+      'cartoon': 'funny comedy instrumental background music',
+      'dramatic': 'dramatic emotional orchestral strings background',
+      'adventure': 'adventure epic orchestral heroic instrumental',
+      'mystery': 'mysterious dark ambient atmospheric background',
+      'romance': 'romantic soft piano peaceful instrumental',
+      'action': 'action energetic drums intense background',
+      'orchestral': 'orchestra classical symphonic instrumental background',
+      'orchestral-dramatic': 'orchestral dramatic epic cinematic background',
+      'orchestral-neutral': 'orchestral calm peaceful background instrumental',
+      'orchestral-climax': 'orchestral powerful epic dramatic background',
+      'orchestral-climax-extended': 'orchestral epic dramatic cinematic background',
+      'orchestral-development': 'orchestral building tension background',
+      'ambient': 'ambient atmospheric calm peaceful background',
+      'suspense': 'suspense tension mysterious dark background',
+      'fantasy': 'fantasy magical mystical orchestral background'
     };
     
     const moodTags = {
@@ -70,8 +75,8 @@ export async function getBackgroundMusic(style: string, duration: number = 30, m
     const styleTags = musicStyles[style as keyof typeof musicStyles] || `${style} cinematic music`;
     const moodTag = moodTags[mood as keyof typeof moodTags] || mood;
     
-    // Buscar en Freesound
-    const searchQuery = `${styleTags} ${moodTag} loop background`;
+    // Buscar en Freesound con términos más amplios y flexibles
+    const searchQuery = `${styleTags} ${moodTag}`;
     const searchUrl = 'https://freesound.org/apiv2/search/text/';
     
     logger.info(`🔍 [MusicService] Buscando en Freesound: "${searchQuery}"`);
@@ -79,20 +84,44 @@ export async function getBackgroundMusic(style: string, duration: number = 30, m
     const searchResponse = await axios.get<FreesoundResponse>(searchUrl, {
       params: {
         query: searchQuery,
-        filter: `duration:[${Math.max(duration - 10, 10)} TO ${duration + 30}]`,
+        filter: `duration:[5 TO 120] type:wav OR type:mp3 OR type:aiff`, // Más duración flexible y formatos
         sort: 'downloads_desc',
-        page_size: 15,
+        page_size: 20, // Más resultados para mayor probabilidad
         fields: 'id,name,url,tags,duration,download,previews'
       },
       headers: {
         'Authorization': `Token ${env.FREESOUND_API_KEY}`
       },
-      timeout: 10000
+      timeout: 15000 // Más tiempo para la búsqueda
     });
 
     if (!searchResponse.data.results.length) {
       logger.warn(`🚫 [MusicService] No se encontraron resultados para: ${searchQuery}`);
-      return createSilenceBuffer(duration);
+      
+      // Fallback: intentar búsqueda más simple solo con "music"
+      logger.info(`🔄 [MusicService] Intentando búsqueda de fallback...`);
+      const fallbackQuery = `music instrumental background`;
+      
+      const fallbackResponse = await axios.get<FreesoundResponse>(searchUrl, {
+        params: {
+          query: fallbackQuery,
+          filter: `duration:[5 TO 120] type:wav OR type:mp3`,
+          sort: 'downloads_desc',
+          page_size: 10,
+          fields: 'id,name,url,tags,duration,download,previews'
+        },
+        headers: {
+          'Authorization': `Token ${env.FREESOUND_API_KEY}`
+        },
+        timeout: 15000
+      });
+      
+      if (!fallbackResponse.data.results.length) {
+        logger.warn(`🚫 [MusicService] Tampoco se encontraron resultados en búsqueda de fallback`);
+        return createSilenceBuffer(duration);
+      }
+      
+      searchResponse.data = fallbackResponse.data;
     }
 
     // Seleccionar el mejor resultado (el primero por relevancia y descargas)
@@ -220,15 +249,34 @@ export async function getMusicLibrary(category: string = 'cinematic'): Promise<A
   }
 }
 
-// Función helper para crear buffer de silencio
+// Función helper para crear buffer de silencio MP3 válido
 function createSilenceBuffer(duration: number): Buffer {
-  // Crear buffer de silencio de la duración especificada
-  // 44.1kHz, stereo, 16-bit = 44100 * 2 * 2 bytes por segundo
+  // Crear un MP3 de silencio válido con headers apropiados
   const silenceDuration = Math.max(duration, 1);
-  const bufferSize = Math.floor(silenceDuration * 44100 * 2 * 2);
-  const silenceBuffer = Buffer.alloc(bufferSize);
   
-  logger.info(`🔇 [MusicService] Buffer de silencio creado: ${silenceBuffer.length} bytes (${silenceDuration}s)`);
+  // MP3 mínimo válido header para silencio (44.1kHz, stereo, 128kbps)
+  const mp3Header = Buffer.from([
+    0xFF, 0xFB, 0x90, 0x00, // MP3 sync word + header
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+  ]);
+  
+  // Calcular frames necesarios para la duración (38.28ms por frame en MP3)
+  const framesNeeded = Math.ceil(silenceDuration * 1000 / 38.28);
+  const frameSize = 417; // Tamaño típico de frame MP3 @ 128kbps
+  
+  // Crear buffer con headers repetidos
+  const buffers: Buffer[] = [];
+  for (let i = 0; i < framesNeeded; i++) {
+    buffers.push(mp3Header);
+    // Agregar padding de silencio
+    buffers.push(Buffer.alloc(frameSize - mp3Header.length));
+  }
+  
+  const silenceBuffer = Buffer.concat(buffers);
+  
+  logger.info(`🔇 [MusicService] MP3 de silencio válido creado: ${silenceBuffer.length} bytes (${silenceDuration}s)`);
   return silenceBuffer;
 }
 

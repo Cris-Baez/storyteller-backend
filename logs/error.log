@@ -3511,3 +3511,152 @@ Error opening input file C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp
 Error opening input files: No such file or directory
 
 
+2025-08-02T21:56:24.845Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mp3 @ 000001d2677829c0] Format mp3 detected only with low score of 1, misdetection possible!
+[mp3 @ 000001d2677829c0] Could not find codec parameters for stream 0 (Audio: mp3 (mp3float), 0 channels, fltp): unspecified frame size
+Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (5000000) options
+Input #0, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\0584f865-6d25-4a32-975e-962af3014f90_sfx.mp3':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Audio: mp3 (mp3float), 0 channels, fltp
+Stream mapping:
+  Stream #0:0 (mp3float) -> volume:default
+  amix:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+[aist#0:0/mp3 @ 000001d26777a3c0] [dec:mp3float @ 000001d26777d240] Error submitting packet to decoder: Invalid data found when processing input
+[aist#0:0/mp3 @ 000001d26777a3c0] [dec:mp3float @ 000001d26777d240] Decode error rate 1 exceeds maximum 0.666667
+[aist#0:0/mp3 @ 000001d26777a3c0] [dec:mp3float @ 000001d26777d240] Task finished with error code: -1145393733 (Error number -1145393733 occurred)
+[aist#0:0/mp3 @ 000001d26777a3c0] [dec:mp3float @ 000001d26777d240] Terminating thread with return code -1145393733 (Error number -1145393733 occurred)
+[graph_0_in_0:0 @ 000001d267f90cc0] Neither number of channels nor channel layout specified
+Error initializing filters!
+[fc#0 @ 000001d26775f780] Task finished with error code: -22 (Invalid argument)
+[fc#0 @ 000001d26775f780] Terminating thread with return code -22 (Invalid argument)
+[aost#0:0/aac @ 000001d26777b680] Could not open encoder before EOF
+[aost#0:0/aac @ 000001d26777b680] Task finished with error code: -22 (Invalid argument)
+[aost#0:0/aac @ 000001d26777b680] Terminating thread with return code -22 (Invalid argument)
+[out#0/ipod @ 000001d26777a580] Nothing was written into output file, because at least one of its streams received no packets.
+size=       0KiB time=N/A bitrate=N/A speed=N/A    
+Conversion failed!
+
+
+2025-08-02T21:56:27.007Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mp3 @ 000001a4ff042b80] Format mp3 detected only with low score of 1, misdetection possible!
+[mp3 @ 000001a4ff042b80] Could not find codec parameters for stream 0 (Audio: mp3 (mp3float), 0 channels, fltp): unspecified frame size
+Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (5000000) options
+Input #0, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\0584f865-6d25-4a32-975e-962af3014f90_sfx.mp3':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Audio: mp3 (mp3float), 0 channels, fltp
+Stream mapping:
+  Stream #0:0 (mp3float) -> volume:default
+  amix:default -> Stream #0:0 (aac)
+  Stream #0:0 -> #1:0 (mp3 (mp3float) -> aac (native))
+Press [q] to stop, [?] for help
+[aist#0:0/mp3 @ 000001a4ff03a380] [dec:mp3float @ 000001a4ff5f37c0] Error submitting packet to decoder: Invalid data found when processing input
+[aist#0:0/mp3 @ 000001a4ff03a380] [dec:mp3float @ 000001a4ff5f37c0] Decode error rate 1 exceeds maximum 0.666667
+[aist#0:0/mp3 @ 000001a4ff03a380] [dec:mp3float @ 000001a4ff5f37c0] Task finished with error code: -1145393733 (Error number -1145393733 occurred)
+[aist#0:0/mp3 @ 000001a4ff03a380] [dec:mp3float @ 000001a4ff5f37c0] Terminating thread with return code -1145393733 (Error number -1145393733 occurred)
+[graph_0_in_0:0 @ 000001a4ff606880] Neither number of channels nor channel layout specified
+[graph_-1_in_0:0 @ 000001a4ff5fff80] Neither number of channels nor channel layout specified
+Error initializing filters!
+[fc#0 @ 000001a4ff01fa40] Task finished with error code: -22 (Invalid argument)
+[fc#0 @ 000001a4ff01fa40] Terminating thread with return code -22 (Invalid argument)
+[aost#0:0/aac @ 000001a4ff03b7c0] Could not open encoder before EOF
+[aost#0:0/aac @ 000001a4ff03b7c0] Task finished with error code: -22 (Invalid argument)
+[aost#0:0/aac @ 000001a4ff03b7c0] Terminating thread with return code -22 (Invalid argument)
+Error initializing filters!
+[af#1:0 @ 000001a4ff6aac00] Task finished with error code: -22 (Invalid argument)
+[af#1:0 @ 000001a4ff6aac00] Terminating thread with return code -22 (Invalid argument)
+[aost#1:0/aac @ 000001a4ff5f3080] Could not open encoder before EOF
+[aost#1:0/aac @ 000001a4ff5f3080] Task finished with error code: -22 (Invalid argument)
+[aost#1:0/aac @ 000001a4ff5f3080] Terminating thread with return code -22 (Invalid argument)
+[out#0/ipod @ 000001a4ff03a540] Nothing was written into output file, because at least one of its streams received no packets.
+[out#1/ipod @ 000001a4ff5f1500] Nothing was written into output file, because at least one of its streams received no packets.
+size=       0KiB time=N/A bitrate=N/A speed=N/A    
+Conversion failed!
+
+
+2025-08-02T22:11:44.461Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mp3 @ 000001cf0cf02880] Format mp3 detected only with low score of 1, misdetection possible!
+[mp3 @ 000001cf0cf02880] Could not find codec parameters for stream 0 (Audio: mp3 (mp3float), 0 channels, fltp): unspecified frame size
+Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (5000000) options
+Input #0, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_music.mp3':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Audio: mp3 (mp3float), 0 channels, fltp
+Stream mapping:
+  Stream #0:0 (mp3float) -> volume:default
+  amix:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+[aist#0:0/mp3 @ 000001cf0cef9e80] [dec:mp3float @ 000001cf0cf0dec0] Error submitting packet to decoder: Invalid data found when processing input
+[aist#0:0/mp3 @ 000001cf0cef9e80] [dec:mp3float @ 000001cf0cf0dec0] Decode error rate 1 exceeds maximum 0.666667
+[aist#0:0/mp3 @ 000001cf0cef9e80] [dec:mp3float @ 000001cf0cf0dec0] Task finished with error code: -1145393733 (Error number -1145393733 occurred)
+[aist#0:0/mp3 @ 000001cf0cef9e80] [dec:mp3float @ 000001cf0cf0dec0] Terminating thread with return code -1145393733 (Error number -1145393733 occurred)
+[graph_0_in_0:0 @ 000001cf0cf12f80] Neither number of channels nor channel layout specified
+Error initializing filters!
+[fc#0 @ 000001cf0cedf740] Task finished with error code: -22 (Invalid argument)
+[fc#0 @ 000001cf0cedf740] Terminating thread with return code -22 (Invalid argument)
+[aost#0:0/aac @ 000001cf0cefc7c0] Could not open encoder before EOF
+[aost#0:0/aac @ 000001cf0cefc7c0] Task finished with error code: -22 (Invalid argument)
+[aost#0:0/aac @ 000001cf0cefc7c0] Terminating thread with return code -22 (Invalid argument)
+[out#0/ipod @ 000001cf0cefa040] Nothing was written into output file, because at least one of its streams received no packets.
+size=       0KiB time=N/A bitrate=N/A speed=N/A    
+Conversion failed!
+
+
+2025-08-02T22:11:46.136Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mp3 @ 00000244b1083300] Format mp3 detected only with low score of 1, misdetection possible!
+[mp3 @ 00000244b1083300] Could not find codec parameters for stream 0 (Audio: mp3 (mp3float), 0 channels, fltp): unspecified frame size
+Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (5000000) options
+Input #0, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_music.mp3':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Audio: mp3 (mp3float), 0 channels, fltp
+[aost#0:0 @ 00000244b14601c0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:a aac' will be used.
+[out#0/ipod @ 00000244b107b1c0] Output with label 'aout' does not exist in any defined filter graph, or was already used elsewhere.
+Error opening output file C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_mix.m4a.
+Error opening output files: Invalid argument
+
+
+2025-08-02T22:12:38.614Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4
+2025-08-02T22:24:58.732Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4

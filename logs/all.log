@@ -14978,3 +14978,1154 @@ Error opening input files: No such file or directory
 2025-08-02T21:55:34.121Z [info] [CDN] Metadatos asociados: {"type":"video_clip","toma":2,"timestamp":1754171695474}
 2025-08-02T21:55:34.121Z [info] [FEEDBACK] {"service":"CDN","action":"upload","timeoutMs":600000,"elapsedMs":38646,"attempt":1,"success":true,"params":{"localFilePath":"tmp\\kling_clip_1754171661711.mp4","cdnPath":"generated/videos/clips/clip_1754171695474_2.mp4"},"timestamp":"2025-08-02T21:55:34.121Z"}
 2025-08-02T21:55:34.122Z [info] [CDN] Timeout de subida configurado en 600 segundos
+2025-08-02T21:56:17.602Z [info] [CDN] Archivo subido correctamente: generated/videos/clips/clip_1754171734122_3.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/generated/videos/clips/clip_1754171734122_3.mp4 (intento 1)
+2025-08-02T21:56:17.603Z [info] [CDN] Metadatos asociados: {"type":"video_clip","toma":3,"timestamp":1754171734122}
+2025-08-02T21:56:17.603Z [info] [FEEDBACK] {"service":"CDN","action":"upload","timeoutMs":600000,"elapsedMs":43480,"attempt":1,"success":true,"params":{"localFilePath":"tmp\\kling_clip_1754171669709.mp4","cdnPath":"generated/videos/clips/clip_1754171734122_3.mp4"},"timestamp":"2025-08-02T21:56:17.603Z"}
+2025-08-02T21:56:17.606Z [info] 🎼 [SceneAudio] Generando audio unificado para pipeline (3 tomas)
+2025-08-02T21:56:17.607Z [info] 🎬 [SceneAudio] Procesando lote: tomas 1-3 (3 tomas)
+2025-08-02T21:56:17.607Z [info] 🎭 [SceneAudio] Generando audio para toma 1/3
+2025-08-02T21:56:17.608Z [info] 🎭 [SceneAudio] Generando audio para escena 1/10
+2025-08-02T21:56:18.523Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-02T21:56:18.524Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-02T21:56:18.524Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-02T21:56:18.524Z [info] 🎯 [SceneAudio] Contexto: setup, tono: intriga, duración: 10s
+2025-08-02T21:56:18.525Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-02T21:56:18.527Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-dramatic",
+  "efectos": [
+    "ambient",
+    "footsteps",
+    "wind"
+  ],
+  "ambiente": "natural-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-02T21:56:18.528Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-dramatic
+2025-08-02T21:56:18.529Z [info] 🎵 [MusicService] Solicitando música: orchestral-dramatic, intriga, 10s
+2025-08-02T21:56:18.530Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral-dramatic cinematic music intriga loop background"
+2025-08-02T21:56:18.822Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral-dramatic cinematic music intriga loop background
+2025-08-02T21:56:18.823Z [info] 🔇 [MusicService] Buffer de silencio creado: 1764000 bytes (10s)
+2025-08-02T21:56:18.824Z [info] ✅ [AudioIntegration] Música generada: 1764000 bytes
+2025-08-02T21:56:18.824Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-02T21:56:18.826Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T21:56:18.826Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T21:56:18.827Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T21:56:18.827Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T21:56:18.827Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T21:56:18.827Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T21:56:18.828Z [info] 🎼 [AudioIntegration] Audio completo generado en 303ms
+2025-08-02T21:56:18.829Z [info] 📊 [AudioIntegration] Calidad: Música 1764000 bytes, Voz 0 bytes, 0 efectos
+2025-08-02T21:56:18.829Z [info] ✅ [SceneAudio] Escena 1 completada en 1221ms
+2025-08-02T21:56:18.830Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T21:56:18.830Z [info] ✅ [SceneAudio] Toma 1 completada en 1754171778830ms
+2025-08-02T21:56:18.831Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T21:56:18.831Z [info] 🎭 [SceneAudio] Generando audio para toma 2/3
+2025-08-02T21:56:18.832Z [info] 🎭 [SceneAudio] Generando audio para escena 2/10
+2025-08-02T21:56:19.103Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-02T21:56:19.103Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-02T21:56:19.104Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-02T21:56:19.104Z [info] 🎯 [SceneAudio] Contexto: desarrollo, tono: tension, duración: 10s
+2025-08-02T21:56:19.104Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-02T21:56:19.106Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-neutral",
+  "efectos": [
+    "ambient",
+    "movement",
+    "subtle-fx"
+  ],
+  "ambiente": "contextual-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-02T21:56:19.107Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-neutral
+2025-08-02T21:56:19.107Z [info] 🎵 [MusicService] Solicitando música: orchestral-neutral, tension, 10s
+2025-08-02T21:56:19.107Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral-neutral cinematic music tension loop background"
+2025-08-02T21:56:19.366Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral-neutral cinematic music tension loop background
+2025-08-02T21:56:19.366Z [info] 🔇 [MusicService] Buffer de silencio creado: 1764000 bytes (10s)
+2025-08-02T21:56:19.367Z [info] ✅ [AudioIntegration] Música generada: 1764000 bytes
+2025-08-02T21:56:19.367Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-02T21:56:19.368Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T21:56:19.368Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T21:56:19.368Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T21:56:19.369Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T21:56:19.369Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T21:56:19.370Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T21:56:19.370Z [info] 🎼 [AudioIntegration] Audio completo generado en 266ms
+2025-08-02T21:56:19.371Z [info] 📊 [AudioIntegration] Calidad: Música 1764000 bytes, Voz 0 bytes, 0 efectos
+2025-08-02T21:56:19.371Z [info] ✅ [SceneAudio] Escena 2 completada en 539ms
+2025-08-02T21:56:19.372Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T21:56:19.372Z [info] ✅ [SceneAudio] Toma 2 completada en 1754171779372ms
+2025-08-02T21:56:19.372Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T21:56:19.372Z [info] 🎭 [SceneAudio] Generando audio para toma 3/3
+2025-08-02T21:56:19.372Z [info] 🎭 [SceneAudio] Generando audio para escena 3/10
+2025-08-02T21:56:19.643Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-02T21:56:19.644Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-02T21:56:19.644Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-02T21:56:19.644Z [info] 🎯 [SceneAudio] Contexto: desarrollo, tono: esperanza, duración: 10s
+2025-08-02T21:56:19.644Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-02T21:56:19.645Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-neutral",
+  "efectos": [
+    "ambient",
+    "movement",
+    "subtle-fx"
+  ],
+  "ambiente": "contextual-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-02T21:56:19.645Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-neutral
+2025-08-02T21:56:19.645Z [info] 🎵 [MusicService] Solicitando música: orchestral-neutral, esperanza, 10s
+2025-08-02T21:56:19.646Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral-neutral cinematic music esperanza loop background"
+2025-08-02T21:56:19.899Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral-neutral cinematic music esperanza loop background
+2025-08-02T21:56:19.899Z [info] 🔇 [MusicService] Buffer de silencio creado: 1764000 bytes (10s)
+2025-08-02T21:56:19.900Z [info] ✅ [AudioIntegration] Música generada: 1764000 bytes
+2025-08-02T21:56:19.900Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-02T21:56:19.901Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T21:56:19.901Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T21:56:19.902Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T21:56:19.902Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T21:56:19.903Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T21:56:19.903Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T21:56:19.904Z [info] 🎼 [AudioIntegration] Audio completo generado en 260ms
+2025-08-02T21:56:19.904Z [info] 📊 [AudioIntegration] Calidad: Música 1764000 bytes, Voz 0 bytes, 0 efectos
+2025-08-02T21:56:19.905Z [info] ✅ [SceneAudio] Escena 3 completada en 533ms
+2025-08-02T21:56:19.906Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T21:56:19.906Z [info] ✅ [SceneAudio] Toma 3 completada en 1754171779906ms
+2025-08-02T21:56:19.907Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T21:56:19.907Z [info] 🔄 [SceneAudio] Lote completado: 1-3 de 3
+2025-08-02T21:56:19.908Z [info] 🎵 [SceneAudio] Sincronizando 3 audios con 0 clips
+2025-08-02T21:56:19.910Z [info] ✅ [SceneAudio] Sincronización completada:
+2025-08-02T21:56:19.910Z [info]    - Voz: 0 bytes
+2025-08-02T21:56:19.911Z [info]    - Música: 3 buffers
+2025-08-02T21:56:19.911Z [info]    - SFX: 0 efectos
+2025-08-02T21:56:19.927Z [info] ✅ [SceneAudio] Audio unificado generado para pipeline
+2025-08-02T21:56:19.928Z [info] 📊 [SceneAudio] Total: música 5292000 bytes, voz 0 bytes, SFX 882000 bytes
+2025-08-02T21:56:19.936Z [info] 🎬  FFmpegService v7 — ensamblando 1080p60 con overlays/LUTs/EQ…
+2025-08-02T21:56:19.948Z [info] ✅ Clip local validado: tmp\kling_clip_1754171635127.mp4
+2025-08-02T21:56:19.951Z [info] ✅ Clip local validado: tmp\kling_clip_1754171661711.mp4
+2025-08-02T21:56:19.961Z [info] ✅ Clip local validado: tmp\kling_clip_1754171669709.mp4
+2025-08-02T21:56:19.972Z [info] ✅ Archivo de lista para FFmpeg creado: C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\0584f865-6d25-4a32-975e-962af3014f90.txt
+2025-08-02T21:56:19.973Z [info] 🟡 [FFmpeg] Iniciando concat clips → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\0584f865-6d25-4a32-975e-962af3014f90_concat.mp4
+2025-08-02T21:56:22.886Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0000020af63cbe80] Auto-inserting h264_mp4toannexb bitstream filter
+Input #0, concat, from 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v6/0584f865-6d25-4a32-975e-962af3014f90.txt':
+  Duration: N/A, start: 0.000000, bitrate: 7777 kb/s
+  Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 960x960, 7777 kb/s, 30 fps, 30 tbr, 15360 tbn
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+Press [q] to stop, [?] for help
+[libx264 @ 0000020af68f3700] using SAR=1/1
+[libx264 @ 0000020af68f3700] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0000020af68f3700] profile Constrained Baseline, level 3.1, 4:2:0, 8-bit
+[libx264 @ 0000020af68f3700] 264 - core 164 r3204 373697b - H.264/MPEG-4 AVC codec - Copyleft 2003-2025 - http://www.videolan.org/x264.html - options: cabac=0 ref=1 deblock=0:0:0 analyse=0:0 me=dia subme=0 psy=1 psy_rd=1.00:0.00 mixed_ref=0 me_range=16 chroma_me=1 trellis=0 8x8dct=0 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=0 threads=18 lookahead_threads=3 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=0 weightp=0 keyint=250 keyint_min=25 scenecut=0 intra_refresh=0 rc=crf mbtree=0 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=0
+Output #0, mp4, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\0584f865-6d25-4a32-975e-962af3014f90_concat.mp4':
+  Metadata:
+    encoder         : Lavf61.7.100
+  Stream #0:0(und): Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 30 fps, 15360 tbn
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+      Side data:
+        cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+frame=  183 fps=0.0 q=19.0 size=    2560KiB time=00:00:06.10 bitrate=3438.0kbits/s speed=11.8x    
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0000020af9f919c0] Auto-inserting h264_mp4toannexb bitstream filter
+frame=  413 fps=401 q=22.0 size=    6656KiB time=00:00:13.76 bitrate=3960.8kbits/s speed=13.4x    
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0000020af63d0680] Auto-inserting h264_mp4toannexb bitstream filter
+frame=  618 fps=402 q=24.0 size=    9728KiB time=00:00:20.60 bitrate=3868.6kbits/s speed=13.4x    
+frame=  818 fps=397 q=21.0 size=   13568KiB time=00:00:27.26 bitrate=4076.4kbits/s speed=13.2x    
+[mp4 @ 0000020af6c8bc80] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 0000020af63d4280] video:16468KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.028909%
+frame=  939 fps=405 q=-1.0 Lsize=   16473KiB time=00:00:31.30 bitrate=4311.4kbits/s speed=13.5x    
+[libx264 @ 0000020af68f3700] frame I:4     Avg QP:18.75  size: 82866
+[libx264 @ 0000020af68f3700] frame P:935   Avg QP:21.46  size: 17681
+[libx264 @ 0000020af68f3700] mb I  I16..4: 100.0%  0.0%  0.0%
+[libx264 @ 0000020af68f3700] mb P  I16..4:  1.1%  0.0%  0.0%  P16..4: 40.9%  0.0%  0.0%  0.0%  0.0%    skip:57.9%
+[libx264 @ 0000020af68f3700] coded y,uvDC,uvAC intra: 38.8% 42.8% 17.6% inter: 24.2% 12.9% 0.3%
+[libx264 @ 0000020af68f3700] i16 v,h,dc,p: 48% 22% 15% 15%
+[libx264 @ 0000020af68f3700] i8c dc,h,v,p: 49% 22% 21%  8%
+[libx264 @ 0000020af68f3700] kb/s:4310.01
+
+
+2025-08-02T21:56:22.889Z [info] 🟢 [FFmpeg] Concat clips OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\0584f865-6d25-4a32-975e-962af3014f90_concat.mp4
+2025-08-02T21:56:22.895Z [info] 🟡 [FFmpeg] Iniciando mezcla audio multicapa → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\0584f865-6d25-4a32-975e-962af3014f90_mix.m4a
+2025-08-02T21:56:24.845Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mp3 @ 000001d2677829c0] Format mp3 detected only with low score of 1, misdetection possible!
+[mp3 @ 000001d2677829c0] Could not find codec parameters for stream 0 (Audio: mp3 (mp3float), 0 channels, fltp): unspecified frame size
+Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (5000000) options
+Input #0, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\0584f865-6d25-4a32-975e-962af3014f90_sfx.mp3':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Audio: mp3 (mp3float), 0 channels, fltp
+Stream mapping:
+  Stream #0:0 (mp3float) -> volume:default
+  amix:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+[aist#0:0/mp3 @ 000001d26777a3c0] [dec:mp3float @ 000001d26777d240] Error submitting packet to decoder: Invalid data found when processing input
+[aist#0:0/mp3 @ 000001d26777a3c0] [dec:mp3float @ 000001d26777d240] Decode error rate 1 exceeds maximum 0.666667
+[aist#0:0/mp3 @ 000001d26777a3c0] [dec:mp3float @ 000001d26777d240] Task finished with error code: -1145393733 (Error number -1145393733 occurred)
+[aist#0:0/mp3 @ 000001d26777a3c0] [dec:mp3float @ 000001d26777d240] Terminating thread with return code -1145393733 (Error number -1145393733 occurred)
+[graph_0_in_0:0 @ 000001d267f90cc0] Neither number of channels nor channel layout specified
+Error initializing filters!
+[fc#0 @ 000001d26775f780] Task finished with error code: -22 (Invalid argument)
+[fc#0 @ 000001d26775f780] Terminating thread with return code -22 (Invalid argument)
+[aost#0:0/aac @ 000001d26777b680] Could not open encoder before EOF
+[aost#0:0/aac @ 000001d26777b680] Task finished with error code: -22 (Invalid argument)
+[aost#0:0/aac @ 000001d26777b680] Terminating thread with return code -22 (Invalid argument)
+[out#0/ipod @ 000001d26777a580] Nothing was written into output file, because at least one of its streams received no packets.
+size=       0KiB time=N/A bitrate=N/A speed=N/A    
+Conversion failed!
+
+
+2025-08-02T21:56:27.007Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mp3 @ 000001a4ff042b80] Format mp3 detected only with low score of 1, misdetection possible!
+[mp3 @ 000001a4ff042b80] Could not find codec parameters for stream 0 (Audio: mp3 (mp3float), 0 channels, fltp): unspecified frame size
+Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (5000000) options
+Input #0, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\0584f865-6d25-4a32-975e-962af3014f90_sfx.mp3':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Audio: mp3 (mp3float), 0 channels, fltp
+Stream mapping:
+  Stream #0:0 (mp3float) -> volume:default
+  amix:default -> Stream #0:0 (aac)
+  Stream #0:0 -> #1:0 (mp3 (mp3float) -> aac (native))
+Press [q] to stop, [?] for help
+[aist#0:0/mp3 @ 000001a4ff03a380] [dec:mp3float @ 000001a4ff5f37c0] Error submitting packet to decoder: Invalid data found when processing input
+[aist#0:0/mp3 @ 000001a4ff03a380] [dec:mp3float @ 000001a4ff5f37c0] Decode error rate 1 exceeds maximum 0.666667
+[aist#0:0/mp3 @ 000001a4ff03a380] [dec:mp3float @ 000001a4ff5f37c0] Task finished with error code: -1145393733 (Error number -1145393733 occurred)
+[aist#0:0/mp3 @ 000001a4ff03a380] [dec:mp3float @ 000001a4ff5f37c0] Terminating thread with return code -1145393733 (Error number -1145393733 occurred)
+[graph_0_in_0:0 @ 000001a4ff606880] Neither number of channels nor channel layout specified
+[graph_-1_in_0:0 @ 000001a4ff5fff80] Neither number of channels nor channel layout specified
+Error initializing filters!
+[fc#0 @ 000001a4ff01fa40] Task finished with error code: -22 (Invalid argument)
+[fc#0 @ 000001a4ff01fa40] Terminating thread with return code -22 (Invalid argument)
+[aost#0:0/aac @ 000001a4ff03b7c0] Could not open encoder before EOF
+[aost#0:0/aac @ 000001a4ff03b7c0] Task finished with error code: -22 (Invalid argument)
+[aost#0:0/aac @ 000001a4ff03b7c0] Terminating thread with return code -22 (Invalid argument)
+Error initializing filters!
+[af#1:0 @ 000001a4ff6aac00] Task finished with error code: -22 (Invalid argument)
+[af#1:0 @ 000001a4ff6aac00] Terminating thread with return code -22 (Invalid argument)
+[aost#1:0/aac @ 000001a4ff5f3080] Could not open encoder before EOF
+[aost#1:0/aac @ 000001a4ff5f3080] Task finished with error code: -22 (Invalid argument)
+[aost#1:0/aac @ 000001a4ff5f3080] Terminating thread with return code -22 (Invalid argument)
+[out#0/ipod @ 000001a4ff03a540] Nothing was written into output file, because at least one of its streams received no packets.
+[out#1/ipod @ 000001a4ff5f1500] Nothing was written into output file, because at least one of its streams received no packets.
+size=       0KiB time=N/A bitrate=N/A speed=N/A    
+Conversion failed!
+
+
+2025-08-02T22:05:40.672Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-08-02T22:06:01.382Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"cinematic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-08-02T22:06:01.382Z"}
+2025-08-02T22:06:01.395Z [info] ::1 - - [02/Aug/2025:22:06:01 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-08-02T22:06:01.404Z [info] ✅ [Validador] Duración válida: 30s
+2025-08-02T22:06:01.405Z [info] ✅ [Validador] RenderRequest válido
+2025-08-02T22:06:01.427Z [info] [AssetManager] Cargados 587 assets (583 del índice + 4 por defecto)
+2025-08-02T22:06:01.429Z [info] [AssetManager] Obtenidos 378 fondos para estilo 'cinematic'
+2025-08-02T22:06:01.432Z [info] [AssetManager] Obtenidos 209 actores para estilo 'cinematic'
+2025-08-02T22:06:01.447Z [info] [AssetManager] Obtenidos 378 fondos para estilo 'cinematic'
+2025-08-02T22:06:01.449Z [info] [AssetManager] Obtenidos 209 actores para estilo 'cinematic'
+2025-08-02T22:06:09.837Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":8382,"success":true,"timestamp":"2025-08-02T22:06:09.837Z"}
+2025-08-02T22:06:11.864Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2019,"success":true,"timestamp":"2025-08-02T22:06:11.864Z"}
+2025-08-02T22:06:14.532Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2599,"success":true,"timestamp":"2025-08-02T22:06:14.532Z"}
+2025-08-02T22:06:16.870Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2260,"success":true,"timestamp":"2025-08-02T22:06:16.870Z"}
+2025-08-02T22:06:16.985Z [info] [KlingService] Generando imagen a video con Kling Elements
+2025-08-02T22:06:16.990Z [info] [KlingService] Generando imagen a video con Kling Elements
+2025-08-02T22:06:16.993Z [info] [KlingService] Generando imagen a video con Kling Elements
+2025-08-02T22:08:48.675Z [info] [KlingService] ✅ Imagen a video generada: https://v3.fal.media/files/tiger/jcFA0iMAtk6bdnoGB6o7y_output.mp4
+2025-08-02T22:08:51.747Z [info] [KlingService] ✅ Clip descargado: tmp\kling_clip_1754172528677.mp4
+2025-08-02T22:08:51.749Z [info] [KlingService] 📁 Clip descargado localmente: tmp\kling_clip_1754172528677.mp4
+2025-08-02T22:09:32.263Z [info] [KlingService] ✅ Imagen a video generada: https://v3.fal.media/files/rabbit/WLR-S_CiUui4sLr_M1i37_output.mp4
+2025-08-02T22:09:36.737Z [info] [KlingService] ✅ Clip descargado: tmp\kling_clip_1754172572264.mp4
+2025-08-02T22:09:36.738Z [info] [KlingService] 📁 Clip descargado localmente: tmp\kling_clip_1754172572264.mp4
+2025-08-02T22:09:44.960Z [info] [KlingService] ✅ Imagen a video generada: https://v3.fal.media/files/penguin/3B6CH4Nfe3yBaEumYZA-E_output.mp4
+2025-08-02T22:09:49.321Z [info] [KlingService] ✅ Clip descargado: tmp\kling_clip_1754172584961.mp4
+2025-08-02T22:09:49.322Z [info] [KlingService] 📁 Clip descargado localmente: tmp\kling_clip_1754172584961.mp4
+2025-08-02T22:09:49.323Z [info] [CDN] Timeout de subida configurado en 600 segundos
+2025-08-02T22:10:14.240Z [info] [CDN] Archivo subido correctamente: generated/videos/clips/clip_1754172589323_1.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/generated/videos/clips/clip_1754172589323_1.mp4 (intento 1)
+2025-08-02T22:10:14.240Z [info] [CDN] Metadatos asociados: {"type":"video_clip","toma":1,"timestamp":1754172589323}
+2025-08-02T22:10:14.241Z [info] [FEEDBACK] {"service":"CDN","action":"upload","timeoutMs":600000,"elapsedMs":24917,"attempt":1,"success":true,"params":{"localFilePath":"tmp\\kling_clip_1754172528677.mp4","cdnPath":"generated/videos/clips/clip_1754172589323_1.mp4"},"timestamp":"2025-08-02T22:10:14.241Z"}
+2025-08-02T22:10:14.242Z [info] [CDN] Timeout de subida configurado en 600 segundos
+2025-08-02T22:10:54.782Z [info] [CDN] Archivo subido correctamente: generated/videos/clips/clip_1754172614242_2.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/generated/videos/clips/clip_1754172614242_2.mp4 (intento 1)
+2025-08-02T22:10:54.783Z [info] [CDN] Metadatos asociados: {"type":"video_clip","toma":2,"timestamp":1754172614242}
+2025-08-02T22:10:54.783Z [info] [FEEDBACK] {"service":"CDN","action":"upload","timeoutMs":600000,"elapsedMs":40540,"attempt":1,"success":true,"params":{"localFilePath":"tmp\\kling_clip_1754172584961.mp4","cdnPath":"generated/videos/clips/clip_1754172614242_2.mp4"},"timestamp":"2025-08-02T22:10:54.783Z"}
+2025-08-02T22:10:54.784Z [info] [CDN] Timeout de subida configurado en 600 segundos
+2025-08-02T22:11:38.192Z [info] [CDN] Archivo subido correctamente: generated/videos/clips/clip_1754172654784_3.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/generated/videos/clips/clip_1754172654784_3.mp4 (intento 1)
+2025-08-02T22:11:38.192Z [info] [CDN] Metadatos asociados: {"type":"video_clip","toma":3,"timestamp":1754172654784}
+2025-08-02T22:11:38.193Z [info] [FEEDBACK] {"service":"CDN","action":"upload","timeoutMs":600000,"elapsedMs":43409,"attempt":1,"success":true,"params":{"localFilePath":"tmp\\kling_clip_1754172572264.mp4","cdnPath":"generated/videos/clips/clip_1754172654784_3.mp4"},"timestamp":"2025-08-02T22:11:38.193Z"}
+2025-08-02T22:11:38.194Z [info] 🎼 [SceneAudio] Generando audio unificado para pipeline (3 tomas)
+2025-08-02T22:11:38.195Z [info] 🎬 [SceneAudio] Procesando lote: tomas 1-3 (3 tomas)
+2025-08-02T22:11:38.195Z [info] 🎭 [SceneAudio] Generando audio para toma 1/3
+2025-08-02T22:11:38.196Z [info] 🎭 [SceneAudio] Generando audio para escena 1/30
+2025-08-02T22:11:39.185Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-02T22:11:39.185Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-02T22:11:39.185Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-02T22:11:39.186Z [info] 🎯 [SceneAudio] Contexto: setup, tono: calma, duración: 10s
+2025-08-02T22:11:39.186Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-02T22:11:39.187Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-dramatic",
+  "efectos": [
+    "ambient",
+    "footsteps",
+    "wind"
+  ],
+  "ambiente": "natural-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-02T22:11:39.187Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-dramatic
+2025-08-02T22:11:39.188Z [info] 🎵 [MusicService] Solicitando música: orchestral-dramatic, calma, 10s
+2025-08-02T22:11:39.188Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral-dramatic cinematic music calma loop background"
+2025-08-02T22:11:39.490Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral-dramatic cinematic music calma loop background
+2025-08-02T22:11:39.490Z [info] 🔇 [MusicService] Buffer de silencio creado: 1764000 bytes (10s)
+2025-08-02T22:11:39.490Z [info] ✅ [AudioIntegration] Música generada: 1764000 bytes
+2025-08-02T22:11:39.491Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-02T22:11:39.491Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:11:39.491Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T22:11:39.491Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:11:39.492Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T22:11:39.492Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:11:39.492Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T22:11:39.492Z [info] 🎼 [AudioIntegration] Audio completo generado en 306ms
+2025-08-02T22:11:39.493Z [info] 📊 [AudioIntegration] Calidad: Música 1764000 bytes, Voz 0 bytes, 0 efectos
+2025-08-02T22:11:39.493Z [info] ✅ [SceneAudio] Escena 1 completada en 1297ms
+2025-08-02T22:11:39.494Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:11:39.494Z [info] ✅ [SceneAudio] Toma 1 completada en 1754172699494ms
+2025-08-02T22:11:39.494Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:11:39.494Z [info] 🎭 [SceneAudio] Generando audio para toma 2/3
+2025-08-02T22:11:39.494Z [info] 🎭 [SceneAudio] Generando audio para escena 2/30
+2025-08-02T22:11:39.770Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-02T22:11:39.770Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-02T22:11:39.770Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-02T22:11:39.771Z [info] 🎯 [SceneAudio] Contexto: desarrollo, tono: intriga, duración: 10s
+2025-08-02T22:11:39.771Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-02T22:11:39.771Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-neutral",
+  "efectos": [
+    "ambient",
+    "movement",
+    "subtle-fx"
+  ],
+  "ambiente": "contextual-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-02T22:11:39.772Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-neutral
+2025-08-02T22:11:39.772Z [info] 🎵 [MusicService] Solicitando música: orchestral-neutral, intriga, 10s
+2025-08-02T22:11:39.772Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral-neutral cinematic music intriga loop background"
+2025-08-02T22:11:40.072Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral-neutral cinematic music intriga loop background
+2025-08-02T22:11:40.073Z [info] 🔇 [MusicService] Buffer de silencio creado: 1764000 bytes (10s)
+2025-08-02T22:11:40.073Z [info] ✅ [AudioIntegration] Música generada: 1764000 bytes
+2025-08-02T22:11:40.073Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-02T22:11:40.074Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:11:40.074Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T22:11:40.074Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:11:40.074Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T22:11:40.074Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:11:40.074Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T22:11:40.075Z [info] 🎼 [AudioIntegration] Audio completo generado en 304ms
+2025-08-02T22:11:40.075Z [info] 📊 [AudioIntegration] Calidad: Música 1764000 bytes, Voz 0 bytes, 0 efectos
+2025-08-02T22:11:40.075Z [info] ✅ [SceneAudio] Escena 2 completada en 581ms
+2025-08-02T22:11:40.075Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:11:40.076Z [info] ✅ [SceneAudio] Toma 2 completada en 1754172700076ms
+2025-08-02T22:11:40.076Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:11:40.076Z [info] 🎭 [SceneAudio] Generando audio para toma 3/3
+2025-08-02T22:11:40.076Z [info] 🎭 [SceneAudio] Generando audio para escena 3/30
+2025-08-02T22:11:40.348Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-02T22:11:40.349Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-02T22:11:40.349Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-02T22:11:40.350Z [info] 🎯 [SceneAudio] Contexto: desarrollo, tono: emocion, duración: 10s
+2025-08-02T22:11:40.350Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-02T22:11:40.350Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-neutral",
+  "efectos": [
+    "ambient",
+    "movement",
+    "subtle-fx"
+  ],
+  "ambiente": "contextual-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-02T22:11:40.351Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-neutral
+2025-08-02T22:11:40.351Z [info] 🎵 [MusicService] Solicitando música: orchestral-neutral, emocion, 10s
+2025-08-02T22:11:40.351Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral-neutral cinematic music emocion loop background"
+2025-08-02T22:11:40.640Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral-neutral cinematic music emocion loop background
+2025-08-02T22:11:40.641Z [info] 🔇 [MusicService] Buffer de silencio creado: 1764000 bytes (10s)
+2025-08-02T22:11:40.641Z [info] ✅ [AudioIntegration] Música generada: 1764000 bytes
+2025-08-02T22:11:40.641Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-02T22:11:40.641Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:11:40.642Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T22:11:40.642Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:11:40.642Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T22:11:40.643Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:11:40.643Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-02T22:11:40.643Z [info] 🎼 [AudioIntegration] Audio completo generado en 293ms
+2025-08-02T22:11:40.643Z [info] 📊 [AudioIntegration] Calidad: Música 1764000 bytes, Voz 0 bytes, 0 efectos
+2025-08-02T22:11:40.643Z [info] ✅ [SceneAudio] Escena 3 completada en 567ms
+2025-08-02T22:11:40.644Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:11:40.644Z [info] ✅ [SceneAudio] Toma 3 completada en 1754172700644ms
+2025-08-02T22:11:40.644Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:11:40.644Z [info] 🔄 [SceneAudio] Lote completado: 1-3 de 3
+2025-08-02T22:11:40.644Z [info] 🎵 [SceneAudio] Sincronizando 3 audios con 0 clips
+2025-08-02T22:11:40.645Z [info] ✅ [SceneAudio] Sincronización completada:
+2025-08-02T22:11:40.645Z [info]    - Voz: 0 bytes
+2025-08-02T22:11:40.645Z [info]    - Música: 3 buffers
+2025-08-02T22:11:40.645Z [info]    - SFX: 0 efectos
+2025-08-02T22:11:40.652Z [info] ✅ [SceneAudio] Audio unificado generado para pipeline
+2025-08-02T22:11:40.652Z [info] 📊 [SceneAudio] Total: música 5292000 bytes, voz 0 bytes, SFX 882000 bytes
+2025-08-02T22:11:40.656Z [info] 🎬  FFmpegService v7 — ensamblando 1080p60 con overlays/LUTs/EQ…
+2025-08-02T22:11:40.659Z [info] ✅ Clip local validado: tmp\kling_clip_1754172528677.mp4
+2025-08-02T22:11:40.660Z [info] ✅ Clip local validado: tmp\kling_clip_1754172584961.mp4
+2025-08-02T22:11:40.661Z [info] ✅ Clip local validado: tmp\kling_clip_1754172572264.mp4
+2025-08-02T22:11:40.665Z [info] ✅ Archivo de lista para FFmpeg creado: C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47.txt
+2025-08-02T22:11:40.666Z [info] 🟡 [FFmpeg] Iniciando concat clips → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_concat.mp4
+2025-08-02T22:11:43.681Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mov,mp4,m4a,3gp,3g2,mj2 @ 000001ab7c29be80] Auto-inserting h264_mp4toannexb bitstream filter
+Input #0, concat, from 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v6/64c0ad46-1b14-459c-8d85-988475a86b47.txt':
+  Duration: N/A, start: 0.000000, bitrate: 9549 kb/s
+  Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 960x960, 9549 kb/s, 30 fps, 30 tbr, 15360 tbn
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+Press [q] to stop, [?] for help
+[libx264 @ 000001ab7c99b040] using SAR=1/1
+[libx264 @ 000001ab7c99b040] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 000001ab7c99b040] profile Constrained Baseline, level 3.1, 4:2:0, 8-bit
+[libx264 @ 000001ab7c99b040] 264 - core 164 r3204 373697b - H.264/MPEG-4 AVC codec - Copyleft 2003-2025 - http://www.videolan.org/x264.html - options: cabac=0 ref=1 deblock=0:0:0 analyse=0:0 me=dia subme=0 psy=1 psy_rd=1.00:0.00 mixed_ref=0 me_range=16 chroma_me=1 trellis=0 8x8dct=0 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=0 threads=18 lookahead_threads=3 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=0 weightp=0 keyint=250 keyint_min=25 scenecut=0 intra_refresh=0 rc=crf mbtree=0 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=0
+Output #0, mp4, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_concat.mp4':
+  Metadata:
+    encoder         : Lavf61.7.100
+  Stream #0:0(und): Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 30 fps, 15360 tbn
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+      Side data:
+        cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+frame=  185 fps=0.0 q=20.0 size=    3328KiB time=00:00:06.16 bitrate=4421.1kbits/s speed=  12x    
+[mov,mp4,m4a,3gp,3g2,mj2 @ 000001ab01db3100] Auto-inserting h264_mp4toannexb bitstream filter
+frame=  388 fps=379 q=22.0 size=    6656KiB time=00:00:12.93 bitrate=4216.0kbits/s speed=12.6x    
+frame=  593 fps=384 q=21.0 size=   12032KiB time=00:00:19.76 bitrate=4986.5kbits/s speed=12.8x    
+[mov,mp4,m4a,3gp,3g2,mj2 @ 000001ab00b9a000] Auto-inserting h264_mp4toannexb bitstream filter
+frame=  769 fps=374 q=23.0 size=   17152KiB time=00:00:25.63 bitrate=5481.5kbits/s speed=12.5x    
+[mp4 @ 000001ab7c32eb40] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 000001ab7c32ea40] video:22174KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.021611%
+frame=  939 fps=378 q=-1.0 Lsize=   22179KiB time=00:00:31.30 bitrate=5804.7kbits/s speed=12.6x    
+[libx264 @ 000001ab7c99b040] frame I:4     Avg QP:19.25  size: 94535
+[libx264 @ 000001ab7c99b040] frame P:935   Avg QP:21.99  size: 23880
+[libx264 @ 000001ab7c99b040] mb I  I16..4: 100.0%  0.0%  0.0%
+[libx264 @ 000001ab7c99b040] mb P  I16..4:  3.5%  0.0%  0.0%  P16..4: 42.3%  0.0%  0.0%  0.0%  0.0%    skip:54.2%
+[libx264 @ 000001ab7c99b040] coded y,uvDC,uvAC intra: 17.7% 24.6% 8.9% inter: 28.5% 16.1% 0.7%
+[libx264 @ 000001ab7c99b040] i16 v,h,dc,p: 68% 13% 10% 10%
+[libx264 @ 000001ab7c99b040] i8c dc,h,v,p: 69% 13% 12%  6%
+[libx264 @ 000001ab7c99b040] kb/s:5803.33
+
+
+2025-08-02T22:11:43.683Z [info] 🟢 [FFmpeg] Concat clips OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_concat.mp4
+2025-08-02T22:11:43.688Z [info] 🟡 [FFmpeg] Iniciando mezcla audio multicapa → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_mix.m4a
+2025-08-02T22:11:43.698Z [info] 🎵 [FFmpeg] Procesando mezcla de audio válido
+2025-08-02T22:11:44.461Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mp3 @ 000001cf0cf02880] Format mp3 detected only with low score of 1, misdetection possible!
+[mp3 @ 000001cf0cf02880] Could not find codec parameters for stream 0 (Audio: mp3 (mp3float), 0 channels, fltp): unspecified frame size
+Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (5000000) options
+Input #0, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_music.mp3':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Audio: mp3 (mp3float), 0 channels, fltp
+Stream mapping:
+  Stream #0:0 (mp3float) -> volume:default
+  amix:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+[aist#0:0/mp3 @ 000001cf0cef9e80] [dec:mp3float @ 000001cf0cf0dec0] Error submitting packet to decoder: Invalid data found when processing input
+[aist#0:0/mp3 @ 000001cf0cef9e80] [dec:mp3float @ 000001cf0cf0dec0] Decode error rate 1 exceeds maximum 0.666667
+[aist#0:0/mp3 @ 000001cf0cef9e80] [dec:mp3float @ 000001cf0cf0dec0] Task finished with error code: -1145393733 (Error number -1145393733 occurred)
+[aist#0:0/mp3 @ 000001cf0cef9e80] [dec:mp3float @ 000001cf0cf0dec0] Terminating thread with return code -1145393733 (Error number -1145393733 occurred)
+[graph_0_in_0:0 @ 000001cf0cf12f80] Neither number of channels nor channel layout specified
+Error initializing filters!
+[fc#0 @ 000001cf0cedf740] Task finished with error code: -22 (Invalid argument)
+[fc#0 @ 000001cf0cedf740] Terminating thread with return code -22 (Invalid argument)
+[aost#0:0/aac @ 000001cf0cefc7c0] Could not open encoder before EOF
+[aost#0:0/aac @ 000001cf0cefc7c0] Task finished with error code: -22 (Invalid argument)
+[aost#0:0/aac @ 000001cf0cefc7c0] Terminating thread with return code -22 (Invalid argument)
+[out#0/ipod @ 000001cf0cefa040] Nothing was written into output file, because at least one of its streams received no packets.
+size=       0KiB time=N/A bitrate=N/A speed=N/A    
+Conversion failed!
+
+
+2025-08-02T22:11:46.136Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mp3 @ 00000244b1083300] Format mp3 detected only with low score of 1, misdetection possible!
+[mp3 @ 00000244b1083300] Could not find codec parameters for stream 0 (Audio: mp3 (mp3float), 0 channels, fltp): unspecified frame size
+Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (5000000) options
+Input #0, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_music.mp3':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Audio: mp3 (mp3float), 0 channels, fltp
+[aost#0:0 @ 00000244b14601c0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:a aac' will be used.
+[out#0/ipod @ 00000244b107b1c0] Output with label 'aout' does not exist in any defined filter graph, or was already used elsewhere.
+Error opening output file C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_mix.m4a.
+Error opening output files: Invalid argument
+
+
+2025-08-02T22:11:47.641Z [warn] ⚠️ [FFmpeg] Error en mezcla de audio, continuando sin audio: ffmpeg exited with code 4294967274: Error opening output file C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_mix.m4a.
+Error opening output files: Invalid argument
+
+2025-08-02T22:11:47.641Z [info] 🟡 [FFmpeg] Copiando video sin audio → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4
+2025-08-02T22:11:47.816Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_concat.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.7.100
+  Duration: 00:00:31.30, start: 0.000000, bitrate: 5804 kb/s
+  Stream #0:0[0x1](und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], 5803 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+Output #0, mp4, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.7.100
+  Stream #0:0(und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 5803 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 0000022482049400] video:22174KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.021606%
+frame=  939 fps=0.0 q=-1.0 Lsize=   22179KiB time=00:00:31.30 bitrate=5804.7kbits/s speed= 411x    
+
+
+2025-08-02T22:11:47.818Z [info] 🟢 [FFmpeg] Video sin audio OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4
+2025-08-02T22:11:47.821Z [info] 🟡 [FFmpeg] Iniciando HLS 720p → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_64c0ad46-1b14-459c-8d85-988475a86b47\index.m3u8
+2025-08-02T22:11:55.089Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.7.100
+  Duration: 00:00:31.30, start: 0.000000, bitrate: 5804 kb/s
+  Stream #0:0[0x1](und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], 5803 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+Press [q] to stop, [?] for help
+[libx264 @ 0000021331054bc0] using SAR=1/1
+[libx264 @ 0000021331054bc0] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0000021331054bc0] profile High, level 3.1, 4:2:0, 8-bit
+[libx264 @ 0000021331054bc0] 264 - core 164 r3204 373697b - H.264/MPEG-4 AVC codec - Copyleft 2003-2025 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=18 lookahead_threads=3 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, hls, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_64c0ad46-1b14-459c-8d85-988475a86b47\index.m3u8':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.7.100
+  Stream #0:0(und): Video: h264, yuv420p(tv, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 30 fps, 90k tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+      Side data:
+        cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+frame=   31 fps=0.0 q=29.0 size=N/A time=00:00:00.96 bitrate=N/A speed=1.86x    
+frame=  101 fps= 98 q=29.0 size=N/A time=00:00:03.30 bitrate=N/A speed= 3.2x    
+frame=  181 fps=117 q=29.0 size=N/A time=00:00:05.96 bitrate=N/A speed=3.84x    
+[hls @ 0000021330b49b40] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_64c0ad46-1b14-459c-8d85-988475a86b47\seg_000.ts' for writing
+frame=  274 fps=132 q=29.0 size=N/A time=00:00:09.00 bitrate=N/A speed=4.35x    
+[hls @ 0000021330b49b40] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_64c0ad46-1b14-459c-8d85-988475a86b47\seg_001.ts' for writing
+frame=  346 fps=134 q=29.0 size=N/A time=00:00:11.46 bitrate=N/A speed=4.43x    
+frame=  404 fps=130 q=29.0 size=N/A time=00:00:13.40 bitrate=N/A speed=4.31x    
+frame=  484 fps=133 q=29.0 size=N/A time=00:00:16.06 bitrate=N/A speed= 4.4x    
+frame=  555 fps=134 q=29.0 size=N/A time=00:00:18.43 bitrate=N/A speed=4.43x    
+[hls @ 0000021330b49b40] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_64c0ad46-1b14-459c-8d85-988475a86b47\seg_002.ts' for writing
+[hls @ 0000021330b49b40] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_64c0ad46-1b14-459c-8d85-988475a86b47\seg_003.ts' for writing
+frame=  634 fps=136 q=29.0 size=N/A time=00:00:21.06 bitrate=N/A speed=4.51x    
+frame=  699 fps=135 q=29.0 size=N/A time=00:00:23.23 bitrate=N/A speed=4.48x    
+frame=  755 fps=131 q=29.0 size=N/A time=00:00:25.10 bitrate=N/A speed=4.36x    
+frame=  821 fps=131 q=29.0 size=N/A time=00:00:27.30 bitrate=N/A speed=4.36x    
+[hls @ 0000021330b49b40] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_64c0ad46-1b14-459c-8d85-988475a86b47\seg_004.ts' for writing
+frame=  881 fps=130 q=29.0 size=N/A time=00:00:29.30 bitrate=N/A speed=4.31x    
+[hls @ 0000021330b49b40] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_64c0ad46-1b14-459c-8d85-988475a86b47\seg_005.ts' for writing
+[out#0/hls @ 0000021330b43cc0] video:6788KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+frame=  939 fps=132 q=-1.0 Lsize=N/A time=00:00:31.23 bitrate=N/A speed=4.39x    
+[libx264 @ 0000021331054bc0] frame I:6     Avg QP:22.15  size: 61813
+[libx264 @ 0000021331054bc0] frame P:478   Avg QP:23.58  size: 11574
+[libx264 @ 0000021331054bc0] frame B:455   Avg QP:28.67  size:  2302
+[libx264 @ 0000021331054bc0] consecutive B-frames: 34.9%  1.1%  1.0% 63.0%
+[libx264 @ 0000021331054bc0] mb I  I16..4: 20.9% 61.3% 17.8%
+[libx264 @ 0000021331054bc0] mb P  I16..4:  1.8%  1.0%  0.1%  P16..4: 26.3%  8.3%  5.1%  0.0%  0.0%    skip:57.3%
+[libx264 @ 0000021331054bc0] mb B  I16..4:  0.1%  0.1%  0.0%  B16..8: 28.5%  1.4%  0.2%  direct: 0.3%  skip:69.5%  L0:42.1% L1:52.5% BI: 5.4%
+[libx264 @ 0000021331054bc0] 8x8 transform intra:42.7% inter:63.5%
+[libx264 @ 0000021331054bc0] coded y,uvDC,uvAC intra: 31.6% 54.0% 15.7% inter: 10.6% 10.1% 0.1%
+[libx264 @ 0000021331054bc0] i16 v,h,dc,p: 23% 29% 28% 21%
+[libx264 @ 0000021331054bc0] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 24% 14% 46%  3%  2%  2%  3%  2%  3%
+[libx264 @ 0000021331054bc0] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 23% 26% 22%  4%  5%  4%  7%  4%  6%
+[libx264 @ 0000021331054bc0] i8c dc,h,v,p: 56% 22% 15%  7%
+[libx264 @ 0000021331054bc0] Weighted P-Frames: Y:1.7% UV:0.4%
+[libx264 @ 0000021331054bc0] ref P L0: 67.8% 24.0%  6.9%  1.3%  0.0%
+[libx264 @ 0000021331054bc0] ref B L0: 97.5%  2.1%  0.4%
+[libx264 @ 0000021331054bc0] ref B L1: 98.8%  1.2%
+[libx264 @ 0000021331054bc0] kb/s:1776.51
+
+
+2025-08-02T22:11:55.091Z [info] 🟢 [FFmpeg] HLS 720p OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_64c0ad46-1b14-459c-8d85-988475a86b47\index.m3u8
+2025-08-02T22:11:55.092Z [info] [CDN] Timeout de subida configurado en 600 segundos
+2025-08-02T22:12:35.901Z [info] [CDN] Archivo subido correctamente: videos/64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4 (intento 1)
+2025-08-02T22:12:35.901Z [info] [FEEDBACK] {"service":"CDN","action":"upload","timeoutMs":600000,"elapsedMs":40808,"attempt":1,"success":true,"params":{"localFilePath":"C:\\Users\\crist\\OneDrive\\Desktop\\storyteller-backend\\tmp\\ffmpeg_v6\\64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4","cdnPath":"videos/64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4"},"timestamp":"2025-08-02T22:12:35.901Z"}
+2025-08-02T22:12:35.902Z [info] ✅  Video final subido al CDN → https://storage.googleapis.com/storyteller-ai-cdn/videos/64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4
+2025-08-02T22:12:36.021Z [info] ✅  Video final accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/videos/64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4
+2025-08-02T22:12:38.614Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/64c0ad46-1b14-459c-8d85-988475a86b47_1080p.mp4
+2025-08-02T22:18:20.966Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-08-02T22:18:29.148Z [info] [FEEDBACK] {"service":"RenderAPI","action":"requestReceived","success":true,"params":{"visualStyle":"cinematic","estiloNormalizado":"cinematic","duration":30},"timestamp":"2025-08-02T22:18:29.148Z"}
+2025-08-02T22:18:29.155Z [info] ::1 - - [02/Aug/2025:22:18:29 +0000] "POST /api/render HTTP/1.1" 202 381 "-" "curl/8.6.0"
+2025-08-02T22:18:29.161Z [info] ✅ [Validador] Duración válida: 30s
+2025-08-02T22:18:29.163Z [info] ✅ [Validador] RenderRequest válido
+2025-08-02T22:18:29.179Z [info] [AssetManager] Cargados 587 assets (583 del índice + 4 por defecto)
+2025-08-02T22:18:29.180Z [info] [AssetManager] Obtenidos 378 fondos para estilo 'cinematic'
+2025-08-02T22:18:29.181Z [info] [AssetManager] Obtenidos 209 actores para estilo 'cinematic'
+2025-08-02T22:18:29.190Z [info] [AssetManager] Obtenidos 378 fondos para estilo 'cinematic'
+2025-08-02T22:18:29.192Z [info] [AssetManager] Obtenidos 209 actores para estilo 'cinematic'
+2025-08-02T22:18:34.064Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4863,"success":true,"timestamp":"2025-08-02T22:18:34.064Z"}
+2025-08-02T22:18:38.395Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4321,"success":true,"timestamp":"2025-08-02T22:18:38.395Z"}
+2025-08-02T22:18:41.249Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2797,"success":true,"timestamp":"2025-08-02T22:18:41.249Z"}
+2025-08-02T22:18:43.577Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2238,"success":true,"timestamp":"2025-08-02T22:18:43.577Z"}
+2025-08-02T22:18:43.679Z [info] [KlingService] Generando imagen a video con Kling Elements
+2025-08-02T22:18:43.683Z [info] [KlingService] Generando imagen a video con Kling Elements
+2025-08-02T22:18:43.690Z [info] [KlingService] Generando imagen a video con Kling Elements
+2025-08-02T22:21:31.548Z [info] [KlingService] ✅ Imagen a video generada: https://v3.fal.media/files/rabbit/0fMhIiQlsM9iLRc3Ctgg3_output.mp4
+2025-08-02T22:21:35.468Z [info] [KlingService] ✅ Clip descargado: tmp\kling_clip_1754173291551.mp4
+2025-08-02T22:21:35.469Z [info] [KlingService] 📁 Clip descargado localmente: tmp\kling_clip_1754173291551.mp4
+2025-08-02T22:21:37.208Z [info] [KlingService] ✅ Imagen a video generada: https://v3.fal.media/files/kangaroo/bydY1txXXW2ajj3M9bjwZ_output.mp4
+2025-08-02T22:21:41.713Z [info] [KlingService] ✅ Clip descargado: tmp\kling_clip_1754173297209.mp4
+2025-08-02T22:21:41.715Z [info] [KlingService] 📁 Clip descargado localmente: tmp\kling_clip_1754173297209.mp4
+2025-08-02T22:21:47.973Z [info] [KlingService] ✅ Imagen a video generada: https://v3.fal.media/files/koala/pXtFkHZbawsXKMjYIXhzJ_output.mp4
+2025-08-02T22:21:53.805Z [info] [KlingService] ✅ Clip descargado: tmp\kling_clip_1754173307974.mp4
+2025-08-02T22:21:53.806Z [info] [KlingService] 📁 Clip descargado localmente: tmp\kling_clip_1754173307974.mp4
+2025-08-02T22:21:53.810Z [info] [CDN] Timeout de subida configurado en 600 segundos
+2025-08-02T22:22:29.266Z [info] [CDN] Archivo subido correctamente: generated/videos/clips/clip_1754173313808_1.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/generated/videos/clips/clip_1754173313808_1.mp4 (intento 1)
+2025-08-02T22:22:29.267Z [info] [CDN] Metadatos asociados: {"type":"video_clip","toma":1,"timestamp":1754173313809}
+2025-08-02T22:22:29.269Z [info] [FEEDBACK] {"service":"CDN","action":"upload","timeoutMs":600000,"elapsedMs":35457,"attempt":1,"success":true,"params":{"localFilePath":"tmp\\kling_clip_1754173291551.mp4","cdnPath":"generated/videos/clips/clip_1754173313808_1.mp4"},"timestamp":"2025-08-02T22:22:29.269Z"}
+2025-08-02T22:22:29.271Z [info] [CDN] Timeout de subida configurado en 600 segundos
+2025-08-02T22:23:25.099Z [info] [CDN] Archivo subido correctamente: generated/videos/clips/clip_1754173349270_2.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/generated/videos/clips/clip_1754173349270_2.mp4 (intento 1)
+2025-08-02T22:23:25.100Z [info] [CDN] Metadatos asociados: {"type":"video_clip","toma":2,"timestamp":1754173349270}
+2025-08-02T22:23:25.100Z [info] [FEEDBACK] {"service":"CDN","action":"upload","timeoutMs":600000,"elapsedMs":55829,"attempt":1,"success":true,"params":{"localFilePath":"tmp\\kling_clip_1754173297209.mp4","cdnPath":"generated/videos/clips/clip_1754173349270_2.mp4"},"timestamp":"2025-08-02T22:23:25.100Z"}
+2025-08-02T22:23:25.101Z [info] [CDN] Timeout de subida configurado en 600 segundos
+2025-08-02T22:24:27.553Z [info] [CDN] Archivo subido correctamente: generated/videos/clips/clip_1754173405101_3.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/generated/videos/clips/clip_1754173405101_3.mp4 (intento 1)
+2025-08-02T22:24:27.554Z [info] [CDN] Metadatos asociados: {"type":"video_clip","toma":3,"timestamp":1754173405101}
+2025-08-02T22:24:27.555Z [info] [FEEDBACK] {"service":"CDN","action":"upload","timeoutMs":600000,"elapsedMs":62454,"attempt":1,"success":true,"params":{"localFilePath":"tmp\\kling_clip_1754173307974.mp4","cdnPath":"generated/videos/clips/clip_1754173405101_3.mp4"},"timestamp":"2025-08-02T22:24:27.555Z"}
+2025-08-02T22:24:27.560Z [info] 🎼 [SceneAudio] Generando audio unificado para pipeline (3 tomas)
+2025-08-02T22:24:27.561Z [info] 🎬 [SceneAudio] Procesando lote: tomas 1-3 (3 tomas)
+2025-08-02T22:24:27.562Z [info] 🎭 [SceneAudio] Generando audio para toma 1/3
+2025-08-02T22:24:27.564Z [info] 🎭 [SceneAudio] Generando audio para escena 1/30
+2025-08-02T22:24:28.545Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-02T22:24:28.546Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-02T22:24:28.546Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-02T22:24:28.547Z [info] 🎯 [SceneAudio] Contexto: setup, tono: intriga, duración: 10s
+2025-08-02T22:24:28.549Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-02T22:24:28.553Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-dramatic",
+  "efectos": [
+    "ambient",
+    "footsteps",
+    "wind"
+  ],
+  "ambiente": "natural-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-02T22:24:28.555Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-dramatic
+2025-08-02T22:24:28.556Z [info] 🎵 [MusicService] Solicitando música: orchestral-dramatic, intriga, 10s
+2025-08-02T22:24:28.557Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral dramatic epic cinematic background intriga"
+2025-08-02T22:24:28.839Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral dramatic epic cinematic background intriga
+2025-08-02T22:24:28.840Z [info] 🔄 [MusicService] Intentando búsqueda de fallback...
+2025-08-02T22:24:29.162Z [info] ✅ [MusicService] Seleccionado: "Sky Loop" (68.1506s)
+2025-08-02T22:24:29.163Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/264/264295_4019029-hq.mp3
+2025-08-02T22:24:31.113Z [info] 🎵 [MusicService] Música descargada: 1541412 bytes desde Freesound
+2025-08-02T22:24:31.114Z [info] ✅ [AudioIntegration] Música generada: 1541412 bytes
+2025-08-02T22:24:31.115Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-02T22:24:31.118Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:24:31.120Z [info] [AudioEngine] 0 efectos obtenidos (2ms)
+2025-08-02T22:24:31.121Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:24:31.122Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T22:24:31.123Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:24:31.124Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T22:24:31.125Z [info] 🎼 [AudioIntegration] Audio completo generado en 2576ms
+2025-08-02T22:24:31.126Z [info] 📊 [AudioIntegration] Calidad: Música 1541412 bytes, Voz 0 bytes, 0 efectos
+2025-08-02T22:24:31.128Z [info] ✅ [SceneAudio] Escena 1 completada en 3563ms
+2025-08-02T22:24:31.128Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:24:31.129Z [info] ✅ [SceneAudio] Toma 1 completada en 1754173471129ms
+2025-08-02T22:24:31.130Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:24:31.131Z [info] 🎭 [SceneAudio] Generando audio para toma 2/3
+2025-08-02T22:24:31.132Z [info] 🎭 [SceneAudio] Generando audio para escena 2/30
+2025-08-02T22:24:31.413Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-02T22:24:31.414Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-02T22:24:31.415Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-02T22:24:31.416Z [info] 🎯 [SceneAudio] Contexto: desarrollo, tono: nostalgia, duración: 10s
+2025-08-02T22:24:31.417Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-02T22:24:31.420Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-neutral",
+  "efectos": [
+    "ambient",
+    "movement",
+    "subtle-fx"
+  ],
+  "ambiente": "contextual-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-02T22:24:31.421Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-neutral
+2025-08-02T22:24:31.422Z [info] 🎵 [MusicService] Solicitando música: orchestral-neutral, nostalgia, 10s
+2025-08-02T22:24:31.423Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral calm peaceful background instrumental nostalgia"
+2025-08-02T22:24:31.677Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral calm peaceful background instrumental nostalgia
+2025-08-02T22:24:31.678Z [info] 🔄 [MusicService] Intentando búsqueda de fallback...
+2025-08-02T22:24:31.987Z [info] ✅ [MusicService] Seleccionado: "Sky Loop" (68.1506s)
+2025-08-02T22:24:31.988Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/264/264295_4019029-hq.mp3
+2025-08-02T22:24:32.900Z [info] 🎵 [MusicService] Música descargada: 1541412 bytes desde Freesound
+2025-08-02T22:24:32.901Z [info] ✅ [AudioIntegration] Música generada: 1541412 bytes
+2025-08-02T22:24:32.902Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-02T22:24:32.903Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:24:32.904Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T22:24:32.904Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:24:32.905Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T22:24:32.906Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:24:32.907Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T22:24:32.907Z [info] 🎼 [AudioIntegration] Audio completo generado en 1490ms
+2025-08-02T22:24:32.908Z [info] 📊 [AudioIntegration] Calidad: Música 1541412 bytes, Voz 0 bytes, 0 efectos
+2025-08-02T22:24:32.909Z [info] ✅ [SceneAudio] Escena 2 completada en 1777ms
+2025-08-02T22:24:32.910Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:24:32.910Z [info] ✅ [SceneAudio] Toma 2 completada en 1754173472910ms
+2025-08-02T22:24:32.911Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:24:32.912Z [info] 🎭 [SceneAudio] Generando audio para toma 3/3
+2025-08-02T22:24:32.912Z [info] 🎭 [SceneAudio] Generando audio para escena 3/30
+2025-08-02T22:24:33.183Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-02T22:24:33.184Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-02T22:24:33.185Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-02T22:24:33.186Z [info] 🎯 [SceneAudio] Contexto: desarrollo, tono: resolución, duración: 10s
+2025-08-02T22:24:33.186Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-02T22:24:33.189Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-neutral",
+  "efectos": [
+    "ambient",
+    "movement",
+    "subtle-fx"
+  ],
+  "ambiente": "contextual-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-02T22:24:33.190Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-neutral
+2025-08-02T22:24:33.190Z [info] 🎵 [MusicService] Solicitando música: orchestral-neutral, resolución, 10s
+2025-08-02T22:24:33.191Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral calm peaceful background instrumental resolución"
+2025-08-02T22:24:33.456Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral calm peaceful background instrumental resolución
+2025-08-02T22:24:33.457Z [info] 🔄 [MusicService] Intentando búsqueda de fallback...
+2025-08-02T22:24:33.769Z [info] ✅ [MusicService] Seleccionado: "Sky Loop" (68.1506s)
+2025-08-02T22:24:33.770Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/264/264295_4019029-hq.mp3
+2025-08-02T22:24:34.886Z [info] 🎵 [MusicService] Música descargada: 1541412 bytes desde Freesound
+2025-08-02T22:24:34.887Z [info] ✅ [AudioIntegration] Música generada: 1541412 bytes
+2025-08-02T22:24:34.888Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-02T22:24:34.888Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:24:34.889Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T22:24:34.890Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:24:34.891Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T22:24:34.891Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-02T22:24:34.892Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-02T22:24:34.893Z [info] 🎼 [AudioIntegration] Audio completo generado en 1707ms
+2025-08-02T22:24:34.893Z [info] 📊 [AudioIntegration] Calidad: Música 1541412 bytes, Voz 0 bytes, 0 efectos
+2025-08-02T22:24:34.894Z [info] ✅ [SceneAudio] Escena 3 completada en 1982ms
+2025-08-02T22:24:34.895Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:24:34.896Z [info] ✅ [SceneAudio] Toma 3 completada en 1754173474896ms
+2025-08-02T22:24:34.896Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-02T22:24:34.897Z [info] 🔄 [SceneAudio] Lote completado: 1-3 de 3
+2025-08-02T22:24:34.899Z [info] 🎵 [SceneAudio] Sincronizando 3 audios con 0 clips
+2025-08-02T22:24:34.901Z [info] ✅ [SceneAudio] Sincronización completada:
+2025-08-02T22:24:34.902Z [info]    - Voz: 0 bytes
+2025-08-02T22:24:34.903Z [info]    - Música: 3 buffers
+2025-08-02T22:24:34.903Z [info]    - SFX: 0 efectos
+2025-08-02T22:24:34.913Z [info] ✅ [SceneAudio] Audio unificado generado para pipeline
+2025-08-02T22:24:34.914Z [info] 📊 [SceneAudio] Total: música 4624236 bytes, voz 0 bytes, SFX 882000 bytes
+2025-08-02T22:24:34.921Z [info] 🎬  FFmpegService v7 — ensamblando 1080p60 con overlays/LUTs/EQ…
+2025-08-02T22:24:34.932Z [info] ✅ Clip local validado: tmp\kling_clip_1754173291551.mp4
+2025-08-02T22:24:34.934Z [info] ✅ Clip local validado: tmp\kling_clip_1754173297209.mp4
+2025-08-02T22:24:34.936Z [info] ✅ Clip local validado: tmp\kling_clip_1754173307974.mp4
+2025-08-02T22:24:34.948Z [info] ✅ Archivo de lista para FFmpeg creado: C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7.txt
+2025-08-02T22:24:34.950Z [info] 🟡 [FFmpeg] Iniciando concat clips → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_concat.mp4
+2025-08-02T22:24:38.291Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mov,mp4,m4a,3gp,3g2,mj2 @ 000001fbdad70080] Auto-inserting h264_mp4toannexb bitstream filter
+Input #0, concat, from 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v6/a48b830c-6e0c-4f66-aac1-42d4d4d29ae7.txt':
+  Duration: N/A, start: 0.000000, bitrate: 14120 kb/s
+  Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 960x960, 14120 kb/s, 30 fps, 30 tbr, 15360 tbn
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+Press [q] to stop, [?] for help
+[libx264 @ 000001fbdb3562c0] using SAR=1/1
+[libx264 @ 000001fbdb3562c0] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 000001fbdb3562c0] profile Constrained Baseline, level 3.1, 4:2:0, 8-bit
+[libx264 @ 000001fbdb3562c0] 264 - core 164 r3204 373697b - H.264/MPEG-4 AVC codec - Copyleft 2003-2025 - http://www.videolan.org/x264.html - options: cabac=0 ref=1 deblock=0:0:0 analyse=0:0 me=dia subme=0 psy=1 psy_rd=1.00:0.00 mixed_ref=0 me_range=16 chroma_me=1 trellis=0 8x8dct=0 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=0 threads=18 lookahead_threads=3 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=0 weightp=0 keyint=250 keyint_min=25 scenecut=0 intra_refresh=0 rc=crf mbtree=0 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=0
+Output #0, mp4, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_concat.mp4':
+  Metadata:
+    encoder         : Lavf61.7.100
+  Stream #0:0(und): Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 30 fps, 15360 tbn
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+      Side data:
+        cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+frame=  166 fps=0.0 q=22.0 size=    3840KiB time=00:00:05.53 bitrate=5685.1kbits/s speed=10.7x    
+[mov,mp4,m4a,3gp,3g2,mj2 @ 000001fbdad82c40] Auto-inserting h264_mp4toannexb bitstream filter
+frame=  352 fps=341 q=23.0 size=    8192KiB time=00:00:11.73 bitrate=5719.5kbits/s speed=11.4x    
+frame=  508 fps=330 q=23.0 size=   13056KiB time=00:00:16.93 bitrate=6316.2kbits/s speed=  11x    
+[mov,mp4,m4a,3gp,3g2,mj2 @ 000001fbe068b900] Auto-inserting h264_mp4toannexb bitstream filter
+frame=  673 fps=328 q=23.0 size=   17920KiB time=00:00:22.43 bitrate=6543.9kbits/s speed=10.9x    
+frame=  860 fps=333 q=23.0 size=   23808KiB time=00:00:28.66 bitrate=6803.6kbits/s speed=11.1x    
+[mp4 @ 000001fbdad78280] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 000001fbdb5dddc0] video:26238KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.018606%
+frame=  939 fps=339 q=-1.0 Lsize=   26243KiB time=00:00:31.30 bitrate=6868.3kbits/s speed=11.3x    
+[libx264 @ 000001fbdb3562c0] frame I:4     Avg QP:19.75  size:103467
+[libx264 @ 000001fbdb3562c0] frame P:935   Avg QP:22.65  size: 28292
+[libx264 @ 000001fbdb3562c0] mb I  I16..4: 100.0%  0.0%  0.0%
+[libx264 @ 000001fbdb3562c0] mb P  I16..4:  6.3%  0.0%  0.0%  P16..4: 46.3%  0.0%  0.0%  0.0%  0.0%    skip:47.4%
+[libx264 @ 000001fbdb3562c0] coded y,uvDC,uvAC intra: 10.3% 11.3% 5.0% inter: 33.9% 17.3% 0.7%
+[libx264 @ 000001fbdb3562c0] i16 v,h,dc,p: 86%  5%  5%  4%
+[libx264 @ 000001fbdb3562c0] i8c dc,h,v,p: 85%  6%  7%  3%
+[libx264 @ 000001fbdb3562c0] kb/s:6866.91
+
+
+2025-08-02T22:24:38.296Z [info] 🟢 [FFmpeg] Concat clips OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_concat.mp4
+2025-08-02T22:24:38.303Z [info] 🟡 [FFmpeg] Iniciando mezcla audio multicapa → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_mix.m4a
+2025-08-02T22:24:38.322Z [info] 🎵 [FFmpeg] Música válida detectada
+2025-08-02T22:24:38.324Z [info] 🎵 [FFmpeg] Procesando mezcla de audio válido
+2025-08-02T22:24:43.545Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[mp3 @ 000002c66cd79580] invalid concatenated file detected - using bitrate for duration
+[mp3 @ 000002c66cd79580] Estimating duration from bitrate, this may be inaccurate
+Input #0, mp3, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_music.mp3':
+  Duration: 00:03:07.14, start: 0.025057, bitrate: 197 kb/s
+  Stream #0:0: Audio: mp3 (mp3float), 44100 Hz, stereo, fltp, 197 kb/s
+      Metadata:
+        encoder         : LAME3.99r
+      Side data:
+        replaygain: track gain - 11.900000, track peak - unknown, album gain - unknown, album peak - unknown, 
+Stream mapping:
+  Stream #0:0 (mp3float) -> volume:default
+  amix:default -> Stream #0:0 (aac)
+Press [q] to stop, [?] for help
+Output #0, ipod, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_mix.m4a':
+  Metadata:
+    encoder         : Lavf61.7.100
+  Stream #0:0: Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s
+      Metadata:
+        encoder         : Lavc61.19.101 aac
+size=       0KiB time=00:00:05.73 bitrate=   0.1kbits/s speed=11.4x    
+size=     256KiB time=00:00:17.97 bitrate= 116.7kbits/s speed=17.4x    
+size=     512KiB time=00:00:35.89 bitrate= 116.8kbits/s speed=23.1x    
+size=     768KiB time=00:00:58.18 bitrate= 108.1kbits/s speed=28.1x    
+size=    1280KiB time=00:01:22.91 bitrate= 126.5kbits/s speed=32.1x    
+size=    1536KiB time=00:01:48.62 bitrate= 115.8kbits/s speed=35.1x    
+size=    2048KiB time=00:02:14.30 bitrate= 124.9kbits/s speed=37.1x    
+size=    2304KiB time=00:02:40.33 bitrate= 117.7kbits/s speed=38.9x    
+size=    2816KiB time=00:03:05.03 bitrate= 124.7kbits/s speed=39.8x    
+[ipod @ 000002c66cd98680] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/ipod @ 000002c66cda2cc0] video:0KiB audio:3209KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 1.098324%
+size=    3244KiB time=00:03:24.56 bitrate= 129.9kbits/s speed=40.4x    
+[aac @ 000002c66cdb7680] Qavg: 390.652
+
+
+2025-08-02T22:24:43.546Z [info] 🟢 [FFmpeg] Mezcla multicapa OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_mix.m4a
+2025-08-02T22:24:43.547Z [info] 🟡 [FFmpeg] Iniciando multiplex AV con audio → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4
+2025-08-02T22:24:43.754Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_concat.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.7.100
+  Duration: 00:00:31.30, start: 0.000000, bitrate: 6868 kb/s
+  Stream #0:0[0x1](und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], 6867 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+Input #1, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_mix.m4a':
+  Metadata:
+    major_brand     : M4A 
+    minor_version   : 512
+    compatible_brands: M4A isomiso2
+    encoder         : Lavf61.7.100
+  Duration: 00:03:24.57, start: 0.000000, bitrate: 129 kb/s
+  Stream #1:0[0x1](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s (default)
+      Metadata:
+        handler_name    : SoundHandler
+        vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #1:0 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.7.100
+  Stream #0:0(und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 6867 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s (default)
+      Metadata:
+        handler_name    : SoundHandler
+        vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 0000018dc7980180] video:26238KiB audio:489KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.101911%
+frame=  939 fps=0.0 q=-1.0 Lsize=   26754KiB time=00:00:31.30 bitrate=7002.2kbits/s speed= 319x    
+
+
+2025-08-02T22:24:43.756Z [info] 🟢 [FFmpeg] Multiplex AV OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4
+2025-08-02T22:24:43.760Z [info] 🟡 [FFmpeg] Iniciando HLS 720p → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_a48b830c-6e0c-4f66-aac1-42d4d4d29ae7\index.m3u8
+2025-08-02T22:24:50.958Z [info] FFmpeg terminó. Stderr:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.7.100
+  Duration: 00:00:31.30, start: 0.000000, bitrate: 7002 kb/s
+  Stream #0:0[0x1](und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], 6867 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 127 kb/s (default)
+      Metadata:
+        handler_name    : SoundHandler
+        vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+  Stream #0:1 -> #0:1 (aac (native) -> aac (native))
+Press [q] to stop, [?] for help
+[libx264 @ 000002399d069640] using SAR=1/1
+[libx264 @ 000002399d069640] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 000002399d069640] profile High, level 3.1, 4:2:0, 8-bit
+[libx264 @ 000002399d069640] 264 - core 164 r3204 373697b - H.264/MPEG-4 AVC codec - Copyleft 2003-2025 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=18 lookahead_threads=3 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, hls, to 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_a48b830c-6e0c-4f66-aac1-42d4d4d29ae7\index.m3u8':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.7.100
+  Stream #0:0(und): Video: h264, yuv420p(tv, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 30 fps, 90k tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+      Side data:
+        cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+  Stream #0:1(und): Audio: aac (LC), 44100 Hz, stereo, fltp, 128 kb/s (default)
+      Metadata:
+        handler_name    : SoundHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 aac
+frame=   16 fps=0.0 q=29.0 size=N/A time=00:00:00.46 bitrate=N/A speed=0.917x    
+frame=   87 fps= 86 q=29.0 size=N/A time=00:00:02.83 bitrate=N/A speed=2.79x    
+frame=  154 fps=100 q=29.0 size=N/A time=00:00:05.06 bitrate=N/A speed= 3.3x    
+frame=  236 fps=114 q=29.0 size=N/A time=00:00:07.80 bitrate=N/A speed=3.77x    
+[hls @ 000002399cbf0a00] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_a48b830c-6e0c-4f66-aac1-42d4d4d29ae7\seg_000.ts' for writing
+frame=  296 fps=114 q=29.0 size=N/A time=00:00:09.80 bitrate=N/A speed=3.79x    
+[hls @ 000002399cbf0a00] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_a48b830c-6e0c-4f66-aac1-42d4d4d29ae7\seg_001.ts' for writing
+frame=  367 fps=118 q=29.0 size=N/A time=00:00:12.16 bitrate=N/A speed=3.93x    
+frame=  437 fps=121 q=29.0 size=N/A time=00:00:14.50 bitrate=N/A speed=4.01x    
+frame=  509 fps=123 q=29.0 size=N/A time=00:00:16.90 bitrate=N/A speed=4.08x    
+[hls @ 000002399cbf0a00] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_a48b830c-6e0c-4f66-aac1-42d4d4d29ae7\seg_002.ts' for writing
+frame=  579 fps=125 q=29.0 size=N/A time=00:00:19.23 bitrate=N/A speed=4.14x    
+[hls @ 000002399cbf0a00] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_a48b830c-6e0c-4f66-aac1-42d4d4d29ae7\seg_003.ts' for writing
+frame=  649 fps=125 q=29.0 size=N/A time=00:00:21.56 bitrate=N/A speed=4.17x    
+frame=  723 fps=127 q=29.0 size=N/A time=00:00:24.03 bitrate=N/A speed=4.21x    
+frame=  795 fps=128 q=29.0 size=N/A time=00:00:26.43 bitrate=N/A speed=4.24x    
+frame=  876 fps=130 q=29.0 size=N/A time=N/A bitrate=N/A speed=N/A    
+[hls @ 000002399cbf0a00] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_a48b830c-6e0c-4f66-aac1-42d4d4d29ae7\seg_004.ts' for writing
+[hls @ 000002399cbf0a00] Opening 'C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_a48b830c-6e0c-4f66-aac1-42d4d4d29ae7\seg_005.ts' for writing
+[out#0/hls @ 000002399cbfa600] video:8147KiB audio:489KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+frame=  939 fps=133 q=-1.0 Lsize=N/A time=00:00:31.23 bitrate=N/A speed=4.44x    
+[libx264 @ 000002399d069640] frame I:6     Avg QP:23.37  size: 66670
+[libx264 @ 000002399d069640] frame P:497   Avg QP:24.80  size: 13698
+[libx264 @ 000002399d069640] frame B:436   Avg QP:29.00  size:  2600
+[libx264 @ 000002399d069640] consecutive B-frames: 37.7%  0.9%  1.0% 60.5%
+[libx264 @ 000002399d069640] mb I  I16..4: 18.4% 63.2% 18.4%
+[libx264 @ 000002399d069640] mb P  I16..4:  1.1%  0.7%  0.1%  P16..4: 28.6%  9.9%  6.4%  0.0%  0.0%    skip:53.3%
+[libx264 @ 000002399d069640] mb B  I16..4:  0.1%  0.1%  0.0%  B16..8: 29.7%  1.6%  0.2%  direct: 0.5%  skip:67.8%  L0:39.5% L1:54.1% BI: 6.4%
+[libx264 @ 000002399d069640] 8x8 transform intra:47.2% inter:62.2%
+[libx264 @ 000002399d069640] coded y,uvDC,uvAC intra: 38.5% 53.1% 18.7% inter: 13.3% 10.3% 0.1%
+[libx264 @ 000002399d069640] i16 v,h,dc,p: 21% 27% 35% 18%
+[libx264 @ 000002399d069640] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 25% 11% 45%  4%  3%  2%  3%  3%  4%
+[libx264 @ 000002399d069640] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 21% 27% 21%  5%  5%  4%  6%  4%  8%
+[libx264 @ 000002399d069640] i8c dc,h,v,p: 59% 22% 13%  7%
+[libx264 @ 000002399d069640] Weighted P-Frames: Y:5.8% UV:0.0%
+[libx264 @ 000002399d069640] ref P L0: 66.2% 27.7%  5.3%  0.8%  0.0%
+[libx264 @ 000002399d069640] ref B L0: 97.4%  2.2%  0.4%
+[libx264 @ 000002399d069640] ref B L1: 98.8%  1.2%
+[libx264 @ 000002399d069640] kb/s:2132.04
+[aac @ 000002399cc509c0] Qavg: 231.048
+
+
+2025-08-02T22:24:50.961Z [info] 🟢 [FFmpeg] HLS 720p OK → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v6\hls_a48b830c-6e0c-4f66-aac1-42d4d4d29ae7\index.m3u8
+2025-08-02T22:24:50.962Z [info] [CDN] Timeout de subida configurado en 600 segundos
+2025-08-02T22:24:55.911Z [info] [CDN] Archivo subido correctamente: videos/a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4 → https://storage.googleapis.com/storyteller-ai-cdn/videos/a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4 (intento 1)
+2025-08-02T22:24:55.912Z [info] [FEEDBACK] {"service":"CDN","action":"upload","timeoutMs":600000,"elapsedMs":4950,"attempt":1,"success":true,"params":{"localFilePath":"C:\\Users\\crist\\OneDrive\\Desktop\\storyteller-backend\\tmp\\ffmpeg_v6\\a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4","cdnPath":"videos/a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4"},"timestamp":"2025-08-02T22:24:55.912Z"}
+2025-08-02T22:24:55.913Z [info] ✅  Video final subido al CDN → https://storage.googleapis.com/storyteller-ai-cdn/videos/a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4
+2025-08-02T22:24:56.057Z [info] ✅  Video final accesible en CDN: https://storage.googleapis.com/storyteller-ai-cdn/videos/a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4
+2025-08-02T22:24:58.732Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/a48b830c-6e0c-4f66-aac1-42d4d4d29ae7_1080p.mp4

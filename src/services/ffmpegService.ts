@@ -324,169 +324,120 @@ export async function assembleVideo(opts:{
   /* 4️⃣ mezcla multicapa: música, ambience, sfx, voz (con fallback) */
   const audioMix = path.join(TMP_DIR, `${id}_mix.m4a`);
   logger.info('🟡 [FFmpeg] Iniciando mezcla audio multicapa → ' + audioMix);
-  const inputs = [];
-  const inputOpts = [];
-  let filterGraph = [];
-  let mapIdx = 0;
-
-  // Helper para crear silencio/beep si falta una capa
-  async function ensureAudioFile(filePath: string, duration: number, fallbackType: 'silence' | 'beep' = 'silence') {
-    try {
-      const stat = await fs.stat(filePath);
-      if (stat.size > 0) return filePath;
-    } catch {}
-    // Si no existe o está vacío, crear fallback
-    const ffmpegPathStr = typeof ffmpegPath === 'string' ? ffmpegPath : (ffmpegPath as unknown as string);
-    if (!ffmpegPathStr) throw new Error('ffmpeg path not found');
-    const fallbackFile = filePath.replace(/\.mp3$/, `_fallback.mp3`);
-    return new Promise<string>((res, rej) => {
-      const args = fallbackType === 'beep'
-        ? ['-f', 'lavfi', '-i', `sine=frequency=440:duration=${duration}`, '-ar', '48000', '-ac', '2', '-q:a', '9', '-acodec', 'libmp3lame', fallbackFile]
-        : ['-f', 'lavfi', '-i', `anullsrc=r=48000:cl=stereo`, '-t', String(duration), '-q:a', '9', '-acodec', 'libmp3lame', fallbackFile];
-      const proc = spawn(ffmpegPathStr, args);
-      proc.on('close', (code) => code === 0 ? res(fallbackFile) : rej(new Error('ffmpeg fallback fail')));
-    });
-  }
-
-  // Duración total del video (en segundos)
-  let totalDuration = 0;
-  try {
-    const probe = await new Promise<any>((res, rej) => {
-      if (typeof ffmpegPath !== 'string') return rej(new Error('ffmpeg path not found'));
-      const proc = spawn(ffmpegPath, ['-i', concat, '-hide_banner']);
-      let stderr = '';
-      proc.stderr.on('data', d => { stderr += d.toString(); });
-      proc.on('close', () => {
-        const match = stderr.match(/Duration: (\d+):(\d+):(\d+\.\d+)/);
-        if (match) {
-          const h = parseInt(match[1], 10), m = parseInt(match[2], 10), s = parseFloat(match[3]);
-          res(h * 3600 + m * 60 + s);
-        } else {
-          rej(new Error('No se pudo obtener la duración del video para fallback de audio.'));
-        }
+  
+  // Verificar si hay contenido de audio real y válido
+  let hasValidAudio = false;
+  
+  // Verificar música
+  if (music && Array.isArray(music) && music.length > 0) {
+    const musicConcat = Buffer.concat(music.filter(b => b && b.length));
+    if (musicConcat.length > 1000) { // más de 1KB indica audio real
+      // Verificar que no sea solo silencio/datos corruptos
+      const hasValidMP3Header = musicConcat.subarray(0, 4).some((byte, i) => {
+        if (i === 0) return byte === 0xFF; // Sync word
+        if (i === 1) return (byte & 0xE0) === 0xE0; // MP3 version bits
+        return true;
       });
-    });
-    totalDuration = Math.ceil(probe);
-  } catch {
-    totalDuration = 10; // fallback por si no se puede obtener duración
+      
+      if (hasValidMP3Header) {
+        await fs.writeFile(musicFile, musicConcat);
+        hasValidAudio = true;
+        logger.info('🎵 [FFmpeg] Música válida detectada');
+      } else {
+        logger.warn('⚠️ [FFmpeg] Música detectada como inválida/corrupta, será omitida');
+      }
+    }
   }
-
-  // Música
-  let musicPath = music && Array.isArray(music) && music.length ? musicFile : null;
-  if (plan.timeline?.some(sec => (sec.soundCue && sec.soundCue !== 'fade'))) {
-    // Si el plan requiere música pero no hay archivo, crear silencio
-    musicPath = await ensureAudioFile(musicFile, totalDuration, 'silence');
+  
+  // Verificar voz
+  if (voiceBuffer && voiceBuffer.length > 1000) {
+    await fs.writeFile(voiceFile, voiceBuffer);
+    hasValidAudio = true;
+    logger.info('🎙️ [FFmpeg] Voz válida detectada');
   }
+  
+  // Proceso de mezcla de audio
   try {
-    if (musicPath && (await fs.stat(musicPath)).size > 0) {
-      inputs.push(musicPath);
-      inputOpts.push([]);
-      filterGraph.push(`[${mapIdx}:a]${musicFilter}[music]`);
-      mapIdx++;
+    if (hasValidAudio) {
+      logger.info('🎵 [FFmpeg] Procesando mezcla de audio válido');
+      
+      const inputs = [];
+      let filterGraph = [];
+      let mapIdx = 0;
+      
+      // Música
+      if (music && Array.isArray(music) && music.length > 0) {
+        const musicConcat = Buffer.concat(music.filter(b => b && b.length));
+        if (musicConcat.length > 1000) {
+          await fs.writeFile(musicFile, musicConcat);
+          inputs.push(musicFile);
+          const volExpr = buildVolumeExpr(plan);
+          filterGraph.push(`[${mapIdx}:a]volume='${volExpr}':eval=frame[music]`);
+          mapIdx++;
+        }
+      }
+      
+      // Voz
+      if (voiceBuffer && voiceBuffer.length > 1000) {
+        await fs.writeFile(voiceFile, voiceBuffer);
+        inputs.push(voiceFile);
+        filterGraph.push(`[${mapIdx}:a]volume=1.0[voice]`);
+        mapIdx++;
+      }
+      
+      if (inputs.length > 0) {
+        // Construir filter para mezclar
+        let amixInputs = [];
+        if (filterGraph.find(f => f.includes('[music]'))) amixInputs.push('[music]');
+        if (filterGraph.find(f => f.includes('[voice]'))) amixInputs.push('[voice]');
+        
+        const filterComplex = filterGraph.join(';') + `;${amixInputs.join('')}amix=inputs=${amixInputs.length}:duration=longest[aout]`;
+        
+        let ff = ffmpeg();
+        for (const inp of inputs) {
+          ff = ff.input(inp);
+        }
+        
+        await retry(() => execFF(
+          ff.complexFilter([filterComplex])
+            .outputOptions([
+              '-map', '[aout]',
+              '-c:a', 'aac',
+              '-movflags', '+faststart'
+            ]),
+          audioMix
+        ), RETRIES);
+        
+        logger.info('🟢 [FFmpeg] Mezcla multicapa OK → ' + audioMix);
+      } else {
+        hasValidAudio = false;
+      }
     }
-  } catch {}
-  // Ambience
-  let ambiencePath = ambience && Array.isArray(ambience) && ambience.length ? ambienceFile : null;
-  if (Array.isArray(ambience) && ambience.length > 0) {
-    ambiencePath = await ensureAudioFile(ambienceFile, totalDuration, 'silence');
-  }
-  try {
-    if (ambiencePath && (await fs.stat(ambiencePath)).size > 0) {
-      inputs.push(ambiencePath);
-      inputOpts.push([]);
-      filterGraph.push(`[${mapIdx}:a]volume=0.5[amb]`);
-      mapIdx++;
-    }
-  } catch {}
-  // SFX
-  let sfxPath = sfx && Array.isArray(sfx) && sfx.length ? sfxFile : null;
-  if (Array.isArray(sfx) && sfx.length > 0) {
-    sfxPath = await ensureAudioFile(sfxFile, totalDuration, 'silence');
-  }
-  try {
-    if (sfxPath && (await fs.stat(sfxPath)).size > 0) {
-      inputs.push(sfxPath);
-      inputOpts.push([]);
-      filterGraph.push(`[${mapIdx}:a]volume=1.0[sfx]`);
-      mapIdx++;
-    }
-  } catch {}
-  // Voz
-  let voicePath = voiceBuffer && voiceBuffer.length > 0 ? voiceFile : null;
-  if (voiceBuffer && voiceBuffer.length > 0) {
-    voicePath = await ensureAudioFile(voiceFile, totalDuration, 'beep');
-  }
-  try {
-    if (voicePath && (await fs.stat(voicePath)).size > 0) {
-      inputs.push(voicePath);
-      inputOpts.push([]);
-      filterGraph.push(`[${mapIdx}:a]volume=1.0[voice]`);
-      mapIdx++;
-    }
-  } catch {}
-
-  // Construir filter_complex para mezclar todas las capas
-  let amixInputs = [];
-  if (filterGraph.find(f => f.includes('[music]'))) amixInputs.push('[music]');
-  if (filterGraph.find(f => f.includes('[amb]'))) amixInputs.push('[amb]');
-  if (filterGraph.find(f => f.includes('[sfx]'))) amixInputs.push('[sfx]');
-  if (filterGraph.find(f => f.includes('[voice]'))) amixInputs.push('[voice]');
-  let filterComplex = '';
-  if (filterGraph.length > 0) {
-    filterComplex = filterGraph.join(';') + `;${amixInputs.join('')}amix=inputs=${amixInputs.length}:duration=longest[aout]`;
-  }
-  if (amixInputs.length > 0) {
-    let ff = ffmpeg();
-    for (const inp of inputs) {
-      ff = ff.input(inp);
-    }
-    ff = ff.complexFilter([filterComplex])
-      .outputOptions([
-        '-map', '[aout]',
-        '-c:a', 'aac',
-        '-movflags', '+faststart'
-      ]);
-    await retry(() => execFF(
-      ff,
-      audioMix
-    ), RETRIES);
-    logger.info('🟢 [FFmpeg] Mezcla multicapa OK → ' + audioMix);
-  } else {
-    // Si no hay audio, beep de emergencia
-    const beepFile = path.join(TMP_DIR, `${id}_beep.mp3`);
-    await new Promise((res, rej) => {
-      if (typeof ffmpegPath !== 'string') return rej(new Error('ffmpeg path not found'));
-      const proc = spawn(ffmpegPath, [
-        '-f', 'lavfi',
-        '-i', 'sine=frequency=440:duration=3',
-        '-ar', '48000',
-        '-ac', '2',
-        '-q:a', '9',
-        '-acodec', 'libmp3lame',
-        beepFile
-      ]);
-      proc.on('close', (code) => code === 0 ? res(true) : rej(new Error('ffmpeg beep fail')));
-    });
-    await retry(() => execFF(
-      ffmpeg().input(beepFile)
-        .outputOptions([
-          '-c:a', 'aac',
-          '-movflags', '+faststart'
-        ]),
-      audioMix
-    ), RETRIES);
-    logger.info('🟢 [FFmpeg] Solo beep de emergencia → ' + audioMix);
+  } catch (error) {
+    logger.warn('⚠️ [FFmpeg] Error en mezcla de audio, continuando sin audio:', error);
+    hasValidAudio = false;
   }
 
   /* 5️⃣ multiplex AV */
   const final1080 = path.join(TMP_DIR, `${id}_1080p.mp4`);
-  logger.info('🟡 [FFmpeg] Iniciando multiplex AV → ' + final1080);
-  await retry(() => execFF(
-    ffmpeg().input(concat).input(audioMix)
-      .outputOptions(['-c:v', 'copy', '-c:a', 'copy', '-shortest']),
-    final1080
-  ), RETRIES);
-  logger.info('🟢 [FFmpeg] Multiplex AV OK → ' + final1080);
+  
+  if (hasValidAudio) {
+    logger.info('🟡 [FFmpeg] Iniciando multiplex AV con audio → ' + final1080);
+    await retry(() => execFF(
+      ffmpeg().input(concat).input(audioMix)
+        .outputOptions(['-c:v', 'copy', '-c:a', 'copy', '-shortest']),
+      final1080
+    ), RETRIES);
+    logger.info('🟢 [FFmpeg] Multiplex AV OK → ' + final1080);
+  } else {
+    logger.info('🟡 [FFmpeg] Copiando video sin audio → ' + final1080);
+    await retry(() => execFF(
+      ffmpeg().input(concat)
+        .outputOptions(['-c:v', 'copy', '-an']), // -an = sin audio
+      final1080
+    ), RETRIES);
+    logger.info('🟢 [FFmpeg] Video sin audio OK → ' + final1080);
+  }
 
   /* 6️⃣ HLS 720p */
   await fs.mkdir(hlsDir, { recursive: true });
@@ -532,4 +483,4 @@ export async function assembleVideo(opts:{
     throw new Error('El video final no es accesible en el CDN');
   }
   return cdnUrl;
-}
+} 
