@@ -1,0 +1,4 @@
+file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/kling_clip_1754176673452.mp4'
+file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/kling_clip_1754176695709.mp4'
+file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/kling_clip_1754176651733.mp4'
+file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/kling_clip_1754176720907.mp4'
