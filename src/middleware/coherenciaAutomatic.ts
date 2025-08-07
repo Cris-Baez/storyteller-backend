@@ -57,14 +57,50 @@ class CoherenciaAutomatica {
     const videoId = videoPlan.id || `auto_${Date.now()}`;
     
     logger.info(`🔄 Aplicando mejoras automáticas de coherencia a video ${videoId}`);
-    logger.info(`📊 Segmentos a procesar: ${videoPlan.timeline?.length || 0}`);
+    logger.info(`📊 Plan recibido:`, {
+      hasTimeline: !!videoPlan.timeline,
+      timelineLength: videoPlan.timeline?.length || 0,
+      hasTomasReales: !!videoPlan.tomasReales,
+      tomasRealesLength: videoPlan.tomasReales?.length || 0,
+      planKeys: Object.keys(videoPlan),
+      metadata: !!videoPlan.metadata
+    });
     
+    // Si no hay timeline pero SÍ hay tomasReales, convertir tomasReales a timeline
+    if ((!videoPlan.timeline || videoPlan.timeline.length === 0) && videoPlan.tomasReales && videoPlan.tomasReales.length > 0) {
+      logger.info('🔄 Convirtiendo tomasReales a timeline para compatibilidad');
+      
+      const timelineFromTomas = videoPlan.tomasReales.map((toma: any, index: number) => ({
+        segundo: index * (toma.duracion || 7), // Calcular segundo basado en duración
+        voz: toma.voz || toma.dialogo || '',
+        dialogo: toma.dialogo || toma.voz || '',
+        prompt: toma.prompt || toma.descripcion || '',
+        duracion: toma.duracion || 7,
+        personaje: toma.personaje || 'Narrador',
+        actor: toma.actor,
+        fondo: toma.fondo,
+        movimientoCamara: toma.movimientoCamara,
+        tipoToma: toma.tipoToma,
+        emocion: toma.emocion
+      }));
+      
+      videoPlan.timeline = timelineFromTomas;
+      logger.info(`✅ Convertidos ${videoPlan.tomasReales.length} tomas a ${timelineFromTomas.length} segmentos de timeline`);
+    }
+    
+    // Si aún no hay timeline, preservar estructura original
     if (!videoPlan.timeline || videoPlan.timeline.length === 0) {
-      logger.warn('⚠️ Plan sin timeline, saltando mejoras');
-      return videoPlan as PlanMejorado;
+      logger.warn('⚠️ Plan sin timeline ni tomasReales, manteniendo estructura original');
+      const planPreservado: PlanMejorado = {
+        ...videoPlan,
+        timeline: videoPlan.timeline || []
+      } as PlanMejorado;
+      
+      this.estadisticas.videosProcessados++;
+      return planPreservado;
     }
 
-    // Crear plan mejorado
+    // Crear plan mejorado con timeline válido
     const planMejorado: PlanMejorado = {
       ...videoPlan,
       timeline: await this.procesarTimelineConMejoras(videoPlan.timeline, videoId, opciones)

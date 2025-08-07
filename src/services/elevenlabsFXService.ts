@@ -67,7 +67,7 @@ class ElevenLabsFXService {
     try {
       logger.info(`[ElevenLabsFX] 🎵 Generando efecto: "${request.text}"`);
       
-      const response = await fetch(`${this.config.baseUrl}/sound-effects`, {
+      const response = await fetch(`${this.config.baseUrl}/sound-generation`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

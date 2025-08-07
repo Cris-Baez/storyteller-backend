@@ -20628,3 +20628,587 @@ frame= 1252 fps=122 q=-1.0 Lsize=N/A time=00:00:41.66 bitrate=N/A speed=4.05x
 2025-08-07T18:35:43.602Z [info] [AssetManager] ✅ Obtenidos 162 fondos para estilo 'cartoon' (filtrado correcto)
 2025-08-07T18:35:43.608Z [info] [AssetManager] ✅ Obtenidos 86 actores para estilo 'cartoon' (filtrado correcto)
 2025-08-07T18:35:54.147Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":10534,"success":true,"timestamp":"2025-08-07T18:35:54.147Z"}
+2025-08-07T22:12:12.151Z [info] 🎤 Voice Interceptor inicializado
+2025-08-07T22:12:12.621Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-07T22:12:12.623Z [info] [PipelineSimplificado] 🎬 Iniciando renderizado
+2025-08-07T22:12:12.624Z [info] ✅ [Validador] Duración válida: 12s
+2025-08-07T22:12:12.625Z [info] ✅ [Validador] RenderRequest válido
+2025-08-07T22:12:12.643Z [info] [AssetManager] ✅ Obtenidos 365 fondos para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:12:12.648Z [info] [AssetManager] ✅ Obtenidos 204 actores para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:12:12.655Z [info] [AssetManager] ✅ Obtenidos 365 fondos para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:12:12.660Z [info] [AssetManager] ✅ Obtenidos 204 actores para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:12:19.416Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":6752,"success":true,"timestamp":"2025-08-07T22:12:19.416Z"}
+2025-08-07T22:12:23.271Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3843,"success":true,"timestamp":"2025-08-07T22:12:23.271Z"}
+2025-08-07T22:12:27.503Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4176,"success":true,"timestamp":"2025-08-07T22:12:27.503Z"}
+2025-08-07T22:12:27.549Z [info] 🔄 Aplicando mejoras automáticas de coherencia a video video_1754604747548
+2025-08-07T22:12:27.549Z [info] 📊 Segmentos a procesar: 0
+2025-08-07T22:12:27.549Z [warn] ⚠️ Plan sin timeline, saltando mejoras
+2025-08-07T22:12:27.551Z [info] 🎼 [SceneAudio] Generando audio unificado para pipeline (2 tomas)
+2025-08-07T22:12:27.552Z [info] 🎬 [SceneAudio] Procesando lote: tomas 1-2 (2 tomas)
+2025-08-07T22:12:27.553Z [info] 🎭 [SceneAudio] Generando audio para toma 1/2
+2025-08-07T22:12:27.554Z [info] 🎭 [SceneAudio] Generando audio para escena 1/0
+2025-08-07T22:12:28.802Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-07T22:12:28.803Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-07T22:12:28.803Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-07T22:12:28.804Z [info] 🎯 [SceneAudio] Contexto: setup, tono: intriga, duración: 10s
+2025-08-07T22:12:28.805Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-07T22:12:28.806Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-dramatic",
+  "efectos": [
+    "ambient",
+    "footsteps",
+    "wind"
+  ],
+  "ambiente": "natural-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-07T22:12:28.808Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-dramatic
+2025-08-07T22:12:28.809Z [info] 🎵 [MusicService] Solicitando música: orchestral-dramatic, intriga, 10s
+2025-08-07T22:12:28.810Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral dramatic epic cinematic background intriga"
+2025-08-07T22:12:29.111Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral dramatic epic cinematic background intriga
+2025-08-07T22:12:29.112Z [info] 🔄 [MusicService] Intentando búsqueda de fallback...
+2025-08-07T22:12:29.530Z [info] ✅ [MusicService] Seleccionado: "Sky Loop" (68.1506s)
+2025-08-07T22:12:29.531Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/264/264295_4019029-hq.mp3
+2025-08-07T22:12:31.662Z [info] 🎵 [MusicService] Música descargada: 1541412 bytes desde Freesound
+2025-08-07T22:12:31.662Z [info] ✅ [AudioIntegration] Música generada: 1541412 bytes
+2025-08-07T22:12:31.663Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-07T22:12:31.664Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:12:31.664Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:12:31.665Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:12:31.665Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:12:31.666Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:12:31.666Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:12:31.667Z [info] 🎼 [AudioIntegration] Audio completo generado en 2862ms
+2025-08-07T22:12:31.667Z [info] 📊 [AudioIntegration] Calidad: Música 1541412 bytes, Voz 0 bytes, 0 efectos
+2025-08-07T22:12:31.668Z [info] ✅ [SceneAudio] Escena 1 completada en 4114ms
+2025-08-07T22:12:31.668Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:12:31.668Z [info] ✅ [SceneAudio] Toma 1 completada en 1754604751668ms
+2025-08-07T22:12:31.669Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:12:31.669Z [info] 🎭 [SceneAudio] Generando audio para toma 2/2
+2025-08-07T22:12:31.670Z [info] 🎭 [SceneAudio] Generando audio para escena 2/0
+2025-08-07T22:12:31.966Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-07T22:12:31.967Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-07T22:12:31.968Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-07T22:12:31.970Z [info] 🎯 [SceneAudio] Contexto: climax, tono: tension, duración: 10s
+2025-08-07T22:12:31.970Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-07T22:12:31.971Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-climax-extended",
+  "efectos": [
+    "tension",
+    "impact",
+    "dramatic-stinger"
+  ],
+  "ambiente": "intense-ambience",
+  "lipSync": "Fight back",
+  "requiereVoz": true,
+  "tipoVoz": "professional",
+  "intensidad": "alta"
+}
+2025-08-07T22:12:31.971Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-climax-extended
+2025-08-07T22:12:31.972Z [info] 🎵 [MusicService] Solicitando música: orchestral-climax-extended, tension, 10s
+2025-08-07T22:12:31.972Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral epic dramatic cinematic background tension"
+2025-08-07T22:12:32.300Z [info] ✅ [MusicService] Seleccionado: "Suspenseful Increasing Dramatic" (117.999s)
+2025-08-07T22:12:32.301Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/440/440524_3914271-hq.mp3
+2025-08-07T22:12:33.036Z [info] 🎵 [MusicService] Música descargada: 2707536 bytes desde Freesound
+2025-08-07T22:12:33.037Z [info] ✅ [AudioIntegration] Música generada: 2707536 bytes
+2025-08-07T22:12:33.037Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-07T22:12:33.038Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:12:33.038Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:12:33.039Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:12:33.039Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:12:33.040Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:12:33.040Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:12:33.041Z [info] 🎼 [AudioIntegration] Audio completo generado en 1071ms
+2025-08-07T22:12:33.041Z [info] 📊 [AudioIntegration] Calidad: Música 2707536 bytes, Voz 0 bytes, 0 efectos
+2025-08-07T22:12:33.041Z [info] ✅ [SceneAudio] Escena 2 completada en 1371ms
+2025-08-07T22:12:33.041Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:12:33.041Z [info] ✅ [SceneAudio] Toma 2 completada en 1754604753041ms
+2025-08-07T22:12:33.042Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:12:33.042Z [info] 🔄 [SceneAudio] Lote completado: 1-2 de 2
+2025-08-07T22:12:33.043Z [info] 🎵 [SceneAudio] Sincronizando 2 audios con 0 clips
+2025-08-07T22:12:33.044Z [info] ✅ [SceneAudio] Sincronización completada:
+2025-08-07T22:12:33.044Z [info]    - Voz: 0 bytes
+2025-08-07T22:12:33.045Z [info]    - Música: 2 buffers
+2025-08-07T22:12:33.045Z [info]    - SFX: 0 efectos
+2025-08-07T22:12:33.048Z [info] 🎵 [SceneAudio] Generando efectos avanzados con ElevenLabs FX...
+2025-08-07T22:12:33.048Z [info] [ElevenLabsFX] 🎬 Generando efectos para toma: ", cinematic quality sound"
+2025-08-07T22:12:33.049Z [info] [ElevenLabsFX] 🎵 Generando efecto: ", cinematic quality sound"
+2025-08-07T22:12:33.457Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:12:33.458Z [info] [ElevenLabsFX] 🎬 Generando efectos para toma: ", cinematic quality sound"
+2025-08-07T22:12:33.458Z [info] [ElevenLabsFX] 🎵 Generando efecto: ", cinematic quality sound"
+2025-08-07T22:12:33.717Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:12:33.717Z [info] ⚠️ [SceneAudio] ElevenLabs FX disponible pero no se generaron efectos
+2025-08-07T22:12:33.718Z [info] ✅ [SceneAudio] Audio unificado generado para pipeline
+2025-08-07T22:12:33.718Z [info] 📊 [SceneAudio] Total: música 4248948 bytes, voz 0 bytes, SFX 882000 bytes, FX 0 bytes
+2025-08-07T22:12:33.719Z [error] [PipelineSimplificado] Error: Plan sin timeline válido
+2025-08-07T22:16:08.589Z [info] 🎤 Voice Interceptor inicializado
+2025-08-07T22:16:08.863Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-07T22:16:08.866Z [info] [PipelineSimplificado] 🎬 Iniciando renderizado
+2025-08-07T22:16:08.867Z [info] ✅ [Validador] Duración válida: 30s
+2025-08-07T22:16:08.867Z [info] ✅ [Validador] RenderRequest válido
+2025-08-07T22:16:08.883Z [info] [AssetManager] ✅ Obtenidos 365 fondos para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:16:08.885Z [info] [AssetManager] ✅ Obtenidos 204 actores para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:16:08.892Z [info] [AssetManager] ✅ Obtenidos 365 fondos para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:16:08.895Z [info] [AssetManager] ✅ Obtenidos 204 actores para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:16:16.753Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":7854,"success":true,"timestamp":"2025-08-07T22:16:16.753Z"}
+2025-08-07T22:16:19.898Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3133,"success":true,"timestamp":"2025-08-07T22:16:19.898Z"}
+2025-08-07T22:16:26.065Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":6092,"success":true,"timestamp":"2025-08-07T22:16:26.065Z"}
+2025-08-07T22:16:29.404Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3277,"success":true,"timestamp":"2025-08-07T22:16:29.404Z"}
+2025-08-07T22:16:33.027Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3569,"success":true,"timestamp":"2025-08-07T22:16:33.027Z"}
+2025-08-07T22:16:33.099Z [info] 🔄 Aplicando mejoras automáticas de coherencia a video video_1754604993098
+2025-08-07T22:16:33.100Z [info] 📊 Plan recibido:
+2025-08-07T22:16:33.101Z [warn] ⚠️ Plan sin timeline, pero manteniendo estructura original
+2025-08-07T22:16:33.103Z [info] 🎼 [SceneAudio] Generando audio unificado para pipeline (4 tomas)
+2025-08-07T22:16:33.103Z [info] 🎬 [SceneAudio] Procesando lote: tomas 1-4 (4 tomas)
+2025-08-07T22:16:33.104Z [info] 🎭 [SceneAudio] Generando audio para toma 1/4
+2025-08-07T22:16:33.104Z [info] 🎭 [SceneAudio] Generando audio para escena 1/0
+2025-08-07T22:16:34.260Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-07T22:16:34.261Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-07T22:16:34.261Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-07T22:16:34.262Z [info] 🎯 [SceneAudio] Contexto: setup, tono: intriga, duración: 10s
+2025-08-07T22:16:34.263Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-07T22:16:34.265Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-dramatic",
+  "efectos": [
+    "ambient",
+    "footsteps",
+    "wind"
+  ],
+  "ambiente": "natural-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-07T22:16:34.265Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-dramatic
+2025-08-07T22:16:34.266Z [info] 🎵 [MusicService] Solicitando música: orchestral-dramatic, intriga, 10s
+2025-08-07T22:16:34.267Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral dramatic epic cinematic background intriga"
+2025-08-07T22:16:34.586Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral dramatic epic cinematic background intriga
+2025-08-07T22:16:34.586Z [info] 🔄 [MusicService] Intentando búsqueda de fallback...
+2025-08-07T22:16:34.973Z [info] ✅ [MusicService] Seleccionado: "Sky Loop" (68.1506s)
+2025-08-07T22:16:34.974Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/264/264295_4019029-hq.mp3
+2025-08-07T22:16:37.123Z [info] 🎵 [MusicService] Música descargada: 1541412 bytes desde Freesound
+2025-08-07T22:16:37.124Z [info] ✅ [AudioIntegration] Música generada: 1541412 bytes
+2025-08-07T22:16:37.124Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-07T22:16:37.125Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:37.125Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:16:37.125Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:37.125Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:16:37.126Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:37.126Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:16:37.126Z [info] 🎼 [AudioIntegration] Audio completo generado en 2863ms
+2025-08-07T22:16:37.126Z [info] 📊 [AudioIntegration] Calidad: Música 1541412 bytes, Voz 0 bytes, 0 efectos
+2025-08-07T22:16:37.126Z [info] ✅ [SceneAudio] Escena 1 completada en 4022ms
+2025-08-07T22:16:37.127Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:16:37.127Z [info] ✅ [SceneAudio] Toma 1 completada en 1754604997127ms
+2025-08-07T22:16:37.127Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:16:37.127Z [info] 🎭 [SceneAudio] Generando audio para toma 2/4
+2025-08-07T22:16:37.127Z [info] 🎭 [SceneAudio] Generando audio para escena 2/0
+2025-08-07T22:16:37.425Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-07T22:16:37.426Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-07T22:16:37.427Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-07T22:16:37.427Z [info] 🎯 [SceneAudio] Contexto: climax, tono: tension, duración: 10s
+2025-08-07T22:16:37.428Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-07T22:16:37.429Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-climax-extended",
+  "efectos": [
+    "tension",
+    "impact",
+    "dramatic-stinger"
+  ],
+  "ambiente": "intense-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "alta"
+}
+2025-08-07T22:16:37.430Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-climax-extended
+2025-08-07T22:16:37.431Z [info] 🎵 [MusicService] Solicitando música: orchestral-climax-extended, tension, 10s
+2025-08-07T22:16:37.431Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral epic dramatic cinematic background tension"
+2025-08-07T22:16:37.732Z [info] ✅ [MusicService] Seleccionado: "Suspenseful Increasing Dramatic" (117.999s)
+2025-08-07T22:16:37.732Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/440/440524_3914271-hq.mp3
+2025-08-07T22:16:38.438Z [info] 🎵 [MusicService] Música descargada: 2707536 bytes desde Freesound
+2025-08-07T22:16:38.439Z [info] ✅ [AudioIntegration] Música generada: 2707536 bytes
+2025-08-07T22:16:38.440Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-07T22:16:38.440Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:38.440Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:16:38.441Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:38.441Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:16:38.441Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:38.441Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:16:38.441Z [info] 🎼 [AudioIntegration] Audio completo generado en 1013ms
+2025-08-07T22:16:38.442Z [info] 📊 [AudioIntegration] Calidad: Música 2707536 bytes, Voz 0 bytes, 0 efectos
+2025-08-07T22:16:38.442Z [info] ✅ [SceneAudio] Escena 2 completada en 1315ms
+2025-08-07T22:16:38.442Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:16:38.442Z [info] ✅ [SceneAudio] Toma 2 completada en 1754604998442ms
+2025-08-07T22:16:38.442Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:16:38.442Z [info] 🎭 [SceneAudio] Generando audio para toma 3/4
+2025-08-07T22:16:38.442Z [info] 🎭 [SceneAudio] Generando audio para escena 3/0
+2025-08-07T22:16:38.712Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-07T22:16:38.712Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-07T22:16:38.712Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-07T22:16:38.713Z [info] 🎯 [SceneAudio] Contexto: climax, tono: emocion, duración: 10s
+2025-08-07T22:16:38.713Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-07T22:16:38.713Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-climax-extended",
+  "efectos": [
+    "tension",
+    "impact",
+    "dramatic-stinger"
+  ],
+  "ambiente": "intense-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "alta"
+}
+2025-08-07T22:16:38.713Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-climax-extended
+2025-08-07T22:16:38.713Z [info] 🎵 [MusicService] Solicitando música: orchestral-climax-extended, emocion, 10s
+2025-08-07T22:16:38.713Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral epic dramatic cinematic background emocion"
+2025-08-07T22:16:38.985Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral epic dramatic cinematic background emocion
+2025-08-07T22:16:38.986Z [info] 🔄 [MusicService] Intentando búsqueda de fallback...
+2025-08-07T22:16:39.306Z [info] ✅ [MusicService] Seleccionado: "Sky Loop" (68.1506s)
+2025-08-07T22:16:39.307Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/264/264295_4019029-hq.mp3
+2025-08-07T22:16:39.816Z [info] 🎵 [MusicService] Música descargada: 1541412 bytes desde Freesound
+2025-08-07T22:16:39.817Z [info] ✅ [AudioIntegration] Música generada: 1541412 bytes
+2025-08-07T22:16:39.817Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-07T22:16:39.818Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:39.818Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:16:39.818Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:39.818Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:16:39.818Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:39.818Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:16:39.819Z [info] 🎼 [AudioIntegration] Audio completo generado en 1106ms
+2025-08-07T22:16:39.819Z [info] 📊 [AudioIntegration] Calidad: Música 1541412 bytes, Voz 0 bytes, 0 efectos
+2025-08-07T22:16:39.819Z [info] ✅ [SceneAudio] Escena 3 completada en 1377ms
+2025-08-07T22:16:39.820Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:16:39.820Z [info] ✅ [SceneAudio] Toma 3 completada en 1754604999820ms
+2025-08-07T22:16:39.820Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:16:39.820Z [info] 🎭 [SceneAudio] Generando audio para toma 4/4
+2025-08-07T22:16:39.820Z [info] 🎭 [SceneAudio] Generando audio para escena 4/0
+2025-08-07T22:16:40.081Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-07T22:16:40.082Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-07T22:16:40.082Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-07T22:16:40.083Z [info] 🎯 [SceneAudio] Contexto: climax, tono: esperanza, duración: 10s
+2025-08-07T22:16:40.083Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-07T22:16:40.084Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-climax-extended",
+  "efectos": [
+    "tension",
+    "impact",
+    "dramatic-stinger"
+  ],
+  "ambiente": "intense-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "alta"
+}
+2025-08-07T22:16:40.084Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-climax-extended
+2025-08-07T22:16:40.085Z [info] 🎵 [MusicService] Solicitando música: orchestral-climax-extended, esperanza, 10s
+2025-08-07T22:16:40.085Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral epic dramatic cinematic background esperanza"
+2025-08-07T22:16:40.418Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral epic dramatic cinematic background esperanza
+2025-08-07T22:16:40.418Z [info] 🔄 [MusicService] Intentando búsqueda de fallback...
+2025-08-07T22:16:40.724Z [info] ✅ [MusicService] Seleccionado: "Sky Loop" (68.1506s)
+2025-08-07T22:16:40.724Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/264/264295_4019029-hq.mp3
+2025-08-07T22:16:41.447Z [info] 🎵 [MusicService] Música descargada: 1541412 bytes desde Freesound
+2025-08-07T22:16:41.448Z [info] ✅ [AudioIntegration] Música generada: 1541412 bytes
+2025-08-07T22:16:41.448Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-07T22:16:41.449Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:41.449Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:16:41.449Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:41.449Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:16:41.449Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:16:41.450Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-07T22:16:41.450Z [info] 🎼 [AudioIntegration] Audio completo generado en 1367ms
+2025-08-07T22:16:41.450Z [info] 📊 [AudioIntegration] Calidad: Música 1541412 bytes, Voz 0 bytes, 0 efectos
+2025-08-07T22:16:41.451Z [info] ✅ [SceneAudio] Escena 4 completada en 1631ms
+2025-08-07T22:16:41.451Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:16:41.451Z [info] ✅ [SceneAudio] Toma 4 completada en 1754605001451ms
+2025-08-07T22:16:41.452Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:16:41.452Z [info] 🔄 [SceneAudio] Lote completado: 1-4 de 4
+2025-08-07T22:16:41.453Z [info] 🎵 [SceneAudio] Sincronizando 4 audios con 0 clips
+2025-08-07T22:16:41.454Z [info] ✅ [SceneAudio] Sincronización completada:
+2025-08-07T22:16:41.455Z [info]    - Voz: 0 bytes
+2025-08-07T22:16:41.455Z [info]    - Música: 4 buffers
+2025-08-07T22:16:41.455Z [info]    - SFX: 0 efectos
+2025-08-07T22:16:41.460Z [info] 🎵 [SceneAudio] Generando efectos avanzados con ElevenLabs FX...
+2025-08-07T22:16:41.461Z [info] [ElevenLabsFX] 🎬 Generando efectos para toma: "footsteps on hard surface, cinematic quality sound"
+2025-08-07T22:16:41.461Z [info] [ElevenLabsFX] 🎵 Generando efecto: "footsteps on hard surface, cinematic quality sound"
+2025-08-07T22:16:41.854Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:16:41.856Z [info] [ElevenLabsFX] 🎬 Generando efectos para toma: "indoor ambient sounds, subtle room tone, cinematic quality sound"
+2025-08-07T22:16:41.857Z [info] [ElevenLabsFX] 🎵 Generando efecto: "indoor ambient sounds, subtle room tone, cinematic quality sound"
+2025-08-07T22:16:42.162Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:16:42.162Z [info] [ElevenLabsFX] 🎬 Generando efectos para toma: ", cinematic quality sound"
+2025-08-07T22:16:42.163Z [info] [ElevenLabsFX] 🎵 Generando efecto: ", cinematic quality sound"
+2025-08-07T22:16:42.446Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:16:42.447Z [info] [ElevenLabsFX] 🎬 Generando efectos para toma: "door opening and closing sound, cinematic quality sound"
+2025-08-07T22:16:42.447Z [info] [ElevenLabsFX] 🎵 Generando efecto: "door opening and closing sound, cinematic quality sound"
+2025-08-07T22:16:42.710Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:16:42.711Z [info] ⚠️ [SceneAudio] ElevenLabs FX disponible pero no se generaron efectos
+2025-08-07T22:16:42.711Z [info] ✅ [SceneAudio] Audio unificado generado para pipeline
+2025-08-07T22:16:42.711Z [info] 📊 [SceneAudio] Total: música 7331772 bytes, voz 0 bytes, SFX 882000 bytes, FX 0 bytes
+2025-08-07T22:16:42.713Z [error] [PipelineSimplificado] Error: Plan sin timeline válido
+2025-08-07T22:22:02.518Z [info] 🎤 Voice Interceptor inicializado
+2025-08-07T22:22:02.810Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-07T22:22:02.812Z [info] [PipelineSimplificado] 🎬 Iniciando renderizado
+2025-08-07T22:22:02.814Z [info] ✅ [Validador] Duración válida: 30s
+2025-08-07T22:22:02.814Z [info] ✅ [Validador] RenderRequest válido
+2025-08-07T22:22:02.827Z [info] [AssetManager] ✅ Obtenidos 365 fondos para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:22:02.830Z [info] [AssetManager] ✅ Obtenidos 204 actores para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:22:02.837Z [info] [AssetManager] ✅ Obtenidos 365 fondos para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:22:02.839Z [info] [AssetManager] ✅ Obtenidos 204 actores para estilo 'cinematic' (filtrado correcto)
+2025-08-07T22:22:12.484Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":9642,"success":true,"timestamp":"2025-08-07T22:22:12.484Z"}
+2025-08-07T22:22:16.090Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3595,"success":true,"timestamp":"2025-08-07T22:22:16.090Z"}
+2025-08-07T22:22:20.675Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":4534,"success":true,"timestamp":"2025-08-07T22:22:20.675Z"}
+2025-08-07T22:22:23.545Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":2827,"success":true,"timestamp":"2025-08-07T22:22:23.545Z"}
+2025-08-07T22:22:27.027Z [info] [FEEDBACK] {"service":"OpenRouter","action":"LLM","timeoutMs":60000,"elapsedMs":3448,"success":true,"timestamp":"2025-08-07T22:22:27.027Z"}
+2025-08-07T22:22:27.058Z [info] 🔄 Aplicando mejoras automáticas de coherencia a video video_1754605347058
+2025-08-07T22:22:27.059Z [info] 📊 Plan recibido:
+2025-08-07T22:22:27.059Z [info]   🎬 Prompt 1 mejorado: "Plano panorámico desde altura de una sala desordenada e iluminada por luz roja tenue, revelando a un joven masculino de pie junto a una ventana, mirando hacia el exterior en silencio absoluto." → "cinematic style, Plano panorámico desde altura de una sala desordenada e iluminada por luz roja tenue, revelando a un joven masculino de pie junto a una ventana, mirando hacia el exterior en silencio absoluto., day lighting, in outdoor, high quality, professional cinematography"
+2025-08-07T22:22:27.060Z [info]   🎬 Prompt 2 mejorado: "Corte a vista lateral del protagonista cruzando lentamente la sala en ruinas, recogiendo una vieja mochila del suelo y mirando una fotografía rota en el suelo." → "gentle fade transition, cinematic style, Corte a vista lateral del protagonista cruzando lentamente la sala en ruinas, recogiendo una vieja mochila del suelo y mirando una fotografía rota en el suelo., day lighting, in outdoor, high quality, professional cinematography"
+2025-08-07T22:22:27.060Z [info]   🎬 Prompt 3 mejorado: "Desde la ventana, el protagonista ve una figura a lo lejos en una cocina iluminada tenuemente; su respiración se agita mientras se acerca al marco con urgencia." → "gentle fade transition, cinematic style, Desde la ventana, el protagonista ve una figura a lo lejos en una cocina iluminada tenuemente; su respiración se agita mientras se acerca al marco con urgencia., day lighting, in outdoor, high quality, professional cinematography"
+2025-08-07T22:22:27.061Z [info]   🎬 Prompt 4 mejorado: "Plano frontal del protagonista en la cocina, ahora vacía, donde encuentra un espejo con un mensaje escrito: 'No estás solo'. Su expresión cambia lentamente a esperanza." → "gentle fade transition, cinematic style, Plano frontal del protagonista en la cocina, ahora vacía, donde encuentra un espejo con un mensaje escrito: 'No estás solo'. Su expresión cambia lentamente a esperanza., day lighting, in outdoor, high quality, professional cinematography"
+2025-08-07T22:22:27.062Z [info] ✅ Mejoras automáticas aplicadas exitosamente
+2025-08-07T22:22:27.062Z [info] 📈 Stats: 1 videos, 0 diálogos, 4 prompts mejorados
+2025-08-07T22:22:27.063Z [info] 🎼 [SceneAudio] Generando audio unificado para pipeline (4 tomas)
+2025-08-07T22:22:27.064Z [info] 🎬 [SceneAudio] Procesando lote: tomas 1-4 (4 tomas)
+2025-08-07T22:22:27.065Z [info] 🎭 [SceneAudio] Generando audio para toma 1/4
+2025-08-07T22:22:27.065Z [info] 🎭 [SceneAudio] Generando audio para escena 1/4
+2025-08-07T22:22:28.152Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-07T22:22:28.153Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-07T22:22:28.154Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-07T22:22:28.154Z [info] 🎯 [SceneAudio] Contexto: setup, tono: intriga, duración: 10s
+2025-08-07T22:22:28.155Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-07T22:22:28.157Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-dramatic",
+  "efectos": [
+    "ambient",
+    "footsteps",
+    "wind"
+  ],
+  "ambiente": "natural-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-07T22:22:28.157Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-dramatic
+2025-08-07T22:22:28.158Z [info] 🎵 [MusicService] Solicitando música: orchestral-dramatic, intriga, 10s
+2025-08-07T22:22:28.159Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral dramatic epic cinematic background intriga"
+2025-08-07T22:22:28.665Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral dramatic epic cinematic background intriga
+2025-08-07T22:22:28.665Z [info] 🔄 [MusicService] Intentando búsqueda de fallback...
+2025-08-07T22:22:29.053Z [info] ✅ [MusicService] Seleccionado: "Sky Loop" (68.1506s)
+2025-08-07T22:22:29.054Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/264/264295_4019029-hq.mp3
+2025-08-07T22:22:33.688Z [info] 🎵 [MusicService] Música descargada: 1541412 bytes desde Freesound
+2025-08-07T22:22:33.688Z [info] ✅ [AudioIntegration] Música generada: 1541412 bytes
+2025-08-07T22:22:33.689Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-07T22:22:33.689Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:33.690Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-07T22:22:33.690Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:33.691Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-07T22:22:33.692Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:33.692Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:22:33.693Z [info] 🎼 [AudioIntegration] Audio completo generado en 5538ms
+2025-08-07T22:22:33.693Z [info] 📊 [AudioIntegration] Calidad: Música 1541412 bytes, Voz 0 bytes, 0 efectos
+2025-08-07T22:22:33.693Z [info] ✅ [SceneAudio] Escena 1 completada en 6628ms
+2025-08-07T22:22:33.695Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:22:33.695Z [info] ✅ [SceneAudio] Toma 1 completada en 1754605353695ms
+2025-08-07T22:22:33.696Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:22:33.697Z [info] 🎭 [SceneAudio] Generando audio para toma 2/4
+2025-08-07T22:22:33.697Z [info] 🎭 [SceneAudio] Generando audio para escena 2/4
+2025-08-07T22:22:34.002Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-07T22:22:34.003Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-07T22:22:34.004Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-07T22:22:34.004Z [info] 🎯 [SceneAudio] Contexto: desarrollo, tono: tension, duración: 10s
+2025-08-07T22:22:34.005Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-07T22:22:34.006Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-neutral",
+  "efectos": [
+    "ambient",
+    "movement",
+    "subtle-fx"
+  ],
+  "ambiente": "contextual-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-07T22:22:34.007Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-neutral
+2025-08-07T22:22:34.007Z [info] 🎵 [MusicService] Solicitando música: orchestral-neutral, tension, 10s
+2025-08-07T22:22:34.007Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral calm peaceful background instrumental tension"
+2025-08-07T22:22:34.289Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral calm peaceful background instrumental tension
+2025-08-07T22:22:34.290Z [info] 🔄 [MusicService] Intentando búsqueda de fallback...
+2025-08-07T22:22:34.640Z [info] ✅ [MusicService] Seleccionado: "Sky Loop" (68.1506s)
+2025-08-07T22:22:34.641Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/264/264295_4019029-hq.mp3
+2025-08-07T22:22:36.713Z [info] 🎵 [MusicService] Música descargada: 1541412 bytes desde Freesound
+2025-08-07T22:22:36.714Z [info] ✅ [AudioIntegration] Música generada: 1541412 bytes
+2025-08-07T22:22:36.714Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-07T22:22:36.714Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:36.715Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-07T22:22:36.715Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:36.716Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-07T22:22:36.716Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:36.717Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-07T22:22:36.717Z [info] 🎼 [AudioIntegration] Audio completo generado en 2712ms
+2025-08-07T22:22:36.718Z [info] 📊 [AudioIntegration] Calidad: Música 1541412 bytes, Voz 0 bytes, 0 efectos
+2025-08-07T22:22:36.718Z [info] ✅ [SceneAudio] Escena 2 completada en 3021ms
+2025-08-07T22:22:36.718Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:22:36.719Z [info] ✅ [SceneAudio] Toma 2 completada en 1754605356719ms
+2025-08-07T22:22:36.720Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:22:36.720Z [info] 🎭 [SceneAudio] Generando audio para toma 3/4
+2025-08-07T22:22:36.720Z [info] 🎭 [SceneAudio] Generando audio para escena 3/4
+2025-08-07T22:22:37.018Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-07T22:22:37.019Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-07T22:22:37.020Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-07T22:22:37.021Z [info] 🎯 [SceneAudio] Contexto: desarrollo, tono: emocion, duración: 10s
+2025-08-07T22:22:37.021Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-07T22:22:37.022Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-neutral",
+  "efectos": [
+    "ambient",
+    "movement",
+    "subtle-fx"
+  ],
+  "ambiente": "contextual-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-07T22:22:37.022Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-neutral
+2025-08-07T22:22:37.023Z [info] 🎵 [MusicService] Solicitando música: orchestral-neutral, emocion, 10s
+2025-08-07T22:22:37.023Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral calm peaceful background instrumental emocion"
+2025-08-07T22:22:37.305Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral calm peaceful background instrumental emocion
+2025-08-07T22:22:37.306Z [info] 🔄 [MusicService] Intentando búsqueda de fallback...
+2025-08-07T22:22:37.624Z [info] ✅ [MusicService] Seleccionado: "Sky Loop" (68.1506s)
+2025-08-07T22:22:37.625Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/264/264295_4019029-hq.mp3
+2025-08-07T22:22:39.662Z [info] 🎵 [MusicService] Música descargada: 1541412 bytes desde Freesound
+2025-08-07T22:22:39.663Z [info] ✅ [AudioIntegration] Música generada: 1541412 bytes
+2025-08-07T22:22:39.663Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-07T22:22:39.664Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:39.664Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:22:39.664Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:39.665Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-07T22:22:39.665Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:39.666Z [info] [AudioEngine] 0 efectos obtenidos (1ms)
+2025-08-07T22:22:39.666Z [info] 🎼 [AudioIntegration] Audio completo generado en 2645ms
+2025-08-07T22:22:39.667Z [info] 📊 [AudioIntegration] Calidad: Música 1541412 bytes, Voz 0 bytes, 0 efectos
+2025-08-07T22:22:39.667Z [info] ✅ [SceneAudio] Escena 3 completada en 2947ms
+2025-08-07T22:22:39.667Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:22:39.667Z [info] ✅ [SceneAudio] Toma 3 completada en 1754605359667ms
+2025-08-07T22:22:39.668Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:22:39.668Z [info] 🎭 [SceneAudio] Generando audio para toma 4/4
+2025-08-07T22:22:39.668Z [info] 🎭 [SceneAudio] Generando audio para escena 4/4
+2025-08-07T22:22:39.969Z [info] ✅ [AudioIntegration] Freesound API disponible
+2025-08-07T22:22:39.970Z [info] ✅ [AudioIntegration] Murf API configurada
+2025-08-07T22:22:39.970Z [info] 🔧 [AudioIntegration] Configuración óptima: Freesound true, Murf true
+2025-08-07T22:22:39.971Z [info] 🎯 [SceneAudio] Contexto: cierre, tono: esperanza, duración: 10s
+2025-08-07T22:22:39.971Z [info] 🎼 [AudioIntegration] Generando audio completo para toma (10s)
+2025-08-07T22:22:39.971Z [info] 🧠 [AudioIntegration] Configuración sonora: {
+  "musica": "orchestral-resolution-full",
+  "efectos": [
+    "resolution",
+    "ambient",
+    "peaceful"
+  ],
+  "ambiente": "peaceful-ambience",
+  "lipSync": "",
+  "requiereVoz": false,
+  "intensidad": "media"
+}
+2025-08-07T22:22:39.972Z [info] 🎵 [AudioIntegration] Generando música via Freesound: orchestral-resolution-full
+2025-08-07T22:22:39.972Z [info] 🎵 [MusicService] Solicitando música: orchestral-resolution-full, esperanza, 10s
+2025-08-07T22:22:39.973Z [info] 🔍 [MusicService] Buscando en Freesound: "orchestral-resolution-full cinematic music esperanza"
+2025-08-07T22:22:40.258Z [warn] 🚫 [MusicService] No se encontraron resultados para: orchestral-resolution-full cinematic music esperanza
+2025-08-07T22:22:40.259Z [info] 🔄 [MusicService] Intentando búsqueda de fallback...
+2025-08-07T22:22:40.574Z [info] ✅ [MusicService] Seleccionado: "Sky Loop" (68.1506s)
+2025-08-07T22:22:40.575Z [info] ⬇️ [MusicService] Descargando audio desde: https://cdn.freesound.org/previews/264/264295_4019029-hq.mp3
+2025-08-07T22:22:42.614Z [info] 🎵 [MusicService] Música descargada: 1541412 bytes desde Freesound
+2025-08-07T22:22:42.615Z [info] ✅ [AudioIntegration] Música generada: 1541412 bytes
+2025-08-07T22:22:42.615Z [info] 🔊 [AudioIntegration] Generando 3 efectos de sonido
+2025-08-07T22:22:42.616Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:42.616Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:22:42.617Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:42.617Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:22:42.617Z [info] [AudioEngine] Efectos cinematic tradicionales
+2025-08-07T22:22:42.617Z [info] [AudioEngine] 0 efectos obtenidos (0ms)
+2025-08-07T22:22:42.618Z [info] 🎼 [AudioIntegration] Audio completo generado en 2647ms
+2025-08-07T22:22:42.618Z [info] 📊 [AudioIntegration] Calidad: Música 1541412 bytes, Voz 0 bytes, 0 efectos
+2025-08-07T22:22:42.618Z [info] ✅ [SceneAudio] Escena 4 completada en 2950ms
+2025-08-07T22:22:42.618Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:22:42.619Z [info] ✅ [SceneAudio] Toma 4 completada en 1754605362619ms
+2025-08-07T22:22:42.619Z [info] 📊 [SceneAudio] Servicios usados: Freesound
+2025-08-07T22:22:42.619Z [info] 🔄 [SceneAudio] Lote completado: 1-4 de 4
+2025-08-07T22:22:42.620Z [info] 🎵 [SceneAudio] Sincronizando 4 audios con 0 clips
+2025-08-07T22:22:42.620Z [info] ✅ [SceneAudio] Sincronización completada:
+2025-08-07T22:22:42.620Z [info]    - Voz: 0 bytes
+2025-08-07T22:22:42.621Z [info]    - Música: 4 buffers
+2025-08-07T22:22:42.621Z [info]    - SFX: 0 efectos
+2025-08-07T22:22:42.624Z [info] 🎵 [SceneAudio] Generando efectos avanzados con ElevenLabs FX...
+2025-08-07T22:22:42.625Z [info] [ElevenLabsFX] 🎬 Generando efectos para toma: "outdoor ambient sounds, subtle wind, distant traffic, cinematic quality sound"
+2025-08-07T22:22:42.626Z [info] [ElevenLabsFX] 🎵 Generando efecto: "outdoor ambient sounds, subtle wind, distant traffic, cinematic quality sound"
+2025-08-07T22:22:43.078Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:22:43.078Z [info] [ElevenLabsFX] 🎬 Generando efectos para toma: ", cinematic quality sound"
+2025-08-07T22:22:43.079Z [info] [ElevenLabsFX] 🎵 Generando efecto: ", cinematic quality sound"
+2025-08-07T22:22:43.361Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:22:43.362Z [info] [ElevenLabsFX] 🎬 Generando efectos para toma: ", cinematic quality sound"
+2025-08-07T22:22:43.362Z [info] [ElevenLabsFX] 🎵 Generando efecto: ", cinematic quality sound"
+2025-08-07T22:22:43.643Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:22:43.645Z [info] [ElevenLabsFX] 🎬 Generando efectos para toma: ", cinematic quality sound"
+2025-08-07T22:22:43.645Z [info] [ElevenLabsFX] 🎵 Generando efecto: ", cinematic quality sound"
+2025-08-07T22:22:43.923Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:22:43.924Z [info] ⚠️ [SceneAudio] ElevenLabs FX disponible pero no se generaron efectos
+2025-08-07T22:22:43.925Z [info] ✅ [SceneAudio] Audio unificado generado para pipeline
+2025-08-07T22:22:43.925Z [info] 📊 [SceneAudio] Total: música 6165648 bytes, voz 0 bytes, SFX 882000 bytes, FX 0 bytes
+2025-08-07T22:22:43.927Z [info] [KlingService] Generando video con Kling Elements via fal.ai
+2025-08-07T22:25:06.109Z [info] [KlingService] ✅ Video generado exitosamente: https://v3.fal.media/files/rabbit/Q9vb8aP84ox5mGHxBiBs-_output.mp4
+2025-08-07T22:25:06.110Z [info] [FEEDBACK] {"service":"KlingService","action":"generateVideo","success":true,"params":{"duration":7,"aspectRatio":"16:9"},"timestamp":"2025-08-07T22:25:06.110Z"}
+2025-08-07T22:25:06.111Z [info] [KlingService] Generando video con Kling Elements via fal.ai
+2025-08-07T22:27:49.904Z [info] [KlingService] ✅ Video generado exitosamente: https://v3.fal.media/files/elephant/PZvofrAIhKvhxeJJaIv_a_output.mp4
+2025-08-07T22:27:49.921Z [info] [FEEDBACK] {"service":"KlingService","action":"generateVideo","success":true,"params":{"duration":7,"aspectRatio":"16:9"},"timestamp":"2025-08-07T22:27:49.920Z"}
+2025-08-07T22:27:49.930Z [info] [KlingService] Generando video con Kling Elements via fal.ai
+2025-08-07T22:30:22.272Z [info] [KlingService] ✅ Video generado exitosamente: https://v3.fal.media/files/penguin/8Y0W_ewotDQIl6vEr6TRG_output.mp4
+2025-08-07T22:30:22.283Z [info] [FEEDBACK] {"service":"KlingService","action":"generateVideo","success":true,"params":{"duration":7,"aspectRatio":"16:9"},"timestamp":"2025-08-07T22:30:22.283Z"}
+2025-08-07T22:30:22.289Z [info] [KlingService] Generando video con Kling Elements via fal.ai
+2025-08-07T22:32:44.639Z [info] [KlingService] ✅ Video generado exitosamente: https://v3.fal.media/files/elephant/bvTGRK5pFhaueb7Fu6mtf_output.mp4
+2025-08-07T22:32:44.642Z [info] [FEEDBACK] {"service":"KlingService","action":"generateVideo","success":true,"params":{"duration":9,"aspectRatio":"16:9"},"timestamp":"2025-08-07T22:32:44.642Z"}
+2025-08-07T22:32:44.667Z [info] [Pipeline] Lip-sync omitido - no requerido o sin audio de voz
+2025-08-07T22:32:44.678Z [info] 🎬 FFmpegService v7 — ensamblando 1080p60 con ElevenLabs FX...
+2025-08-07T22:32:44.704Z [info] ✅ Archivo de lista para FFmpeg creado: C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v7\096b2222-87f9-467b-ae8d-59a6a84cb175.txt
+2025-08-07T22:32:44.704Z [info] 🟡 [FFmpeg] Iniciando concat clips → C:\Users\crist\OneDrive\Desktop\storyteller-backend\tmp\ffmpeg_v7\096b2222-87f9-467b-ae8d-59a6a84cb175_concat.mp4
+2025-08-07T22:32:45.111Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[concat @ 000002d0113dfcc0] Impossible to open 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/https:/v3.fal.media/files/rabbit/Q9vb8aP84ox5mGHxBiBs-_output.mp4'
+[in#0 @ 000002d0113df8c0] Error opening input: Invalid argument
+Error opening input file C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v7/096b2222-87f9-467b-ae8d-59a6a84cb175.txt.
+Error opening input files: Invalid argument
+
+
+2025-08-07T22:32:46.735Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[concat @ 000001a62aadfcc0] Impossible to open 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/https:/v3.fal.media/files/rabbit/Q9vb8aP84ox5mGHxBiBs-_output.mp4'
+[in#0 @ 000001a62aadf8c0] Error opening input: Invalid argument
+Error opening input file C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v7/096b2222-87f9-467b-ae8d-59a6a84cb175.txt.
+Error opening input files: Invalid argument
+
+
+2025-08-07T22:32:48.249Z [error] [PipelineSimplificado] Error: ffmpeg exited with code 4294967274: Error opening input file C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v7/096b2222-87f9-467b-ae8d-59a6a84cb175.txt.
+Error opening input files: Invalid argument
+

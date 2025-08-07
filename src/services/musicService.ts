@@ -87,10 +87,8 @@ export async function getBackgroundMusic(style: string, duration: number = 30, m
         filter: `duration:[5 TO 120] type:wav OR type:mp3 OR type:aiff`, // Más duración flexible y formatos
         sort: 'downloads_desc',
         page_size: 20, // Más resultados para mayor probabilidad
-        fields: 'id,name,url,tags,duration,download,previews'
-      },
-      headers: {
-        'Authorization': `Token ${env.FREESOUND_API_KEY}`
+        fields: 'id,name,url,tags,duration,download,previews',
+        token: env.FREESOUND_API_KEY // ✅ Usar token en params según documentación oficial
       },
       timeout: 15000 // Más tiempo para la búsqueda
     });
@@ -108,10 +106,8 @@ export async function getBackgroundMusic(style: string, duration: number = 30, m
           filter: `duration:[5 TO 120] type:wav OR type:mp3`,
           sort: 'downloads_desc',
           page_size: 10,
-          fields: 'id,name,url,tags,duration,download,previews'
-        },
-        headers: {
-          'Authorization': `Token ${env.FREESOUND_API_KEY}`
+          fields: 'id,name,url,tags,duration,download,previews',
+          token: env.FREESOUND_API_KEY // ✅ Usar token en params según documentación oficial
         },
         timeout: 15000
       });
@@ -177,8 +173,8 @@ export async function getMusicById(musicId: string): Promise<Buffer> {
     const soundUrl = `https://freesound.org/apiv2/sounds/${musicId}/`;
     
     const soundResponse = await axios.get(soundUrl, {
-      headers: {
-        'Authorization': `Token ${env.FREESOUND_API_KEY}`
+      params: {
+        token: env.FREESOUND_API_KEY // ✅ Usar token en params según documentación oficial
       },
       timeout: 10000
     });
@@ -226,10 +222,8 @@ export async function getMusicLibrary(category: string = 'cinematic'): Promise<A
         query: searchQuery,
         sort: 'downloads_desc',
         page_size: 20,
-        fields: 'id,name,duration'
-      },
-      headers: {
-        'Authorization': `Token ${env.FREESOUND_API_KEY}`
+        fields: 'id,name,duration',
+        token: env.FREESOUND_API_KEY // ✅ Usar token en params según documentación oficial
       },
       timeout: 10000
     });

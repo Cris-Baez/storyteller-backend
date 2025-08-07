@@ -109,16 +109,36 @@ export class KlingService {
         throw new Error('Kling no devolvió video válido');
       }
 
-      logger.info(`[KlingService] ✅ Video generado exitosamente: ${result.data.video.url}`);
+      const remoteUrl = result.data.video.url;
+      logger.info(`[KlingService] ✅ Video generado exitosamente: ${remoteUrl}`);
       
-      logFeedback({
-        service: 'KlingService',
-        action: 'generateVideo',
-        success: true,
-        params: { duration: segment.duration, aspectRatio: segment.aspectRatio }
-      });
+      // ✅ NUEVO: Descargar clip inmediatamente para evitar expiración
+      try {
+        const timestamp = Date.now();
+        const filename = `kling_segment_${timestamp}.mp4`;
+        const localPath = await this.downloadClip(remoteUrl, filename);
+        logger.info(`[KlingService] 📁 Clip descargado localmente: ${localPath}`);
+        
+        logFeedback({
+          service: 'KlingService',
+          action: 'generateVideo',
+          success: true,
+          params: { duration: segment.duration, aspectRatio: segment.aspectRatio }
+        });
 
-      return result.data.video.url;
+        return localPath; // Devolver ruta local en lugar de URL remota
+      } catch (downloadError) {
+        logger.warn(`[KlingService] ⚠️ No se pudo descargar clip, usando URL remota: ${downloadError}`);
+        
+        logFeedback({
+          service: 'KlingService',
+          action: 'generateVideo',
+          success: true,
+          params: { duration: segment.duration, aspectRatio: segment.aspectRatio }
+        });
+        
+        return remoteUrl; // Fallback a URL remota si falla la descarga
+      }
 
     } catch (error) {
       logger.error(`[KlingService] ❌ Error generando video:`, error);

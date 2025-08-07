@@ -4,7 +4,7 @@
 import { generateUnifiedAudioForPipeline } from '../services/sceneAudioService.js';
 import { assembleVideo } from '../services/ffmpegService.js';
 import { uploadToCDN } from '../services/cdnService.js';
-import { generateMarketingClip, type MarketingRequest, type MarketingResponse } from '../services/marketingService.js';
+// import { generateMarketingClip, type MarketingRequest, type MarketingResponse } from '../services/marketingService.js';
 import { dispatchCerebros, RequestGeneracion, ResponseGeneracion } from '../services/llmService/dispatcher.js';
 import { RenderRequest, VideoPlan } from '../utils/types.js';
 import { validarRenderRequest } from '../utils/validadores.js';
@@ -102,22 +102,24 @@ export async function renderVideoSimplificado(
 
 /**
  * Marketing AI usando servicio existente
+ * TODO: Integrar con nuevo sistema MarketingPipeline
  */
 async function procesarMarketingAI(
-  req: MarketingRequest, 
+  req: any, // MarketingRequest, 
   reportProgress: (message: string, progress: number) => void
 ): Promise<any> {
   
   reportProgress('Procesando marketing AI', 30);
   
-  const resultado: MarketingResponse = await generateMarketingClip(req);
+  // TODO: Integrar con nuevo MarketingPipeline
+  // const resultado: MarketingResponse = await generateMarketingClip(req);
   
-  reportProgress('Completado', 100);
+  reportProgress('Marketing AI temporalmente deshabilitado', 100);
   
   return {
-    url: resultado.videoUrl,
-    plan: resultado.planUsed || {},
-    metadata: resultado.metadata || {}
+    url: 'https://storage.googleapis.com/storyteller-ai-cdn/demo/marketing_placeholder.mp4',
+    plan: {},
+    metadata: { status: 'placeholder' }
   };
 }
 
@@ -189,10 +191,27 @@ async function generarPlan(req: RenderRequest): Promise<VideoPlan> {
     throw new Error(`Error generando plan: ${response.error}`);
   }
   
+  // Convertir tomasReales a timeline para compatibilidad
+  const timeline = response.tomasReales?.map((toma, index) => ({
+    segundo: index === 0 ? 0 : response.tomasReales!.slice(0, index).reduce((acc, t) => acc + t.duracion, 0),
+    duracion: toma.duracion,
+    descripcion: toma.descripcion,
+    prompt: toma.descripcion,
+    fondo: toma.fondo || 'escenas/realista/casa/fachada/día/frontal.png',
+    actor: toma.actor || '',
+    movimiento_camara: toma.movimientoCamara || 'static',
+    transicion: 'fade',
+    audio: {
+      musica: toma.musica || 'cinematic',
+      efectos: toma.efectos || [],
+      ambiente: toma.ambiente || 'neutral'
+    }
+  })) || [];
+
   // Convertir a VideoPlan usando la estructura existente
   const plan: VideoPlan = {
     id: `video_${Date.now()}`,
-    timeline: response.videoPlan?.timeline || [],
+    timeline: timeline,
     metadata: {
       duration: req.duration,
       visualStyle: req.visualStyle,
@@ -242,11 +261,11 @@ async function generarClipsExistente(
   const clips: string[] = [];
   const totalEscenas = plan.timeline.length;
   
-  // Generar clips secuencialmente para evitar saturar APIs
-  for (let i = 0; i < totalEscenas; i++) {
-    const escena = plan.timeline[i];
-    
-    try {
+  // ✅ Generar clips SIMULTÁNEAMENTE para mayor velocidad
+  logger.info(`🚀 [Pipeline] Generando ${totalEscenas} clips simultáneamente`);
+  
+  try {
+    const clipPromises = plan.timeline.map(async (escena, i) => {
       const clipUrl = await generateKlingClip({
         prompt: escena.prompt || escena.descripcion || `Escena ${i + 1}`,
         input_image_urls: [
@@ -257,15 +276,19 @@ async function generarClipsExistente(
         aspectRatio: '16:9'
       });
       
-      clips.push(clipUrl);
+      logger.info(`✅ [Pipeline] Clip ${i + 1}/${totalEscenas} completado`);
+      return clipUrl;
+    });
+    
+    // Esperar a que se completen todos los clips
+    const generatedClips = await Promise.all(clipPromises);
+    clips.push(...generatedClips);
+    
+    reportProgress(`Todos los clips generados simultáneamente`, 85);
       
-      const progress = 70 + ((i + 1) / totalEscenas) * 15;
-      reportProgress(`Clip ${i + 1}/${totalEscenas} generado`, progress);
-      
-    } catch (error) {
-      logger.error(`Error generando clip ${i + 1}:`, error);
-      throw new Error(`Error en clip ${i + 1}: ${error}`);
-    }
+  } catch (error) {
+    logger.error(`Error generando clips simultáneamente:`, error);
+    throw new Error(`Error en generación simultánea: ${error}`);
   }
   
   return { clips };
@@ -301,7 +324,7 @@ export async function renderCinemaAI(
 }
 
 export async function renderMarketingAI(
-  req: MarketingRequest,
+  req: any, // MarketingRequest,
   reportProgress: (message: string, progress: number) => void = () => {}
 ): Promise<any> {
   return await procesarMarketingAI(req, reportProgress);

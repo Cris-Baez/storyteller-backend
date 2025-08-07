@@ -87,7 +87,7 @@ export async function generarVozComercial(request: MurfVoiceRequest): Promise<Mu
     const response = await fetch('https://api.murf.ai/v1/speech/generate', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
+        'api-key': apiKey,
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },

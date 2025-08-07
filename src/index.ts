@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import { renderRouter } from './routes/render.js';
-import marketingRouter from './routes/marketing.js';  // ✨ NUEVO: Marketing AI
+import { marketingRoutes } from './routes/marketingRoutes.js';  // ✨ NUEVO: Marketing AI
 import adminRouter from './routes/admin.js';
 import { logger } from './utils/logger.js';
 import dotenv from "dotenv";
@@ -84,7 +84,7 @@ app.get('/api/test', (_req, res) => {
 
 // Rutas principales
 app.use('/api/render', renderRouter);
-app.use('/api/marketing', marketingRouter);  // ✨ NUEVO: Marketing AI Routes
+app.use('/api/marketing', marketingRoutes);  // ✨ NUEVO: Marketing AI Routes
 //app.use('/api/templates', templatesRouter);
 
 // Nueva ruta para compilar el video final

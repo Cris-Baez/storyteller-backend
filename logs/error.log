@@ -3669,3 +3669,54 @@ Error opening output files: Invalid argument
 2025-08-03T03:03:48.531Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/c2ce941c-9fe7-41f9-bd91-f897fc4729ed_1080p.mp4
 2025-08-03T03:29:19.881Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/f0fbbb5e-6693-4fae-bd59-7952bd6b962b_1080p.mp4
 2025-08-03T03:31:28.286Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/6b56836b-ae05-448c-8c4a-b72dd419d21c_1080p.mp4
+2025-08-07T22:12:33.457Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:12:33.717Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:12:33.719Z [error] [PipelineSimplificado] Error: Plan sin timeline válido
+2025-08-07T22:16:41.854Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:16:42.162Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:16:42.446Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:16:42.710Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:16:42.713Z [error] [PipelineSimplificado] Error: Plan sin timeline válido
+2025-08-07T22:22:43.078Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:22:43.361Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:22:43.643Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:22:43.923Z [error] [ElevenLabsFX] Error HTTP 404: {"detail":"Not Found"}
+2025-08-07T22:32:45.111Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[concat @ 000002d0113dfcc0] Impossible to open 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/https:/v3.fal.media/files/rabbit/Q9vb8aP84ox5mGHxBiBs-_output.mp4'
+[in#0 @ 000002d0113df8c0] Error opening input: Invalid argument
+Error opening input file C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v7/096b2222-87f9-467b-ae8d-59a6a84cb175.txt.
+Error opening input files: Invalid argument
+
+
+2025-08-07T22:32:46.735Z [error] ❌ FFmpeg error:
+ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 14.2.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[concat @ 000001a62aadfcc0] Impossible to open 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/https:/v3.fal.media/files/rabbit/Q9vb8aP84ox5mGHxBiBs-_output.mp4'
+[in#0 @ 000001a62aadf8c0] Error opening input: Invalid argument
+Error opening input file C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v7/096b2222-87f9-467b-ae8d-59a6a84cb175.txt.
+Error opening input files: Invalid argument
+
+
+2025-08-07T22:32:48.249Z [error] [PipelineSimplificado] Error: ffmpeg exited with code 4294967274: Error opening input file C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v7/096b2222-87f9-467b-ae8d-59a6a84cb175.txt.
+Error opening input files: Invalid argument
+
