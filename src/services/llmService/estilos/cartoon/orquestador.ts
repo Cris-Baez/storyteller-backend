@@ -80,7 +80,7 @@ export async function orquestarEquipoCinematico(
     const restricciones = { ...RESTRICCIONES_GENERALES, ...LIMITACIONES_ESTILO.cartoon };
     
     console.log('[ORQUESTADOR] 🎬 Consultando al Director para plan cartoon...');
-    const narrativaGeneral = await generarNarrativaCartoon(prompt);
+    const narrativaGeneral = await generarNarrativaCartoon(prompt, duracionTotal);
     
     if (!narrativaGeneral) {
       throw new Error('Director no retornó narrativa válida');
@@ -278,31 +278,42 @@ function generarConfiguracionGlobalCartoon(): ConfiguracionGlobalCinematica {
 function generarPlanCartoonFallback(prompt: string, duracion: number): VideoPlanCinematico {
   console.log('[Orquestador] Generando plan cartoon de emergencia');
   
+  // ✅ GENERAR TOMAS EN LUGAR DE TIMELINE SEGUNDO-A-SEGUNDO
+  const tomasReales = crearTomasCartoonPorDefecto(duracion, { 
+    historia: prompt, 
+    tono: 'comico', 
+    genero: 'cartoon',
+    momentosEmocionales: []
+  });
+  
+  console.log(`[Orquestador] 🎬 Tomas cartoon fallback: ${tomasReales.length} tomas generadas`);
+  
   const timeline: SegundoCinematico[] = [];
+  let segundoActual = 0;
   
-  for (let segundo = 0; segundo < duracion; segundo++) {
-    const progreso = segundo / duracion;
-    let momentoNarrativo = 'desarrollo';
-    
-    if (progreso < 0.25) momentoNarrativo = 'setup';
-    else if (progreso > 0.75) momentoNarrativo = 'cierre';
-    else if (progreso > 0.60) momentoNarrativo = 'climax';
-    
-    timeline.push({
-      segundo,
-      narrativa: { prompt, tono: 'comico' },
-      fondo: { archivo: 'escenas/comic/casa/baño/día/frontal.png', tipo: 'escenario' },
-      actor: { archivo: 'actores/comic/casa/baño/día/jovenmasculinoneutrointelectual.png', tipo: 'principal' },
-      camara: { shot: 'medium', movement: 'bouncy', angle: 'friendly' },
-      sonido: { musica: 'cartoon_theme', efectos: [], lipSync: false },
-      edicion: { duracionEscena: 4, carryover: false, tipoCorte: 'fun_cut' },
-      segmento: momentoNarrativo,
-      momentoNarrativo,
-      esEmocional: segundo % 8 === 0, // Menos frecuente, más cómico
-      tono: 'comico'
-    });
+  // Crear timeline basado en las tomas
+  for (const toma of tomasReales) {
+    for (let segundoEnToma = 0; segundoEnToma < toma.duracion; segundoEnToma++) {
+      if (segundoActual >= duracion) break;
+      
+      timeline.push({
+        segundo: segundoActual,
+        narrativa: { prompt, tono: 'comico' },
+        fondo: { archivo: 'escenas/comic/casa/baño/día/frontal.png', tipo: 'escenario' },
+        actor: { archivo: 'actores/comic/casa/baño/día/jovenmasculinoneutrointelectual.png', tipo: 'principal' },
+        camara: { shot: 'medium', movement: 'bouncy', angle: 'friendly' },
+        sonido: { musica: 'cartoon_theme', efectos: [], lipSync: false },
+        edicion: { duracionEscena: toma.duracion, carryover: false, tipoCorte: 'fun_cut' },
+        segmento: toma.tipoToma || 'desarrollo',
+        momentoNarrativo: toma.tipoToma || 'desarrollo',
+        esEmocional: segundoActual % 8 === 0, // Menos frecuente, más cómico
+        tono: 'comico'
+      });
+      
+      segundoActual++;
+    }
   }
-  
+
   return {
     timeline,
     metadata: {
@@ -315,7 +326,8 @@ function generarPlanCartoonFallback(prompt: string, duracion: number): VideoPlan
       version: '1.0.0'
     },
     restricciones: { ...RESTRICCIONES_GENERALES, ...LIMITACIONES_ESTILO.cartoon },
-    configuracionGlobal: generarConfiguracionGlobalCartoon()
+    configuracionGlobal: generarConfiguracionGlobalCartoon(),
+    tomasReales: tomasReales // ✅ CRÍTICO: Incluir tomas en fallback
   };
 }
 

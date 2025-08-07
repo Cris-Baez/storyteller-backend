@@ -17,6 +17,13 @@ export interface ConfiguracionSonido {
   justificacion?: string;
   estilo_musical?: string;
   emociones_clave?: string[];
+  // ✨ NUEVO: Configuración ElevenLabs FX
+  elevenlabsFX?: {
+    habilitado: boolean;
+    efectos_especificos?: string[];
+    prompt_personalizado?: string;
+    intensidad_fx?: number;
+  };
 }
 
 /**
@@ -62,7 +69,13 @@ RESPONDE ÚNICAMENTE con este JSON:
   "tipoVoz": "narrador|personaje|voz_en_off|ninguna",
   "justificacion": "por qué esta configuración sonora es perfecta",
   "estilo_musical": "descripción del estilo musical específico",
-  "emociones_clave": ["emocion1", "emocion2"]
+  "emociones_clave": ["emocion1", "emocion2"],
+  "elevenlabsFX": {
+    "habilitado": true/false,
+    "efectos_especificos": ["descripción de efectos específicos para ElevenLabs"],
+    "prompt_personalizado": "prompt específico para generar efectos con IA",
+    "intensidad_fx": 0.3
+  }
 }`;
 
     const contextoUsuario = `
@@ -73,7 +86,7 @@ MOMENTO NARRATIVO: ${momentoNarrativo}
 SEGUNDO: ${segundoActual}
 PROMPT ORIGINAL: "${prompt}"
 
-Diseña el audio cinematográfico para esta escena.`;
+Diseña el audio cinematográfico para esta escena. Si consideras que la escena se beneficiaría de efectos de sonido generados por IA, activa elevenlabsFX y proporciona un prompt específico para generar los efectos apropiados.`;
 
     const promptCompleto = construirPromptCompleto(systemBase, especializacionSonido, contextoUsuario);
     
@@ -89,6 +102,14 @@ Diseña el audio cinematográfico para esta escena.`;
     if (config && typeof config === 'object' && 'musica' in config) {
       // Asegurar campos requeridos
       config.lipSync = 'auto'; // Por defecto
+      
+      // ✨ NUEVO: Configurar ElevenLabs FX por defecto si no está especificado
+      if (!config.elevenlabsFX) {
+        config.elevenlabsFX = {
+          habilitado: false,
+          intensidad_fx: 0.3
+        };
+      }
       
       console.log('[Sonido Cinematic] ✅ Configuración sonora IA exitosa');
       console.log(`- Música: ${config.musica}`);

@@ -111,12 +111,28 @@ export async function cargarAssetsIndex(): Promise<AssetIndexItem[]> {
 export function corregirFondosActoresInvalidos(videoPlan: VideoPlan, assetsIndex: AssetIndexItem[]): { videoPlan: VideoPlan; sugerencias: any[] } {
   const visualStyleRaw = videoPlan.metadata?.visualStyle || 'realistic';
   
-  // Normalizar el estilo a EstiloVisualPrincipal y luego mapear a carpeta
+  // Normalizar el estilo a EstiloVisualPrincipal
   const estiloNormalizado = normalizarEstilo(visualStyleRaw as any);
-  const carpetaAssets = mapearEstiloACarpetaAssets(estiloNormalizado);
   
-  const fondosValidos = assetsIndex.filter((a: AssetIndexItem) => a.tipo === 'escenas' && a.completitud === 'completa' && a.estilo === carpetaAssets);
-  const actoresValidos = assetsIndex.filter((a: AssetIndexItem) => a.tipo === 'actores' && a.completitud === 'completa' && a.estilo === carpetaAssets);
+  // ✅ USAR EL MISMO SISTEMA DE COMPATIBILIDAD QUE ASSETUTILS
+  const { getEstilosCompatibles } = require('../services/llmService/helpers/assetUtils.js');
+  const estilosCompatibles = getEstilosCompatibles(estiloNormalizado);
+  
+  const fondosValidos = assetsIndex.filter((a: AssetIndexItem) => 
+    a.tipo === 'escenas' && 
+    a.completitud === 'completa' && 
+    (estilosCompatibles.includes(a.estilo) || a.estilo === 'universal')
+  );
+  
+  const actoresValidos = assetsIndex.filter((a: AssetIndexItem) => 
+    a.tipo === 'actores' && 
+    a.completitud === 'completa' && 
+    (estilosCompatibles.includes(a.estilo) || a.estilo === 'universal')
+  );
+  
+  console.log(`[MenteFondos] 🔧 Corrección de assets para estilo '${estiloNormalizado}' → estilos compatibles: [${estilosCompatibles.join(', ')}]`);
+  console.log(`[MenteFondos] 📊 Assets disponibles: ${fondosValidos.length} fondos, ${actoresValidos.length} actores`);
+  
   const sugerencias: any[] = [];
   for (const scene of videoPlan.timeline as TimelineSecond[]) {
     // Fondo

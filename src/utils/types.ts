@@ -97,7 +97,7 @@ export interface TimelineSecond {
   };
   transition?: string;
   
-  // 📊 NUEVO: Métricas por escena para debugging y análisis
+  // Métricas por escena para debugging y análisis
   metricas?: {
     usaLipSync?: boolean;
     usaCarryover?: boolean | CarryoverLevel;
@@ -109,7 +109,7 @@ export interface TimelineSecond {
     errorOcurrido?: string;
   };
   
-  // ✨ NUEVO: Campo VFX preparado para futuro cerebro de VFX
+  // Campo VFX preparado para futuro cerebro de VFX
   vfx?: {
     efectos?: string[];
     colorGrading?: string;
@@ -142,7 +142,7 @@ export interface TimelineSecond {
 export interface VideoPlan {
   visualStyle?: EstiloVisual;
   timeline: TimelineSecond[];
-  tomasReales?: any[]; // ✅ NUEVO: Tomas del orquestador cinematográfico
+  tomasReales?: any[]; // Tomas del orquestador cinematográfico
   metadata: {
     visualStyle: EstiloVisual;
     duration: AllowedDuration;

@@ -15,7 +15,7 @@ export interface VideoPlanCinematico {
   metadata: MetadataCinematica;
   restricciones: any;
   configuracionGlobal: ConfiguracionGlobalCinematica;
-  tomasReales?: TomaCinematograficaPlan[]; // ✅ NUEVO: Agregar tomas originales para el pipeline
+  tomasReales?: TomaCinematograficaPlan[]; // Agregar tomas originales para el pipeline
 }
 
 export interface SegundoCinematico {
@@ -54,20 +54,20 @@ export interface ConfiguracionGlobalCinematica {
 export async function orquestarEquipoCinematico(
   prompt: string,
   duracionTotal: number,
-  estiloVisual: string = 'cinematic' // ✅ NUEVO: Recibir estilo visual
+  estiloVisual: string = 'cinematic' // Recibir estilo visual
 ): Promise<VideoPlanCinematico> {
   console.log('[Orquestador Cinematic] Iniciando producción cinematográfica');
   console.log(`Prompt: "${prompt}"`);
   console.log(`Duración: ${duracionTotal} segundos`);
-  console.log(`Estilo visual: ${estiloVisual}`); // ✅ LOG del estilo
+  console.log(`Estilo visual: ${estiloVisual}`); // LOG del estilo
   
   try {
     console.log('[ORQUESTADOR] 🚀 INICIANDO PRODUCCIÓN CINEMATOGRÁFICA');
     
     // 1. Cargar recursos usando AssetManager unificado con el estilo correcto
     console.log(`[ORQUESTADOR] 🔄 Cargando assets para estilo: ${estiloVisual}...`);
-    const fondosRaw = await AssetManager.obtenerFondosPorEstilo(estiloVisual); // ✅ USAR ESTILO CORRECTO
-    const actoresRaw = await AssetManager.obtenerActoresPorEstilo(estiloVisual); // ✅ USAR ESTILO CORRECTO
+    const fondosRaw = await AssetManager.obtenerFondosPorEstilo(estiloVisual); // Usar estilo correcto
+    const actoresRaw = await AssetManager.obtenerActoresPorEstilo(estiloVisual); // Usar estilo correcto
     
     // Crear assets en formato esperado por el sistema existente
     const assets = {
@@ -84,9 +84,9 @@ export async function orquestarEquipoCinematico(
     
     // 2. Director: Establecer narrativa Y PLAN DE TOMAS CINEMATOGRÁFICAS
     console.log('[ORQUESTADOR] 🎬 Consultando al Director para plan cinematográfico...');
-    const narrativaGeneral = await generarNarrativaCinematica(prompt);
+    const narrativaGeneral = await generarNarrativaCinematica(prompt, duracionTotal);
     
-    // ✅ VALIDACIÓN DEFENSIVA: Verificar que la narrativa tenga estructura válida
+    // VALIDACIÓN DEFENSIVA: Verificar que la narrativa tenga estructura válida
     if (!narrativaGeneral) {
       throw new Error('Director no retornó narrativa válida');
     }

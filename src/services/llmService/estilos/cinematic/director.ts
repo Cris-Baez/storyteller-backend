@@ -41,7 +41,7 @@ export interface ContinuidadVisual {
   estiloGeneral: string;
 }
 
-export async function generarNarrativaCinematica(prompt: string): Promise<NarrativaCinematica> {
+export async function generarNarrativaCinematica(prompt: string, duracion?: number): Promise<NarrativaCinematica> {
   console.log('[Director Cinematic] 🎬 Generando narrativa cinematográfica con IA...');
   
   try {
@@ -122,14 +122,19 @@ RESPONDE ÚNICAMENTE con este JSON usando ASSETS REALES:
   }
 }`;
 
+    // Calcular número de tomas basado en duración real del video
+    const duracionReal = duracion || 30; // Default 30s si no se especifica
+    const numeroDeTomasCalculado = Math.max(2, Math.min(10, Math.ceil(duracionReal / 8))); // 8s por toma cinematica
+    const duracionPorToma = Math.floor(duracionReal / numeroDeTomasCalculado);
+
+    console.log(`[Director Cinematic] 📊 Calculando tomas: ${duracionReal}s → ${numeroDeTomasCalculado} tomas de ~${duracionPorToma}s cada una`);
+
     const contextoUsuario = `PROMPT DEL USUARIO: "${prompt}"
 
 INSTRUCCIONES ESPECÍFICAS PARA NARRATIVA CINEMATOGRÁFICA:
-- Analiza el prompt y determina la duración óptima de tomas (entre 6-15 segundos cada una)
-- Para videos de 10s: crear 1 toma (10s) - concentrada y directa
-- Para videos de 30s: crear 3 tomas (10s cada una)
-- Para videos de 60s: crear 6 tomas (10s cada una)
-- Para videos de 90s: crear 6 tomas (15s cada una)
+- Duración total del video: ${duracionReal} segundos
+- Crear EXACTAMENTE ${numeroDeTomasCalculado} tomas de ~${duracionPorToma} segundos cada una
+- Cada toma debe tener continuidad visual y narrativa
 
 ESTRUCTURA NARRATIVA OBLIGATORIA:
 1. SETUP (25%): Establece personaje, lugar, situación inicial
@@ -180,10 +185,23 @@ Analiza este prompt y crea un plan cinematográfico dinámico y emocionalmente p
   const fondosReales = await AssetManager.obtenerFondosPorEstilo('cinematic');
   const actoresReales = await AssetManager.obtenerActoresPorEstilo('cinematic');
   
-  // Determinar número de tomas basado en duración del prompt
-  const palabras = prompt.split(' ').length;
-  const duracionEstimada = Math.max(30, palabras * 2); // Estimación básica
-  const numeroTomas = Math.ceil(duracionEstimada / 10); // 10s por toma promedio
+  // Determinar número de tomas basado en duración REAL del video
+  const duracionReal = duracion || 30; // Default 30s si no se especifica
+  let numeroTomas: number;
+  if (duracionReal <= 10) {
+    numeroTomas = 2; // Tomas de 5s cada una
+  } else if (duracionReal <= 30) {
+    numeroTomas = 4; // Tomas de 7-8s cada una
+  } else if (duracionReal <= 45) {
+    numeroTomas = 6; // ~7-8s por toma
+  } else {
+    numeroTomas = 8; // ~7-8s por toma para 60s+
+  }
+  
+  // Límites cinematic: máximo 10 tomas para narrativas complejas
+  numeroTomas = Math.min(numeroTomas, 10);
+  
+  console.log(`[Director Cinematic] 📊 Calculando tomas: ${duracionReal}s → ${numeroTomas} tomas de ~${Math.floor(duracionReal / numeroTomas)}s cada una`);
   
   const tomasFallback: TomaCinematograficaPlan[] = [];
   

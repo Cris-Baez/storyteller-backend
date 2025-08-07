@@ -1,18 +1,25 @@
 // sceneAudioService.ts - Servicio que conecta el sistema de audio con la generación de video
 // Integra audioIntegration.ts con renderPipeline.ts para sincronización perfecta
+// ✨ NUEVO: Integración con ElevenLabs FX para efectos avanzados
 
 import { logger } from '../utils/logger.js';
 import { generarAudioCompleto, obtenerConfiguracionOptima } from './audioIntegration.js';
+import { generateFXForVideo, isElevenLabsFXAvailable, ElevenLabsFXService } from './elevenlabsFXService.js'; // ✨ NUEVO
 import type { VideoPlan, TimelineSecond } from '../utils/types.js';
 
 export interface SceneAudioResult {
   music: Buffer;
   voice: Buffer;
   sfx: Buffer[];
+  // ✨ NUEVO: Efectos FX generados con ElevenLabs
+  efectosFX?: Buffer[];
   metadata: {
     duration: number;
     usedServices: string[];
     quality: any;
+    // ✨ NUEVO: Información sobre FX
+    fxCount?: number;
+    fxService?: string;
   };
 }
 
@@ -251,6 +258,8 @@ export async function generateUnifiedAudioForPipeline(
   voiceBuffer: Buffer;
   musicBuffer: Buffer;
   sfxBuffer: Buffer;
+  // ✨ NUEVO: Incluir efectos FX en el resultado
+  efectosFX?: Buffer[];
   metadata: any;
 }> {
   // ✅ NUEVO: Usar tomas del orquestador si existen, sino usar timeline
@@ -274,30 +283,99 @@ export async function generateUnifiedAudioForPipeline(
       ? Buffer.concat(syncResult.musicBuffers)
       : createSilenceBuffer(30);
 
-    // 4. Combinar SFX en un solo buffer
-    const sfxBuffer = syncResult.sfxBuffers.length > 0
+    // 4. Combinar SFX existentes + ElevenLabs FX (sin romper sistema actual)
+    let serviciosUsados = audioResults.flatMap((r: any) => r.metadata.usedServices);
+    
+    // Mantener SFX existentes
+    const sfxExistentes = syncResult.sfxBuffers.length > 0
       ? Buffer.concat(syncResult.sfxBuffers)
       : createSilenceBuffer(5);
+    
+    // Inicializar variables para FX
+    let efectosFXBuffers: Buffer[] = [];
+    let sfxBuffer: Buffer;
+    
+    // Agregar ElevenLabs FX si está disponible y hay tomas
+    if (isElevenLabsFXAvailable() && usarTomas && plan.tomasReales && plan.tomasReales.length > 0) {
+      try {
+        logger.info('🎵 [SceneAudio] Generando efectos avanzados con ElevenLabs FX...');
+        
+        const estiloVisual = plan.metadata?.visualStyle || 'cinematic';
+        const elevenlabsService = new ElevenLabsFXService();
+        
+        // Generar efectos específicos para cada toma
+        for (let i = 0; i < plan.tomasReales.length; i++) {
+          const toma = plan.tomasReales[i];
+          
+          const efectosDeToma = await elevenlabsService.generarEfectosDeToma(
+            toma,
+            estiloVisual,
+            plan.id || 'video',
+            5 // duración en segundos
+          );
+          
+          // Agregar los buffers de audio generados
+          for (const efecto of efectosDeToma) {
+            if (efecto.audio) {
+              efectosFXBuffers.push(efecto.audio);
+              
+              // Log del efecto guardado
+              if (efecto.cdnUrl) {
+                logger.info(`[SceneAudio] ✅ Efecto FX guardado en CDN: ${efecto.cdnUrl}`);
+              }
+            }
+          }
+        }
+        
+        if (efectosFXBuffers.length > 0) {
+          const efectosBuffer = Buffer.concat(efectosFXBuffers);
+          // Combinar SFX existentes + ElevenLabs FX
+          sfxBuffer = Buffer.concat([sfxExistentes, efectosBuffer]);
+          logger.info(`✅ [SceneAudio] ${efectosFXBuffers.length} efectos ElevenLabs agregados`);
+          
+          // Agregar a servicios usados
+          serviciosUsados.push('ElevenLabs FX');
+        } else {
+          sfxBuffer = sfxExistentes;
+          logger.info('⚠️ [SceneAudio] ElevenLabs FX disponible pero no se generaron efectos');
+        }
+      } catch (error) {
+        logger.warn('[SceneAudio] Error con ElevenLabs FX, usando SFX tradicionales:', error);
+        sfxBuffer = sfxExistentes; // Fallback seguro
+      }
+    } else {
+      sfxBuffer = sfxExistentes;
+      if (!isElevenLabsFXAvailable()) {
+        logger.info('[SceneAudio] ElevenLabs FX no disponible (falta ELEVENLABS_API_KEY)');
+      }
+    }
 
     // 5. Metadata consolidada
     const metadata = {
       totalEscenas: (items ?? []).length,
-      serviciosUsados: audioResults.flatMap((r: any) => r.metadata.usedServices),
+      serviciosUsados: serviciosUsados,
       duracionTotal: audioResults.reduce((sum: number, r: any) => sum + r.metadata.duration, 0),
+      // ✨ NUEVO: Información sobre efectos FX
+      fxCount: efectosFXBuffers.length,
+      fxService: efectosFXBuffers.length > 0 ? 'ElevenLabs FX' : undefined,
       calidad: {
         musicaTamaño: musicBuffer.length,
         vozTamaño: syncResult.voiceBuffer.length,
-        sfxTamaño: sfxBuffer.length
+        sfxTamaño: sfxBuffer.length,
+        // ✨ NUEVO: Tamaño de efectos FX
+        fxTamaño: efectosFXBuffers.reduce((sum, buf) => sum + buf.length, 0)
       }
     };
 
     logger.info(`✅ [SceneAudio] Audio unificado generado para pipeline`);
-    logger.info(`📊 [SceneAudio] Total: música ${metadata.calidad.musicaTamaño} bytes, voz ${metadata.calidad.vozTamaño} bytes, SFX ${metadata.calidad.sfxTamaño} bytes`);
+    logger.info(`📊 [SceneAudio] Total: música ${metadata.calidad.musicaTamaño} bytes, voz ${metadata.calidad.vozTamaño} bytes, SFX ${metadata.calidad.sfxTamaño} bytes, FX ${metadata.calidad.fxTamaño} bytes`);
 
     return {
       voiceBuffer: syncResult.voiceBuffer,
       musicBuffer,
       sfxBuffer,
+      // ✨ NUEVO: Incluir efectos FX en el resultado
+      efectosFX: efectosFXBuffers.length > 0 ? efectosFXBuffers : undefined,
       metadata
     };
 
@@ -309,9 +387,14 @@ export async function generateUnifiedAudioForPipeline(
       voiceBuffer: Buffer.from([]),
       musicBuffer: createSilenceBuffer(30),
       sfxBuffer: createSilenceBuffer(5),
+      // ✨ NUEVO: Fallback para efectos FX
+      efectosFX: undefined,
       metadata: {
         error: String(error),
-        fallbackUsado: true
+        fallbackUsado: true,
+        // ✨ NUEVO: Metadatos de FX en fallback
+        fxCount: 0,
+        fxService: undefined
       }
     };
   }

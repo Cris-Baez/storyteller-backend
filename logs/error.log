@@ -3666,3 +3666,6 @@ Error opening output files: Invalid argument
 2025-08-02T23:15:34.103Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/0d14d903-19e5-434e-b9c8-b99e7be08164_1080p.mp4
 2025-08-02T23:19:26.047Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/66784994-009c-47dc-9e01-aa69f30f1294_1080p.mp4
 2025-08-02T23:31:13.659Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/b9d25a7e-22ff-4000-9f71-2f33b760e6e3_1080p.mp4
+2025-08-03T03:03:48.531Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/c2ce941c-9fe7-41f9-bd91-f897fc4729ed_1080p.mp4
+2025-08-03T03:29:19.881Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/f0fbbb5e-6693-4fae-bd59-7952bd6b962b_1080p.mp4
+2025-08-03T03:31:28.286Z [error] uploadToCDN: El archivo no existe en la ruta especificada: https://storage.googleapis.com/storyteller-ai-cdn/videos/6b56836b-ae05-448c-8c4a-b72dd419d21c_1080p.mp4

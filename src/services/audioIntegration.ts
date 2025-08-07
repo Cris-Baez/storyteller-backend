@@ -7,6 +7,8 @@ import { getBackgroundMusic } from './musicService.js';
 import { createVoiceBuffer } from './voiceService.js';
 import { configurarSonidoCinematico } from './llmService/estilos/cinematic/sonido.js';
 import type { VideoPlan, TimelineSecond } from '../utils/types.js';
+// 🎤 INTEGRACIÓN AUTOMÁTICA DE VOCES MEJORADAS
+import { voiceInterceptor } from './voiceInterceptor.js';
 
 export interface AudioIntegrationOptions {
   usarFreesound: boolean;
@@ -103,14 +105,40 @@ export async function generarAudioCompleto(
       }
     }
 
-    // 4. Generar voz usando Murf
+    // 4. 🎤 GENERAR VOZ CON MEJORAS AUTOMÁTICAS
     let vozBuffer = Buffer.from([]);
     if (configuracionSonido.requiereVoz && (seccion.voz || seccion.dialogo)) {
       try {
         if (options.usarMurf) {
-          logger.info(`🎙️ [AudioIntegration] Generando voz via Murf`);
-          vozBuffer = await createVoiceBuffer(plan);
-          logger.info(`✅ [AudioIntegration] Voz generada: ${vozBuffer.length} bytes`);
+          
+          // 🎯 USAR INTERCEPTOR CON CONFIGURACIÓN MEJORADA
+          if ((seccion as any).vozConfig && (seccion as any).vozConfig.optimizada) {
+            logger.info(`� [AudioIntegration] Generando voz con configuración optimizada`);
+            logger.info(`   Voz: ${(seccion as any).vozConfig.voiceId} (${(seccion as any).vozConfig.provider})`);
+            
+            // Crear solicitud de voz con configuración optimizada
+            const solicitudVoz = {
+              text: seccion.voz || seccion.dialogo,
+              language: (seccion as any).vozConfig.language || 'es',
+              outputFormat: 'mp3'
+            };
+            
+            const audioOptimizado = await voiceInterceptor.generateVoiceConMejoras(
+              solicitudVoz, 
+              (seccion as any).vozConfig
+            );
+            
+            // Convertir resultado a Buffer si es necesario
+            vozBuffer = Buffer.isBuffer(audioOptimizado) ? audioOptimizado : Buffer.from(audioOptimizado);
+            logger.info(`✅ [AudioIntegration] Voz optimizada generada: ${vozBuffer.length} bytes`);
+            
+          } else {
+            // Usar método original como fallback
+            logger.info(`🎙️ [AudioIntegration] Generando voz via método original`);
+            vozBuffer = await createVoiceBuffer(plan);
+            logger.info(`✅ [AudioIntegration] Voz original generada: ${vozBuffer.length} bytes`);
+          }
+          
         } else {
           logger.info(`🔇 [AudioIntegration] Murf deshabilitado, sin voz`);
         }

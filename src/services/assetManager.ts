@@ -157,26 +157,72 @@ export class AssetManager {
    * Filtrar fondos por estilo visual
    */
   static async obtenerFondosPorEstilo(estilo: string): Promise<AssetItem[]> {
-    const todosLosAssets = await this.cargarTodosLosAssets();
-    
-    const fondos = todosLosAssets.filter(asset => asset.tipo === 'fondo');
-    
-    // Para el sistema actual, todos los fondos están disponibles
-    // En el futuro se pueden agregar filtros específicos por estilo
-    logger.info(`[AssetManager] Obtenidos ${fondos.length} fondos para estilo '${estilo}'`);
-    return fondos;
+    try {
+      // ✅ USAR EL SISTEMA DE FILTRADO CORRECTO
+      const { filtrarFondos, cargarAssetsIndex } = await import('./llmService/helpers/assetUtils.js');
+      const todosLosAssets = await cargarAssetsIndex();
+      
+      const fondosFiltrados = filtrarFondos(todosLosAssets, estilo);
+      
+      // Convertir a formato AssetItem
+      const fondosConvertidos = fondosFiltrados.map(asset => ({
+        nombre: asset.nombre,
+        ruta: asset.ruta,
+        tipo: 'fondo' as const,
+        lugar: asset.lugar,
+        variante: asset.variante,
+        angulo: asset.angulo,
+        ambiente: asset.ambiente,
+        url: `${CDN_CONFIG.baseUrl}/${asset.ruta}`
+      }));
+      
+      logger.info(`[AssetManager] ✅ Obtenidos ${fondosConvertidos.length} fondos para estilo '${estilo}' (filtrado correcto)`);
+      return fondosConvertidos;
+    } catch (error) {
+      logger.warn(`[AssetManager] ⚠️ Error filtrando fondos por estilo '${estilo}', usando fallback:`, error);
+      
+      // Fallback al sistema anterior
+      const todosLosAssets = await this.cargarTodosLosAssets();
+      const fondos = todosLosAssets.filter(asset => asset.tipo === 'fondo');
+      logger.info(`[AssetManager] Obtenidos ${fondos.length} fondos (fallback sin filtro de estilo)`);
+      return fondos;
+    }
   }
   
   /**
    * Filtrar actores por estilo visual
    */
   static async obtenerActoresPorEstilo(estilo: string): Promise<AssetItem[]> {
-    const todosLosAssets = await this.cargarTodosLosAssets();
-    
-    const actores = todosLosAssets.filter(asset => asset.tipo === 'actor');
-    
-    logger.info(`[AssetManager] Obtenidos ${actores.length} actores para estilo '${estilo}'`);
-    return actores;
+    try {
+      // ✅ USAR EL SISTEMA DE FILTRADO CORRECTO
+      const { filtrarActores, cargarAssetsIndex } = await import('./llmService/helpers/assetUtils.js');
+      const todosLosAssets = await cargarAssetsIndex();
+      
+      const actoresFiltrados = filtrarActores(todosLosAssets, estilo);
+      
+      // Convertir a formato AssetItem
+      const actoresConvertidos = actoresFiltrados.map(asset => ({
+        nombre: asset.nombre,
+        ruta: asset.ruta,
+        tipo: 'actor' as const,
+        lugar: asset.lugar,
+        variante: asset.variante,
+        angulo: asset.angulo,
+        ambiente: asset.ambiente,
+        url: `${CDN_CONFIG.baseUrl}/${asset.ruta}`
+      }));
+      
+      logger.info(`[AssetManager] ✅ Obtenidos ${actoresConvertidos.length} actores para estilo '${estilo}' (filtrado correcto)`);
+      return actoresConvertidos;
+    } catch (error) {
+      logger.warn(`[AssetManager] ⚠️ Error filtrando actores por estilo '${estilo}', usando fallback:`, error);
+      
+      // Fallback al sistema anterior
+      const todosLosAssets = await this.cargarTodosLosAssets();
+      const actores = todosLosAssets.filter(asset => asset.tipo === 'actor');
+      logger.info(`[AssetManager] Obtenidos ${actores.length} actores (fallback sin filtro de estilo)`);
+      return actores;
+    }
   }
   
   /**

@@ -10,14 +10,14 @@ import { safeLog } from '../../utils/logger.js';
 export interface RequestGeneracion {
   prompt: string;
   duracion: number;
-  estilo: EstiloVisualPrincipal; // ✅ Usar tipo unificado
-  estiloOriginal?: string; // ✅ NUEVO: Preservar estilo original para assets
+  estilo: EstiloVisualPrincipal; // Usar tipo unificado
+  estiloOriginal?: string; // Preservar estilo original para assets
   configuracion?: any;
 }
 
 export interface ResponseGeneracion {
   videoPlan: any;
-  tomasReales?: any[]; // ✅ NUEVO: Tomas cinematográficas reales
+  tomasReales?: any[]; // Tomas cinematográficas reales
   metadata: any;
   configuracion: any;
   restricciones: any;
@@ -51,7 +51,7 @@ export async function dispatchCerebros(request: RequestGeneracion): Promise<Resp
     switch (request.estilo) {
       case 'cinematic':
         safeLog('[Dispatcher] Despachando a equipo cinematográfico...');
-        videoPlan = await orquestarEquipoCinematico(request.prompt, request.duracion, request.estiloOriginal || request.estilo); // ✅ PASAR ESTILO ORIGINAL
+        videoPlan = await orquestarEquipoCinematico(request.prompt, request.duracion, request.estiloOriginal || request.estilo); // Pasar estilo original
         
         // 🔍 DEBUG: Analizar plan antes de validar
         safeLog('[Dispatcher] 🔍 DEBUG - Plan recibido del orquestador:', {

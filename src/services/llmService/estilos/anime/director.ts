@@ -41,7 +41,7 @@ export interface ContinuidadVisual {
   estiloGeneral: string;
 }
 
-export async function generarNarrativaAnime(prompt: string): Promise<NarrativaCinematica> {
+export async function generarNarrativaAnime(prompt: string, duracion: number = 30): Promise<NarrativaCinematica> {
   console.log('[Director Anime] 🎬 Generando narrativa anime con IA...');
   
   try {
@@ -76,12 +76,12 @@ TU TRABAJO COMO DIRECTOR ANIME:
 ✅ USAR ÚNICAMENTE assets del CDN disponibles (ver lista abajo)
 
 FONDOS DISPONIBLES EN CDN ANIME:
-${fondosDisponibles.slice(0, 20).map((f: any) => `- ${f.tipo}/${f.lugar}/${f.variante}/${f.ambiente} (${f.tags.join(', ')})`).join('\n')}
-... y ${fondosDisponibles.length - 20} más fondos anime
+${fondosDisponibles.slice(0, 20).map((f: any) => `- ${f.nombre}: ${f.lugar}/${f.variante}/${f.ambiente} (estilo: ${f.estilo || 'anime'})`).join('\n')}
+${fondosDisponibles.length > 20 ? `... y ${fondosDisponibles.length - 20} más fondos anime` : ''}
 
 ACTORES DISPONIBLES EN CDN ANIME:
-${actoresDisponibles.slice(0, 10).map((a: any) => `- ${a.personaje} (${a.edad}, ${a.personalidad})`).join('\n')}
-... y ${actoresDisponibles.length - 10} más actores anime
+${actoresDisponibles.slice(0, 10).map((a: any) => `- ${a.nombre}: ${a.ruta.split('/').pop()?.replace('.png', '') || 'actor'} (estilo: ${a.estilo || 'anime'})`).join('\n')}
+${actoresDisponibles.length > 10 ? `... y ${actoresDisponibles.length - 10} más actores anime` : ''}
 
 RESPONDE ÚNICAMENTE con este JSON:
 {
@@ -117,17 +117,32 @@ RESPONDE ÚNICAMENTE con este JSON:
   }
 }`;
 
+    // Calcular número de tomas basado en duración real del video
+    const duracionReal = duracion || 30; // Default 30s si no se especifica
+    const numeroDeTomas = Math.max(2, Math.min(8, Math.ceil(duracionReal / 5))); // 5s por toma anime
+    const duracionPorToma = Math.floor(duracionReal / numeroDeTomas);
+
+    console.log(`[Director Anime] 📊 Calculando tomas: ${duracionReal}s → ${numeroDeTomas} tomas de ~${duracionPorToma}s cada una`);
+
     const contextoUsuario = `PROMPT DEL USUARIO: "${prompt}"
 
 INSTRUCCIONES ESPECÍFICAS ANIME:
-- Crea EXACTAMENTE 6 tomas de 5 segundos cada una (total 30s) - RITMO ANIME RÁPIDO
+- Duración total del video: ${duracionReal} segundos
+- Crear EXACTAMENTE ${numeroDeTomas} tomas de ~${duracionPorToma} segundos cada una
 - La PRIMERA toma debe ser SÚPER DRAMÁTICA e IMPACTANTE (estilo anime opening)
-- Asegura CONTINUIDAD EMOCIONAL EXAGERADA entre las tomas
+- Asegura CONTINUIDAD VISUAL Y EMOCIONAL entre tomas usando 'carryover'
+- IMPORTANTE: Cada toma debe conectar con la anterior a través del campo 'carryover'
 - Usa movimientos de cámara DINÁMICOS para anime (quick_zoom, crash_zoom, dramatic_tilt)
 - Mantén paleta de colores VIBRANTE y SATURADA típica del anime
 - Emociones EXAGERADAS en cada toma
 
-Analiza este prompt y crea un plan anime completo de 6 tomas rápidas.`;
+REGLAS DE CARRYOVER (CRUCIAL PARA CONTINUIDAD):
+- Toma 1: establece personaje principal y situación
+- Toma 2: carryover debe describir qué elemento visual/emocional continúa de la toma 1
+- Toma 3: carryover describe la conexión con toma 2, y así sucesivamente
+- Ejemplo: "El personaje mantiene la misma expresión determinada mientras cambia de escenario"
+
+Analiza este prompt y crea un plan anime completo de ${numeroDeTomas} tomas con carryover detallado.`;
 
     const promptCompleto = construirPromptCompleto(systemBase, especializacionDirector, contextoUsuario);
     
@@ -153,105 +168,100 @@ Analiza este prompt y crea un plan anime completo de 6 tomas rápidas.`;
   
   // Fallback estructurado y profesional anime
   console.log('[Director Anime] 🔄 Usando narrativa anime fallback...');
+  
+  // ✅ CRÍTICO: Obtener fondos y actores reales del AssetManager para el fallback
+  const { AssetManager } = await import('../../../assetManager.js');
+  const fondosReales = await AssetManager.obtenerFondosPorEstilo('anime');
+  const actoresReales = await AssetManager.obtenerActoresPorEstilo('anime');
+  
+  // Determinar número de tomas basado en duración REAL del video
+  // 10s → 2 tomas, 30s → 4-6 tomas, 45s → 6-8 tomas, 60s → 8-10 tomas
+  let numeroTomas: number;
+  if (duracion <= 10) {
+    numeroTomas = 2; // Tomas de 5s cada una
+  } else if (duracion <= 30) {
+    numeroTomas = Math.ceil(duracion / 6); // ~5-6s por toma
+  } else if (duracion <= 45) {
+    numeroTomas = Math.ceil(duracion / 7); // ~6-7s por toma  
+  } else {
+    numeroTomas = Math.ceil(duracion / 8); // ~8s por toma para 60s+
+  }
+  
+  // Límites anime: máximo 8 tomas para mantener energía
+  numeroTomas = Math.min(numeroTomas, 8);
+  
+  // ✅ CRÍTICO: Usar fondos reales del assets_index.json
+  const fondosParaFallback = fondosReales.length > 0 ? fondosReales.slice(0, 6) : [];
+  const actoresParaFallback = actoresReales.length > 0 ? actoresReales.slice(0, 4) : [];
+  
+  console.log(`[Director Anime] 🏗️ Fondos reales disponibles para fallback: ${fondosParaFallback.length}`);
+  fondosParaFallback.forEach((f, idx) => {
+    console.log(`  [${idx + 1}] ${f.ruta} (${f.lugar}/${f.variante})`);
+  });
+  
+  console.log(`[Director Anime] 🎭 Actores reales disponibles para fallback: ${actoresParaFallback.length}`);
+  actoresParaFallback.forEach((a, idx) => {
+    console.log(`  [${idx + 1}] ${a.ruta}`);
+  });
+  
+  const tomasFallback: TomaCinematograficaPlan[] = [];
+  
+  // Generar tomas dinámicas basadas en el prompt
+  const estilosMovimiento = ['quick_zoom_in', 'dramatic_tilt', 'pan_right', 'zoom_out', 'tilt_up', 'dolly_forward'];
+  const emociones = ['shock', 'determination', 'emocion', 'climax', 'resolucion'];
+  
+  for (let i = 0; i < numeroTomas; i++) {
+    const progreso = i / (numeroTomas - 1);
+    let tipoToma: 'setup' | 'desarrollo' | 'climax' | 'cierre';
+    
+    if (progreso <= 0.25) tipoToma = 'setup';
+    else if (progreso <= 0.75) tipoToma = 'desarrollo';
+    else if (progreso <= 0.9) tipoToma = 'climax';
+    else tipoToma = 'cierre';
+    
+    // Seleccionar fondo y actor reales del assets_index
+    const fondoSeleccionado = fondosParaFallback.length > 0 
+      ? fondosParaFallback[i % fondosParaFallback.length]
+      : null;
+      
+    const actorSeleccionado = actoresParaFallback.length > 0
+      ? actoresParaFallback[i % actoresParaFallback.length]
+      : null;
+    
+    tomasFallback.push({
+      numero: i + 1,
+      duracion: i === 0 ? 5 : 5, // Tomas anime típicamente más cortas para dinamismo
+      tipoToma,
+      descripcion: i === 0 
+        ? 'Dramatic anime opening - impactful establishing shot with character introduction'
+        : `${tipoToma.charAt(0).toUpperCase() + tipoToma.slice(1)}: ${prompt.substring(0, 50)}... - Toma ${i + 1}`,
+      movimientoCamara: estilosMovimiento[i % estilosMovimiento.length],
+      estiloVisual: 'anime',
+      emocion: emociones[Math.min(i, emociones.length - 1)],
+      fondo: fondoSeleccionado ? fondoSeleccionado.ruta : 'escenas/anime/apartamento/baño/día/frontal.png', // ✅ Usar ruta real del assets_index
+      actor: actorSeleccionado ? actorSeleccionado.ruta : 'actores/anime/casa/estudio/día/jovenmasculinotristeformal.png', // ✅ Usar actor real del assets_index
+      vozMurf: i === 0 ? 'joven_energica' : 'dramatico_anime',
+      musica: i === 0 ? 'jrock_opening' : 'orchestral_anime',
+      efectosSonoros: i === 0 ? 'anime_gasp' : 'wind_whoosh',
+      // ✅ CARRYOVER INTELIGENTE para continuidad visual
+      carryover: i === 0 
+        ? 'establece_personaje_principal_y_ambiente_dramatico'
+        : i === 1 
+        ? 'mantiene_energia_dramatica_del_personaje_con_nuevo_desafio'
+        : i === numeroTomas - 1
+        ? 'resuelve_tension_con_continuidad_emocional_del_climax'
+        : `conecta_emocion_${emociones[Math.min(i-1, emociones.length - 1)]}_hacia_${emociones[Math.min(i, emociones.length - 1)]}_manteniendo_ritmo_anime`
+    });
+  }
+  
   return {
     historia: `Historia anime dramática basada en: ${prompt}`,
     tono: 'energico',
     estructura: ['setup', 'desarrollo', 'climax', 'cierre'] as ActoNarrativo[],
-    momentosEmocionales: [2, 8, 14, 20, 26],
+    momentosEmocionales: tomasFallback.map(t => t.numero * 5 - 2), // Momento emocional a mitad de cada toma anime (5s)
     genero: 'shonen',
     ritmo: 'rapido',
-    tomas: [
-      {
-        numero: 1,
-        duracion: 5,
-        tipoToma: 'setup',
-        descripcion: 'Dramatic anime opening - impactful establishing shot with character introduction',
-        movimientoCamara: 'quick_zoom_in',
-        estiloVisual: 'anime',
-        emocion: 'shock',
-        fondo: 'japon_dramatico',
-        actor: 'anime_protagonist',
-        vozMurf: 'joven_energica',
-        musica: 'jrock_opening',
-        efectosSonoros: 'anime_gasp',
-        carryover: 'dramatic_start'
-      },
-      {
-        numero: 2,
-        duracion: 5,
-        tipoToma: 'desarrollo',
-        descripcion: 'Character determination moment with intense expression',
-        movimientoCamara: 'dramatic_tilt',
-        estiloVisual: 'anime',
-        emocion: 'determination',
-        fondo: 'urban_anime',
-        actor: 'anime_protagonist_determined',
-        vozMurf: 'dramatico_anime',
-        musica: 'orchestral_anime',
-        efectosSonoros: 'wind_whoosh',
-        carryover: 'emotional_buildup'
-      },
-      {
-        numero: 3,
-        duracion: 5,
-        tipoToma: 'desarrollo',
-        descripcion: 'Action sequence with dynamic movement',
-        movimientoCamara: 'dynamic_pan',
-        estiloVisual: 'anime',
-        emocion: 'excitement',
-        fondo: 'action_scene',
-        actor: 'anime_action_pose',
-        vozMurf: 'joven_energica',
-        musica: 'electronic_intense',
-        efectosSonoros: 'action_sfx',
-        carryover: 'energy_buildup'
-      },
-      {
-        numero: 4,
-        duracion: 5,
-        tipoToma: 'desarrollo',
-        descripcion: 'Emotional conflict internal struggle',
-        movimientoCamara: 'spin_zoom',
-        estiloVisual: 'anime',
-        emocion: 'dramatic',
-        fondo: 'emotional_backdrop',
-        actor: 'anime_conflicted',
-        vozMurf: 'emocional_anime',
-        musica: 'emotional_piano',
-        efectosSonoros: 'dramatic_silence',
-        carryover: 'emotional_tension'
-      },
-      {
-        numero: 5,
-        duracion: 5,
-        tipoToma: 'climax',
-        descripcion: 'Climactic power moment - transformation or breakthrough',
-        movimientoCamara: 'crash_zoom',
-        estiloVisual: 'anime',
-        emocion: 'intense',
-        fondo: 'climax_energy',
-        actor: 'anime_power_up',
-        vozMurf: 'dramatico_anime',
-        musica: 'orchestral_climax',
-        efectosSonoros: 'power_surge',
-        carryover: 'climax_energy'
-      },
-      {
-        numero: 6,
-        duracion: 5,
-        tipoToma: 'cierre',
-        descripcion: 'Emotional resolution with beautiful aftermath',
-        movimientoCamara: 'slow_zoom_out',
-        estiloVisual: 'anime',
-        emocion: 'peaceful',
-        fondo: 'serene_ending',
-        actor: 'anime_peaceful',
-        vozMurf: 'emocional_anime',
-        musica: 'peaceful_outro',
-        efectosSonoros: 'gentle_wind',
-        carryover: 'peaceful_resolution'
-      }
-    ],
+    tomas: tomasFallback,
     continuidad: {
       paletaColores: 'vibrant_anime',
       iluminacion: 'dramatic_anime',

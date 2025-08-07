@@ -84,7 +84,7 @@ export async function orquestarEquipoCinematico(
     
     // 2. Director: Establecer narrativa Y PLAN DE TOMAS ANIME
     console.log('[ORQUESTADOR] 🎬 Consultando al Director para plan anime...');
-    const narrativaGeneral = await generarNarrativaAnime(prompt);
+    const narrativaGeneral = await generarNarrativaAnime(prompt, duracionTotal);
     
     // ✅ VALIDACIÓN DEFENSIVA: Verificar que la narrativa tenga estructura válida
     if (!narrativaGeneral) {
@@ -310,31 +310,45 @@ function generarConfiguracionGlobalAnime(): ConfiguracionGlobalCinematica {
 function generarPlanAnimeFallback(prompt: string, duracion: number): VideoPlanCinematico {
   console.log('[Orquestador] Generando plan anime de emergencia');
   
+  // ✅ GENERAR TOMAS EN LUGAR DE TIMELINE SEGUNDO-A-SEGUNDO
+  const tomasReales = crearTomasAnimePorDefecto(duracion, { 
+    historia: prompt, 
+    tono: 'energico', 
+    genero: 'anime',
+    momentosEmocionales: []
+  });
+  
+  console.log(`[Orquestador] 🎬 Tomas anime fallback: ${tomasReales.length} tomas generadas`);
+  
   const timeline: SegundoCinematico[] = [];
+  let segundoActual = 0;
   
-  for (let segundo = 0; segundo < duracion; segundo++) {
-    const progreso = segundo / duracion;
-    let momentoNarrativo = 'desarrollo';
-    
-    if (progreso < 0.25) momentoNarrativo = 'setup';
-    else if (progreso > 0.75) momentoNarrativo = 'cierre';
-    else if (progreso > 0.60) momentoNarrativo = 'climax';
-    
-    timeline.push({
-      segundo,
-      narrativa: { prompt, tono: 'energico' },
-      fondo: { archivo: 'escenas/anime/apartamento/baño/día/frontal.png', tipo: 'escenario' },
-      actor: { archivo: 'actores/anime/apartamento/baño/día/ancianofemeninopensativodeportiva.png', tipo: 'principal' },
-      camara: { shot: 'close_up', movement: 'quick_zoom', angle: 'dynamic' },
-      sonido: { musica: 'jpop', efectos: [], lipSync: false },
-      edicion: { duracionEscena: 3, carryover: false, tipoCorte: 'quick_cut' },
-      segmento: momentoNarrativo,
-      momentoNarrativo,
-      esEmocional: segundo % 5 === 0, // Más frecuente en anime
-      tono: 'energico'
-    });
+  // Crear timeline basado en las tomas
+  for (const toma of tomasReales) {
+    for (let segundoEnToma = 0; segundoEnToma < toma.duracion; segundoEnToma++) {
+      if (segundoActual >= duracion) break;
+      
+      const progreso = segundoActual / duracion;
+      let momentoNarrativo = toma.tipoToma || 'desarrollo';
+      
+      timeline.push({
+        segundo: segundoActual,
+        narrativa: { prompt, tono: 'energico' },
+        fondo: { archivo: 'escenas/anime/apartamento/baño/día/frontal.png', tipo: 'escenario' },
+        actor: { archivo: 'actores/anime/apartamento/baño/día/ancianofemeninopensativodeportiva.png', tipo: 'principal' },
+        camara: { shot: 'close_up', movement: 'quick_zoom', angle: 'dynamic' },
+        sonido: { musica: 'jpop', efectos: [], lipSync: false },
+        edicion: { duracionEscena: toma.duracion, carryover: false, tipoCorte: 'quick_cut' },
+        segmento: momentoNarrativo,
+        momentoNarrativo,
+        esEmocional: segundoActual % 5 === 0, // Más frecuente en anime
+        tono: 'energico'
+      });
+      
+      segundoActual++;
+    }
   }
-  
+
   return {
     timeline,
     metadata: {
@@ -347,7 +361,8 @@ function generarPlanAnimeFallback(prompt: string, duracion: number): VideoPlanCi
       version: '1.0.0'
     },
     restricciones: { ...RESTRICCIONES_GENERALES, ...LIMITACIONES_ESTILO.anime },
-    configuracionGlobal: generarConfiguracionGlobalAnime()
+    configuracionGlobal: generarConfiguracionGlobalAnime(),
+    tomasReales: tomasReales // ✅ CRÍTICO: Incluir tomas en fallback
   };
 }
 

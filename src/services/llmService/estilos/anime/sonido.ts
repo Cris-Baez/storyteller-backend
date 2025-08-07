@@ -1,4 +1,29 @@
-// estilos/anime/sonido.ts - Cerebro Sonido Anime
+// estilos/anime/sonido.ts - Cerebro Sonido Anime con ElevenLabs FX
+
+export interface ConfiguracionSonidoAnime {
+  musica: string;
+  efectos: string[];
+  ambiente: string;
+  lipSync: string;
+  requiereVoz: boolean;
+  tipoVoz?: string;
+  intensidad: 'baja' | 'media' | 'alta';
+  // ✨ NUEVO: ElevenLabs FX para anime
+  elevenlabsFX?: {
+    habilitado: boolean;
+    efectos_especificos?: string[];
+    prompt_personalizado?: string;
+    intensidad_fx?: number;
+  };
+  // Compatibilidad con propiedades existentes
+  volumen_musica?: number;
+  volumen_efectos?: number;
+  voz?: string;
+  emotion_intensity?: string;
+  anime_style?: boolean;
+  dramatic_pauses?: boolean;
+  tempo?: string;
+}
 
 export function configurarSonidoAnime(
   momentoNarrativo: 'setup' | 'desarrollo' | 'climax' | 'cierre',
@@ -8,7 +33,7 @@ export function configurarSonidoAnime(
   duracionTotal: number,
   actor: any,
   tomaInfo?: any
-): any {
+): ConfiguracionSonidoAnime {
   console.log('[Sonido Anime] 🎵 Configurando sonido anime...');
   
   // Música típica del anime por momento
@@ -38,13 +63,29 @@ export function configurarSonidoAnime(
   // Voces para anime (más expresivas)
   const vozAnime = esEmocional ? 'dramatico_anime' : 'joven_energica';
   
+  // ✨ NUEVO: Configurar ElevenLabs FX para anime
+  const elevenlabsFXConfig = {
+    habilitado: true, // Anime se beneficia mucho de FX dinámicos
+    efectos_especificos: momentoNarrativo === 'climax' 
+      ? ['power energy surge', 'dramatic whoosh', 'anime impact sound'] 
+      : ['subtle anime ambience', 'soft movement sounds'],
+    prompt_personalizado: `anime-style sound effects for ${momentoNarrativo} scene, ${esEmocional ? 'emotional and dramatic' : 'energetic and light'}`,
+    intensidad_fx: esEmocional ? 0.6 : 0.4
+  };
+  
   return {
     musica: musica,
     efectos: [efectos],
+    ambiente: tono,
+    lipSync: 'auto', // Configuración como string
+    requiereVoz: true,
+    tipoVoz: vozAnime,
+    intensidad: (esEmocional ? 'alta' : 'media') as 'baja' | 'media' | 'alta',
+    // ✨ NUEVO: Incluir configuración ElevenLabs FX
+    elevenlabsFX: elevenlabsFXConfig,
+    // Propiedades específicas del anime (compatibilidad)
     volumen_musica: esEmocional ? 0.8 : 0.6,
     volumen_efectos: 0.7,
-    ambiente: tono,
-    lipSync: false, // Se manejará en post-producción
     voz: vozAnime,
     emotion_intensity: esEmocional ? 'high' : 'medium',
     anime_style: true,

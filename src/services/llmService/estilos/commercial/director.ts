@@ -40,7 +40,7 @@ export interface ContinuidadVisual {
   estiloGeneral: string;
 }
 
-export async function generarNarrativaCommercial(prompt: string): Promise<NarrativaCinematica> {
+export async function generarNarrativaCommercial(prompt: string, duracion?: number): Promise<NarrativaCinematica> {
   console.log('[Director Commercial] 🎬 Generando narrativa comercial con IA...');
   
   try {
@@ -114,17 +114,25 @@ RESPONDE ÚNICAMENTE con este JSON:
   }
 }`;
 
+    // Calcular número de tomas basado en duración real del video
+    const duracionReal = duracion || 30; // Default 30s si no se especifica
+    const numeroDeTomasCalculado = Math.max(2, Math.min(6, Math.ceil(duracionReal / 6))); // 6s por toma comercial
+    const duracionPorToma = Math.floor(duracionReal / numeroDeTomasCalculado);
+
+    console.log(`[Director Commercial] 📊 Calculando tomas: ${duracionReal}s → ${numeroDeTomasCalculado} tomas de ~${duracionPorToma}s cada una`);
+
     const contextoUsuario = `PROMPT DEL USUARIO: "${prompt}"
 
 INSTRUCCIONES ESPECÍFICAS COMERCIAL:
-- Crea EXACTAMENTE 5 tomas de 6 segundos cada una (total 30s) - RITMO COMERCIAL PROFESIONAL
+- Duración total del video: ${duracionReal} segundos
+- Crear EXACTAMENTE ${numeroDeTomasCalculado} tomas de ~${duracionPorToma} segundos cada una
 - La PRIMERA toma debe ser un HOOK COMERCIAL PODEROSO
 - Asegura CONTINUIDAD DE MARCA entre las tomas
 - Usa movimientos de cámara PROFESIONALES para comercial
 - Mantén paleta de colores CONSISTENTE CON LA MARCA
 - Enfoque en PRODUCTO/SERVICIO y CALL TO ACTION
 
-Analiza este prompt y crea un plan comercial completo de 5 tomas profesionales.`;
+Analiza este prompt y crea un plan comercial completo de ${numeroDeTomasCalculado} tomas profesionales.`;
 
     const promptCompleto = construirPromptCompleto(systemBase, especializacionDirector, contextoUsuario);
     
@@ -147,6 +155,38 @@ Analiza este prompt y crea un plan comercial completo de 5 tomas profesionales.`
   
   // Fallback comercial
   console.log('[Director Commercial] 🔄 Usando narrativa comercial fallback...');
+  
+  // Calcular para fallback también
+  const duracionReal = duracion || 30; 
+  const numeroTomas = Math.max(2, Math.min(6, Math.ceil(duracionReal / 6))); // 6s por toma comercial
+  const duracionPorToma = Math.floor(duracionReal / numeroTomas);
+  
+  // Generar tomas dinámicas para fallback
+  const tomasFallback: TomaCinematograficaPlan[] = [];
+  for (let i = 1; i <= numeroTomas; i++) {
+    const tipoTomaValido = i === 1 ? 'setup' as ActoNarrativo : 
+                          i === numeroTomas ? 'cierre' as ActoNarrativo : 
+                          'desarrollo' as ActoNarrativo;
+    
+    tomasFallback.push({
+      numero: i,
+      duracion: duracionPorToma,
+      tipoToma: tipoTomaValido,
+      descripcion: i === 1 ? 'Professional commercial hook with strong brand introduction' :
+                   i === numeroTomas ? 'Strong call-to-action and brand reinforcement' :
+                   `Commercial development focusing on benefits and value proposition`,
+      movimientoCamara: 'smooth_professional',
+      estiloVisual: 'commercial',
+      emocion: i === 1 ? 'confident' : i === numeroTomas ? 'persuasive' : 'trustworthy',
+      fondo: 'professional_brand_setting',
+      actor: 'commercial_talent',
+      vozMurf: 'profesional_comercial',
+      musica: 'corporate_theme',
+      efectosSonoros: 'professional_ambient',
+      carryover: i === 1 ? 'brand_introduction' : 'commercial_continuity'
+    });
+  }
+  
   return {
     historia: `Mensaje comercial profesional basado en: ${prompt}`,
     tono: 'profesional',
@@ -154,83 +194,7 @@ Analiza este prompt y crea un plan comercial completo de 5 tomas profesionales.`
     momentosEmocionales: [6, 18, 24],
     genero: 'comercial',
     ritmo: 'medio',
-    tomas: [
-      {
-        numero: 1,
-        duracion: 6,
-        tipoToma: 'setup',
-        descripcion: 'Professional commercial hook with strong brand introduction',
-        movimientoCamara: 'smooth_professional',
-        estiloVisual: 'commercial',
-        emocion: 'confident',
-        fondo: 'professional_brand_setting',
-        actor: 'commercial_talent',
-        vozMurf: 'profesional_comercial',
-        musica: 'corporate_theme',
-        efectosSonoros: 'professional_ambient',
-        carryover: 'brand_introduction'
-      },
-      {
-        numero: 2,
-        duracion: 6,
-        tipoToma: 'desarrollo',
-        descripcion: 'Product demonstration with clear benefits showcase',
-        movimientoCamara: 'product_focus',
-        estiloVisual: 'commercial',
-        emocion: 'trustworthy',
-        fondo: 'product_demo_setting',
-        actor: 'demonstrating_talent',
-        vozMurf: 'confiable_marca',
-        musica: 'professional_bg',
-        efectosSonoros: 'product_sounds',
-        carryover: 'product_focus'
-      },
-      {
-        numero: 3,
-        duracion: 6,
-        tipoToma: 'desarrollo',
-        descripcion: 'Customer satisfaction and testimonial moment',
-        movimientoCamara: 'professional_pan',
-        estiloVisual: 'commercial',
-        emocion: 'satisfied',
-        fondo: 'customer_environment',
-        actor: 'satisfied_customer',
-        vozMurf: 'innovador_tech',
-        musica: 'upbeat_commercial',
-        efectosSonoros: 'positive_ambient',
-        carryover: 'customer_satisfaction'
-      },
-      {
-        numero: 4,
-        duracion: 6,
-        tipoToma: 'climax',
-        descripcion: 'Strong value proposition and key benefits highlight',
-        movimientoCamara: 'brand_reveal',
-        estiloVisual: 'commercial',
-        emocion: 'innovative',
-        fondo: 'value_showcase_setting',
-        actor: 'confident_presenter',
-        vozMurf: 'profesional_comercial',
-        musica: 'brand_music',
-        efectosSonoros: 'impact_sounds',
-        carryover: 'value_emphasis'
-      },
-      {
-        numero: 5,
-        duracion: 6,
-        tipoToma: 'cierre',
-        descripcion: 'Powerful call to action with brand closing',
-        movimientoCamara: 'smooth_professional',
-        estiloVisual: 'commercial',
-        emocion: 'compelling',
-        fondo: 'call_to_action_setting',
-        actor: 'closing_talent',
-        vozMurf: 'confiable_marca',
-        musica: 'corporate_theme',
-        efectosSonoros: 'corporate_sfx',
-        carryover: 'call_to_action'
-      }
-    ],
+    tomas: tomasFallback,
     continuidad: {
       paletaColores: 'professional_brand',
       iluminacion: 'professional_bright',

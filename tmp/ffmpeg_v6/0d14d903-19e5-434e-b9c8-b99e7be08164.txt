@@ -1,6 +1,0 @@
-file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/kling_clip_1754176196579.mp4'
-file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/kling_clip_1754176181165.mp4'
-file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/kling_clip_1754176180483.mp4'
-file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/kling_clip_1754176486549.mp4'
-file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/kling_clip_1754176187037.mp4'
-file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/kling_clip_1754176202037.mp4'

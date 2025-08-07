@@ -80,7 +80,7 @@ export async function orquestarEquipoCinematico(
     const restricciones = { ...RESTRICCIONES_GENERALES, ...LIMITACIONES_ESTILO.commercial };
     
     console.log('[ORQUESTADOR] 🎬 Consultando al Director para plan comercial...');
-    const narrativaGeneral = await generarNarrativaCommercial(prompt);
+    const narrativaGeneral = await generarNarrativaCommercial(prompt, duracionTotal);
     
     if (!narrativaGeneral) {
       throw new Error('Director no retornó narrativa válida');

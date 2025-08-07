@@ -56,7 +56,7 @@ export function filtrarActores(assets: AssetIndexItem[], estilo: string = 'cinem
 /**
  * Obtiene estilos compatibles para compartir assets
  */
-function getEstilosCompatibles(estilo: string): string[] {
+export function getEstilosCompatibles(estilo: string): string[] {
   const mapeosCompatibilidad: Record<string, string[]> = {
     // ✅ MAPEO CORRECTO: Usar los estilos exactos que existen en assets_index.json
     'cinematic': ['realista', 'anime', 'comic'], // cinematic compatible con estilos reales
