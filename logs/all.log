@@ -21212,3 +21212,6 @@ Error opening input files: Invalid argument
 2025-08-07T22:32:48.249Z [error] [PipelineSimplificado] Error: ffmpeg exited with code 4294967274: Error opening input file C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v7/096b2222-87f9-467b-ae8d-59a6a84cb175.txt.
 Error opening input files: Invalid argument
 
+2025-08-08T06:45:54.463Z [info] 🎤 Voice Interceptor inicializado
+2025-08-08T06:45:54.954Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-08T06:45:55.024Z [info] 🚀  Storyteller AI backend listening on port 3000

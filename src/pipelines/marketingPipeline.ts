@@ -555,11 +555,16 @@ export class MarketingPipeline {
     sfx: Buffer[];
     elevenlabsFX: Buffer[];
   }> {
-    const buffers = {
+    const buffers: {
+      voice: Buffer;
+      music: Buffer[];
+      sfx: Buffer[];
+      elevenlabsFX: Buffer[];
+    } = {
       voice: Buffer.alloc(0),
-      music: [] as Buffer[],
-      sfx: [] as Buffer[],
-      elevenlabsFX: [] as Buffer[]
+      music: [],
+      sfx: [],
+      elevenlabsFX: []
     };
 
     try {
@@ -599,7 +604,7 @@ export class MarketingPipeline {
         throw new Error(`HTTP ${response.status}`);
       }
       const arrayBuffer = await response.arrayBuffer();
-      return Buffer.from(arrayBuffer);
+      return Buffer.from(arrayBuffer as ArrayBuffer);
     } catch (error) {
       logger.error(`[MarketingPipeline] ❌ Error descargando audio ${url}:`, error);
       return Buffer.alloc(0);

@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import { renderRouter } from './routes/render.js';
 import { marketingRoutes } from './routes/marketingRoutes.js';  // ✨ NUEVO: Marketing AI
+import { authRouter } from './routes/auth.js';  // ✨ NUEVO: Autenticación
 import adminRouter from './routes/admin.js';
 import { logger } from './utils/logger.js';
 import dotenv from "dotenv";
@@ -83,6 +84,7 @@ app.get('/api/test', (_req, res) => {
 });
 
 // Rutas principales
+app.use('/api/auth', authRouter);  // ✨ NUEVO: Rutas de autenticación
 app.use('/api/render', renderRouter);
 app.use('/api/marketing', marketingRoutes);  // ✨ NUEVO: Marketing AI Routes
 //app.use('/api/templates', templatesRouter);

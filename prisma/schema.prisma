@@ -8,63 +8,245 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model email_tokens {
-  id        Int            @id @default(autoincrement())
-  userId    Int
-  token     String         @unique
-  type      EmailTokenType
-  expiresAt DateTime
-  createdAt DateTime       @default(now())
-  users     users          @relation(fields: [userId], references: [id])
+// 👤 MODELO DE USUARIO COMPLETO
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  name        String
+  role        Role     @default(USER)
+  plan        Plan     @default(STARTER)
+  
+  // Estado de verificación
+  emailVerified           Boolean   @default(false)
+  emailVerificationToken  String?   @unique
+  
+  // Reset de contraseña
+  resetPasswordToken      String?   @unique
+  resetPasswordExpires    DateTime?
+  
+  // Timestamps
+  lastLogin  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  
+  // Relaciones
+  subscription    Subscription?
+  usage          Usage?
+  profile        Profile?
+  preferences    Preferences?
+  videos         Video[]
+  marketingConfig MarketingConfig?
+  projects       Project[]
+  assets         Asset[]
+  refreshTokens  RefreshToken[]
+  
+  @@map("users")
 }
 
-model referral {
-  id         Int      @id @default(autoincrement())
-  referrer   String
-  signup     Boolean  @default(false)
-  created_at DateTime @default(now()) @db.Timestamp(6)
+// 💳 SUSCRIPCIÓN
+model Subscription {
+  id               Int              @id @default(autoincrement())
+  userId           Int              @unique
+  status           SubscriptionStatus @default(INACTIVE)
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime?
+  paypalSubscriptionId String?       @unique
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("subscriptions")
 }
 
-model refresh_tokens {
+// 📊 USO SEMANAL
+model Usage {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @unique
+  videosThisWeek  Int      @default(0)
+  weekResetDate   DateTime @default(now())
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("usage")
+}
+
+// 👤 PERFIL DE USUARIO
+model Profile {
+  id      Int     @id @default(autoincrement())
+  userId  Int     @unique
+  avatar  String?
+  company String?
+  phone   String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("profiles")
+}
+
+// ⚙️ PREFERENCIAS
+model Preferences {
+  id                   Int     @id @default(autoincrement())
+  userId               Int     @unique
+  emailNotifications   Boolean @default(true)
+  marketingEmails      Boolean @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("preferences")
+}
+
+// 🎬 VIDEOS GENERADOS
+model Video {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  title       String
+  description String?
+  type        VideoType @default(CINEMA)
+  status      VideoStatus @default(PENDING)
+  
+  // URLs y datos generados
+  finalVideoUrl   String?
+  thumbnailUrl    String?
+  duration        Float?
+  
+  // Datos de entrada
+  prompt          String?
+  style           String?
+  businessType    String?
+  
+  // Metadatos
+  metadata        Json?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("videos")
+}
+
+// ⚙️ CONFIGURACIÓN DE MARKETING
+model MarketingConfig {
+  id           Int     @id @default(autoincrement())
+  userId       Int     @unique
+  businessType String?
+  style        String?
+  voiceType    String?
+  musicStyle   String?
+  frequency    String?
+  tone         String?
+  colors       String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("marketing_configs")
+}
+
+// 📁 PROYECTOS (PARA EDITOR VISUAL)
+model Project {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  title       String
+  description String?
+  status      ProjectStatus @default(DRAFT)
+  data        Json?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("projects")
+}
+
+// 📎 ASSETS SUBIDOS POR USUARIO
+model Asset {
+  id       Int       @id @default(autoincrement())
+  userId   Int
+  filename String
+  url      String
+  type     AssetType
+  size     Int
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("assets")
+}
+
+// 🔄 TOKENS DE REFRESCO
+model RefreshToken {
   id        Int       @id @default(autoincrement())
   userId    Int
   token     String    @unique
   expiresAt DateTime
   revokedAt DateTime?
-  createdAt DateTime  @default(now())
-  users     users     @relation(fields: [userId], references: [id])
+  
+  createdAt DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("refresh_tokens")
 }
 
-model subscriptions {
-  id           Int       @id @default(autoincrement())
-  user_id      Int
-  paddle_id    String    @unique
-  plan_id      String
-  status       String
-  next_bill_at DateTime? @db.Timestamp(6)
+// 🔄 ENUMS
+enum Role {
+  USER
+  ADMIN
+  STUDIO_PRO
 }
 
-model users {
-  id             Int              @id @default(autoincrement())
-  email          String           @unique
-  password       String
-  status         String           @default("PENDING")
-  verify_token   String?
-  created_at     DateTime         @default(now()) @db.Timestamp(6)
-  verify_expires DateTime?        @db.Timestamp(6)
-  credits        Int              @default(0)
-  plan           String           @default("free")
-  email_tokens   email_tokens[]
-  refresh_tokens refresh_tokens[]
+enum Plan {
+  STARTER
+  CREATOR
+  STUDIO_PRO
 }
 
-model webhook_logs {
-  id         Int      @id @default(autoincrement())
-  webhook_id String   @unique
-  created_at DateTime @default(now()) @db.Timestamp(6)
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELLED
+  EXPIRED
 }
 
-enum EmailTokenType {
-  VERIFY
-  RESET
+enum VideoType {
+  CINEMA
+  MARKETING
+}
+
+enum VideoStatus {
+  PENDING
+  GENERATING
+  COMPLETED
+  FAILED
+}
+
+enum ProjectStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum AssetType {
+  IMAGE
+  VIDEO
+  AUDIO
+  OTHER
 }
