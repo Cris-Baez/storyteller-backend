@@ -171,6 +171,18 @@ class ElevenLabsFXService {
         'desarrollo': ['product showcase', 'technology beep', 'positive feedback'],
         'climax': ['success notification', 'achievement sound', 'confident tone'],
         'cierre': ['brand signature', 'professional outro', 'call to action chime']
+      },
+      'narrativa': {
+        'setup': ['documentary intro', 'nature ambience', 'thoughtful pause'],
+        'desarrollo': ['page turn', 'soft wind', 'contemplative tone'],
+        'climax': ['revelation moment', 'understanding chime', 'enlightenment sound'],
+        'cierre': ['wise conclusion', 'book closing', 'thoughtful silence']
+      },
+      'noticias': {
+        'setup': ['news intro', 'professional alert', 'broadcast chime'],
+        'desarrollo': ['information tone', 'data point', 'factual beep'],
+        'climax': ['breaking news', 'urgent alert', 'important announcement'],
+        'cierre': ['news outro', 'professional closing', 'broadcast end']
       }
     };
 
@@ -234,6 +246,15 @@ class ElevenLabsFXService {
           break;
         case 'commercial':
           prompt += ', professional commercial sound';
+          break;
+        case 'narrativa':
+        case 'documental':
+          prompt += ', documentary-style ambient sound';
+          break;
+        case 'noticias':
+        case 'presentacion':
+        case 'actor-directo':
+          prompt += ', professional broadcast sound';
           break;
       }
     }

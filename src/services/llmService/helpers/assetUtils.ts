@@ -64,6 +64,8 @@ export function getEstilosCompatibles(estilo: string): string[] {
     'anime': ['anime', 'realista'], // anime sigue siendo compatible
     'cartoon': ['comic', 'anime'], // cartoon → comic (exacto)
     'commercial': ['realista', 'anime', 'comic'],
+    'narrativa': ['realista', 'comic'], // Narrativa usa assets realistas y panorámicos
+    'noticias': ['realista'], // Noticias usa solo assets realistas profesionales
     
     // Mapeos directos para los estilos que existen exactamente
     'realista': ['realista', 'anime', 'comic'], // realista puede usar todos

@@ -45,7 +45,7 @@ export function normalizarDuracion(duration: number): AllowedDuration {
  * Validar estilo visual
  */
 export function validarEstiloVisual(style: string): style is EstiloVisual {
-  const estilosPermitidos: EstiloVisual[] = ['cinematic', 'anime', 'cartoon', 'commercial'];
+  const estilosPermitidos: EstiloVisual[] = ['cinematic', 'anime', 'cartoon', 'commercial', 'narrativa', 'noticias'];
   
   if (!estilosPermitidos.includes(style as EstiloVisual)) {
     logger.error(`❌ [Validador] Estilo visual inválido: ${style}. Permitidos: ${estilosPermitidos.join(', ')}`);
@@ -70,8 +70,13 @@ export function normalizarEstiloVisual(style: string): EstiloVisual {
     'comic': 'cartoon',      // comic se mapea a cartoon para retrocompatibilidad
     'commercial': 'commercial',
     'cartoon': 'cartoon',    // mapeo directo
+    'narrativa': 'narrativa',
+    'noticias': 'noticias',
     'realista': 'cinematic', // alias español
-    'comercial': 'commercial' // alias español
+    'comercial': 'commercial', // alias español
+    'documental': 'narrativa', // alias para narrativa
+    'presentacion': 'noticias', // alias para noticias
+    'actor-directo': 'noticias' // alias para noticias
   };
   
   const estiloMapeado = mapeoRetrocompatible[estiloUnificado] || 'cinematic';

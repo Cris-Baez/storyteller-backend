@@ -57,11 +57,15 @@ function selectLipSyncTechnology(visualStyle: EstiloVisualPrincipal, forceTechno
   switch (visualStyle) {
     case 'cinematic':
     case 'commercial':
+    case 'noticias': // Noticias requiere lip sync crítico profesional
       return 'wav2lip'; // Mejor para estilos fotorrealísticos y profesionales
     
     case 'anime':
     case 'cartoon':
       return 'sadtalker'; // Mejor para estilos estilizados y animados
+    
+    case 'narrativa': // Narrativa no necesita lip sync perfecto (voz en off)
+      return 'wav2lip'; // Pero si se usa, wav2lip es mejor
     
     default:
       return 'wav2lip'; // Por defecto usar Wav2Lip

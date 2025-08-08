@@ -18,7 +18,9 @@ function mapearEstiloACarpetaAssets(estilo: EstiloVisualPrincipal): string {
     'cinematic': 'realista',
     'anime': 'anime',
     'cartoon': 'comic',
-    'commercial': 'realista'
+    'commercial': 'realista',
+    'narrativa': 'realista',    // Usar assets realistas para documentales
+    'noticias': 'realista'      // Usar assets realistas para presentaciones
   };
   return mapeoAssets[estilo] || 'realista';
 }

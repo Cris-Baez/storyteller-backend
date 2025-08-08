@@ -4,6 +4,8 @@ import { orquestarEquipoCinematico, VideoPlanCinematico, validarPlanCinematico }
 import { orquestarEquipoCinematico as orquestarEquipoAnime } from './estilos/anime/orquestador.js';
 import { orquestarEquipoCinematico as orquestarEquipoCartoon } from './estilos/cartoon/orquestador.js';
 import { orquestarEquipoCinematico as orquestarEquipoCommercial } from './estilos/commercial/orquestador.js';
+import { orquestarEquipoNarrativa, VideoPlanNarrativa } from './estilos/narrativa/orquestador.js';
+import { orquestarEquipoNoticias, VideoPlanNoticias } from './estilos/noticias/orquestador.js';
 import { EstiloVisualPrincipal } from '../../types/estilos.js';
 import { safeLog } from '../../utils/logger.js';
 
@@ -115,6 +117,26 @@ export async function dispatchCerebros(request: RequestGeneracion): Promise<Resp
         }
         break;
         
+      case 'narrativa':
+        safeLog('[Dispatcher] 📚 Despachando a equipo narrativa/documental...');
+        videoPlan = await orquestarEquipoNarrativa(request.prompt, request.duracion, request.estiloOriginal || request.estilo);
+        
+        // Validar plan narrativa
+        if (!videoPlan || !videoPlan.timeline) {
+          throw new Error('Plan narrativa generado es inválido');
+        }
+        break;
+        
+      case 'noticias':
+        safeLog('[Dispatcher] 📺 Despachando a equipo noticias/presentación...');
+        videoPlan = await orquestarEquipoNoticias(request.prompt, request.duracion, request.estiloOriginal || request.estilo);
+        
+        // Validar plan noticias
+        if (!videoPlan || !videoPlan.timeline) {
+          throw new Error('Plan noticias generado es inválido');
+        }
+        break;
+        
       default:
         throw new Error(`Estilo visual no soportado: ${request.estilo}`);
     }
@@ -179,7 +201,7 @@ function validarRequest(request: RequestGeneracion): boolean {
     return false;
   }
   
-  const estilosValidos: EstiloVisualPrincipal[] = ['cinematic', 'anime', 'cartoon', 'commercial'];
+  const estilosValidos: EstiloVisualPrincipal[] = ['cinematic', 'anime', 'cartoon', 'commercial', 'narrativa', 'noticias'];
   if (!request.estilo || !estilosValidos.includes(request.estilo)) {
     console.error('[Dispatcher] Estilo visual inválido');
     return false;
