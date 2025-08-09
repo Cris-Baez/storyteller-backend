@@ -13,6 +13,7 @@ import marketingConfigRouter from './routes/marketingConfigRoutes.js';  // ✨ N
 import templateRouter from './routes/templateRoutes.js';  // ✨ NUEVO: Plantillas
 import adminRouter from './routes/admin.js';  // ✨ NUEVO: Panel de administración
 import editorRouter from './routes/editor.js';  // ✨ NUEVO: Editor Visual
+import cleanupRouter from './routes/cleanup.js';  // ✨ NUEVO: Servicio de limpieza
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';  // ✨ NUEVO: Manejo de errores
 import { logger } from './utils/logger.js';
 import { CleanupService } from './services/cleanupService.js';  // ✨ NUEVO: Servicio de limpieza
@@ -96,6 +97,7 @@ app.use('/api/marketing-config', marketingConfigRouter);  // ✨ NUEVO: Configur
 app.use('/api/templates', templateRouter);  // ✨ NUEVO: Plantillas de marketing
 app.use('/api/admin', adminRouter);  // ✨ NUEVO: Panel de administración
 app.use('/api/editor', editorRouter);  // ✨ NUEVO: Editor Visual (Studio Pro)
+app.use('/api/cleanup', cleanupRouter);  // ✨ NUEVO: Servicio de limpieza (Solo Admins)
 app.use('/api/render', renderRouter);
 app.use('/api/marketing', marketingRoutes);  // ✨ NUEVO: Marketing AI Routes
 // Nueva ruta para compilar el video final

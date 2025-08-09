@@ -2,6 +2,7 @@ import { PrismaClient } from '../../generated/prisma/index.js';
 import { logger } from '../utils/logger.js';
 import fs from 'fs/promises';
 import path from 'path';
+import os from 'os';
 
 const prisma = new PrismaClient();
 
@@ -25,6 +26,23 @@ export interface StorageInfo {
   }>;
 }
 
+export interface SystemStats {
+  memory: {
+    used: number;
+    total: number;
+    percentage: number;
+  };
+  database: {
+    usersCount: number;
+    videosCount: number;
+    tokensCount: number;
+    subscriptionsCount: number;
+  };
+  storage: StorageInfo;
+  uptime: number;
+  environment: string;
+}
+
 /**
  * 🧹 SERVICIO DE LIMPIEZA Y RECURSOS
  * 
@@ -32,6 +50,21 @@ export interface StorageInfo {
  * videos fallidos, tokens expirados y optimización de almacenamiento
  */
 export class CleanupService {
+
+  /**
+   * 👤 OBTENER USUARIO POR ID (para verificación de permisos)
+   */
+  static async getUserById(userId: number) {
+    try {
+      return await prisma.user.findUnique({
+        where: { id: userId },
+        select: { id: true, email: true, role: true, plan: true }
+      });
+    } catch (error) {
+      logger.error('[CleanupService] ❌ Error obteniendo usuario:', error);
+      return null;
+    }
+  }
 
   /**
    * 🗑️ LIMPIEZA AUTOMÁTICA COMPLETA
@@ -478,5 +511,53 @@ export class CleanupService {
     }, ONE_DAY);
 
     logger.info('[CleanupService] ✅ Limpieza automática programada exitosamente');
+  }
+
+  /**
+   * 📊 OBTENER ESTADÍSTICAS DEL SISTEMA
+   */
+  static async getSystemStats(): Promise<SystemStats> {
+    try {
+      logger.info('[CleanupService] 📊 Obteniendo estadísticas del sistema...');
+
+      // Obtener estadísticas de memoria
+      const memoryUsage = process.memoryUsage();
+      const totalMemory = os.totalmem();
+      
+      // Obtener estadísticas de la base de datos
+      const [usersCount, videosCount, tokensCount, subscriptionsCount] = await Promise.all([
+        prisma.user.count(),
+        prisma.video.count(),
+        prisma.refreshToken.count(),
+        prisma.subscription.count()
+      ]);
+
+      // Obtener información de almacenamiento
+      const storageInfo = await this.getStorageInfo();
+
+      const systemStats: SystemStats = {
+        memory: {
+          used: memoryUsage.heapUsed,
+          total: totalMemory,
+          percentage: Math.round((memoryUsage.heapUsed / totalMemory) * 100)
+        },
+        database: {
+          usersCount,
+          videosCount,
+          tokensCount,
+          subscriptionsCount
+        },
+        storage: storageInfo,
+        uptime: Math.round(process.uptime()),
+        environment: process.env.NODE_ENV || 'development'
+      };
+
+      logger.info('[CleanupService] ✅ Estadísticas del sistema obtenidas exitosamente');
+      return systemStats;
+
+    } catch (error) {
+      logger.error('[CleanupService] ❌ Error al obtener estadísticas del sistema:', error);
+      throw new Error('Error al obtener estadísticas del sistema');
+    }
   }
 }
