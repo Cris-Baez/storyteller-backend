@@ -48,17 +48,41 @@ model User {
 model Subscription {
   id               Int              @id @default(autoincrement())
   userId           Int              @unique
-  status           SubscriptionStatus @default(INACTIVE)
+  plan             SubscriptionPlan @default(BASIC)
+  status           SubscriptionStatus @default(PENDING)
   currentPeriodStart DateTime?
   currentPeriodEnd   DateTime?
   paypalSubscriptionId String?       @unique
+  cancelAtPeriodEnd Boolean          @default(false)
+  canceledAt       DateTime?
+  cancelReason     String?
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments Payment[]
   
   @@map("subscriptions")
+}
+
+// 💰 PAGOS
+model Payment {
+  id              Int            @id @default(autoincrement())
+  subscriptionId  Int
+  amount          Float
+  currency        String         @default("USD")
+  status          PaymentStatus  @default(PENDING)
+  paypalPaymentId String?        @unique
+  paypalOrderId   String?
+  failureReason   String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  
+  @@map("payments")
 }
 
 // 📊 USO SEMANAL
@@ -219,11 +243,31 @@ enum Plan {
   STUDIO_PRO
 }
 
+enum SubscriptionPlan {
+  BASIC
+  PRO
+  PREMIUM
+  ANNUAL
+}
+
 enum SubscriptionStatus {
+  PENDING
   ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELED
+  UNPAID
   INACTIVE
   CANCELLED
   EXPIRED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
 }
 
 enum VideoType {

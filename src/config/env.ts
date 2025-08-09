@@ -36,6 +36,13 @@ const schema = z.object({
   FREESOUND_API_KEY: z.string().optional(),
   RUNWAYML_API_SECRET: z.string().optional(),
   RUNWAY_API_TOKEN: z.string().optional(),
+  
+  // PayPal Configuration
+  PAYPAL_CLIENT_ID: z.string().optional(),
+  PAYPAL_CLIENT_SECRET: z.string().optional(),
+  PAYPAL_WEBHOOK_ID: z.string().optional(),
+  PAYPAL_CREATOR_PLAN_ID: z.string().optional(),
+  PAYPAL_STUDIO_PRO_PLAN_ID: z.string().optional(),
 });
 
 const env = schema.parse(process.env);
@@ -54,7 +61,10 @@ const opcionales = [
   'FREESOUND_API_KEY',
   'RUNWAYML_API_SECRET',
   'RUNWAY_API_TOKEN',
-  'ADMIN_TOKEN'
+  'ADMIN_TOKEN',
+  'PAYPAL_CLIENT_ID',
+  'PAYPAL_CLIENT_SECRET',
+  'PAYPAL_WEBHOOK_ID',
 ];
 for (const key of opcionales) {
   if (!process.env[key]) {

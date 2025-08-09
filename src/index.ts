@@ -8,7 +8,9 @@ import morgan from 'morgan';
 import { renderRouter } from './routes/render.js';
 import { marketingRoutes } from './routes/marketingRoutes.js';  // ✨ NUEVO: Marketing AI
 import { authRouter } from './routes/auth.js';  // ✨ NUEVO: Autenticación
+import subscriptionRouter from './routes/subscriptionRoutes.js';  // ✨ NUEVO: Suscripciones
 import adminRouter from './routes/admin.js';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';  // ✨ NUEVO: Manejo de errores
 import { logger } from './utils/logger.js';
 import dotenv from "dotenv";
 import path from "path";
@@ -85,6 +87,7 @@ app.get('/api/test', (_req, res) => {
 
 // Rutas principales
 app.use('/api/auth', authRouter);  // ✨ NUEVO: Rutas de autenticación
+app.use('/api/subscriptions', subscriptionRouter);  // ✨ NUEVO: Rutas de suscripciones
 app.use('/api/render', renderRouter);
 app.use('/api/marketing', marketingRoutes);  // ✨ NUEVO: Marketing AI Routes
 //app.use('/api/templates', templatesRouter);
@@ -114,12 +117,8 @@ app.post('/api/compile', async (req, res) => {
 // });
 
 // Handler de errores
-app.use(
-  (err: Error, _req: Request, res: Response, _next: NextFunction) => {
-    logger.error(`Unhandled Error: ${err.message}\n${err.stack}`);
-    res.status(500).json({ error: 'Internal server error', details: err.message });
-  }
-);
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 // Levanta servidor y gestiona shutdown
 const PORT = process.env.PORT || 3000;
