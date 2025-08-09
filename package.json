@@ -11,7 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prod": "npm run build && npm start",
     "demo": "npm run build && NODE_ENV=demo npm start",
-    "health": "node -e \"import('node-fetch').then(f => f.default('http://localhost:3000/healthz').then(r => r.json()).then(console.log))\""
+    "health": "node -e \"import('node-fetch').then(f => f.default('http://localhost:3000/healthz').then(r => r.json()).then(console.log))\"",
+    "index-assets": "node index_assets.mjs"
   },
   "keywords": [],
   "author": "",
