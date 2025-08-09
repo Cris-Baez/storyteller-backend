@@ -18,7 +18,7 @@ export async function createSubscription(req: Request, res: Response, next: Next
       throw new AppError('Usuario no autenticado', 401);
     }
 
-    if (!plan || !Object.values(['BASIC', 'PRO', 'PREMIUM', 'ANNUAL']).includes(plan)) {
+    if (!plan || !Object.values(['STARTER', 'CREATOR', 'STUDIO_PRO']).includes(plan)) {
       throw new ValidationError('Plan de suscripción no válido');
     }
 

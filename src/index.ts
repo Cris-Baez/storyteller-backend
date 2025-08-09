@@ -10,7 +10,7 @@ import { marketingRoutes } from './routes/marketingRoutes.js';  // ✨ NUEVO: Ma
 import { authRouter } from './routes/auth.js';  // ✨ NUEVO: Autenticación
 import subscriptionRouter from './routes/subscriptionRoutes.js';  // ✨ NUEVO: Suscripciones
 import marketingConfigRouter from './routes/marketingConfigRoutes.js';  // ✨ NUEVO: Configuración Marketing
-import templateRouter from './routes/templateRoutes.js';  // ✨ NUEVO: Plantillas
+import marketingTemplateRouter from './routes/marketingTemplateRoutes.js';  // ✨ NUEVO: Plantillas Marketing
 import adminRouter from './routes/admin.js';  // ✨ NUEVO: Panel de administración
 import editorRouter from './routes/editor.js';  // ✨ NUEVO: Editor Visual
 import cleanupRouter from './routes/cleanup.js';  // ✨ NUEVO: Servicio de limpieza
@@ -94,7 +94,7 @@ app.get('/api/test', (_req, res) => {
 app.use('/api/auth', authRouter);  // ✨ NUEVO: Rutas de autenticación
 app.use('/api/subscriptions', subscriptionRouter);  // ✨ NUEVO: Rutas de suscripciones
 app.use('/api/marketing-config', marketingConfigRouter);  // ✨ NUEVO: Configuración de marketing
-app.use('/api/templates', templateRouter);  // ✨ NUEVO: Plantillas de marketing
+app.use('/api/marketing/templates', marketingTemplateRouter);  // ✨ NUEVO: Plantillas de marketing
 app.use('/api/admin', adminRouter);  // ✨ NUEVO: Panel de administración
 app.use('/api/editor', editorRouter);  // ✨ NUEVO: Editor Visual (Studio Pro)
 app.use('/api/cleanup', cleanupRouter);  // ✨ NUEVO: Servicio de limpieza (Solo Admins)

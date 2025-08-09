@@ -10,7 +10,7 @@ import { logger } from './logger.js';
  * Previene errores silenciosos que pueden romper el pipeline
  */
 export function validarDuracionEstricta(duration: number): duration is AllowedDuration {
-  const duracionesPermitidas: AllowedDuration[] = [5, 8, 10, 12, 15, 20, 25, 30, 45, 60];
+  const duracionesPermitidas: AllowedDuration[] = [15, 30, 45, 60];
   
   if (!duracionesPermitidas.includes(duration as AllowedDuration)) {
     logger.error(`❌ [Validador] Duración inválida: ${duration}. Permitidas: ${duracionesPermitidas.join(', ')}`);
@@ -25,7 +25,7 @@ export function validarDuracionEstricta(duration: number): duration is AllowedDu
  * Validar y normalizar la duración con fallback automático
  */
 export function normalizarDuracion(duration: number): AllowedDuration {
-  const duracionesPermitidas: AllowedDuration[] = [5, 8, 10, 12, 15, 20, 25, 30, 45, 60];
+  const duracionesPermitidas: AllowedDuration[] = [15, 30, 45, 60];
   
   // Si es exactamente una duración permitida, devolverla
   if (duracionesPermitidas.includes(duration as AllowedDuration)) {

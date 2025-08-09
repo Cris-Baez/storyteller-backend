@@ -41,6 +41,7 @@ const schema = z.object({
   PAYPAL_CLIENT_ID: z.string().optional(),
   PAYPAL_CLIENT_SECRET: z.string().optional(),
   PAYPAL_WEBHOOK_ID: z.string().optional(),
+  PAYPAL_STARTER_PLAN_ID: z.string().optional(),
   PAYPAL_CREATOR_PLAN_ID: z.string().optional(),
   PAYPAL_STUDIO_PRO_PLAN_ID: z.string().optional(),
 });

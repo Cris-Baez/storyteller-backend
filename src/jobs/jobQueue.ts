@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto';
 import { safeLog, hasLargeBase64 } from '../utils/logger.js';
 
 export interface JobState {
-  status: 'pending' | 'processing' | 'done' | 'error';
+  status: 'creado' | 'en_cola' | 'procesando_tomas' | 'procesando_audio' | 'montando' | 'renderizando' | 'subiendo' | 'completado' | 'fallido';
   currentStep?: string;
   progress?: number;
   totalSteps?: number;
@@ -36,15 +36,17 @@ function atomicUpdateJobState(jobId: string, updates: Partial<JobState>): void {
   }
 }
 
-// Pasos del proceso de generación
+// Pasos del proceso de generación según flujo.txt
 const GENERATION_STEPS = [
   'Analizando prompt',
-  'Orquestando cerebros',
+  'Orquestando cerebros cinematográficos',
   'Generando plan cinematográfico',
-  'Seleccionando assets',
-  'Configurando render',
-  'Procesando video',
-  'Finalizando'
+  'Procesando tomas individuales',
+  'Generando locución y audio',
+  'Seleccionando música y efectos',
+  'Montando secuencias',
+  'Renderizando video final',
+  'Subiendo a almacenamiento'
 ];
 
 export async function startJob({ prompt, visualStyle, duration }: any) {
@@ -52,8 +54,8 @@ export async function startJob({ prompt, visualStyle, duration }: any) {
   
   // Inicializar estado del job
   jobStates[jobId] = {
-    status: 'pending',
-    currentStep: 'Iniciando',
+    status: 'creado',
+    currentStep: 'Proyecto iniciado',
     progress: 0,
     totalSteps: GENERATION_STEPS.length,
     startTime: Date.now(),
@@ -69,28 +71,44 @@ export async function startJob({ prompt, visualStyle, duration }: any) {
   // Render en segundo plano
   setImmediate(async () => {
     try {
-      // Actualizar estado a procesando
+      // Actualizar estado a en cola y luego procesando tomas
       atomicUpdateJobState(jobId, {
-        status: 'processing',
-        currentStep: GENERATION_STEPS[0],
+        status: 'en_cola',
+        currentStep: 'En cola de procesamiento',
         progress: 5
+      });
+
+      // Pasar a procesando tomas
+      atomicUpdateJobState(jobId, {
+        status: 'procesando_tomas',
+        currentStep: GENERATION_STEPS[0],
+        progress: 10
       });
 
       const result = await renderCinemaAI(
         { prompt, visualStyle, duration },
-        (step: string, progress: number) => {
-          // Callback de progreso thread-safe
+        (step: string, progress: number, status?: string) => {
+          // Callback de progreso thread-safe con estados del flujo
+          const currentStatus = status || 'procesando_tomas';
           atomicUpdateJobState(jobId, {
+            status: currentStatus as any,
             currentStep: step,
-            progress: Math.min(progress, 95) // Reservar 5% para finalización
+            progress: Math.min(progress, 90) // Reservar 10% para subida
           });
         }
       );
 
+      // Estado de subida
+      atomicUpdateJobState(jobId, {
+        status: 'subiendo',
+        currentStep: 'Subiendo video final',
+        progress: 95
+      });
+
       // Job completado exitosamente
       atomicUpdateJobState(jobId, {
-        status: 'done',
-        currentStep: 'Completado',
+        status: 'completado',
+        currentStep: 'Video completado exitosamente',
         progress: 100,
         endTime: Date.now()
       });
@@ -121,8 +139,8 @@ export async function startJob({ prompt, visualStyle, duration }: any) {
       
       // Job con error
       atomicUpdateJobState(jobId, {
-        status: 'error',
-        currentStep: 'Error',
+        status: 'fallido',
+        currentStep: 'Error durante procesamiento',
         errorMessage: err.message,
         endTime: Date.now()
       });
@@ -204,7 +222,7 @@ export function cleanupOldJobs(maxAgeMs: number = 24 * 60 * 60 * 1000) { // 24 h
     if (jobLocks[jobId]) return;
     
     const jobAge = now - state.startTime;
-    if (jobAge > maxAgeMs && (state.status === 'done' || state.status === 'error')) {
+    if (jobAge > maxAgeMs && (state.status === 'completado' || state.status === 'fallido')) {
       jobsToDelete.push(jobId);
     }
   });

@@ -1,6 +1,7 @@
 import { PrismaClient, User, Subscription, Usage, Profile, Preferences, $Enums } from '../../generated/prisma/index.js';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
+import { getPlanLimits } from '../config/plans.js';
 
 const prisma = new PrismaClient();
 
@@ -258,16 +259,14 @@ export class UserService {
   }
 
   /**
-   * 📊 OBTENER LÍMITES DEL PLAN
+   * 📊 OBTENER LÍMITES DEL PLAN - USANDO CONFIGURACIÓN CENTRALIZADA
    */
   static getPlanLimits(plan: Plan): { videosPerWeek: number; maxDuration: number } {
-    const limits = {
-      STARTER: { videosPerWeek: 1, maxDuration: 30 },
-      CREATOR: { videosPerWeek: 5, maxDuration: 60 },
-      STUDIO_PRO: { videosPerWeek: Infinity, maxDuration: 300 }
+    const planLimits = getPlanLimits(plan);
+    return {
+      videosPerWeek: planLimits.videosPerWeek,
+      maxDuration: planLimits.maxDuration
     };
-
-    return limits[plan] || limits.STARTER;
   }
 
   /**

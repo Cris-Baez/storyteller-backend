@@ -23,7 +23,7 @@ import { coherenciaAutomatica } from '../middleware/coherenciaAutomatic.js';
  */
 export async function renderVideoSimplificado(
   req: RenderRequest,
-  reportProgress: (message: string, progress: number) => void = () => {}
+  reportProgress: (message: string, progress: number, status?: string) => void = () => {}
 ): Promise<{
   url: string;
   plan: VideoPlan;
@@ -31,7 +31,7 @@ export async function renderVideoSimplificado(
 }> {
   
   logger.info('[PipelineSimplificado] 🎬 Iniciando renderizado');
-  reportProgress('Validando solicitud', 5);
+  reportProgress('Validando solicitud', 5, 'procesando_tomas');
 
   try {
     // ✅ PASO 1: Validación
@@ -43,36 +43,39 @@ export async function renderVideoSimplificado(
     }
     
     // ✅ PASO 3: Generar plan cinematográfico
-    reportProgress('Generando plan', 15);
+    reportProgress('Generando plan cinematográfico', 15, 'procesando_tomas');
     const videoPlan = await generarPlan(req);
     
     // 🎯 PASO 3.5: APLICAR MEJORAS AUTOMÁTICAS DE COHERENCIA
-    reportProgress('Aplicando mejoras de coherencia', 25);
+    reportProgress('Aplicando mejoras de coherencia', 25, 'procesando_tomas');
     const planMejorado = await coherenciaAutomatica.mejorarPlanAutomaticamente(videoPlan, {
       visualStyle: req.visualStyle,
       duration: req.duration
     });
     
-    // ✅ PASO 4: Generar audio unificado (YA EXISTENTE)
-    reportProgress('Generando audio', 40);
+    // ✅ PASO 4: Generar audio unificado
+    reportProgress('Generando locución y audio', 40, 'procesando_audio');
     const audioData = await generarAudioCompleto(planMejorado, req);
     
     // ✅ PASO 5: Usar lógica existente para clips
-    reportProgress('Generando video', 60);
+    reportProgress('Procesando tomas de video', 60, 'procesando_tomas');
     const { clips } = await generarClipsExistente(planMejorado, req, reportProgress);
     
     // ✅ PASO 6: Aplicar lip-sync a los clips si es necesario
-    reportProgress('Aplicando sincronización labial', 75);
+    reportProgress('Aplicando sincronización labial', 75, 'procesando_audio');
     const lipSyncResult = await aplicarLipSyncAPlan(planMejorado, clips, audioData, reportProgress);
     
-    // ✅ PASO 7: Ensamblar (YA EXISTENTE)
-    reportProgress('Ensamblando', 90);
+    // ✅ PASO 7: Ensamblar
+    reportProgress('Montando video final', 90, 'montando');
     const videoFinal = await ensamblarConFFmpeg(planMejorado, lipSyncResult.processedClips, audioData);
     
-    // ✅ PASO 7: CDN
+    // ✅ PASO 8: Renderizar
+    reportProgress('Renderizando video', 95, 'renderizando');
+    
+    // ✅ PASO 9: CDN
     const urlFinal = await uploadToCDN(videoFinal, `videos/${planMejorado.id}/${planMejorado.id}.mp4`);
     
-    reportProgress('Completado', 100);
+    reportProgress('Video completado exitosamente', 100, 'completado');
     
     return {
       url: urlFinal,
@@ -318,21 +321,21 @@ async function ensamblarConFFmpeg(
 
 export async function renderCinemaAI(
   req: RenderRequest,
-  reportProgress: (message: string, progress: number) => void = () => {}
+  reportProgress: (message: string, progress: number, status?: string) => void = () => {}
 ): Promise<any> {
   return await renderVideoSimplificado(req, reportProgress);
 }
 
 export async function renderMarketingAI(
   req: any, // MarketingRequest,
-  reportProgress: (message: string, progress: number) => void = () => {}
+  reportProgress: (message: string, progress: number, status?: string) => void = () => {}
 ): Promise<any> {
   return await procesarMarketingAI(req, reportProgress);
 }
 
 export async function renderAutomatic(
   req: any,
-  reportProgress: (message: string, progress: number) => void = () => {}
+  reportProgress: (message: string, progress: number, status?: string) => void = () => {}
 ): Promise<any> {
   return await renderVideoSimplificado(req, reportProgress);
 }

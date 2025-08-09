@@ -1,10 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import { AppError } from '../utils/errors.js';
 import { paypalService } from './paypalService.js';
+import { PLAN_CONFIGS, getPlanConfig, getPlanLimits } from '../config/plans.js';
 
 const prisma = new PrismaClient();
 
-export type SubscriptionPlan = 'BASIC' | 'PRO' | 'PREMIUM' | 'ANNUAL';
+export type SubscriptionPlan = 'STARTER' | 'CREATOR' | 'STUDIO_PRO';
 export type SubscriptionStatus = 'PENDING' | 'ACTIVE' | 'TRIALING' | 'PAST_DUE' | 'CANCELED' | 'UNPAID';
 export type PaymentStatus = 'PENDING' | 'COMPLETED' | 'FAILED' | 'CANCELLED' | 'REFUNDED';
 
@@ -71,7 +72,7 @@ class SubscriptionService {
     // Calcular fechas del período
     const now = new Date();
     const periodEnd = new Date(now);
-    periodEnd.setMonth(periodEnd.getMonth() + (plan === 'ANNUAL' ? 12 : 1));
+    periodEnd.setMonth(periodEnd.getMonth() + 1); // Todos los planes son mensuales
 
     try {
       // Crear suscripción en PayPal con datos reales del usuario
@@ -297,14 +298,12 @@ class SubscriptionService {
    */
   private getPayPalPlanId(plan: SubscriptionPlan): string {
     switch (plan) {
-      case 'BASIC':
-        return process.env.PAYPAL_BASIC_PLAN_ID || 'P-BASIC';
-      case 'PRO':
-        return process.env.PAYPAL_PRO_PLAN_ID || 'P-PRO';
-      case 'PREMIUM':
-        return process.env.PAYPAL_PREMIUM_PLAN_ID || 'P-PREMIUM';
-      case 'ANNUAL':
-        return process.env.PAYPAL_ANNUAL_PLAN_ID || 'P-ANNUAL';
+      case 'STARTER':
+        return process.env.PAYPAL_STARTER_PLAN_ID || 'P-STARTER';
+      case 'CREATOR':
+        return process.env.PAYPAL_CREATOR_PLAN_ID || 'P-CREATOR';
+      case 'STUDIO_PRO':
+        return process.env.PAYPAL_STUDIO_PRO_PLAN_ID || 'P-STUDIO-PRO';
       default:
         throw new AppError(`Plan no válido: ${plan}`, 400);
     }
@@ -321,10 +320,9 @@ class SubscriptionService {
     }
 
     const featureLimits = {
-      'BASIC': ['basic_generation', 'standard_quality'],
-      'PRO': ['basic_generation', 'standard_quality', 'advanced_generation', 'hd_quality'],
-      'PREMIUM': ['basic_generation', 'standard_quality', 'advanced_generation', 'hd_quality', 'premium_features', '4k_quality'],
-      'ANNUAL': ['basic_generation', 'standard_quality', 'advanced_generation', 'hd_quality', 'premium_features', '4k_quality', 'annual_bonus']
+      'STARTER': PLAN_CONFIGS.STARTER.features,
+      'CREATOR': PLAN_CONFIGS.CREATOR.features,
+      'STUDIO_PRO': PLAN_CONFIGS.STUDIO_PRO.features
     };
 
     return featureLimits[subscription.plan]?.includes(feature) || false;
@@ -344,30 +342,16 @@ class SubscriptionService {
       };
     }
 
-    const limits = {
-      'BASIC': {
-        videosPerMonth: 20,
-        maxDuration: 60,
-        quality: 'standard'
-      },
-      'PRO': {
-        videosPerMonth: 50,
-        maxDuration: 120,
-        quality: 'hd'
-      },
-      'PREMIUM': {
-        videosPerMonth: 200,
-        maxDuration: 300,
-        quality: '4k'
-      },
-      'ANNUAL': {
-        videosPerMonth: 500,
-        maxDuration: 600,
-        quality: '4k'
-      }
+    // Usar configuración centralizada de planes
+    const planConfig = getPlanConfig(subscription.plan);
+    return {
+      videosPerWeek: planConfig.videosPerWeek,
+      maxDuration: planConfig.maxDuration,
+      quality: planConfig.quality,
+      watermark: planConfig.watermark,
+      aiActor: planConfig.aiActor,
+      editorPro: planConfig.editorPro
     };
-
-    return limits[subscription.plan] || limits['BASIC'];
   }
 }
 

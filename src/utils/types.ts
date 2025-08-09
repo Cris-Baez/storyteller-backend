@@ -4,7 +4,7 @@
 // ✅ IMPORTAR TIPOS UNIFICADOS
 import { EstiloVisualPrincipal, EstiloVisualAPI } from '../types/estilos.js';
 
-export type AllowedDuration = 5 | 8 | 10 | 12 | 15 | 20 | 25 | 30 | 45 | 60;
+export type AllowedDuration = 15 | 30 | 45 | 60;
 
 // ✅ USAR SISTEMA UNIFICADO DE ESTILOS
 export type EstiloVisual = EstiloVisualPrincipal; // Tipo principal para uso interno

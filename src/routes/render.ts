@@ -31,7 +31,7 @@ const renderRequestSchema = z.object({
     val.replace(/[^\x20-\x7E\u00C0-\u017F]/g, "").trim() || "Create a cinematic story"
   ),
   visualStyle: z.enum(ESTILOS_VALIDOS as [EstiloVisualAPI, ...EstiloVisualAPI[]]),
-  duration: z.number().min(1).max(300, 'Duration must be between 1 and 300 seconds'),
+  duration: z.number().min(15).max(60, 'Duration must be 15, 30, 45, or 60 seconds').refine(val => [15, 30, 45, 60].includes(val), 'Duration must be exactly 15, 30, 45, or 60 seconds'),
 });
 
 // Endpoint principal para renderizar videos
