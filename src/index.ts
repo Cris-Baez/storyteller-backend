@@ -9,9 +9,13 @@ import { renderRouter } from './routes/render.js';
 import { marketingRoutes } from './routes/marketingRoutes.js';  // ✨ NUEVO: Marketing AI
 import { authRouter } from './routes/auth.js';  // ✨ NUEVO: Autenticación
 import subscriptionRouter from './routes/subscriptionRoutes.js';  // ✨ NUEVO: Suscripciones
-import adminRouter from './routes/admin.js';
+import marketingConfigRouter from './routes/marketingConfigRoutes.js';  // ✨ NUEVO: Configuración Marketing
+import templateRouter from './routes/templateRoutes.js';  // ✨ NUEVO: Plantillas
+import adminRouter from './routes/admin.js';  // ✨ NUEVO: Panel de administración
+import editorRouter from './routes/editor.js';  // ✨ NUEVO: Editor Visual
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';  // ✨ NUEVO: Manejo de errores
 import { logger } from './utils/logger.js';
+import { CleanupService } from './services/cleanupService.js';  // ✨ NUEVO: Servicio de limpieza
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -88,10 +92,12 @@ app.get('/api/test', (_req, res) => {
 // Rutas principales
 app.use('/api/auth', authRouter);  // ✨ NUEVO: Rutas de autenticación
 app.use('/api/subscriptions', subscriptionRouter);  // ✨ NUEVO: Rutas de suscripciones
+app.use('/api/marketing-config', marketingConfigRouter);  // ✨ NUEVO: Configuración de marketing
+app.use('/api/templates', templateRouter);  // ✨ NUEVO: Plantillas de marketing
+app.use('/api/admin', adminRouter);  // ✨ NUEVO: Panel de administración
+app.use('/api/editor', editorRouter);  // ✨ NUEVO: Editor Visual (Studio Pro)
 app.use('/api/render', renderRouter);
 app.use('/api/marketing', marketingRoutes);  // ✨ NUEVO: Marketing AI Routes
-//app.use('/api/templates', templatesRouter);
-
 // Nueva ruta para compilar el video final
 app.post('/api/compile', async (req, res) => {
   try {
@@ -124,6 +130,9 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
   logger.info(`🚀  Storyteller AI backend listening on port ${PORT}`);
+  
+  // ✨ NUEVO: Inicializar servicio de limpieza automática
+  CleanupService.scheduleAutomaticCleanup();
 });
 
 process.on('SIGTERM', () => {

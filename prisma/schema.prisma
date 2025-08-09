@@ -17,6 +17,9 @@ model User {
   role        Role     @default(USER)
   plan        Plan     @default(STARTER)
   
+  // Estado del usuario
+  isActive                Boolean   @default(true)
+  
   // Estado de verificación
   emailVerified           Boolean   @default(false)
   emailVerificationToken  String?   @unique
@@ -179,6 +182,41 @@ model MarketingConfig {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   @@map("marketing_configs")
+}
+
+// 📄 PLANTILLAS DE MARKETING
+model MarketingTemplate {
+  id                Int      @id @default(autoincrement())
+  title             String
+  description       String?
+  businessType      String   // restaurant, spa, retail, fitness, etc.
+  category          String   // promotional, seasonal, product, service, etc.
+  
+  // ESTRUCTURA NARRATIVA
+  structure         Json     // Array de pasos/secciones del video
+  duration          Int      @default(30) // Duración recomendada en segundos
+  style             String   @default("professional") // professional, casual, energetic, etc.
+  tone              String   @default("friendly") // professional, friendly, authoritative, etc.
+  
+  // ELEMENTOS AUDIOVISUALES
+  musicStyle        String?  // upbeat, corporate, emotional, etc.
+  voiceType         String   @default("neutral") // male, female, neutral
+  effectsEnabled    Boolean  @default(true)
+  
+  // CONFIGURACIÓN
+  isActive          Boolean  @default(true)
+  isPublic          Boolean  @default(true)
+  useCount          Int      @default(0) // Contador de usos
+  
+  // METADATOS
+  tags              String?  // JSON array de tags para filtrado
+  thumbnail         String?  // URL de imagen preview
+  sampleVideo       String?  // URL de video de muestra
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@map("marketing_templates")
 }
 
 // 📁 PROYECTOS (PARA EDITOR VISUAL)
