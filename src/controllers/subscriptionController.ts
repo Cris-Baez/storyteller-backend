@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { subscriptionService, SubscriptionPlan } from '../services/subscriptionService.js';
 import { paypalService } from '../services/paypalService.js';
+import { PrismaClient } from '../../generated/prisma/index.js';
 import { AppError, ValidationError, NotFoundError } from '../utils/errors.js';
+
+const prisma = new PrismaClient();
 
 /**
  * Crear una nueva suscripción
@@ -282,24 +285,76 @@ export async function handlePayPalWebhook(req: Request, res: Response, next: Nex
  * Manejar activación de suscripción
  */
 async function handleSubscriptionActivated(event: any) {
-  const subscriptionId = event.resource.id;
-  await subscriptionService.updateSubscriptionStatus(subscriptionId, 'ACTIVE');
+  const paypalSubscriptionId = event.resource.id;
+  
+  await prisma.$transaction(async (tx) => {
+    const subscription = await tx.subscription.findFirst({
+      where: { paypalSubscriptionId }
+    });
+
+    if (!subscription) {
+      throw new Error(`Suscripción no encontrada para PayPal ID: ${paypalSubscriptionId}`);
+    }
+
+    await tx.subscription.update({
+      where: { id: subscription.id },
+      data: {
+        status: 'ACTIVE',
+        updatedAt: new Date()
+      }
+    });
+  });
 }
 
 /**
  * Manejar cancelación de suscripción
  */
 async function handleSubscriptionCancelled(event: any) {
-  const subscriptionId = event.resource.id;
-  await subscriptionService.updateSubscriptionStatus(subscriptionId, 'CANCELED');
+  const paypalSubscriptionId = event.resource.id;
+  
+  await prisma.$transaction(async (tx) => {
+    const subscription = await tx.subscription.findFirst({
+      where: { paypalSubscriptionId }
+    });
+
+    if (!subscription) {
+      throw new Error(`Suscripción no encontrada para PayPal ID: ${paypalSubscriptionId}`);
+    }
+
+    await tx.subscription.update({
+      where: { id: subscription.id },
+      data: {
+        status: 'CANCELED',
+        canceledAt: new Date(),
+        updatedAt: new Date()
+      }
+    });
+  });
 }
 
 /**
  * Manejar suspensión de suscripción
  */
 async function handleSubscriptionSuspended(event: any) {
-  const subscriptionId = event.resource.id;
-  await subscriptionService.updateSubscriptionStatus(subscriptionId, 'PAST_DUE');
+  const paypalSubscriptionId = event.resource.id;
+  
+  await prisma.$transaction(async (tx) => {
+    const subscription = await tx.subscription.findFirst({
+      where: { paypalSubscriptionId }
+    });
+
+    if (!subscription) {
+      throw new Error(`Suscripción no encontrada para PayPal ID: ${paypalSubscriptionId}`);
+    }
+
+    await tx.subscription.update({
+      where: { id: subscription.id },
+      data: {
+        status: 'PAST_DUE',
+        updatedAt: new Date()
+      }
+    });
+  });
 }
 
 /**
@@ -307,19 +362,40 @@ async function handleSubscriptionSuspended(event: any) {
  */
 async function handleSubscriptionPaymentFailed(event: any) {
   const resource = event.resource;
-  const subscriptionId = resource.billing_agreement_id || resource.id;
+  const paypalSubscriptionId = resource.billing_agreement_id || resource.id;
   
-  // Registrar el fallo del pago
-  await subscriptionService.recordPayment(subscriptionId, {
-    amount: parseFloat(resource.amount?.total || '0'),
-    currency: resource.amount?.currency || 'USD',
-    status: 'FAILED',
-    paypalPaymentId: resource.id,
-    failureReason: resource.failure_reason || 'Payment failed'
-  });
+  // Usar transacción para operaciones críticas
+  await prisma.$transaction(async (tx) => {
+    // Buscar suscripción interna por PayPal ID
+    const subscription = await tx.subscription.findFirst({
+      where: { paypalSubscriptionId }
+    });
 
-  // Actualizar estado de suscripción
-  await subscriptionService.updateSubscriptionStatus(subscriptionId, 'PAST_DUE');
+    if (!subscription) {
+      throw new Error(`Suscripción no encontrada para PayPal ID: ${paypalSubscriptionId}`);
+    }
+
+    // Registrar el fallo del pago
+    await tx.payment.create({
+      data: {
+        subscriptionId: subscription.id,
+        amount: parseFloat(resource.amount?.total || '0'),
+        currency: resource.amount?.currency || 'USD',
+        status: 'FAILED',
+        paypalPaymentId: resource.id,
+        failureReason: resource.failure_reason || 'Payment failed'
+      }
+    });
+
+    // Actualizar estado de suscripción
+    await tx.subscription.update({
+      where: { id: subscription.id },
+      data: {
+        status: 'PAST_DUE',
+        updatedAt: new Date()
+      }
+    });
+  });
 }
 
 /**
@@ -327,14 +403,46 @@ async function handleSubscriptionPaymentFailed(event: any) {
  */
 async function handleSubscriptionPaymentCompleted(event: any) {
   const resource = event.resource;
-  const subscriptionId = resource.billing_agreement_id || resource.id;
+  const paypalSubscriptionId = resource.billing_agreement_id || resource.id;
   
-  // Registrar el pago exitoso
-  await subscriptionService.recordPayment(subscriptionId, {
-    amount: parseFloat(resource.amount?.total || '0'),
-    currency: resource.amount?.currency || 'USD',
-    status: 'COMPLETED',
-    paypalPaymentId: resource.id
+  // Usar transacción para operaciones críticas
+  await prisma.$transaction(async (tx) => {
+    // Buscar suscripción interna por PayPal ID
+    const subscription = await tx.subscription.findFirst({
+      where: { paypalSubscriptionId }
+    });
+
+    if (!subscription) {
+      throw new Error(`Suscripción no encontrada para PayPal ID: ${paypalSubscriptionId}`);
+    }
+
+    // Registrar el pago exitoso
+    await tx.payment.create({
+      data: {
+        subscriptionId: subscription.id,
+        amount: parseFloat(resource.amount?.total || '0'),
+        currency: resource.amount?.currency || 'USD',
+        status: 'COMPLETED',
+        paypalPaymentId: resource.id
+      }
+    });
+
+    // Calcular nuevo período correctamente
+    const now = new Date();
+    const currentPeriodEnd = subscription.currentPeriodEnd || now;
+    const newPeriodEnd = new Date(currentPeriodEnd);
+    newPeriodEnd.setMonth(newPeriodEnd.getMonth() + (subscription.plan === 'ANNUAL' ? 12 : 1));
+
+    // Actualizar suscripción con período extendido
+    await tx.subscription.update({
+      where: { id: subscription.id },
+      data: {
+        status: 'ACTIVE',
+        currentPeriodStart: currentPeriodEnd,
+        currentPeriodEnd: newPeriodEnd,
+        updatedAt: now
+      }
+    });
   });
 }
 

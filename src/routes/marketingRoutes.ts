@@ -1,8 +1,13 @@
 import { Router } from 'express';
 import { MarketingController } from '../controllers/marketingController.js';
 import { MarketingIntelligenceService } from '../services/marketingIntelligenceService.js';
+import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
+
+// ✅ APLICAR AUTENTICACIÓN A TODAS LAS RUTAS DE MARKETING
+router.use(authenticate);
+
 const marketingController = new MarketingController();
 
 /**

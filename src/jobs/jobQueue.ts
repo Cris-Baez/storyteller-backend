@@ -13,8 +13,28 @@ export interface JobState {
   metadata?: any;
 }
 
+// Thread-safe job storage con locks
 const jobStates: Record<string, JobState> = {};
 const jobResults: Record<string, any> = {};
+const jobLocks: Record<string, boolean> = {}; // Simple mutex por job
+
+// Función thread-safe para actualizar estado
+function atomicUpdateJobState(jobId: string, updates: Partial<JobState>): void {
+  // Simple mutex check
+  while (jobLocks[jobId]) {
+    // Esperar que termine la operación anterior
+    continue;
+  }
+  
+  jobLocks[jobId] = true;
+  try {
+    if (jobStates[jobId]) {
+      jobStates[jobId] = { ...jobStates[jobId], ...updates };
+    }
+  } finally {
+    delete jobLocks[jobId];
+  }
+}
 
 // Pasos del proceso de generación
 const GENERATION_STEPS = [
@@ -50,7 +70,7 @@ export async function startJob({ prompt, visualStyle, duration }: any) {
   setImmediate(async () => {
     try {
       // Actualizar estado a procesando
-      updateJobState(jobId, {
+      atomicUpdateJobState(jobId, {
         status: 'processing',
         currentStep: GENERATION_STEPS[0],
         progress: 5
@@ -59,8 +79,8 @@ export async function startJob({ prompt, visualStyle, duration }: any) {
       const result = await renderCinemaAI(
         { prompt, visualStyle, duration },
         (step: string, progress: number) => {
-          // Callback de progreso
-          updateJobState(jobId, {
+          // Callback de progreso thread-safe
+          atomicUpdateJobState(jobId, {
             currentStep: step,
             progress: Math.min(progress, 95) // Reservar 5% para finalización
           });
@@ -68,14 +88,21 @@ export async function startJob({ prompt, visualStyle, duration }: any) {
       );
 
       // Job completado exitosamente
-      updateJobState(jobId, {
+      atomicUpdateJobState(jobId, {
         status: 'done',
         currentStep: 'Completado',
         progress: 100,
         endTime: Date.now()
       });
 
-      jobResults[jobId] = result;
+      // Thread-safe result storage
+      while (jobLocks[jobId + '_result']) continue;
+      jobLocks[jobId + '_result'] = true;
+      try {
+        jobResults[jobId] = result;
+      } finally {
+        delete jobLocks[jobId + '_result'];
+      }
       
       // Logging seguro del resultado
       if (hasLargeBase64(result)) {
@@ -93,14 +120,21 @@ export async function startJob({ prompt, visualStyle, duration }: any) {
       const err = error instanceof Error ? error : new Error(String(error));
       
       // Job con error
-      updateJobState(jobId, {
+      atomicUpdateJobState(jobId, {
         status: 'error',
         currentStep: 'Error',
         errorMessage: err.message,
         endTime: Date.now()
       });
 
-      jobResults[jobId] = { error: err.message };
+      // Thread-safe result storage
+      while (jobLocks[jobId + '_result']) continue;
+      jobLocks[jobId + '_result'] = true;
+      try {
+        jobResults[jobId] = { error: err.message };
+      } finally {
+        delete jobLocks[jobId + '_result'];
+      }
       
       safeLog(`[JobQueue] Error en job ${jobId}:`, {
         error: err.message,
@@ -113,21 +147,28 @@ export async function startJob({ prompt, visualStyle, duration }: any) {
 }
 
 export function updateJobState(jobId: string, updates: Partial<JobState>) {
-  if (jobStates[jobId]) {
-    jobStates[jobId] = { ...jobStates[jobId], ...updates };
-  }
+  // Usar versión thread-safe
+  atomicUpdateJobState(jobId, updates);
 }
 
 export function getJobStatus(jobId: string): string {
+  // Thread-safe read
   return jobStates[jobId]?.status || 'not_found';
 }
 
 export function getJobState(jobId: string): JobState | null {
-  return jobStates[jobId] || null;
+  // Thread-safe read con copia
+  const state = jobStates[jobId];
+  return state ? { ...state } : null;
 }
 
 export function getJobResult(jobId: string) {
-  return jobResults[jobId] || null;
+  // Thread-safe read con copia si es objeto
+  const result = jobResults[jobId];
+  if (result && typeof result === 'object') {
+    return { ...result };
+  }
+  return result || null;
 }
 
 export function getJobProgress(jobId: string): {
@@ -137,7 +178,7 @@ export function getJobProgress(jobId: string): {
   totalSteps?: number;
   errorMessage?: string;
 } {
-  const state = jobStates[jobId];
+  const state = getJobState(jobId); // Usar versión thread-safe
   
   if (!state) {
     return { status: 'not_found' };
@@ -152,12 +193,16 @@ export function getJobProgress(jobId: string): {
   };
 }
 
-// Limpiar jobs antiguos (opcionalmente)
+// Limpiar jobs antiguos (thread-safe)
 export function cleanupOldJobs(maxAgeMs: number = 24 * 60 * 60 * 1000) { // 24 horas por defecto
   const now = Date.now();
   const jobsToDelete: string[] = [];
 
+  // Thread-safe deletion
   Object.entries(jobStates).forEach(([jobId, state]) => {
+    // Verificar que no esté siendo modificado
+    if (jobLocks[jobId]) return;
+    
     const jobAge = now - state.startTime;
     if (jobAge > maxAgeMs && (state.status === 'done' || state.status === 'error')) {
       jobsToDelete.push(jobId);
@@ -165,8 +210,16 @@ export function cleanupOldJobs(maxAgeMs: number = 24 * 60 * 60 * 1000) { // 24 h
   });
 
   jobsToDelete.forEach(jobId => {
-    delete jobStates[jobId];
-    delete jobResults[jobId];
+    // Lock durante eliminación
+    jobLocks[jobId] = true;
+    jobLocks[jobId + '_result'] = true;
+    try {
+      delete jobStates[jobId];
+      delete jobResults[jobId];
+    } finally {
+      delete jobLocks[jobId];
+      delete jobLocks[jobId + '_result'];
+    }
   });
 
   if (jobsToDelete.length > 0) {

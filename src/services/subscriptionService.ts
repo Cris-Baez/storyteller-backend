@@ -58,18 +58,31 @@ class SubscriptionService {
       throw new AppError('Usuario ya tiene una suscripción activa', 400);
     }
 
+    // Obtener datos reales del usuario
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { profile: true }
+    });
+
+    if (!user) {
+      throw new AppError('Usuario no encontrado', 404);
+    }
+
     // Calcular fechas del período
     const now = new Date();
     const periodEnd = new Date(now);
     periodEnd.setMonth(periodEnd.getMonth() + (plan === 'ANNUAL' ? 12 : 1));
 
     try {
-      // Crear suscripción en PayPal
+      // Crear suscripción en PayPal con datos reales del usuario
       const paypalSubscription = await paypalService.createSubscription({
         plan_id: this.getPayPalPlanId(plan),
         subscriber: {
-          name: { given_name: 'User', surname: 'Name' },
-          email_address: 'user@example.com' // Se debería obtener del usuario
+          name: { 
+            given_name: user.profile?.firstName || user.name.split(' ')[0] || 'Usuario',
+            surname: user.profile?.lastName || user.name.split(' ').slice(1).join(' ') || 'Storyteller'
+          },
+          email_address: user.email
         }
       });
 
@@ -259,15 +272,20 @@ class SubscriptionService {
       });
 
       if (subscription) {
-        const newPeriodEnd = new Date(subscription.currentPeriodEnd || new Date());
+        // Calcular período correctamente con fecha fija
+        const now = new Date();
+        const baseDate = subscription.currentPeriodEnd || now;
+        const newPeriodStart = new Date(baseDate);
+        const newPeriodEnd = new Date(baseDate);
         newPeriodEnd.setMonth(newPeriodEnd.getMonth() + (subscription.plan === 'ANNUAL' ? 12 : 1));
 
         await prisma.subscription.update({
           where: { id: subscriptionId },
           data: {
             status: 'ACTIVE',
-            currentPeriodStart: subscription.currentPeriodEnd || new Date(),
-            currentPeriodEnd: newPeriodEnd
+            currentPeriodStart: newPeriodStart,
+            currentPeriodEnd: newPeriodEnd,
+            updatedAt: now
           }
         });
       }

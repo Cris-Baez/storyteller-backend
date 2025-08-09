@@ -21,9 +21,17 @@ export interface LoginData {
 }
 
 export class AuthService {
-  private readonly JWT_SECRET = env.JWT_SECRET || 'fallback_secret_key_change_in_production';
+  private readonly JWT_SECRET = this.validateJWTSecret();
   private readonly JWT_EXPIRES_IN = '24h';
   private readonly REFRESH_TOKEN_EXPIRES_IN = '7d';
+
+  private validateJWTSecret(): string {
+    const secret = env.JWT_SECRET;
+    if (!secret || secret.length < 32) {
+      throw new Error('JWT_SECRET es requerido y debe tener al menos 32 caracteres');
+    }
+    return secret;
+  }
 
   /**
    * 🔐 REGISTRO DE NUEVO USUARIO
@@ -43,8 +51,13 @@ export class AuthService {
 
       logger.info(`[AuthService] ✅ Usuario registrado exitosamente: ${data.email}`);
 
-      // TODO: Enviar email de verificación
-      // await this.sendVerificationEmail(user.email, user.emailVerificationToken);
+      // Sistema de verificación de email deshabilitado temporalmente
+      // En producción, implementar envío real de emails
+      if (env.NODE_ENV === 'production' && process.env.EMAIL_SERVICE_ENABLED === 'true') {
+        await this.sendVerificationEmail(user.email, user.emailVerificationToken || '');
+      } else {
+        logger.info(`[AuthService] ⚠️ Sistema de email deshabilitado - usuario puede usar cuenta inmediatamente`);
+      }
 
       return { user, tokens };
 
@@ -134,11 +147,16 @@ export class AuthService {
       const resetToken = await UserService.generatePasswordResetToken(email);
       if (!resetToken) {
         // Por seguridad, no revelamos si el email existe
+        logger.info(`[AuthService] ⚠️ Sistema de email deshabilitado para reset de contraseña`);
         return;
       }
 
-      // TODO: Enviar email con token de reset
-      // await this.sendPasswordResetEmail(email, resetToken);
+      // Sistema de email deshabilitado temporalmente
+      if (env.NODE_ENV === 'production' && process.env.EMAIL_SERVICE_ENABLED === 'true') {
+        await this.sendPasswordResetEmail(email, resetToken);
+      } else {
+        logger.info(`[AuthService] ⚠️ Token de reset generado pero email deshabilitado. Token: ${resetToken}`);
+      }
 
       logger.info(`[AuthService] ✅ Token de reset generado para: ${email}`);
 

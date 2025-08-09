@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { logger, safeLog } from '../utils/logger.js';
 import { logFeedback } from '../services/feedbackService.js';
 import { ESTILOS_VALIDOS, normalizarEstilo, type EstiloVisualAPI } from '../types/estilos.js';
+import { authenticate, checkVideoCreationLimits, AuthenticatedRequest } from '../middleware/auth.js';
 import multer, { FileFilterCallback } from 'multer';
 import type { Request } from 'express';
 
@@ -21,6 +22,9 @@ const upload = multer({
 
 export const renderRouter = express.Router();
 
+// ✅ APLICAR AUTENTICACIÓN A TODAS LAS RUTAS
+renderRouter.use(authenticate);
+
 // Esquema de validación con Zod - UNIFICADO con tipos de estilos
 const renderRequestSchema = z.object({
   prompt: z.string().min(1, 'Prompt is required').transform(val => 
@@ -35,11 +39,15 @@ renderRouter.post('/', upload.fields([
   { name: 'userImage', maxCount: 2 },
   { name: 'localImage', maxCount: 1 },
   { name: 'productImage', maxCount: 1 }
-]), async (req, res) => {
+]), async (req: any, res, next) => {
+  // Verificar límites de creación
+  await checkVideoCreationLimits(req as AuthenticatedRequest, res, next);
+}, async (req: any, res) => {
   try {
     safeLog('[API] Nueva solicitud de renderizado', {
       hasBody: !!req.body,
-      bodyKeys: req.body ? Object.keys(req.body) : []
+      bodyKeys: req.body ? Object.keys(req.body) : [],
+      userId: req.user?.id
     });
 
     // Sanitizar el prompt

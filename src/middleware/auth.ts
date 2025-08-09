@@ -35,7 +35,17 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
     }
 
     const token = authHeader.replace('Bearer ', '');
-    const JWT_SECRET = env.JWT_SECRET || 'fallback_jwt_secret';
+    const JWT_SECRET = env.JWT_SECRET;
+    
+    if (!JWT_SECRET || JWT_SECRET.length < 32) {
+      logger.error('[Auth] JWT_SECRET no configurado correctamente');
+      res.status(500).json({
+        success: false,
+        error: 'Error de configuración del servidor',
+        code: 'SERVER_CONFIG_ERROR'
+      });
+      return;
+    }
 
     // Verificar token
     const decoded = jwt.verify(token, JWT_SECRET) as any;
@@ -51,15 +61,15 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
       return;
     }
 
-    // Verificar que el email esté verificado (opcional, comentado por ahora)
-    // if (!user.emailVerified) {
-    //   res.status(401).json({
-    //     success: false,
-    //     error: 'Email no verificado',
-    //     code: 'EMAIL_NOT_VERIFIED'
-    //   });
-    //   return;
-    // }
+    // Verificar que el email esté verificado (solo en producción con servicio de email habilitado)
+    if (process.env.NODE_ENV === 'production' && process.env.EMAIL_SERVICE_ENABLED === 'true' && !user.emailVerified) {
+      res.status(401).json({
+        success: false,
+        error: 'Email no verificado',
+        code: 'EMAIL_NOT_VERIFIED'
+      });
+      return;
+    }
 
     req.user = user;
     next();
@@ -160,11 +170,7 @@ export const checkVideoCreationLimits = async (req: AuthenticatedRequest, res: R
 
   const canCreate = await UserService.canCreateVideo(req.user.id);
   if (!canCreate) {
-    const limits = {
-      STARTER: 1,
-      CREATOR: 5,
-      STUDIO_PRO: 'Ilimitado'
-    };
+    const limits = await UserService.getPlanLimits(req.user.plan);
 
     res.status(403).json({
       success: false,
@@ -172,7 +178,7 @@ export const checkVideoCreationLimits = async (req: AuthenticatedRequest, res: R
       code: 'VIDEO_LIMIT_EXCEEDED',
       details: {
         currentPlan: req.user.plan,
-        weeklyLimit: limits[req.user.plan],
+        weeklyLimit: limits.videosPerWeek,
         videosThisWeek: req.user.usage?.videosThisWeek || 0,
         resetDate: req.user.usage?.weekResetDate
       }
@@ -222,13 +228,15 @@ export const optionalAuth = async (req: Request, res: Response, next: NextFuncti
     
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.replace('Bearer ', '');
-      const JWT_SECRET = env.JWT_SECRET || 'fallback_jwt_secret';
-
-      const decoded = jwt.verify(token, JWT_SECRET) as any;
-      const user = await UserService.findById(parseInt(decoded.userId));
+      const JWT_SECRET = env.JWT_SECRET;
       
-      if (user) {
-        req.user = user;
+      if (JWT_SECRET && JWT_SECRET.length >= 32) {
+        const decoded = jwt.verify(token, JWT_SECRET) as any;
+        const user = await UserService.findById(parseInt(decoded.userId));
+        
+        if (user) {
+          req.user = user;
+        }
       }
     }
 

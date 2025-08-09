@@ -210,9 +210,26 @@ export class UserService {
     
     if (!user.subscription) return false;
     
-    return user.subscription.status === 'ACTIVE' && 
-           user.subscription.currentPeriodEnd !== null &&
-           new Date(user.subscription.currentPeriodEnd) > new Date();
+    // Aceptar ACTIVE, TRIALING y PENDING (nueva suscripción)
+    const validStatuses: SubscriptionStatus[] = ['ACTIVE', 'TRIALING', 'PENDING'];
+    
+    if (!validStatuses.includes(user.subscription.status)) return false;
+    
+    // Para PENDING, solo es válido si es reciente (menos de 24 horas)
+    if (user.subscription.status === 'PENDING') {
+      const createdAt = new Date(user.subscription.createdAt);
+      const now = new Date();
+      const hoursDiff = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60);
+      
+      if (hoursDiff > 24) return false; // PENDING por más de 24h = inválido
+    }
+    
+    // Verificar fecha de expiración si existe
+    if (user.subscription.currentPeriodEnd) {
+      return new Date(user.subscription.currentPeriodEnd) > new Date();
+    }
+    
+    return true;
   }
 
   /**
@@ -228,16 +245,29 @@ export class UserService {
     // Resetear contador si pasó la semana
     if (new Date() > new Date(user.usage.weekResetDate)) {
       await this.resetWeeklyUsage(userId);
-      return true;
+      // Después del reset, verificar límites normalmente
+      const refreshedUser = await this.findById(userId);
+      if (!refreshedUser || !refreshedUser.usage) return false;
+      
+      const limits = this.getPlanLimits(user.plan);
+      return refreshedUser.usage.videosThisWeek < limits.videosPerWeek;
     }
 
-    const limits: { [key in Plan]: number } = {
-      STARTER: 1,
-      CREATOR: 5,
-      STUDIO_PRO: Infinity
+    const limits = this.getPlanLimits(user.plan);
+    return user.usage.videosThisWeek < limits.videosPerWeek;
+  }
+
+  /**
+   * 📊 OBTENER LÍMITES DEL PLAN
+   */
+  static getPlanLimits(plan: Plan): { videosPerWeek: number; maxDuration: number } {
+    const limits = {
+      STARTER: { videosPerWeek: 1, maxDuration: 30 },
+      CREATOR: { videosPerWeek: 5, maxDuration: 60 },
+      STUDIO_PRO: { videosPerWeek: Infinity, maxDuration: 300 }
     };
 
-    return user.usage.videosThisWeek < (limits[user.plan] || 0);
+    return limits[plan] || limits.STARTER;
   }
 
   /**
