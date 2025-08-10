@@ -22,8 +22,8 @@ router.post('/webhook/paypal', handlePayPalWebhook);
 // Validaciones
 const createSubscriptionValidation = [
   body('plan')
-    .isIn(['BASIC', 'PRO', 'PREMIUM', 'ANNUAL'])
-    .withMessage('Plan debe ser uno de: BASIC, PRO, PREMIUM, ANNUAL')
+    .isIn(['STARTER', 'CREATOR', 'STUDIO_PRO'])
+    .withMessage('Plan debe ser uno de: STARTER, CREATOR, STUDIO_PRO')
 ];
 
 const cancelSubscriptionValidation = [

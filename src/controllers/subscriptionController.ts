@@ -324,7 +324,7 @@ async function handleSubscriptionCancelled(event: any) {
     await tx.subscription.update({
       where: { id: subscription.id },
       data: {
-        status: 'CANCELED',
+        status: 'CANCELLED',
         canceledAt: new Date(),
         updatedAt: new Date()
       }
@@ -427,11 +427,11 @@ async function handleSubscriptionPaymentCompleted(event: any) {
       }
     });
 
-    // Calcular nuevo período correctamente
+    // Calcular nuevo período correctamente - todos los planes son mensuales
     const now = new Date();
     const currentPeriodEnd = subscription.currentPeriodEnd || now;
     const newPeriodEnd = new Date(currentPeriodEnd);
-    newPeriodEnd.setMonth(newPeriodEnd.getMonth() + (subscription.plan === 'STUDIO_PRO' ? 12 : 1));
+    newPeriodEnd.setMonth(newPeriodEnd.getMonth() + 1);
 
     // Actualizar suscripción con período extendido
     await tx.subscription.update({

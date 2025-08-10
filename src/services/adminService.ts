@@ -122,7 +122,7 @@ export class AdminService {
         where: { status: 'TRIALING' }
       });
       const canceledSubscriptions = await prisma.subscription.count({
-        where: { status: 'CANCELED' }
+        where: { status: 'CANCELLED' }
       });
 
       // Revenue (ingresos)

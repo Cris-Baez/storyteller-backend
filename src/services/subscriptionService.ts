@@ -6,7 +6,7 @@ import { PLAN_CONFIGS, getPlanConfig, getPlanLimits } from '../config/plans.js';
 const prisma = new PrismaClient();
 
 export type SubscriptionPlan = 'STARTER' | 'CREATOR' | 'STUDIO_PRO';
-export type SubscriptionStatus = 'PENDING' | 'ACTIVE' | 'TRIALING' | 'PAST_DUE' | 'CANCELED' | 'UNPAID';
+export type SubscriptionStatus = 'PENDING' | 'ACTIVE' | 'TRIALING' | 'PAST_DUE' | 'CANCELLED' | 'UNPAID';
 export type PaymentStatus = 'PENDING' | 'COMPLETED' | 'FAILED' | 'CANCELLED' | 'REFUNDED';
 
 export interface CreateSubscriptionData {
@@ -190,7 +190,7 @@ class SubscriptionService {
       const updatedSubscription = await prisma.subscription.update({
         where: { id: subscriptionId },
         data: {
-          status: immediate ? 'CANCELED' : subscription.status as any,
+          status: immediate ? 'CANCELLED' : subscription.status as any,
           cancelAtPeriodEnd: !immediate,
           canceledAt: immediate ? new Date() : null
         },
@@ -228,7 +228,7 @@ class SubscriptionService {
       where: { id: subscription.id },
       data: {
         status: status as any,
-        canceledAt: status === 'CANCELED' ? new Date() : null
+        canceledAt: status === 'CANCELLED' ? new Date() : null
       },
       include: {
         payments: {
@@ -273,12 +273,12 @@ class SubscriptionService {
       });
 
       if (subscription) {
-        // Calcular período correctamente con fecha fija
+        // Calcular período correctamente - todos los planes son mensuales
         const now = new Date();
         const baseDate = subscription.currentPeriodEnd || now;
         const newPeriodStart = new Date(baseDate);
         const newPeriodEnd = new Date(baseDate);
-        newPeriodEnd.setMonth(newPeriodEnd.getMonth() + (subscription.plan === 'ANNUAL' ? 12 : 1));
+        newPeriodEnd.setMonth(newPeriodEnd.getMonth() + 1);
 
         await prisma.subscription.update({
           where: { id: subscriptionId },
