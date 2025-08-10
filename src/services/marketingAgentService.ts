@@ -7,6 +7,7 @@ import { PrismaClient } from '../../generated/prisma/index.js';
 import { logger } from '../utils/logger.js';
 import { MarketingTemplateService } from './marketingTemplateService.js';
 import { MarketingConfigService } from './marketingConfigService.js';
+import { PlanLimitService } from './planLimitService.js'; // ✅ USAR SERVICIO CENTRALIZADO
 import cron from 'node-cron';
 
 const prisma = new PrismaClient();
@@ -161,23 +162,16 @@ export class MarketingAgentService {
   }
 
   /**
-   * ✅ VERIFICAR LÍMITES DEL PLAN
+   * ✅ VERIFICAR LÍMITES DEL PLAN USANDO SERVICIO CENTRALIZADO
    */
   private async checkPlanLimits(userId: number): Promise<boolean> {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { usage: true }
-    });
-
-    if (!user || !user.usage) return false;
-
-    const planLimits = {
-      CREATOR: 5,
-      STUDIO_PRO: Infinity
-    };
-
-    const currentLimit = planLimits[user.plan as keyof typeof planLimits] || 0;
-    return user.usage.videosThisWeek < currentLimit;
+    try {
+      const validation = await PlanLimitService.validateVideoCreation(userId);
+      return validation.canCreate;
+    } catch (error) {
+      logger.error(`[MarketingAgent] Error validando límites para usuario ${userId}:`, error);
+      return false;
+    }
   }
 
   /**
@@ -243,13 +237,13 @@ export class MarketingAgentService {
   private async logSuccessfulGeneration(userId: number, templateId: string): Promise<void> {
     logger.info(`[MarketingAgent] Video generado exitosamente - Usuario: ${userId}, Plantilla: ${templateId}`);
     
-    // Actualizar uso del usuario
-    await prisma.usage.update({
-      where: { userId },
-      data: {
-        videosThisWeek: { increment: 1 }
-      }
-    });
+    // ✅ USAR SERVICIO CENTRALIZADO PARA REGISTRAR USO
+    try {
+      await PlanLimitService.recordVideoCreation(userId);
+      logger.info(`[MarketingAgent] ✅ Uso registrado correctamente para usuario ${userId}`);
+    } catch (error) {
+      logger.error(`[MarketingAgent] ❌ Error registrando uso para usuario ${userId}:`, error);
+    }
   }
 
   private async logSkippedGeneration(userId: number, reason: string): Promise<void> {

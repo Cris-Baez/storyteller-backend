@@ -2,6 +2,7 @@ import { PrismaClient, User, Subscription, Usage, Profile, Preferences, $Enums }
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { getPlanLimits } from '../config/plans.js';
+import { PlanLimitService } from '../services/planLimitService.js';
 
 const prisma = new PrismaClient();
 
@@ -65,7 +66,7 @@ export class UserService {
         },
         subscription: {
           create: {
-            status: 'INACTIVE'
+            status: 'ACTIVE' // Plan STARTER siempre activo según flujo.txt línea 220
           }
         },
         profile: {
@@ -237,25 +238,9 @@ export class UserService {
    * 🎬 VERIFICAR SI PUEDE CREAR VIDEOS
    */
   static async canCreateVideo(userId: number): Promise<boolean> {
-    const user = await this.findById(userId);
-    if (!user || !user.usage) return false;
-
-    // Verificar suscripción activa
-    if (!this.isSubscriptionActive(user)) return false;
-
-    // Resetear contador si pasó la semana
-    if (new Date() > new Date(user.usage.weekResetDate)) {
-      await this.resetWeeklyUsage(userId);
-      // Después del reset, verificar límites normalmente
-      const refreshedUser = await this.findById(userId);
-      if (!refreshedUser || !refreshedUser.usage) return false;
-      
-      const limits = this.getPlanLimits(user.plan);
-      return refreshedUser.usage.videosThisWeek < limits.videosPerWeek;
-    }
-
-    const limits = this.getPlanLimits(user.plan);
-    return user.usage.videosThisWeek < limits.videosPerWeek;
+    // Usar PlanLimitService centralizado para evitar lógica duplicada
+    const validation = await PlanLimitService.validateVideoCreation(userId);
+    return validation.canCreate;
   }
 
   /**

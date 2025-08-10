@@ -5,6 +5,9 @@ import { logger, safeLog } from '../utils/logger.js';
 import { logFeedback } from '../services/feedbackService.js';
 import { ESTILOS_VALIDOS, normalizarEstilo, type EstiloVisualAPI } from '../types/estilos.js';
 import { authenticate, checkVideoCreationLimits, AuthenticatedRequest } from '../middleware/auth.js';
+import { PlanLimitService } from '../services/planLimitService.js'; // ✅ NUEVO SERVICIO CRÍTICO
+import { CinemaProjectStore } from '../models/CinemaProject.js'; // ✅ NUEVO: Sistema de proyectos
+import { CinemaProgressService } from '../services/cinemaProgressService.js'; // ✅ NUEVO: Estados específicos
 import multer, { FileFilterCallback } from 'multer';
 import type { Request } from 'express';
 
@@ -105,11 +108,60 @@ renderRouter.post('/', upload.fields([
       }
     });
 
+    // 🚨 VALIDACIÓN CRÍTICA DE LÍMITES ANTES DE CREAR VIDEO
+    // Según flujo.txt: Backend verifica plan y contador (límite por semana)
+    const userId = (req as AuthenticatedRequest).user?.id;
+    if (userId) {
+      const limitValidation = await PlanLimitService.validateVideoCreation(userId);
+      
+      if (!limitValidation.canCreate) {
+        logger.warn(`[API] Usuario ${userId} alcanzó límite:`, limitValidation);
+        
+        return res.status(403).json({
+          success: false,
+          error: 'Límite de videos alcanzado',
+          code: 'VIDEO_LIMIT_EXCEEDED',
+          data: {
+            currentUsage: limitValidation.currentUsage,
+            maxAllowed: limitValidation.maxAllowed,
+            planName: limitValidation.planName,
+            resetDate: limitValidation.resetDate,
+            reason: limitValidation.reason
+          }
+        });
+      }
+
+      logger.info(`[API] Límites verificados OK para usuario ${userId}:`, {
+        plan: limitValidation.planName,
+        usage: `${limitValidation.currentUsage}/${limitValidation.maxAllowed}`
+      });
+    }
+
+    // 🎬 CREAR PROYECTO CINEMATOGRÁFICO ESPECÍFICO
+    // Según flujo.txt línea 19: "Backend registra un proyecto con tipo: cinematográfico"
+    const project = await CinemaProjectStore.create({
+      userId: userId!,
+      tipo: 'cinematográfico',
+      parametros: {
+        prompt: validatedBody.prompt,
+        visualStyle: estiloNormalizado,
+        duration: validatedBody.duration,
+        voiceEnabled: true, // Por defecto habilitado
+        actorVisible: true  // Por defecto visible
+      },
+      estado: 'creado',
+      contadoresUsoPendientes: true
+    });
+
+    logger.info(`[API] Proyecto Cinema creado: ${project.id}`);
+
     // Crear trabajo en la cola con estilo normalizado
     const jobData = {
       ...validatedBody,
       visualStyle: estiloNormalizado, // ✅ Usar estilo normalizado
       estiloOriginal: validatedBody.visualStyle, // Preservar para logs
+      userId: (req as AuthenticatedRequest).user?.id, // ✅ CRÍTICO: Pasar userId
+      projectId: project.id, // ✅ NUEVO: Vincular con proyecto
       actorCustomPath,
       metadata: {
         userAgent: req.get('User-Agent'),
@@ -120,17 +172,23 @@ renderRouter.post('/', upload.fields([
 
     const jobId = await startJob(jobData);
     
-    console.log('[API] Trabajo creado exitosamente', { jobId });
+    // ✅ VINCULAR PROYECTO CON JOB
+    await CinemaProjectStore.updateJobId(project.id, jobId);
+    await CinemaProjectStore.updateEstado(project.id, 'en_cola');
+    
+    console.log('[API] Trabajo creado exitosamente', { jobId, projectId: project.id });
 
-    // ✅ RESPUESTA UNIFICADA
+    // ✅ RESPUESTA UNIFICADA CON PROYECTO
     const respuesta = {
       success: true,
-      message: 'Video generation started',
+      message: 'Cinema AI project created successfully',
       data: {
         jobId,
-        estado: 'pendiente' as const,
+        projectId: project.id, // ✅ NUEVO: ID del proyecto para consultas
+        estado: 'en_cola' as const,
         estimadoTiempo: 1800, // 30 minutos en segundos
-        urlResultado: `/api/render/result/${jobId}`
+        urlResultado: `/api/render/result/${jobId}`,
+        urlProyecto: `/api/cinema/project/${project.id}` // ✅ NUEVO: Endpoint específico
       },
       timestamp: new Date().toISOString(),
       source: 'API'

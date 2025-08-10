@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { UserService, UserWithRelations } from '../models/User.js';
+import { UserService, UserWithRelations, Plan } from '../models/User.js';
+import { $Enums } from '../../generated/prisma/index.js';
 import { env } from '../config/env.js';
 import { logger } from '../utils/logger.js';
 
@@ -129,8 +130,10 @@ export const authorize = (...roles: string[]) => {
 /**
  * 💳 MIDDLEWARE PARA VERIFICAR SUSCRIPCIÓN ACTIVA
  */
-export const requireActiveSubscription = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
-  if (!req.user) {
+export const requireActiveSubscription = (req: Request, res: Response, next: NextFunction): void => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  
+  if (!authenticatedReq.user) {
     res.status(401).json({
       success: false,
       error: 'No autenticado',
@@ -139,14 +142,14 @@ export const requireActiveSubscription = (req: AuthenticatedRequest, res: Respon
     return;
   }
 
-  if (!UserService.isSubscriptionActive(req.user)) {
+  if (!UserService.isSubscriptionActive(authenticatedReq.user)) {
     res.status(403).json({
       success: false,
       error: 'Suscripción inactiva o expirada',
       code: 'SUBSCRIPTION_INACTIVE',
       details: {
-        currentPlan: req.user.plan,
-        subscriptionStatus: req.user.subscription?.status || 'INACTIVE'
+        currentPlan: authenticatedReq.user.plan,
+        subscriptionStatus: authenticatedReq.user.subscription?.status || 'INACTIVE'
       }
     });
     return;
@@ -158,8 +161,10 @@ export const requireActiveSubscription = (req: AuthenticatedRequest, res: Respon
 /**
  * 🎬 MIDDLEWARE PARA VERIFICAR LÍMITES DE CREACIÓN DE VIDEOS
  */
-export const checkVideoCreationLimits = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
-  if (!req.user) {
+export const checkVideoCreationLimits = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  
+  if (!authenticatedReq.user) {
     res.status(401).json({
       success: false,
       error: 'No autenticado',
@@ -168,19 +173,19 @@ export const checkVideoCreationLimits = async (req: AuthenticatedRequest, res: R
     return;
   }
 
-  const canCreate = await UserService.canCreateVideo(req.user.id);
+  const canCreate = await UserService.canCreateVideo(authenticatedReq.user.id);
   if (!canCreate) {
-    const limits = await UserService.getPlanLimits(req.user.plan);
+    const limits = await UserService.getPlanLimits(authenticatedReq.user.plan);
 
     res.status(403).json({
       success: false,
       error: 'Límite de videos alcanzado para esta semana',
       code: 'VIDEO_LIMIT_EXCEEDED',
       details: {
-        currentPlan: req.user.plan,
+        currentPlan: authenticatedReq.user.plan,
         weeklyLimit: limits.videosPerWeek,
-        videosThisWeek: req.user.usage?.videosThisWeek || 0,
-        resetDate: req.user.usage?.weekResetDate
+        videosThisWeek: authenticatedReq.user.usage?.videosThisWeek || 0,
+        resetDate: authenticatedReq.user.usage?.weekResetDate
       }
     });
     return;
@@ -202,14 +207,14 @@ export const requireStudioPro = (req: AuthenticatedRequest, res: Response, next:
     return;
   }
 
-  if (req.user.plan !== 'STUDIO_PRO') {
+  if (req.user.plan !== $Enums.Plan.STUDIO_PRO) {
     res.status(403).json({
       success: false,
       error: 'Esta función es exclusiva del plan Studio Pro',
       code: 'STUDIO_PRO_REQUIRED',
       details: {
         currentPlan: req.user.plan,
-        requiredPlan: 'studio_pro'
+        requiredPlan: $Enums.Plan.STUDIO_PRO
       }
     });
     return;

@@ -11,6 +11,8 @@ import { validarRenderRequest } from '../utils/validadores.js';
 import { EstiloVisualPrincipal, normalizarEstilo } from '../types/estilos.js';
 import { generateKlingClip } from '../services/klingService.js'; // ✅ CORRECTO: Ya usa fal.ai internamente
 import { applyLipSyncToPlan } from '../services/lipSyncService.js';
+import { CinemaProgressService } from '../services/cinemaProgressService.js'; // ✅ NUEVO: Estados específicos
+import { CinemaProjectStore } from '../models/CinemaProject.js'; // ✅ NUEVO: Actualizar proyecto
 import { logger } from '../utils/logger.js';
 import path from 'path';
 import fs from 'fs/promises';
@@ -31,7 +33,17 @@ export async function renderVideoSimplificado(
 }> {
   
   logger.info('[PipelineSimplificado] 🎬 Iniciando renderizado');
-  reportProgress('Validando solicitud', 5, 'procesando_tomas');
+  
+  // ✅ CREAR REPORTER ESPECÍFICO PARA CINEMA SI HAY PROYECTO
+  const projectId = (req as any).projectId;
+  let cinemaReporter = reportProgress;
+  
+  if (projectId) {
+    cinemaReporter = CinemaProgressService.createProgressReporter(projectId);
+    await CinemaProgressService.reportProgress(projectId, 'procesando_tomas', 'Iniciando procesamiento', 5);
+  }
+
+  cinemaReporter('Validando solicitud', 5, 'procesando_tomas');
 
   try {
     // ✅ PASO 1: Validación
@@ -39,15 +51,15 @@ export async function renderVideoSimplificado(
     
     // ✅ PASO 2: Determinar tipo de renderizado
     if ((req as any).imagenes || (req as any).productImages) {
-      return await procesarMarketingAI(req as any, reportProgress);
+      return await procesarMarketingAI(req as any, cinemaReporter);
     }
     
     // ✅ PASO 3: Generar plan cinematográfico
-    reportProgress('Generando plan cinematográfico', 15, 'procesando_tomas');
+    cinemaReporter('Generando plan cinematográfico', 15, 'procesando_tomas');
     const videoPlan = await generarPlan(req);
     
     // 🎯 PASO 3.5: APLICAR MEJORAS AUTOMÁTICAS DE COHERENCIA
-    reportProgress('Aplicando mejoras de coherencia', 25, 'procesando_tomas');
+    cinemaReporter('Aplicando mejoras de coherencia', 25, 'procesando_tomas');
     const planMejorado = await coherenciaAutomatica.mejorarPlanAutomaticamente(videoPlan, {
       visualStyle: req.visualStyle,
       duration: req.duration
@@ -66,16 +78,26 @@ export async function renderVideoSimplificado(
     const lipSyncResult = await aplicarLipSyncAPlan(planMejorado, clips, audioData, reportProgress);
     
     // ✅ PASO 7: Ensamblar
-    reportProgress('Montando video final', 90, 'montando');
+    cinemaReporter('Montando video final', 90, 'montando');
     const videoFinal = await ensamblarConFFmpeg(planMejorado, lipSyncResult.processedClips, audioData);
     
     // ✅ PASO 8: Renderizar
-    reportProgress('Renderizando video', 95, 'renderizando');
+    cinemaReporter('Renderizando video', 95, 'renderizando');
     
     // ✅ PASO 9: CDN
+    cinemaReporter('Subiendo a almacenamiento', 98, 'subiendo');
     const urlFinal = await uploadToCDN(videoFinal, `videos/${planMejorado.id}/${planMejorado.id}.mp4`);
     
-    reportProgress('Video completado exitosamente', 100, 'completado');
+    cinemaReporter('Video completado exitosamente', 100, 'completado');
+    
+    // ✅ ACTUALIZAR PROYECTO SI EXISTE
+    if (projectId) {
+      await CinemaProjectStore.complete(projectId, urlFinal, {
+        duracion: planMejorado.metadata?.duration || req.duration,
+        estilo: req.visualStyle,
+        serviciosUsados: audioData.metadata?.serviciosUsados || []
+      });
+    }
     
     return {
       url: urlFinal,
@@ -99,6 +121,17 @@ export async function renderVideoSimplificado(
 
   } catch (error) {
     logger.error('[PipelineSimplificado] Error:', error);
+    
+    // ✅ MARCAR PROYECTO COMO FALLIDO SI EXISTE
+    if (projectId) {
+      try {
+        await CinemaProjectStore.updateEstado(projectId, 'fallido');
+        await CinemaProgressService.reportProgress(projectId, 'fallido', 'Error en el procesamiento', 0);
+      } catch (updateError) {
+        logger.error('[PipelineSimplificado] Error actualizando estado fallido:', updateError);
+      }
+    }
+    
     throw error;
   }
 }

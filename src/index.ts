@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import { renderRouter } from './routes/render.js';
 import { marketingRoutes } from './routes/marketingRoutes.js';  // ✨ NUEVO: Marketing AI
+import cinemaRouter from './routes/cinemaRoutes.js';  // ✨ NUEVO: Proyectos Cinema AI
 import { authRouter } from './routes/auth.js';  // ✨ NUEVO: Autenticación
 import subscriptionRouter from './routes/subscriptionRoutes.js';  // ✨ NUEVO: Suscripciones
 import marketingConfigRouter from './routes/marketingConfigRoutes.js';  // ✨ NUEVO: Configuración Marketing
@@ -100,6 +101,7 @@ app.use('/api/editor', editorRouter);  // ✨ NUEVO: Editor Visual (Studio Pro)
 app.use('/api/cleanup', cleanupRouter);  // ✨ NUEVO: Servicio de limpieza (Solo Admins)
 app.use('/api/render', renderRouter);
 app.use('/api/marketing', marketingRoutes);  // ✨ NUEVO: Marketing AI Routes
+app.use('/api/cinema', cinemaRouter);  // ✨ NUEVO: Proyectos Cinema AI
 // Nueva ruta para compilar el video final
 app.post('/api/compile', async (req, res) => {
   try {

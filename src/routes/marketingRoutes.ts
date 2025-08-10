@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { MarketingController } from '../controllers/marketingController.js';
 import { MarketingIntelligenceService } from '../services/marketingIntelligenceService.js';
-import { authenticate } from '../middleware/auth.js';
+import { authenticate, checkVideoCreationLimits, requireActiveSubscription } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -14,7 +14,7 @@ const marketingController = new MarketingController();
  * 🎯 CREAR VIDEO MARKETING MANUAL
  * POST /api/marketing/create
  */
-router.post('/create', marketingController.createMarketingVideo.bind(marketingController));
+router.post('/create', authenticate, requireActiveSubscription, checkVideoCreationLimits, marketingController.createMarketingVideo.bind(marketingController));
 
 /**
  * 🤖 ACTIVAR MODO AGENTE

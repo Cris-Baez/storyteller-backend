@@ -28,7 +28,7 @@ export interface IMarketingVideo {
   finalVideoUrl?: string;
   thumbnailUrl?: string;
   
-  status: 'pending' | 'generating' | 'completed' | 'failed';
+  status: 'creado' | 'en_cola' | 'procesando_tomas' | 'procesando_audio' | 'montando' | 'renderizando' | 'subiendo' | 'completado' | 'fallido';
   isAgentMode: boolean;
   
   createdAt: Date;

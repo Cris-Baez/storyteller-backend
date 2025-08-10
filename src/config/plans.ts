@@ -3,6 +3,8 @@
  * Precios y límites exactos según especificación
  */
 
+import { $Enums } from '../../generated/prisma/index.js';
+
 export interface PlanConfig {
   id: string;
   name: string;
@@ -24,9 +26,9 @@ export interface PlanConfig {
  * - CREATOR: $29/mes (hasta 5 videos/semana, sin marca, actor IA)
  * - STUDIO PRO: $99/mes (sin límite práctico semanal, Editor Pro, export HD)
  */
-export const PLAN_CONFIGS: Record<string, PlanConfig> = {
-  STARTER: {
-    id: 'STARTER',
+export const PLAN_CONFIGS: Record<$Enums.Plan, PlanConfig> = {
+  [$Enums.Plan.STARTER]: {
+    id: $Enums.Plan.STARTER,
     name: 'Starter',
     price: 0,
     currency: 'USD',
@@ -44,8 +46,8 @@ export const PLAN_CONFIGS: Record<string, PlanConfig> = {
     ]
   },
   
-  CREATOR: {
-    id: 'CREATOR',
+  [$Enums.Plan.CREATOR]: {
+    id: $Enums.Plan.CREATOR,
     name: 'Creator',
     price: 29,
     currency: 'USD',
@@ -65,8 +67,8 @@ export const PLAN_CONFIGS: Record<string, PlanConfig> = {
     ]
   },
   
-  STUDIO_PRO: {
-    id: 'STUDIO_PRO',
+  [$Enums.Plan.STUDIO_PRO]: {
+    id: $Enums.Plan.STUDIO_PRO,
     name: 'Studio Pro',
     price: 99,
     currency: 'USD',
@@ -93,7 +95,7 @@ export const PLAN_CONFIGS: Record<string, PlanConfig> = {
 /**
  * 🎯 HELPER: Obtener configuración de plan
  */
-export function getPlanConfig(planId: string): PlanConfig {
+export function getPlanConfig(planId: $Enums.Plan): PlanConfig {
   const config = PLAN_CONFIGS[planId];
   if (!config) {
     throw new Error(`Plan no encontrado: ${planId}`);
@@ -104,7 +106,7 @@ export function getPlanConfig(planId: string): PlanConfig {
 /**
  * 🎯 HELPER: Verificar si el plan tiene una funcionalidad
  */
-export function planHasFeature(planId: string, feature: string): boolean {
+export function planHasFeature(planId: $Enums.Plan, feature: string): boolean {
   const config = getPlanConfig(planId);
   return config.features.includes(feature);
 }
@@ -112,7 +114,7 @@ export function planHasFeature(planId: string, feature: string): boolean {
 /**
  * 🎯 HELPER: Obtener límites de plan
  */
-export function getPlanLimits(planId: string) {
+export function getPlanLimits(planId: $Enums.Plan) {
   const config = getPlanConfig(planId);
   return {
     videosPerWeek: config.videosPerWeek,

@@ -1,6 +1,7 @@
 import { renderCinemaAI } from '../pipelines/renderPipeline.js';
 import { randomUUID } from 'crypto';
 import { safeLog, hasLargeBase64 } from '../utils/logger.js';
+import { PlanLimitService } from '../services/planLimitService.js'; // ✅ NUEVO
 
 export interface JobState {
   status: 'creado' | 'en_cola' | 'procesando_tomas' | 'procesando_audio' | 'montando' | 'renderizando' | 'subiendo' | 'completado' | 'fallido';
@@ -49,7 +50,7 @@ const GENERATION_STEPS = [
   'Subiendo a almacenamiento'
 ];
 
-export async function startJob({ prompt, visualStyle, duration }: any) {
+export async function startJob({ prompt, visualStyle, duration, userId }: any) {
   const jobId = randomUUID();
   
   // Inicializar estado del job
@@ -88,10 +89,21 @@ export async function startJob({ prompt, visualStyle, duration }: any) {
       const result = await renderCinemaAI(
         { prompt, visualStyle, duration },
         (step: string, progress: number, status?: string) => {
-          // Callback de progreso thread-safe con estados del flujo
-          const currentStatus = status || 'procesando_tomas';
+          // Callback de progreso thread-safe con estados EXACTOS del flujo.txt
+          let mappedStatus = 'procesando_tomas'; // Default
+          
+          if (step.includes('audio') || step.includes('voz') || step.includes('música')) {
+            mappedStatus = 'procesando_audio';
+          } else if (step.includes('montaje') || step.includes('ensambla')) {
+            mappedStatus = 'montando';  
+          } else if (step.includes('render') || step.includes('video final')) {
+            mappedStatus = 'renderizando';
+          } else if (step.includes('subir') || step.includes('CDN')) {
+            mappedStatus = 'subiendo';
+          }
+          
           atomicUpdateJobState(jobId, {
-            status: currentStatus as any,
+            status: mappedStatus as any,
             currentStep: step,
             progress: Math.min(progress, 90) // Reservar 10% para subida
           });
@@ -112,6 +124,17 @@ export async function startJob({ prompt, visualStyle, duration }: any) {
         progress: 100,
         endTime: Date.now()
       });
+
+      // 🚨 REGISTRAR USO EXITOSO SEGÚN FLUJO.TXT
+      // Backend actualiza uso del plan
+      if (userId) {
+        try {
+          await PlanLimitService.recordVideoCreation(userId);
+          safeLog(`[JobQueue] ✅ Uso registrado para usuario ${userId}`);
+        } catch (error) {
+          safeLog(`[JobQueue] ⚠️ Error registrando uso para usuario ${userId}:`, error);
+        }
+      }
 
       // Thread-safe result storage
       while (jobLocks[jobId + '_result']) continue;

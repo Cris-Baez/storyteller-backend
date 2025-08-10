@@ -75,7 +75,7 @@ export class MarketingPipeline {
       // ✅ ACTUALIZAR ESTADO
       marketingData.finalVideoUrl = finalVideoUrl;
       marketingData.thumbnailUrl = thumbnailUrl;
-      marketingData.status = 'completed';
+      marketingData.status = 'completado';
 
       const totalTime = Date.now() - startTime;
       logger.info(`[MarketingPipeline] ✅ Video marketing generado en ${totalTime/1000}s`, {
@@ -95,7 +95,7 @@ export class MarketingPipeline {
     } catch (error) {
       logger.error(`[MarketingPipeline] ❌ Error en generación:`, error);
       
-      marketingData.status = 'failed';
+      marketingData.status = 'fallido';
 
       return {
         marketingVideo: marketingData,

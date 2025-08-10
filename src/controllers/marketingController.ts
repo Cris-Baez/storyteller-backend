@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { MarketingPipeline, MarketingGenerationResult } from '../pipelines/marketingPipeline.js';
 import { MarketingIntelligenceService, MarketingPromptInput } from '../services/marketingIntelligenceService.js';
 import { IMarketingVideo } from '../models/Marketing.js';
+import { UserService } from '../models/User.js';
+import { PlanLimitService } from '../services/planLimitService.js';
 import { logger } from '../utils/logger.js';
 
 export interface CreateMarketingVideoRequest {
@@ -46,6 +48,69 @@ export class MarketingController {
         res.status(400).json({
           success: false,
           error: 'Faltan datos requeridos: userId, title, businessType, videoType',
+          requestId
+        });
+        return;
+      }
+
+      // 🔒 VALIDAR USUARIO Y LÍMITES
+      const user = await UserService.findById(parseInt(requestData.userId));
+      if (!user) {
+        res.status(404).json({
+          success: false,
+          error: 'Usuario no encontrado',
+          requestId
+        });
+        return;
+      }
+
+      // Validar suscripción activa
+      if (!UserService.isSubscriptionActive(user)) {
+        res.status(403).json({
+          success: false,
+          error: 'Suscripción inactiva o expirada',
+          code: 'SUBSCRIPTION_INACTIVE',
+          details: {
+            currentPlan: user.plan,
+            subscriptionStatus: user.subscription?.status || 'INACTIVE'
+          },
+          requestId
+        });
+        return;
+      }
+
+      // Validar límites de videos con PlanLimitService
+      const planValidation = await PlanLimitService.validateVideoCreation(parseInt(requestData.userId));
+      if (!planValidation.canCreate) {
+        res.status(403).json({
+          success: false,
+          error: planValidation.reason || 'Límite de plan alcanzado',
+          code: 'PLAN_LIMIT_EXCEEDED',
+          details: {
+            currentPlan: user.plan,
+            videosCreated: planValidation.currentUsage,
+            weeklyLimit: planValidation.maxAllowed,
+            resetDate: planValidation.resetDate
+          },
+          requestId
+        });
+        return;
+      }
+
+      // Validar límites de videos (legacy)
+      const canCreate = await UserService.canCreateVideo(parseInt(requestData.userId));
+      if (!canCreate) {
+        const limits = await UserService.getPlanLimits(user.plan);
+        res.status(403).json({
+          success: false,
+          error: 'Límite de videos alcanzado para esta semana',
+          code: 'VIDEO_LIMIT_EXCEEDED',
+          details: {
+            currentPlan: user.plan,
+            weeklyLimit: limits.videosPerWeek,
+            videosThisWeek: user.usage?.videosThisWeek || 0,
+            resetDate: user.usage?.weekResetDate
+          },
           requestId
         });
         return;
@@ -99,6 +164,30 @@ export class MarketingController {
         res.status(400).json({
           success: false,
           error: 'userId y businessType son requeridos'
+        });
+        return;
+      }
+
+      // 🔒 VALIDAR USUARIO Y LÍMITES  
+      const user = await UserService.findById(parseInt(userId));
+      if (!user) {
+        res.status(404).json({
+          success: false,
+          error: 'Usuario no encontrado'
+        });
+        return;
+      }
+
+      // Validar suscripción activa
+      if (!UserService.isSubscriptionActive(user)) {
+        res.status(403).json({
+          success: false,
+          error: 'Suscripción inactiva o expirada',
+          code: 'SUBSCRIPTION_INACTIVE',
+          details: {
+            currentPlan: user.plan,
+            subscriptionStatus: user.subscription?.status || 'INACTIVE'
+          }
         });
         return;
       }

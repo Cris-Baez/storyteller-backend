@@ -51,8 +51,8 @@ model User {
 model Subscription {
   id               Int              @id @default(autoincrement())
   userId           Int              @unique
-  plan             SubscriptionPlan @default(BASIC)
-  status           SubscriptionStatus @default(PENDING)
+  plan             Plan @default(STARTER)
+  status           SubscriptionStatus @default(ACTIVE)
   currentPeriodStart DateTime?
   currentPeriodEnd   DateTime?
   paypalSubscriptionId String?       @unique
@@ -279,13 +279,6 @@ enum Plan {
   STARTER
   CREATOR
   STUDIO_PRO
-}
-
-enum SubscriptionPlan {
-  BASIC
-  PRO
-  PREMIUM
-  ANNUAL
 }
 
 enum SubscriptionStatus {

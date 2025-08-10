@@ -33,8 +33,8 @@ export interface IMarketingVideo extends Document {
   finalVideoUrl?: string;
   thumbnailUrl?: string;
   
-  // Estado y configuración
-  status: 'pending' | 'generating' | 'completed' | 'failed';
+  // Estado y configuración  
+  status: 'creado' | 'en_cola' | 'procesando_tomas' | 'procesando_audio' | 'montando' | 'renderizando' | 'subiendo' | 'completado' | 'fallido';
   isAgentMode: boolean; // Si fue generado automáticamente
   scheduledFor?: Date;
   
@@ -189,8 +189,8 @@ const marketingVideoSchema = new Schema<IMarketingVideo>({
   
   status: { 
     type: String, 
-    enum: ['pending', 'generating', 'completed', 'failed'],
-    default: 'pending'
+    enum: ['creado', 'en_cola', 'procesando_tomas', 'procesando_audio', 'montando', 'renderizando', 'subiendo', 'completado', 'fallido'],
+    default: 'creado'
   },
   isAgentMode: { type: Boolean, default: false },
   scheduledFor: { type: Date },
