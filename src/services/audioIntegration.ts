@@ -56,29 +56,29 @@ export async function generarAudioCompleto(
       try {
         if (options.usarFreesound) {
           logger.info(`🎵 [AudioIntegration] Generando música via Freesound: ${configuracionSonido.musica}`);
-          musicaBuffer = await getBackgroundMusic(
+          musicaBuffer = Buffer.from(await getBackgroundMusic(
             configuracionSonido.musica,
             options.duracionToma,
             options.tono
-          );
+          ) as Uint8Array);
         } else {
           logger.info(`🎵 [AudioIntegration] Generando música via AudioEngine: ${configuracionSonido.musica}`);
-          musicaBuffer = await getAdvancedMusic({
+          musicaBuffer = Buffer.from(await getAdvancedMusic({
             style: configuracionSonido.musica,
             emotion: options.tono,
             musicaAvanzada: options.estiloCinematico
-          });
+          }) as Uint8Array);
         }
         
         if (musicaBuffer.length === 0) {
           logger.warn('⚠️ [AudioIntegration] Música vacía, usando silencio');
-          musicaBuffer = createSilenceBuffer(options.duracionToma);
+          musicaBuffer = Buffer.from(createSilenceBuffer(options.duracionToma) as Uint8Array);
         }
         
         logger.info(`✅ [AudioIntegration] Música generada: ${musicaBuffer.length} bytes`);
       } catch (error) {
-        logger.error(`❌ [AudioIntegration] Error generando música: ${error}`);
-        musicaBuffer = createSilenceBuffer(options.duracionToma);
+  logger.error(`❌ [AudioIntegration] Error generando música: ${error}`);
+  musicaBuffer = Buffer.from(createSilenceBuffer(options.duracionToma) as Uint8Array);
       }
     }
 
@@ -135,7 +135,7 @@ export async function generarAudioCompleto(
           } else {
             // Usar método original como fallback
             logger.info(`🎙️ [AudioIntegration] Generando voz via método original`);
-            vozBuffer = await createVoiceBuffer(plan);
+            vozBuffer = Buffer.from(await createVoiceBuffer(plan) as Uint8Array);
             logger.info(`✅ [AudioIntegration] Voz original generada: ${vozBuffer.length} bytes`);
           }
           
