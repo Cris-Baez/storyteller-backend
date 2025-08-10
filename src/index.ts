@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import { renderRouter } from './routes/render.js';
 import { marketingRoutes } from './routes/marketingRoutes.js';  // ✨ NUEVO: Marketing AI
 import cinemaRouter from './routes/cinemaRoutes.js';  // ✨ NUEVO: Proyectos Cinema AI
+import videoRouter from './routes/videoRoutes.js';  // ✨ NUEVO: Historial de videos
 import { authRouter } from './routes/auth.js';  // ✨ NUEVO: Autenticación
 import subscriptionRouter from './routes/subscriptionRoutes.js';  // ✨ NUEVO: Suscripciones
 import marketingConfigRouter from './routes/marketingConfigRoutes.js';  // ✨ NUEVO: Configuración Marketing
@@ -102,6 +103,7 @@ app.use('/api/cleanup', cleanupRouter);  // ✨ NUEVO: Servicio de limpieza (Sol
 app.use('/api/render', renderRouter);
 app.use('/api/marketing', marketingRoutes);  // ✨ NUEVO: Marketing AI Routes
 app.use('/api/cinema', cinemaRouter);  // ✨ NUEVO: Proyectos Cinema AI
+app.use('/api/videos', videoRouter);  // ✨ NUEVO: Historial de videos
 // Nueva ruta para compilar el video final
 app.post('/api/compile', async (req, res) => {
   try {

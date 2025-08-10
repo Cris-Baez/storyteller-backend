@@ -2,6 +2,9 @@ import { renderCinemaAI } from '../pipelines/renderPipeline.js';
 import { randomUUID } from 'crypto';
 import { safeLog, hasLargeBase64 } from '../utils/logger.js';
 import { PlanLimitService } from '../services/planLimitService.js'; // ✅ NUEVO
+import { PrismaClient } from '../../generated/prisma/index.js'; // ✅ NUEVO: Para guardar videos
+
+const prisma = new PrismaClient(); // ✅ NUEVO
 
 export interface JobState {
   status: 'creado' | 'en_cola' | 'procesando_tomas' | 'procesando_audio' | 'montando' | 'renderizando' | 'subiendo' | 'completado' | 'fallido';
@@ -50,7 +53,7 @@ const GENERATION_STEPS = [
   'Subiendo a almacenamiento'
 ];
 
-export async function startJob({ prompt, visualStyle, duration, userId }: any) {
+export async function startJob({ prompt, visualStyle, duration, userId, projectId, estiloOriginal, ...otherData }: any) {
   const jobId = randomUUID();
   
   // Inicializar estado del job
@@ -124,6 +127,38 @@ export async function startJob({ prompt, visualStyle, duration, userId }: any) {
         progress: 100,
         endTime: Date.now()
       });
+
+      // 🎬 GUARDAR VIDEO EN BASE DE DATOS SEGÚN FLUJO.TXT
+      // Línea 71: "Backend marca el proyecto completado, guarda metadatos"
+      if (userId && result.url) {
+        try {
+          const videoRecord = await prisma.video.create({
+            data: {
+              userId: userId,
+              title: `Video Cinema AI - ${new Date().toLocaleDateString()}`,
+              description: prompt || 'Video generado con Cinema AI',
+              type: 'CINEMA',
+              status: 'COMPLETED',
+              finalVideoUrl: result.url,
+              duration: result.metadata?.duracion || duration,
+              prompt: prompt,
+              style: visualStyle,
+              metadata: {
+                jobId: jobId,
+                projectId: projectId,
+                serviciosUsados: result.metadata?.serviciosUsados || [],
+                estiloOriginal: estiloOriginal,
+                fechaCreacion: new Date(),
+                otherData: otherData
+              }
+            }
+          });
+
+          safeLog(`[JobQueue] ✅ Video guardado en BD: ${videoRecord.id} para usuario ${userId}`);
+        } catch (dbError) {
+          safeLog(`[JobQueue] ⚠️ Error guardando video en BD para usuario ${userId}:`, dbError);
+        }
+      }
 
       // 🚨 REGISTRAR USO EXITOSO SEGÚN FLUJO.TXT
       // Backend actualiza uso del plan

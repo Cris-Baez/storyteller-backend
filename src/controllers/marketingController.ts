@@ -4,7 +4,10 @@ import { MarketingIntelligenceService, MarketingPromptInput } from '../services/
 import { IMarketingVideo } from '../models/Marketing.js';
 import { UserService } from '../models/User.js';
 import { PlanLimitService } from '../services/planLimitService.js';
+import { PrismaClient } from '../../generated/prisma/index.js'; // ✅ CRÍTICO: Para guardar videos
 import { logger } from '../utils/logger.js';
+
+const prisma = new PrismaClient(); // ✅ CRÍTICO
 
 export interface CreateMarketingVideoRequest {
   userId: string;
@@ -377,6 +380,42 @@ export class MarketingController {
           finalUrl: result.finalVideoUrl,
           duration: result.duration
         });
+
+        // 🎬 GUARDAR VIDEO EN BASE DE DATOS - CRÍTICO PARA HISTORIAL
+        try {
+          const videoRecord = await prisma.video.create({
+            data: {
+              userId: parseInt(requestData.userId),
+              title: requestData.title,
+              description: requestData.userPrompt || `Video de marketing ${requestData.videoType}`,
+              type: 'MARKETING',
+              status: 'COMPLETED',
+              finalVideoUrl: result.finalVideoUrl || '',
+              duration: result.duration,
+              prompt: requestData.userPrompt,
+              style: requestData.style,
+              businessType: requestData.businessType,
+              metadata: {
+                requestId: requestId,
+                marketingData: {
+                  videoType: requestData.videoType,
+                  brandName: requestData.brandName,
+                  callToAction: requestData.callToAction,
+                  voiceType: requestData.voiceType,
+                  musicStyle: requestData.musicStyle,
+                  userImages: requestData.userImages
+                },
+                pipelineResult: JSON.parse(JSON.stringify(result)), // Serializar para JSON
+                fechaCreacion: new Date().toISOString()
+              } as any
+            }
+          });
+
+          logger.info(`[MarketingController] ✅ Video marketing guardado en BD: ${videoRecord.id}`);
+        } catch (dbError) {
+          logger.error(`[MarketingController] ❌ Error guardando video marketing en BD:`, dbError);
+        }
+
       } else {
         logger.error(`[MarketingController] ❌ Falló generación [${requestId}]:`, result.error);
       }
