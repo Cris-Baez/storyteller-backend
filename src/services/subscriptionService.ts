@@ -80,8 +80,8 @@ class SubscriptionService {
         plan_id: this.getPayPalPlanId(plan),
         subscriber: {
           name: { 
-            given_name: user.profile?.firstName || user.name.split(' ')[0] || 'Usuario',
-            surname: user.profile?.lastName || user.name.split(' ').slice(1).join(' ') || 'Storyteller'
+            given_name: user.name.split(' ')[0] || 'Usuario',
+            surname: user.name.split(' ').slice(1).join(' ') || 'Storyteller'
           },
           email_address: user.email
         }

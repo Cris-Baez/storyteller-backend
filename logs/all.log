@@ -21215,3 +21215,60 @@ Error opening input files: Invalid argument
 2025-08-08T06:45:54.463Z [info] 🎤 Voice Interceptor inicializado
 2025-08-08T06:45:54.954Z [info] 🎯 Sistema de Coherencia Automática inicializado
 2025-08-08T06:45:55.024Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-08-11T00:50:34.407Z [info] 🎤 Voice Interceptor inicializado
+2025-08-11T00:50:35.001Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-11T00:50:37.021Z [info] 🚀  Storyteller AI backend listening on port 5000 
+2025-08-11T00:50:37.022Z [info] [CleanupService] ⏰ Programando limpieza automática
+2025-08-11T00:50:37.022Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-11T01:00:19.679Z [info] 🎤 Voice Interceptor inicializado
+2025-08-11T01:00:20.243Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-11T01:00:22.164Z [info] 🚀  Storyteller AI backend listening on port 5000 
+2025-08-11T01:00:22.165Z [info] [CleanupService] ⏰ Programando limpieza automática
+2025-08-11T01:00:22.166Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-11T03:54:49.769Z [info] 🎤 Voice Interceptor inicializado
+2025-08-11T03:54:50.284Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-11T03:54:52.236Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-08-11T03:54:52.237Z [info] [CleanupService] ⏰ Programando limpieza automática
+2025-08-11T03:54:52.238Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-11T03:55:47.163Z [info] 🎤 Voice Interceptor inicializado
+2025-08-11T03:55:47.411Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-11T03:55:48.298Z [info] 🚀  Storyteller AI backend listening on port 3000
+2025-08-11T03:55:48.299Z [info] [CleanupService] ⏰ Programando limpieza automática
+2025-08-11T03:55:48.300Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-11T03:56:34.039Z [info] 🎤 Voice Interceptor inicializado
+2025-08-11T03:56:34.371Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-11T03:56:35.252Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-11T03:56:35.253Z [info] [CleanupService] ⏰ Programando limpieza automática
+2025-08-11T03:56:35.254Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-11T04:00:43.072Z [info] [AuthService] 🔑 Intento de login: test@cinemaai.com
+2025-08-11T04:00:48.529Z [info] [AuthService] ✅ Login exitoso: test@cinemaai.com
+2025-08-11T04:00:48.541Z [info] ::1 - - [11/Aug/2025:04:00:48 +0000] "POST /api/auth/login HTTP/1.1" 200 743 "-" "curl/8.13.0"
+2025-08-11T04:06:27.104Z [info] 🎤 Voice Interceptor inicializado
+2025-08-11T04:06:27.868Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-11T04:06:31.372Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-11T04:06:31.373Z [info] [CleanupService] ⏰ Programando limpieza automática
+2025-08-11T04:06:31.374Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-11T04:07:39.085Z [info] [AuthService] 🔑 Intento de login: test@cinemaai.com
+2025-08-11T04:07:44.745Z [info] [AuthService] ✅ Login exitoso: test@cinemaai.com
+2025-08-11T04:07:44.754Z [info] ::1 - - [11/Aug/2025:04:07:44 +0000] "POST /api/auth/login HTTP/1.1" 200 743 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-11T04:10:20.710Z [info] 🎤 Voice Interceptor inicializado
+2025-08-11T04:10:21.020Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-11T04:10:22.227Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-11T04:10:22.227Z [info] [CleanupService] ⏰ Programando limpieza automática
+2025-08-11T04:10:22.228Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-11T04:11:43.878Z [info] ::1 - - [11/Aug/2025:04:11:43 +0000] "GET /api/auth/profile HTTP/1.1" 200 587 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-11T04:12:19.171Z [info] [AuthService] 🔑 Intento de login: test@cinemaai.com
+2025-08-11T04:12:21.718Z [info] [AuthService] ✅ Login exitoso: test@cinemaai.com
+2025-08-11T04:12:21.722Z [info] ::1 - - [11/Aug/2025:04:12:21 +0000] "POST /api/auth/login HTTP/1.1" 200 743 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-11T04:12:44.023Z [info] [AuthService] 🔑 Intento de login: test@cinemaai.com
+2025-08-11T04:12:46.020Z [info] [AuthService] ✅ Login exitoso: test@cinemaai.com
+2025-08-11T04:12:46.025Z [info] ::1 - - [11/Aug/2025:04:12:46 +0000] "POST /api/auth/login HTTP/1.1" 200 743 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-11T04:33:58.778Z [info] 🎤 Voice Interceptor inicializado
+2025-08-11T04:33:59.289Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-11T04:34:00.968Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-11T04:34:00.970Z [info] [CleanupService] ⏰ Programando limpieza automática
+2025-08-11T04:34:00.970Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-11T04:34:50.068Z [info] ::1 - - [11/Aug/2025:04:34:50 +0000] "GET /api/auth/profile HTTP/1.1" 200 587 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-11T04:35:18.306Z [info] [AuthService] 🔑 Intento de login: test@cinemaai.com
+2025-08-11T04:35:21.390Z [info] [AuthService] ✅ Login exitoso: test@cinemaai.com
+2025-08-11T04:35:21.394Z [info] ::1 - - [11/Aug/2025:04:35:21 +0000] "POST /api/auth/login HTTP/1.1" 200 743 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
