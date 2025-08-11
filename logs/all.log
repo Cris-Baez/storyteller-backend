@@ -21272,3 +21272,14 @@ Error opening input files: Invalid argument
 2025-08-11T04:35:18.306Z [info] [AuthService] 🔑 Intento de login: test@cinemaai.com
 2025-08-11T04:35:21.390Z [info] [AuthService] ✅ Login exitoso: test@cinemaai.com
 2025-08-11T04:35:21.394Z [info] ::1 - - [11/Aug/2025:04:35:21 +0000] "POST /api/auth/login HTTP/1.1" 200 743 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-11T20:28:17.135Z [info] 🎤 Voice Interceptor inicializado
+2025-08-11T20:28:17.852Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-11T20:28:19.879Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-11T20:28:19.880Z [info] [CleanupService] ⏰ Programando limpieza automática
+2025-08-11T20:28:19.881Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-11T20:29:10.951Z [info] ::1 - - [11/Aug/2025:20:29:10 +0000] "GET /api/auth/profile HTTP/1.1" 200 587 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-11T20:49:51.320Z [info] 🎤 Voice Interceptor inicializado
+2025-08-11T20:49:51.793Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-11T20:49:53.456Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-11T20:49:53.456Z [info] [CleanupService] ⏰ Programando limpieza automática
+2025-08-11T20:49:53.457Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
