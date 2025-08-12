@@ -1,4 +1,0 @@
-file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/https:/v3.fal.media/files/rabbit/Q9vb8aP84ox5mGHxBiBs-_output.mp4'
-file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/https:/v3.fal.media/files/elephant/PZvofrAIhKvhxeJJaIv_a_output.mp4'
-file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/https:/v3.fal.media/files/penguin/8Y0W_ewotDQIl6vEr6TRG_output.mp4'
-file 'C:/Users/crist/OneDrive/Desktop/storyteller-backend/https:/v3.fal.media/files/elephant/bvTGRK5pFhaueb7Fu6mtf_output.mp4'

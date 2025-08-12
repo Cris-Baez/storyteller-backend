@@ -21719,3 +21719,80 @@ Error opening input files: Invalid argument
 2025-08-12T03:50:26.180Z [info] ::1 - - [12/Aug/2025:03:50:26 +0000] "POST /api/auth/login HTTP/1.1" 200 1184 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
 2025-08-12T03:51:07.531Z [info] ::1 - - [12/Aug/2025:03:51:07 +0000] "GET /api/auth/profile HTTP/1.1" 200 889 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
 2025-08-12T03:51:16.875Z [info] ::1 - - [12/Aug/2025:03:51:16 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T06:41:53.876Z [info] 🎤 Voice Interceptor inicializado
+2025-08-12T06:41:54.632Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-12T06:41:57.380Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-12T06:41:57.381Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-12T06:41:57.491Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-12T06:41:57.491Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-12T06:41:57.492Z [info] 🤖 Marketing Agent Service initialized
+2025-08-12T07:00:00.243Z [info] [CleanupService] 📊 Obteniendo estadísticas del sistema...
+2025-08-12T07:00:05.237Z [info] [CleanupService] 💾 Obteniendo información de almacenamiento
+2025-08-12T07:00:06.768Z [info] [CleanupService] ✅ Información de almacenamiento obtenida
+2025-08-12T07:00:06.773Z [info] [CleanupService] ✅ Estadísticas del sistema obtenidas exitosamente
+2025-08-12T09:06:41.238Z [info] 🎤 Voice Interceptor inicializado
+2025-08-12T09:06:41.937Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-12T09:06:44.600Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-12T09:06:44.601Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-12T09:06:44.705Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-12T09:06:44.705Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-12T09:06:44.706Z [info] 🤖 Marketing Agent Service initialized
+2025-08-12T09:07:51.251Z [info] ::1 - - [12/Aug/2025:09:07:51 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T10:00:00.484Z [info] [CleanupService] ⏰ Ejecutando limpieza ligera automática
+2025-08-12T10:00:00.520Z [info] [CleanupService] 📁 Limpiando archivos temporales
+2025-08-12T10:00:00.598Z [info] [CleanupService] 📊 Obteniendo estadísticas del sistema...
+2025-08-12T10:00:00.829Z [info] [CleanupService] 🗂️ Archivo temporal eliminado: ffmpeg_v7
+2025-08-12T10:00:00.847Z [info] [CleanupService] ✅ Archivos temporales limpiados: 1 archivos
+2025-08-12T10:00:00.851Z [info] [CleanupService] 🎫 Limpiando tokens expirados
+2025-08-12T10:00:06.202Z [info] [CleanupService] 💾 Obteniendo información de almacenamiento
+2025-08-12T10:00:08.152Z [info] [CleanupService] ✅ Información de almacenamiento obtenida
+2025-08-12T10:00:08.153Z [info] [CleanupService] ✅ Estadísticas del sistema obtenidas exitosamente
+2025-08-12T10:00:08.464Z [info] [CleanupService] ✅ Tokens limpiados: 0 tokens
+2025-08-12T10:00:08.467Z [info] [CleanupService] 🎬 Limpiando videos fallidos antiguos
+2025-08-12T10:00:09.058Z [info] [CleanupService] ✅ Videos fallidos limpiados: 0 registros, 0 archivos
+2025-08-12T21:24:23.536Z [info] ::1 - - [12/Aug/2025:21:24:23 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T21:54:48.221Z [info] 🎤 Voice Interceptor inicializado
+2025-08-12T21:54:48.689Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-12T21:54:50.338Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-12T21:54:50.339Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-12T21:54:50.436Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-12T21:54:50.437Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-12T21:54:50.437Z [info] 🤖 Marketing Agent Service initialized
+2025-08-12T21:55:37.241Z [info] ::1 - - [12/Aug/2025:21:55:37 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T21:56:38.345Z [info] ::1 - - [12/Aug/2025:21:56:38 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T21:56:47.975Z [info] ::1 - - [12/Aug/2025:21:56:47 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T21:57:02.107Z [info] ::1 - - [12/Aug/2025:21:57:02 +0000] "POST /api/auth/logout HTTP/1.1" 200 43 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T21:57:13.596Z [info] [AuthService] 🔑 Intento de login: admin@cinemaai.com
+2025-08-12T21:57:16.551Z [info] [AuthService] ✅ Login exitoso: admin@cinemaai.com
+2025-08-12T21:57:16.555Z [info] ::1 - - [12/Aug/2025:21:57:16 +0000] "POST /api/auth/login HTTP/1.1" 200 1184 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:00:00.135Z [info] [CleanupService] ⏰ Ejecutando limpieza ligera automática
+2025-08-12T22:00:00.144Z [info] [CleanupService] 📁 Limpiando archivos temporales
+2025-08-12T22:00:00.151Z [info] [CleanupService] 📊 Obteniendo estadísticas del sistema...
+2025-08-12T22:00:00.179Z [info] [CleanupService] 🗂️ Archivo temporal eliminado: test.txt
+2025-08-12T22:00:00.182Z [info] [CleanupService] ✅ Archivos temporales limpiados: 1 archivos
+2025-08-12T22:00:00.184Z [info] [CleanupService] 🎫 Limpiando tokens expirados
+2025-08-12T22:00:05.184Z [info] [CleanupService] 💾 Obteniendo información de almacenamiento
+2025-08-12T22:00:06.679Z [info] [CleanupService] ✅ Información de almacenamiento obtenida
+2025-08-12T22:00:06.680Z [info] [CleanupService] ✅ Estadísticas del sistema obtenidas exitosamente
+2025-08-12T22:00:07.344Z [info] [CleanupService] ✅ Tokens limpiados: 0 tokens
+2025-08-12T22:00:07.345Z [info] [CleanupService] 🎬 Limpiando videos fallidos antiguos
+2025-08-12T22:00:07.959Z [info] [CleanupService] ✅ Videos fallidos limpiados: 0 registros, 0 archivos
+2025-08-12T22:05:42.442Z [info] 🎤 Voice Interceptor inicializado
+2025-08-12T22:05:43.038Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-12T22:05:45.449Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-12T22:05:45.449Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-12T22:05:45.574Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-12T22:05:45.575Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-12T22:05:45.575Z [info] 🤖 Marketing Agent Service initialized
+2025-08-12T22:06:53.394Z [info] ::1 - - [12/Aug/2025:22:06:53 +0000] "GET /api/auth/profile HTTP/1.1" 200 889 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:07:10.161Z [info] ::1 - - [12/Aug/2025:22:07:10 +0000] "POST /api/auth/logout HTTP/1.1" 200 43 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:08:15.422Z [info] [AuthService] 🔑 Intento de login: admin@cinemaai.com
+2025-08-12T22:08:18.469Z [info] [AuthService] ✅ Login exitoso: admin@cinemaai.com
+2025-08-12T22:08:18.472Z [info] ::1 - - [12/Aug/2025:22:08:18 +0000] "POST /api/auth/login HTTP/1.1" 200 1184 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:08:49.400Z [info] ::1 - - [12/Aug/2025:22:08:49 +0000] "GET /api/auth/profile HTTP/1.1" - - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:08:51.746Z [info] ::1 - - [12/Aug/2025:22:08:51 +0000] "GET /api/auth/profile HTTP/1.1" 200 889 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:09:20.416Z [info] ::1 - - [12/Aug/2025:22:09:20 +0000] "POST /api/auth/logout HTTP/1.1" 200 43 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:09:51.529Z [info] [AuthService] 🔑 Intento de login: admin@cinemaai.com
+2025-08-12T22:09:54.108Z [info] [AuthService] ✅ Login exitoso: admin@cinemaai.com
+2025-08-12T22:09:54.117Z [info] ::1 - - [12/Aug/2025:22:09:54 +0000] "POST /api/auth/login HTTP/1.1" 200 1184 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:10:12.647Z [info] ::1 - - [12/Aug/2025:22:10:12 +0000] "GET /api/auth/profile HTTP/1.1" 200 889 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
