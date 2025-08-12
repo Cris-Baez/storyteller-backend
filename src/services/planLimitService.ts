@@ -4,7 +4,7 @@
  * DEBE ser llamado antes de usar cualquier funcionalidad premium
  */
 
-import { PrismaClient } from '../../generated/prisma/index.js';
+import { PrismaClient } from '@prisma/client';
 import { getPlanConfig, getPlanLimits } from '../config/plans.js';
 import { logger } from '../utils/logger.js';
 

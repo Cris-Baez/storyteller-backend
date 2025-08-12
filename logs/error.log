@@ -3720,3 +3720,5 @@ Error opening input files: Invalid argument
 2025-08-07T22:32:48.249Z [error] [PipelineSimplificado] Error: ffmpeg exited with code 4294967274: Error opening input file C:/Users/crist/OneDrive/Desktop/storyteller-backend/tmp/ffmpeg_v7/096b2222-87f9-467b-ae8d-59a6a84cb175.txt.
 Error opening input files: Invalid argument
 
+2025-08-12T03:42:40.755Z [error] [AuthService] ❌ Error refrescando token: Usuario no encontrado
+2025-08-12T03:42:40.806Z [error] [AuthController] Error refrescando token: Token de refresco inválido

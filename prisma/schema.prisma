@@ -42,6 +42,7 @@ model User {
   projects       Project[]
   assets         Asset[]
   refreshTokens  RefreshToken[]
+  socialAccounts SocialAccount[]
   
   @@map("users")
 }
@@ -171,6 +172,7 @@ model Video {
   updatedAt DateTime @updatedAt
   
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  socialPosts SocialPost[]
   
   @@map("videos")
 }
@@ -280,6 +282,71 @@ model RefreshToken {
 }
 
 // 🔄 ENUMS
+// 🔗 CUENTAS DE REDES SOCIALES
+model SocialAccount {
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  platform       SocialPlatform
+  username       String
+  platformUserId String?
+  accessToken    String?
+  refreshToken   String?
+  tokenExpiry    DateTime?
+  isActive       Boolean  @default(true)
+  autoPublish    Boolean  @default(false)
+  settings       Json?    // Configuraciones específicas por plataforma
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  posts          SocialPost[]
+  
+  @@unique([userId, platform])
+  @@map("social_accounts")
+}
+
+// 📱 PUBLICACIONES EN REDES SOCIALES
+model SocialPost {
+  id              Int           @id @default(autoincrement())
+  socialAccountId Int
+  videoId         Int?
+  title           String?
+  caption         String?
+  hashtags        String?
+  status          PostStatus    @default(PENDING)
+  scheduledFor    DateTime?
+  publishedAt     DateTime?
+  platformPostId  String?
+  errorMessage    String?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  socialAccount   SocialAccount @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
+  video          Video?        @relation(fields: [videoId], references: [id], onDelete: SetNull)
+  
+  @@map("social_posts")
+}
+
+enum SocialPlatform {
+  INSTAGRAM
+  YOUTUBE
+  TWITTER
+  LINKEDIN
+  FACEBOOK
+  TIKTOK
+}
+
+enum PostStatus {
+  PENDING
+  SCHEDULED
+  PUBLISHING
+  PUBLISHED
+  FAILED
+  CANCELLED
+}
+
 enum Role {
   USER
   ADMIN

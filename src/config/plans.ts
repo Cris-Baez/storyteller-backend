@@ -3,7 +3,7 @@
  * Precios y límites exactos según especificación
  */
 
-import { $Enums } from '../../generated/prisma/index.js';
+import { $Enums } from '@prisma/client';
 
 export interface PlanConfig {
   id: string;

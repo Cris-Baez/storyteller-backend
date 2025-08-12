@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { subscriptionService, SubscriptionPlan } from '../services/subscriptionService.js';
 import { paypalService } from '../services/paypalService.js';
-import { PrismaClient } from '../../generated/prisma/index.js';
+import { PrismaClient } from '@prisma/client';
 import { AppError, ValidationError, NotFoundError } from '../utils/errors.js';
 
 const prisma = new PrismaClient();

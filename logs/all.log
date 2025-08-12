@@ -21598,3 +21598,124 @@ Error opening input files: Invalid argument
 2025-08-12T00:19:33.978Z [info] ::1 - - [12/Aug/2025:00:19:33 +0000] "POST /api/auth/login HTTP/1.1" 200 1056 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
 2025-08-12T00:20:01.814Z [info] ::1 - - [12/Aug/2025:00:20:01 +0000] "GET /api/auth/profile HTTP/1.1" 200 754 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
 2025-08-12T00:20:37.407Z [info] ::1 - - [12/Aug/2025:00:20:37 +0000] "GET /api/auth/profile HTTP/1.1" - - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T02:30:57.683Z [info] 🎤 Voice Interceptor inicializado
+2025-08-12T02:30:58.250Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-12T02:30:59.674Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-12T02:30:59.675Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-12T02:30:59.790Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-12T02:30:59.791Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-12T02:30:59.791Z [info] 🤖 Marketing Agent Service initialized
+2025-08-12T03:06:06.170Z [info] 🎤 Voice Interceptor inicializado
+2025-08-12T03:06:06.552Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-12T03:06:07.803Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-12T03:06:07.805Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-12T03:06:07.899Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-12T03:06:07.900Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-12T03:06:07.900Z [info] 🤖 Marketing Agent Service initialized
+2025-08-12T03:36:08.773Z [info] 🎤 Voice Interceptor inicializado
+2025-08-12T03:36:09.251Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-12T03:36:10.710Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-12T03:36:10.711Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-12T03:36:10.752Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-12T03:36:10.753Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-12T03:36:10.753Z [info] 🤖 Marketing Agent Service initialized
+2025-08-12T03:41:39.110Z [info] 🎤 Voice Interceptor inicializado
+2025-08-12T03:41:39.644Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-12T03:41:41.552Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-12T03:41:41.554Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-12T03:41:41.719Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-12T03:41:41.720Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-12T03:41:41.721Z [info] 🤖 Marketing Agent Service initialized
+2025-08-12T03:42:40.282Z [info] ::1 - - [12/Aug/2025:03:42:40 +0000] "GET /api/auth/profile HTTP/1.1" 401 73 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:42:40.755Z [error] [AuthService] ❌ Error refrescando token: Usuario no encontrado
+2025-08-12T03:42:40.806Z [error] [AuthController] Error refrescando token: Token de refresco inválido
+2025-08-12T03:42:40.820Z [info] ::1 - - [12/Aug/2025:03:42:40 +0000] "POST /api/auth/refresh-token HTTP/1.1" 401 55 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:43:43.958Z [info] ::1 - - [12/Aug/2025:03:43:43 +0000] "POST /api/auth/logout HTTP/1.1" 401 73 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:44:19.471Z [info] ::1 - - [12/Aug/2025:03:44:19 +0000] "POST /api/auth/logout HTTP/1.1" 401 73 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:44:37.898Z [info] ::1 - - [12/Aug/2025:03:44:37 +0000] "POST /api/auth/logout HTTP/1.1" 401 73 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:44:40.462Z [info] ::1 - - [12/Aug/2025:03:44:40 +0000] "POST /api/auth/logout HTTP/1.1" 401 73 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:44:40.464Z [info] ::1 - - [12/Aug/2025:03:44:40 +0000] "POST /api/auth/logout HTTP/1.1" 401 73 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:44:40.467Z [info] ::1 - - [12/Aug/2025:03:44:40 +0000] "POST /api/auth/logout HTTP/1.1" 401 73 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:44:40.768Z [info] ::1 - - [12/Aug/2025:03:44:40 +0000] "POST /api/auth/logout HTTP/1.1" 401 73 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:45:11.682Z [info] 🎤 Voice Interceptor inicializado
+2025-08-12T03:45:12.059Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-12T03:45:13.384Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-12T03:45:13.385Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-12T03:45:13.486Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-12T03:45:13.487Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-12T03:45:13.487Z [info] 🤖 Marketing Agent Service initialized
+2025-08-12T03:46:14.957Z [info] ::1 - - [12/Aug/2025:03:46:14 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:14.967Z [info] ::1 - - [12/Aug/2025:03:46:14 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.006Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.055Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.097Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.110Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.152Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.228Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.234Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.279Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.322Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.333Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.382Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.437Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.521Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.525Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.616Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.620Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.625Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.689Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.764Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.769Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.850Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.853Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.860Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.921Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.971Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:15.974Z [info] ::1 - - [12/Aug/2025:03:46:15 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.029Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.031Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.033Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.076Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.096Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.098Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.123Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.126Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.129Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.155Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.185Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.187Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.222Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.225Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.227Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.255Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.288Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.290Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.321Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.323Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.327Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.359Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.395Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.398Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.428Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.431Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.433Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.458Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.486Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.489Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.516Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.519Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.522Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 429 48 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.551Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 429 48 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:16.602Z [info] ::1 - - [12/Aug/2025:03:46:16 +0000] "POST /api/auth/logout HTTP/1.1" 429 48 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:46:45.295Z [info] 🎤 Voice Interceptor inicializado
+2025-08-12T03:46:45.677Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-12T03:46:46.879Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-12T03:46:46.879Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-12T03:46:46.969Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-12T03:46:46.970Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-12T03:46:46.971Z [info] 🤖 Marketing Agent Service initialized
+2025-08-12T03:50:19.100Z [info] [AuthService] 🔑 Intento de login: admin@cinemaai.com
+2025-08-12T03:50:26.167Z [info] [AuthService] ✅ Login exitoso: admin@cinemaai.com
+2025-08-12T03:50:26.180Z [info] ::1 - - [12/Aug/2025:03:50:26 +0000] "POST /api/auth/login HTTP/1.1" 200 1184 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:51:07.531Z [info] ::1 - - [12/Aug/2025:03:51:07 +0000] "GET /api/auth/profile HTTP/1.1" 200 889 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T03:51:16.875Z [info] ::1 - - [12/Aug/2025:03:51:16 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"

@@ -54,11 +54,35 @@ export async function renderVideoSimplificado(
       return await procesarMarketingAI(req as any, cinemaReporter);
     }
     
-    // ✅ PASO 3: Generar plan cinematográfico
-    cinemaReporter('Generando plan cinematográfico', 15, 'procesando_tomas');
-    const videoPlan = await generarPlan(req);
-    
-    // 🎯 PASO 3.5: APLICAR MEJORAS AUTOMÁTICAS DE COHERENCIA
+  // ✅ PASO 3: Generar plan cinematográfico con información de usuario
+  cinemaReporter('Generando plan cinematográfico', 15, 'procesando_tomas');
+  const videoPlan = await generarPlan(req);
+  
+  // ✅ ENRIQUECER METADATA CON INFORMACIÓN DEL USUARIO
+  if ((req as any).userId) {
+    try {
+      const { PrismaClient } = await import('@prisma/client');
+      const prisma = new PrismaClient();
+      
+      const user = await prisma.user.findUnique({
+        where: { id: (req as any).userId }
+      });
+      
+      if (user) {
+        videoPlan.metadata = {
+          ...videoPlan.metadata,
+          userPlan: user.plan,
+          userId: user.id,
+          userEmail: user.email
+        };
+        logger.info(`[Pipeline] Plan de usuario: ${user.plan}`);
+      }
+      
+      await prisma.$disconnect();
+    } catch (error) {
+      logger.warn('[Pipeline] No se pudo obtener información del usuario:', error);
+    }
+  }    // 🎯 PASO 3.5: APLICAR MEJORAS AUTOMÁTICAS DE COHERENCIA
     cinemaReporter('Aplicando mejoras de coherencia', 25, 'procesando_tomas');
     const planMejorado = await coherenciaAutomatica.mejorarPlanAutomaticamente(videoPlan, {
       visualStyle: req.visualStyle,

@@ -16,6 +16,7 @@ import marketingTemplateRouter from './routes/marketingTemplateRoutes.js';  // �
 import adminRouter from './routes/admin.js';  // ✨ NUEVO: Panel de administración
 import editorRouter from './routes/editor.js';  // ✨ NUEVO: Editor Visual
 import cleanupRouter from './routes/cleanup.js';  // ✨ NUEVO: Servicio de limpieza
+import socialRouter from './routes/social.js';  // ✨ NUEVO: Redes Sociales
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';  // ✨ NUEVO: Manejo de errores
 import { logger } from './utils/logger.js';
 import { CleanupService } from './services/cleanupService.js';  // ✨ NUEVO: Servicio de limpieza
@@ -100,6 +101,7 @@ app.use('/api/marketing/templates', marketingTemplateRouter);  // ✨ NUEVO: Pla
 app.use('/api/admin', adminRouter);  // ✨ NUEVO: Panel de administración
 app.use('/api/editor', editorRouter);  // ✨ NUEVO: Editor Visual (Studio Pro)
 app.use('/api/cleanup', cleanupRouter);  // ✨ NUEVO: Servicio de limpieza (Solo Admins)
+app.use('/api/social', socialRouter);  // ✨ NUEVO: Redes Sociales
 app.use('/api/render', renderRouter);
 app.use('/api/marketing', marketingRoutes);  // ✨ NUEVO: Marketing AI Routes
 app.use('/api/cinema', cinemaRouter);  // ✨ NUEVO: Proyectos Cinema AI

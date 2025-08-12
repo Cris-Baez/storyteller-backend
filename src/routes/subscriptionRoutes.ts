@@ -19,6 +19,41 @@ const router = Router();
 // Webhook de PayPal (sin autenticación) - debe ir antes del middleware de auth
 router.post('/webhook/paypal', handlePayPalWebhook);
 
+// Aplicar autenticación a todas las rutas excepto webhooks
+router.use(authenticate);
+
+// ✅ NUEVA RUTA: Cambio de plan directo
+router.post('/change-plan', [
+  body('newPlan')
+    .isIn(['STARTER', 'CREATOR', 'STUDIO_PRO'])
+    .withMessage('Plan debe ser uno de: STARTER, CREATOR, STUDIO_PRO')
+], validateRequest, async (req: any, res: any) => {
+  try {
+    const { newPlan } = req.body;
+    const userId = req.user.id;
+    
+    // Actualizar plan del usuario directamente
+    const { PrismaClient } = await import('@prisma/client');
+    const prisma = new PrismaClient();
+    
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { plan: newPlan }
+    });
+    
+    await prisma.$disconnect();
+    
+    res.json({ 
+      success: true, 
+      message: `Plan actualizado a ${newPlan}`,
+      user: updatedUser 
+    });
+  } catch (error) {
+    console.error('Error changing plan:', error);
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+});
+
 // Validaciones
 const createSubscriptionValidation = [
   body('plan')
@@ -51,7 +86,39 @@ const featureValidation = [
 ];
 
 // Rutas protegidas (requieren autenticación)
-router.use(authenticate);
+// router.use(authenticate); // Ya aplicado arriba
+
+// ✅ NUEVA RUTA: Cambio de plan directo
+router.post('/change-plan', [
+  body('newPlan')
+    .isIn(['STARTER', 'CREATOR', 'STUDIO_PRO'])
+    .withMessage('Plan debe ser uno de: STARTER, CREATOR, STUDIO_PRO')
+], validateRequest, async (req: any, res: any) => {
+  try {
+    const { newPlan } = req.body;
+    const userId = req.user.id;
+    
+    // Actualizar plan del usuario directamente
+    const { PrismaClient } = await import('@prisma/client');
+    const prisma = new PrismaClient();
+    
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { plan: newPlan }
+    });
+    
+    await prisma.$disconnect();
+    
+    res.json({ 
+      success: true, 
+      message: `Plan actualizado a ${newPlan}`,
+      user: updatedUser 
+    });
+  } catch (error) {
+    console.error('Error changing plan:', error);
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+});
 
 // Crear nueva suscripción
 router.post(

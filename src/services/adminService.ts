@@ -1,4 +1,4 @@
-import { PrismaClient, User, Video, Subscription, Payment } from '../../generated/prisma/index.js';
+import { PrismaClient, User, Video, Subscription, Payment } from '@prisma/client';
 import { logger } from '../utils/logger.js';
 
 const prisma = new PrismaClient();

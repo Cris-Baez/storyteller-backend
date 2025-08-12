@@ -286,17 +286,27 @@ export async function assembleVideo(opts: {
   logger.info(`✅ Archivo de lista para FFmpeg creado: ${list}`);
   logger.info('🟡 [FFmpeg] Iniciando concat clips → ' + concat);
 
-  // Detectar modo Free para marca de agua
-  const isFree = (plan?.metadata?.mode || '').toLowerCase() === 'free';
-  const watermarkPath = isFree ? path.join(process.cwd(), 'assets', 'branding', 'watermark_free.png') : null;
+  // Detectar si necesita marca de agua según el plan del usuario
+  const userPlan = (plan?.metadata?.userPlan || 'STARTER').toUpperCase();
+  const needsWatermark = userPlan === 'STARTER'; // Solo plan gratuito tiene marca de agua
+  const watermarkPath = needsWatermark ? path.join(process.cwd(), 'assets', 'branding', 'watermark_free.png') : null;
+  
+  logger.info(`🏷️ Plan de usuario: ${userPlan}, Marca de agua: ${needsWatermark ? 'SÍ' : 'NO'}`);
+  
   const videoFilters = [
     'scale=1280:720:force_original_aspect_ratio=decrease',
     'pad=1280:720:(ow-iw)/2:(oh-ih)/2',
     'setsar=1'
   ];
   
-  if (isFree && watermarkPath) {
-    videoFilters.push(`movie='${watermarkPath}'[wm];[in][wm]overlay=W-w-40:H-h-40:format=auto`);
+  if (needsWatermark && watermarkPath) {
+    try {
+      await fs.access(watermarkPath);
+      videoFilters.push(`movie='${watermarkPath}'[wm];[in][wm]overlay=W-w-40:H-h-40:format=auto,setpts=PTS-STARTPTS`);
+      logger.info(`✅ Marca de agua aplicada: ${watermarkPath}`);
+    } catch (error) {
+      logger.warn(`⚠️ No se pudo cargar la marca de agua: ${watermarkPath}`);
+    }
   }
   
   await retry(() => execFF(
