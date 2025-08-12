@@ -185,11 +185,11 @@ export const getProfile = async (req: Request, res: Response): Promise<void> => 
       success: true,
       data: {
         user: {
-          id: user._id,
+          id: user.id, // ← ARREGLADO: usar user.id en vez de user._id
           email: user.email,
           name: user.name,
           role: user.role,
-          plan: user.plan,
+          plan: user.plan, // ← ESTE ES EL CAMPO CLAVE
           subscription: user.subscription,
           usage: user.usage,
           profile: user.profile,

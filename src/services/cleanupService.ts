@@ -3,6 +3,7 @@ import { logger } from '../utils/logger.js';
 import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
+import cron from 'node-cron';
 
 const prisma = new PrismaClient();
 
@@ -481,36 +482,61 @@ export class CleanupService {
   }
 
   /**
-   * ⏰ PROGRAMAR LIMPIEZA AUTOMÁTICA
+   * ⏰ PROGRAMAR LIMPIEZA AUTOMÁTICA CON CRON JOBS
    */
   static scheduleAutomaticCleanup(): void {
-    logger.info('[CleanupService] ⏰ Programando limpieza automática');
+    logger.info('[CleanupService] ⏰ Programando limpieza automática con cron jobs');
 
-    // Ejecutar limpieza cada 6 horas
-    const SIX_HOURS = 6 * 60 * 60 * 1000;
-    
-    setInterval(async () => {
+    // 🧹 Limpieza ligera cada 4 horas (archivos temporales y caché)
+    cron.schedule('0 */4 * * *', async () => {
       try {
-        logger.info('[CleanupService] ⏰ Ejecutando limpieza automática programada');
+        logger.info('[CleanupService] ⏰ Ejecutando limpieza ligera automática');
+        await this.cleanupTempFiles();
+        await this.cleanupExpiredTokens();
+        await this.cleanupFailedVideos();
+      } catch (error) {
+        logger.error('[CleanupService] ❌ Error en limpieza ligera:', error);
+      }
+    });
+
+    // 🗑️ Limpieza completa diaria a las 3:00 AM
+    cron.schedule('0 3 * * *', async () => {
+      try {
+        logger.info('[CleanupService] ⏰ Ejecutando limpieza completa diaria');
         await this.performFullCleanup();
       } catch (error) {
-        logger.error('[CleanupService] ❌ Error en limpieza automática:', error);
+        logger.error('[CleanupService] ❌ Error en limpieza completa:', error);
       }
-    }, SIX_HOURS);
+    });
 
-    // Ejecutar optimización de DB una vez al día
-    const ONE_DAY = 24 * 60 * 60 * 1000;
-    
-    setInterval(async () => {
+    // 📊 Optimización de base de datos semanal (domingos 2:00 AM)
+    cron.schedule('0 2 * * 0', async () => {
       try {
-        logger.info('[CleanupService] ⏰ Ejecutando optimización automática de DB');
+        logger.info('[CleanupService] ⏰ Ejecutando optimización semanal de DB');
         await this.optimizeDatabase();
+        await this.generateMaintenanceReport();
       } catch (error) {
-        logger.error('[CleanupService] ❌ Error en optimización automática:', error);
+        logger.error('[CleanupService] ❌ Error en optimización semanal:', error);
       }
-    }, ONE_DAY);
+    });
+
+    // 🚨 Limpieza de emergencia si el disco está muy lleno (cada hora)
+    cron.schedule('0 * * * *', async () => {
+      try {
+        const stats = await this.getSystemStats();
+        const usedPercentage = (stats.storage.usedSpace / stats.storage.totalSize) * 100;
+        
+        if (usedPercentage > 85) {
+          logger.warn(`[CleanupService] 🚨 Disco lleno al ${usedPercentage.toFixed(1)}% - Ejecutando limpieza de emergencia`);
+          await this.emergencyCleanup();
+        }
+      } catch (error) {
+        logger.error('[CleanupService] ❌ Error en verificación de espacio:', error);
+      }
+    });
 
     logger.info('[CleanupService] ✅ Limpieza automática programada exitosamente');
+    logger.info('[CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora');
   }
 
   /**
@@ -559,5 +585,178 @@ export class CleanupService {
       logger.error('[CleanupService] ❌ Error al obtener estadísticas del sistema:', error);
       throw new Error('Error al obtener estadísticas del sistema');
     }
+  }
+
+  /**
+   * 🚨 LIMPIEZA DE EMERGENCIA
+   */
+  static async emergencyCleanup(): Promise<CleanupResult> {
+    logger.info('[CleanupService] 🚨 Iniciando limpieza de emergencia por espacio insuficiente');
+
+    const result: CleanupResult = {
+      deletedFiles: 0,
+      deletedRecords: 0,
+      freedSpace: '0 MB',
+      errors: []
+    };
+
+    try {
+      // 1. Eliminar archivos temporales más agresivamente
+      const tempResult = await this.cleanupTempFiles();
+      result.deletedFiles += tempResult.deletedFiles;
+
+      // 2. Eliminar videos fallidos más antiguos (7 días en lugar de 30)
+      const failedVideos = await prisma.video.findMany({
+        where: {
+          status: 'FAILED',
+          createdAt: {
+            lt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 7 días
+          }
+        }
+      });
+
+      for (const video of failedVideos) {
+        await this.deleteVideoFiles(video);
+      }
+
+      await prisma.video.deleteMany({
+        where: {
+          status: 'FAILED',
+          createdAt: {
+            lt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+          }
+        }
+      });
+
+      result.deletedRecords += failedVideos.length;
+
+      // 3. Limpiar videos sin URL (corruptos) más agresivamente
+      const corruptedVideos = await prisma.video.findMany({
+        where: {
+          OR: [
+            { finalVideoUrl: null },
+            { finalVideoUrl: '' }
+          ],
+          createdAt: {
+            lt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000) // 3 días
+          }
+        }
+      });
+
+      await prisma.video.deleteMany({
+        where: {
+          OR: [
+            { finalVideoUrl: null },
+            { finalVideoUrl: '' }
+          ],
+          createdAt: {
+            lt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
+          }
+        }
+      });
+
+      result.deletedRecords += corruptedVideos.length;
+
+      // 4. Limpiar tokens expirados inmediatamente
+      const tokenResult = await this.cleanupExpiredTokens();
+      result.deletedRecords += tokenResult.deletedRecords;
+
+      result.freedSpace = this.calculateFreedSpace(result.deletedFiles);
+      
+      logger.warn(`[CleanupService] 🚨 Limpieza de emergencia completada: ${result.deletedFiles} archivos, ${result.deletedRecords} registros, ${result.freedSpace} liberado`);
+      
+    } catch (error) {
+      const errorMsg = `Error en limpieza de emergencia: ${(error as Error).message}`;
+      logger.error('[CleanupService] ❌', errorMsg);
+      result.errors.push(errorMsg);
+    }
+
+    return result;
+  }
+
+  /**
+   * 📋 GENERAR REPORTE DE MANTENIMIENTO
+   */
+  static async generateMaintenanceReport(): Promise<void> {
+    try {
+      logger.info('[CleanupService] 📋 Generando reporte de mantenimiento semanal');
+
+      const stats = await this.getSystemStats();
+      const now = new Date();
+
+      const report = {
+        timestamp: now.toISOString(),
+        system: {
+          uptime: `${Math.floor(stats.uptime / 86400)} días`,
+          memory: `${Math.round(stats.memory.percentage)}% usado (${(stats.memory.used / 1024 / 1024 / 1024).toFixed(2)} GB)`,
+          environment: stats.environment
+        },
+        database: {
+          users: stats.database.usersCount,
+          videos: stats.database.videosCount,
+          tokens: stats.database.tokensCount,
+          subscriptions: stats.database.subscriptionsCount
+        },
+        storage: {
+          used: `${(stats.storage.usedSpace / 1024 / 1024 / 1024).toFixed(2)} GB`,
+          available: `${(stats.storage.availableSpace / 1024 / 1024 / 1024).toFixed(2)} GB`,
+          files: stats.storage.fileCount,
+          percentage: `${Math.round((stats.storage.usedSpace / stats.storage.totalSize) * 100)}%`
+        }
+      };
+
+      // Log del reporte
+      logger.info('[CleanupService] 📊 REPORTE DE MANTENIMIENTO SEMANAL');
+      logger.info('[CleanupService] 🖥️  Sistema:', JSON.stringify(report.system, null, 2));
+      logger.info('[CleanupService] 🗄️  Base de Datos:', JSON.stringify(report.database, null, 2));
+      logger.info('[CleanupService] 💾 Almacenamiento:', JSON.stringify(report.storage, null, 2));
+
+      // Guardar en logs si es necesario
+      if (stats.storage.usedSpace / stats.storage.totalSize > 0.8) {
+        logger.warn('[CleanupService] ⚠️  ADVERTENCIA: Almacenamiento por encima del 80%');
+      }
+
+      if (stats.memory.percentage > 85) {
+        logger.warn('[CleanupService] ⚠️  ADVERTENCIA: Memoria por encima del 85%');
+      }
+
+    } catch (error) {
+      logger.error('[CleanupService] ❌ Error generando reporte de mantenimiento:', error);
+    }
+  }
+
+  /**
+   * 🗑️ ELIMINAR ARCHIVOS DE VIDEO
+   */
+  private static async deleteVideoFiles(video: any): Promise<void> {
+    const filesToDelete = [
+      video.finalVideoUrl,
+      video.thumbnailUrl,
+      video.voiceAudioUrl,
+      video.musicAudioUrl
+    ].filter(Boolean);
+
+    for (const fileUrl of filesToDelete) {
+      try {
+        if (fileUrl && fileUrl.startsWith('/')) {
+          const fullPath = path.join(process.cwd(), 'public', fileUrl);
+          await fs.unlink(fullPath);
+        }
+      } catch (error) {
+        // Archivo ya no existe, continuar
+      }
+    }
+  }
+
+  /**
+   * 📏 CALCULAR ESPACIO LIBERADO
+   */
+  private static calculateFreedSpace(deletedFiles: number): string {
+    // Estimación aproximada: cada archivo ~5MB en promedio
+    const estimatedMB = deletedFiles * 5;
+    if (estimatedMB > 1024) {
+      return `${(estimatedMB / 1024).toFixed(2)} GB`;
+    }
+    return `${estimatedMB} MB`;
   }
 }

@@ -5,6 +5,7 @@ import { IMarketingVideo } from '../models/Marketing.js';
 import { UserService } from '../models/User.js';
 import { PlanLimitService } from '../services/planLimitService.js';
 import { PrismaClient } from '../../generated/prisma/index.js'; // ✅ CRÍTICO: Para guardar videos
+import { marketingAgent, AgentConfig } from '../services/marketingAgentService.js'; // ✅ NUEVO: Agente completo
 import { logger } from '../utils/logger.js';
 
 const prisma = new PrismaClient(); // ✅ CRÍTICO
@@ -155,24 +156,40 @@ export class MarketingController {
   }
 
   /**
-   * 🤖 ACTIVAR MODO AGENTE
+   * 🤖 ACTIVAR AGENTE AUTOMÁTICO COMPLETO
    */
   async activateAgent(req: Request, res: Response): Promise<void> {
-    logger.info(`[MarketingController] 🤖 Activando modo agente`);
+    logger.info(`[MarketingController] 🤖 Activando agente automático completo`);
 
     try {
-      const { userId, businessType, weeklyFrequency = 3 } = req.body;
-
-      if (!userId || !businessType) {
-        res.status(400).json({
+      // Obtener userId del middleware de auth o del body (para compatibilidad)
+      const userId = (req as any).user?.id || parseInt(req.body.userId);
+      
+      if (!userId) {
+        res.status(401).json({
           success: false,
-          error: 'userId y businessType son requeridos'
+          error: 'Usuario no autenticado'
         });
         return;
       }
 
-      // 🔒 VALIDAR USUARIO Y LÍMITES  
-      const user = await UserService.findById(parseInt(userId));
+      const {
+        frequency = 'weekly',
+        preferredDays = ['monday'],
+        preferredHours = [9],
+        categories = ['promotion'],
+        defaultStyle = 'moderno',
+        defaultVoice = 'commercial',
+        seasonalAdaptation = true,
+        maxVideosPerWeek = 5,
+        businessType // Para compatibilidad con la API anterior
+      } = req.body;
+
+      // 🔒 VALIDAR USUARIO Y PLAN
+      const user = await prisma.user.findUnique({
+        where: { id: userId }
+      });
+
       if (!user) {
         res.status(404).json({
           success: false,
@@ -181,52 +198,205 @@ export class MarketingController {
         return;
       }
 
-      // Validar suscripción activa
-      if (!UserService.isSubscriptionActive(user)) {
+      // Verificar plan requerido
+      if (user.plan === 'STARTER') {
         res.status(403).json({
           success: false,
-          error: 'Suscripción inactiva o expirada',
-          code: 'SUBSCRIPTION_INACTIVE',
-          details: {
-            currentPlan: user.plan,
-            subscriptionStatus: user.subscription?.status || 'INACTIVE'
-          }
+          error: 'El Agente Automático requiere plan Creator ($29) o superior',
+          code: 'PLAN_UPGRADE_REQUIRED',
+          requiredPlan: 'CREATOR'
         });
         return;
       }
 
-      // Generar ideas automáticas
-      const businessData = {
-        businessType,
-        brandName: req.body.brandName,
-        userImages: req.body.userImages || []
+      // 🚀 CONFIGURAR Y ACTIVAR AGENTE AUTOMÁTICO
+      const agentConfig: AgentConfig = {
+        userId,
+        isActive: true,
+        frequency,
+        preferredDays,
+        preferredHours,
+        categories,
+        defaultStyle,
+        defaultVoice,
+        seasonalAdaptation,
+        maxVideosPerWeek
       };
 
-      const weeklyIdeas = await this.marketingIntelligence.generateWeeklyIdeas(userId, businessData);
+      // Activar agente con programación automática
+      await marketingAgent.activateAgent(agentConfig);
 
+      logger.info(`[MarketingController] ✅ Agente activado exitosamente para usuario ${userId}`);
+
+      // Respuesta compatible con ambas APIs (antigua y nueva)
       res.json({
         success: true,
-        message: 'Modo agente activado exitosamente',
+        message: 'Agente Automático activado correctamente',
         agentConfig: {
-          weeklyFrequency,
+          frequency,
+          preferredDays,
+          categories,
+          defaultStyle,
+          seasonalAdaptation,
+          weeklyFrequency: frequency === 'weekly' ? maxVideosPerWeek : 
+                          frequency === 'biweekly' ? Math.ceil(maxVideosPerWeek / 2) : 
+                          Math.ceil(maxVideosPerWeek / 4), // Para compatibilidad
           autoPublish: false,
           learningEnabled: true
         },
-        weeklyIdeas: weeklyIdeas.map(idea => ({
-          title: `Video ${idea.videoType}`,
-          videoType: idea.videoType,
-          style: idea.style,
-          duration: idea.duration,
-          userPrompt: idea.userPrompt,
-          callToAction: idea.callToAction
-        }))
+        automation: {
+          cronScheduled: true,
+          nextExecution: 'Próximo lunes 9:00 AM',
+          maxVideosPerWeek
+        }
       });
 
     } catch (error) {
       logger.error(`[MarketingController] ❌ Error activando agente:`, error);
       res.status(500).json({
         success: false,
-        error: 'Error activando modo agente'
+        error: 'Error interno activando el Agente Automático',
+        details: (error as Error).message
+      });
+    }
+  }
+
+  /**
+   * ⏹️ DESACTIVAR AGENTE AUTOMÁTICO
+   */
+  async deactivateAgent(req: Request, res: Response): Promise<void> {
+    try {
+      const userId = (req as any).user?.id || parseInt(req.body.userId);
+      
+      if (!userId) {
+        res.status(401).json({ success: false, error: 'Usuario no autenticado' });
+        return;
+      }
+
+      await marketingAgent.deactivateAgent(userId);
+
+      res.json({
+        success: true,
+        message: 'Agente Automático desactivado correctamente'
+      });
+
+    } catch (error) {
+      logger.error(`[MarketingController] Error desactivando agente:`, error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Error interno desactivando el Agente Automático' 
+      });
+    }
+  }
+
+  /**
+   * ⚡ EJECUCIÓN FORZADA DEL AGENTE
+   */
+  async forceAgentExecution(req: Request, res: Response): Promise<void> {
+    try {
+      const userId = (req as any).user?.id || parseInt(req.body.userId);
+      
+      if (!userId) {
+        res.status(401).json({ success: false, error: 'Usuario no autenticado' });
+        return;
+      }
+
+      // Verificar plan
+      const user = await prisma.user.findUnique({ where: { id: userId } });
+      if (!user || user.plan === 'STARTER') {
+        res.status(403).json({ 
+          success: false,
+          error: 'La ejecución manual requiere plan Creator ($29) o superior',
+          requiredPlan: 'CREATOR'
+        });
+        return;
+      }
+
+      // Ejecutar en background
+      marketingAgent.forceExecution(userId).catch(error => {
+        logger.error(`[MarketingController] Error en ejecución forzada para usuario ${userId}:`, error);
+      });
+
+      res.json({
+        success: true,
+        message: 'Ejecución del Agente iniciada. El video se generará automáticamente.',
+        estimatedTime: '3-5 minutos'
+      });
+
+    } catch (error) {
+      logger.error(`[MarketingController] Error en ejecución forzada:`, error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Error interno ejecutando el Agente Automático' 
+      });
+    }
+  }
+
+  /**
+   * 📊 ESTADO COMPLETO DEL AGENTE
+   */
+  async getAgentStatus(req: Request, res: Response): Promise<void> {
+    try {
+      const userId = (req as any).user?.id || parseInt(req.body.userId);
+      
+      if (!userId) {
+        res.status(401).json({ success: false, error: 'Usuario no autenticado' });
+        return;
+      }
+
+      const user = await prisma.user.findUnique({ where: { id: userId } });
+      if (!user) {
+        res.status(404).json({ success: false, error: 'Usuario no encontrado' });
+        return;
+      }
+
+      // Obtener videos automáticos recientes
+      const recentVideos = await prisma.video.findMany({
+        where: {
+          userId,
+          createdAt: { gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 50
+      });
+
+      const automaticVideos = recentVideos.filter(video => {
+        try {
+          const metadata = video.metadata as any;
+          return metadata && metadata.isAutomated === true;
+        } catch {
+          return false;
+        }
+      }).slice(0, 10);
+
+      const isAgentAvailable = user.plan !== 'STARTER';
+      const isActive = automaticVideos.length > 0;
+
+      res.json({
+        success: true,
+        agent: {
+          isAvailable: isAgentAvailable,
+          isActive,
+          requiredPlan: isAgentAvailable ? user.plan : 'CREATOR',
+          recentGenerations: automaticVideos.length,
+          lastGeneration: automaticVideos[0]?.createdAt || null,
+          nextScheduled: isActive ? 'Próximo lunes 9:00 AM' : null
+        },
+        recentVideos: automaticVideos.map(video => ({
+          id: video.id,
+          title: video.title,
+          createdAt: video.createdAt,
+          status: video.status,
+          finalVideoUrl: video.finalVideoUrl,
+          thumbnailUrl: video.thumbnailUrl
+        }))
+      });
+
+    } catch (error) {
+      logger.error(`[MarketingController] Error obteniendo estado del agente:`, error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Error interno obteniendo estado del Agente' 
       });
     }
   }

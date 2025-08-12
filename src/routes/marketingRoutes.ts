@@ -23,6 +23,24 @@ router.post('/create', authenticate, requireActiveSubscription, checkVideoCreati
 router.post('/agent/activate', marketingController.activateAgent.bind(marketingController));
 
 /**
+ * ⏹️ DESACTIVAR AGENTE AUTOMÁTICO
+ * POST /api/marketing/agent/deactivate
+ */
+router.post('/agent/deactivate', marketingController.deactivateAgent.bind(marketingController));
+
+/**
+ * ⚡ EJECUCIÓN FORZADA DEL AGENTE
+ * POST /api/marketing/agent/force-run
+ */
+router.post('/agent/force-run', marketingController.forceAgentExecution.bind(marketingController));
+
+/**
+ * 📊 ESTADO DEL AGENTE
+ * GET /api/marketing/agent/status
+ */
+router.get('/agent/status', marketingController.getAgentStatus.bind(marketingController));
+
+/**
  * 📊 OBTENER ESTADO DE VIDEO
  * GET /api/marketing/status/:requestId
  */

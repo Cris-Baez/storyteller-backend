@@ -29,4 +29,11 @@ router.delete('/assets/:id', EditorController.deleteAsset);
  */
 router.get('/stats', EditorController.getEditorStats);
 
+/**
+ * 🎛️ RUTAS DE EDICIÓN DE AUDIO
+ */
+router.post('/regenerate-voice', EditorController.regenerateVoice);
+router.post('/update-audio', EditorController.updateAudio);
+router.post('/add-sound-effect', EditorController.addSoundEffect);
+
 export default router;

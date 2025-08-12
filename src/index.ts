@@ -137,8 +137,9 @@ const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
   logger.info(`🚀  Storyteller AI backend listening on port ${PORT}`);
   
-  // ✨ NUEVO: Inicializar servicio de limpieza automática
+  // ✨ NUEVO: Inicializar servicios automáticos
   CleanupService.scheduleAutomaticCleanup();
+  logger.info('🤖 Marketing Agent Service initialized');
 });
 
 process.on('SIGTERM', () => {

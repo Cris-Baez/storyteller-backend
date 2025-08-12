@@ -490,4 +490,243 @@ export class EditorController {
       });
     }
   };
+
+  /**
+   * 🎙️ REGENERAR VOZ/DIÁLOGO
+   */
+  static regenerateVoice = async (req: Request, res: Response): Promise<void> => {
+    try {
+      logger.info('[EditorController] 🎙️ Regenerando voz');
+      
+      const { projectId, text, voice = 'neutral' } = req.body;
+      const userId = req.user?.id;
+
+      if (!userId) {
+        res.status(401).json({ 
+          error: 'Usuario no autenticado',
+          code: 'UNAUTHORIZED'
+        });
+        return;
+      }
+
+      if (!projectId || !text) {
+        res.status(400).json({
+          error: 'projectId y text son requeridos',
+          code: 'MISSING_FIELDS'
+        });
+        return;
+      }
+
+      // Verificar que el proyecto pertenece al usuario
+      const project = await EditorService.getProjectById(projectId, userId);
+      
+      if (!project) {
+        res.status(404).json({
+          error: 'Proyecto no encontrado',
+          code: 'PROJECT_NOT_FOUND'
+        });
+        return;
+      }
+
+      // Usar tu MarketingPipeline existente para generar nueva voz
+      const { MarketingPipeline } = await import('../pipelines/marketingPipeline.js');
+      const pipeline = new MarketingPipeline();
+
+      // Simular datos de marketing para generar solo audio
+      const mockMarketingData = {
+        userId: userId.toString(),
+        title: project.title,
+        description: text,
+        businessType: 'services' as const,
+        videoType: 'promotional' as const,
+        style: 'professional' as const,
+        duration: 30,
+        userImages: [],
+        useAIActor: false,
+        voiceEnabled: true,
+        voiceType: voice as any,
+        musicStyle: 'none' as const,
+        marketingTomas: [],
+        status: 'creado' as const,
+        isAgentMode: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      const audioAssets = await (pipeline as any).generateAudioAssets(mockMarketingData, text);
+
+      // Actualizar proyecto con nueva voz
+      const projectData = (project.data as any) || {};
+      const updatedProject = await EditorService.updateProject(projectId, userId, {
+        data: {
+          ...projectData,
+          script: text,
+          voiceAudioUrl: audioAssets.voiceUrl,
+          voiceType: voice
+        }
+      });
+
+      res.status(200).json({
+        message: 'Voz regenerada exitosamente',
+        data: {
+          audioUrl: audioAssets.voiceUrl,
+          project: updatedProject
+        }
+      });
+
+    } catch (error: any) {
+      logger.error('[EditorController] ❌ Error regenerando voz:', error);
+      
+      res.status(500).json({
+        error: 'Error regenerando voz',
+        code: 'VOICE_ERROR'
+      });
+    }
+  };
+
+  /**
+   * 🎵 ACTUALIZAR CONFIGURACIÓN DE AUDIO
+   */
+  static updateAudio = async (req: Request, res: Response): Promise<void> => {
+    try {
+      logger.info('[EditorController] 🎵 Actualizando audio');
+      
+      const { projectId, trackId, volume, musicUrl } = req.body;
+      const userId = req.user?.id;
+
+      if (!userId) {
+        res.status(401).json({ 
+          error: 'Usuario no autenticado',
+          code: 'UNAUTHORIZED'
+        });
+        return;
+      }
+
+      if (!projectId) {
+        res.status(400).json({
+          error: 'projectId es requerido',
+          code: 'MISSING_FIELDS'
+        });
+        return;
+      }
+
+      // Verificar que el proyecto pertenece al usuario
+      const project = await EditorService.getProjectById(projectId, userId);
+      
+      if (!project) {
+        res.status(404).json({
+          error: 'Proyecto no encontrado',
+          code: 'PROJECT_NOT_FOUND'
+        });
+        return;
+      }
+
+      // Actualizar configuración de audio en el proyecto
+      const projectData = (project.data as any) || {};
+      const audioConfig = projectData.audioConfig || {};
+      
+      if (trackId && volume !== undefined) {
+        audioConfig[trackId] = { ...audioConfig[trackId], volume };
+      }
+      
+      if (musicUrl) {
+        audioConfig.backgroundMusicUrl = musicUrl;
+      }
+
+      const updatedProject = await EditorService.updateProject(projectId, userId, {
+        data: {
+          ...projectData,
+          audioConfig
+        }
+      });
+
+      res.status(200).json({
+        message: 'Audio actualizado exitosamente',
+        data: updatedProject
+      });
+
+    } catch (error: any) {
+      logger.error('[EditorController] ❌ Error actualizando audio:', error);
+      
+      res.status(500).json({
+        error: 'Error actualizando audio',
+        code: 'AUDIO_ERROR'
+      });
+    }
+  };
+
+  /**
+   * 🔊 AGREGAR EFECTO DE SONIDO
+   */
+  static addSoundEffect = async (req: Request, res: Response): Promise<void> => {
+    try {
+      logger.info('[EditorController] 🔊 Agregando efecto de sonido');
+      
+      const { projectId, effectName, startTime = 0, volume = 0.8 } = req.body;
+      const userId = req.user?.id;
+
+      if (!userId) {
+        res.status(401).json({ 
+          error: 'Usuario no autenticado',
+          code: 'UNAUTHORIZED'
+        });
+        return;
+      }
+
+      if (!projectId || !effectName) {
+        res.status(400).json({
+          error: 'projectId y effectName son requeridos',
+          code: 'MISSING_FIELDS'
+        });
+        return;
+      }
+
+      // Verificar que el proyecto pertenece al usuario
+      const project = await EditorService.getProjectById(projectId, userId);
+      
+      if (!project) {
+        res.status(404).json({
+          error: 'Proyecto no encontrado',
+          code: 'PROJECT_NOT_FOUND'
+        });
+        return;
+      }
+
+      // Crear nuevo efecto
+      const newEffect = {
+        id: `effect_${Date.now()}`,
+        name: effectName,
+        url: `https://storage.googleapis.com/storyteller-ai-cdn/effects/${effectName.toLowerCase().replace(/[^a-z]/g, '')}.mp3`,
+        startTime,
+        volume
+      };
+
+      // Actualizar proyecto con nuevo efecto
+      const projectData = (project.data as any) || {};
+      const currentEffects = projectData.soundEffects || [];
+      
+      const updatedProject = await EditorService.updateProject(projectId, userId, {
+        data: {
+          ...projectData,
+          soundEffects: [...currentEffects, newEffect]
+        }
+      });
+
+      res.status(200).json({
+        message: 'Efecto agregado exitosamente',
+        data: {
+          effect: newEffect,
+          project: updatedProject
+        }
+      });
+
+    } catch (error: any) {
+      logger.error('[EditorController] ❌ Error agregando efecto:', error);
+      
+      res.status(500).json({
+        error: 'Error agregando efecto de sonido',
+        code: 'EFFECT_ERROR'
+      });
+    }
+  };
 }

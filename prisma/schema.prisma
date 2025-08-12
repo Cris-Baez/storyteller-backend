@@ -87,12 +87,24 @@ model Payment {
   @@map("payments")
 }
 
-// 📊 USO SEMANAL
+// 📊 USO GRANULAR POR FEATURES
 model Usage {
   id              Int      @id @default(autoincrement())
   userId          Int      @unique
+  
+  // Videos tradicionales (límite semanal)
   videosThisWeek  Int      @default(0)
   weekResetDate   DateTime @default(now())
+  
+  // Nuevos campos granulares
+  storageUsedMB      Int      @default(0)    // Almacenamiento usado en MB
+  editorUsage        Int      @default(0)    // Veces que usó el editor
+  agentGenerations   Int      @default(0)    // Generaciones con agente automático
+  
+  // Timestamps de último uso por feature
+  lastEditorUse      DateTime?
+  lastAgentUse       DateTime?
+  lastVideoGenerated DateTime?
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
