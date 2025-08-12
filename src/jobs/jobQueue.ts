@@ -2,7 +2,7 @@ import { renderCinemaAI } from '../pipelines/renderPipeline.js';
 import { randomUUID } from 'crypto';
 import { safeLog, hasLargeBase64 } from '../utils/logger.js';
 import { PlanLimitService } from '../services/planLimitService.js'; // ✅ NUEVO
-import { PrismaClient } from '@prisma/client'; // ✅ NUEVO: Para guardar videos
+import { PrismaClient } from '../../generated/prisma/index.js'; // ✅ NUEVO: Para guardar videos
 
 const prisma = new PrismaClient(); // ✅ NUEVO
 

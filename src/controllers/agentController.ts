@@ -6,7 +6,7 @@
 import { Request, Response } from 'express';
 import { marketingAgent, AgentConfig } from '../services/marketingAgentService.js';
 import { logger } from '../utils/logger.js';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../generated/prisma/index.js';
 
 const prisma = new PrismaClient();
 

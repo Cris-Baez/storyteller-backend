@@ -1,4 +1,4 @@
-import { PrismaClient, User, Subscription, Usage, Profile, Preferences, $Enums } from '@prisma/client';
+import { PrismaClient, User, Subscription, Usage, Profile, Preferences, $Enums } from '../../generated/prisma/index.js';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { getPlanLimits } from '../config/plans.js';
@@ -6,7 +6,7 @@ import { PlanLimitService } from '../services/planLimitService.js';
 
 const prisma = new PrismaClient();
 
-export type { User, Subscription, Usage, Profile, Preferences } from '@prisma/client';
+export type { User, Subscription, Usage, Profile, Preferences } from '../../generated/prisma/index.js';
 export type Role = $Enums.Role;
 export type Plan = $Enums.Plan;
 export type SubscriptionStatus = $Enums.SubscriptionStatus;
