@@ -22,50 +22,22 @@ export class MarketingIntelligenceService {
   constructor() {}
 
   /**
-   * 🧠 GENERADOR INTELIGENTE DE TOMAS DE MARKETING - REAL LLM INTEGRATION
+   * 🧠 GENERADOR INTELIGENTE DE TOMAS DE MARKETING
    */
   async generateMarketingTomas(input: MarketingPromptInput): Promise<MarketingTomasOutput> {
     logger.info(`[MarketingIntelligence] 🎯 Generando tomas inteligentes para ${input.businessType}`);
 
     try {
-      // Real LLM integration instead of mocks
-      const prompt = this.buildMarketingPrompt(input);
-      const llmResponse = await this.callRealLLM(prompt);
-      const result = this.parseMarketingResponse(llmResponse, input);
+      const mockResponse = this.generateMockMarketingResponse(input);
+      const result = this.parseMarketingResponse(mockResponse, input);
       
       logger.info(`[MarketingIntelligence] ✅ Generadas ${result.tomas.length} tomas inteligentes`);
       return result;
 
     } catch (error) {
       logger.error('[MarketingIntelligence] ❌ Error generando tomas:', error);
-      throw new Error(`Marketing content generation failed: ${(error as Error).message}`);
+      throw new Error('Error generando contenido de marketing inteligente');
     }
-  }
-
-  /**
-   * 🔨 BUILD MARKETING PROMPT FOR LLM
-   */
-  private buildMarketingPrompt(input: MarketingPromptInput): string {
-    return `Generate marketing video shots for a ${input.businessType} business.
-Style: ${input.style}
-Duration: ${input.duration} seconds
-Target audience: professional
-
-Create engaging commercial shots that showcase the business effectively.
-Return as JSON with array of shots including description, type, and timing.`;
-  }
-
-  /**
-   * 🤖 CALL REAL LLM SERVICE
-   */
-  private async callRealLLM(prompt: string): Promise<string> {
-    // Fallback to mock for now - replace with actual LLM service when available
-    logger.warn('[MarketingIntelligence] LLM service not available, using structured fallback');
-    return this.generateMockMarketingResponse({ 
-      businessType: 'general',
-      style: 'professional',
-      duration: 30 
-    } as MarketingPromptInput);
   }
 
   /**

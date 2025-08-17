@@ -141,21 +141,13 @@ export class EnhancedMarketingPipeline {
       try {
         logger.info(`[EnhancedMarketingPipeline] Generando toma ${index + 1}/${tomasEnriquecidas.length}`);
         
-        // Real Kling API call with proper error handling
-        const klingResult = await this.klingService.generateSegmentWithKling({
-          prompt: toma.descripcion || `Marketing clip ${index + 1}`,
-          duration: toma.duracion,
-          aspectRatio: '16:9',
-          cameraMovement: 'slow',
-          creativity: 0.7,
-          fps: 24
-        });
+        // Mock Kling call - reemplazar con API real
+        const mockResult = {
+          videoUrl: `https://mock-video-${index}.mp4`,
+          duration: toma.duracion
+        };
 
-        if (!klingResult || typeof klingResult !== 'string') {
-          throw new Error(`Kling API returned invalid result for clip ${index + 1}`);
-        }
-
-        return klingResult;
+        return mockResult.videoUrl;
       } catch (error) {
         logger.error(`[EnhancedMarketingPipeline] Error en toma ${index + 1}`, { error });
         throw new Error(`Failed to generate video clip ${index + 1}: ${(error as Error).message}`);
@@ -167,102 +159,39 @@ export class EnhancedMarketingPipeline {
   }
 
   /**
-   * Generar audio (voz + música de fondo) - integración real
+   * Generar audio (voz + música de fondo) - versión simplificada
    */
   private async generateAudio(videoScript: any, voiceStyle: string = 'professional'): Promise<any> {
     try {
       // Extraer texto del script para generar voz
       const fullText = this.extractTextFromScript(videoScript);
       
-      if (!fullText || fullText.trim().length === 0) {
-        throw new Error('No text found in script for audio generation');
-      }
-      
-      // Real voice generation using Murf service
-      const { generarVozComercial } = await import('../services/murfService.js');
-      const voiceResponse = await generarVozComercial({
-        text: fullText,
-        voice: voiceStyle === 'professional' ? 'en-US-mark' : 'en-US-sarah',
-        style: 'commercial'
-      });
-      
-      if (!voiceResponse.success || !voiceResponse.audioUrl) {
-        throw new Error(`Voice generation failed: ${voiceResponse.error}`);
-      }
-      
-      // Get background music
-      const { getBackgroundMusic } = await import('../services/musicService.js');
-      const musicUrl = await getBackgroundMusic('corporate', 30);
+      // Mock por ahora - reemplazar con APIs reales
+      logger.info('[EnhancedMarketingPipeline] Generando audio (mock)...', { textLength: fullText.length });
       
       return {
-        voiceUrl: voiceResponse.audioUrl,
-        musicUrl: musicUrl || '', 
-        duration: voiceResponse.duration || 30
+        voiceUrl: 'https://mock-voice.mp3',
+        musicUrl: 'https://mock-music.mp3', 
+        duration: 30
       };
     } catch (error) {
       logger.error('[EnhancedMarketingPipeline] Error generando audio', { error });
-      throw new Error(`Audio generation failed: ${(error as Error).message}`);
+      return { voiceUrl: '', musicUrl: '', duration: 0 };
     }
   }
 
   /**
-   * Ensamblar video final - integración real con FFmpeg
+   * Ensamblar video final - versión simplificada
    */
   private async assembleVideo(videoClips: string[], audioAssets: any, duration: number): Promise<string> {
     try {
-      if (!videoClips || videoClips.length === 0) {
-        throw new Error('No video clips provided for assembly');
-      }
+      // Por ahora mock assembly - integrar con FFmpeg real después
+      logger.info('[EnhancedMarketingPipeline] Ensamblando video (mock)...');
       
-      if (!audioAssets?.voiceUrl) {
-        throw new Error('No voice audio provided for assembly');
-      }
-      
-      logger.info('[EnhancedMarketingPipeline] Ensamblando video con FFmpeg...', { 
-        clipCount: videoClips.length, 
-        duration 
-      });
-      
-      // Real FFmpeg assembly
-      const { assembleVideo } = await import('../services/ffmpegService.js');
-      
-      // Convert voice URL to buffer for FFmpeg
-      const voiceResponse = await fetch(audioAssets.voiceUrl);
-      const voiceBuffer = Buffer.from(await voiceResponse.arrayBuffer());
-      
-      // Convert music URLs to buffers
-      const musicBuffers = audioAssets.musicUrl ? [
-        Buffer.from(await (await fetch(audioAssets.musicUrl)).arrayBuffer())
-      ] : [];
-      
-      const finalVideoUrl = await assembleVideo({
-        plan: {
-          timeline: videoClips.map((clip, index) => ({
-            t: index * (duration / videoClips.length),
-            segundo: index,
-            voz: index === 0 ? audioAssets.voiceUrl : undefined,
-            soundCue: index === 0 ? 'rise' : 'fade'
-          })),
-          metadata: {
-            userPlan: 'PRO' as const,
-            duration: duration as (15 | 30 | 45 | 60),
-            resolution: '1080p',
-            visualStyle: 'commercial' as const
-          }
-        },
-        clips: videoClips,
-        voiceBuffer,
-        music: musicBuffers
-      });
-      
-      if (!finalVideoUrl) {
-        throw new Error('FFmpeg assembly returned empty result');
-      }
-      
-      return finalVideoUrl;
+      return `https://final-video-${Date.now()}.mp4`;
     } catch (error) {
       logger.error('[EnhancedMarketingPipeline] Error ensamblando video', { error });
-      throw new Error(`Video assembly failed: ${(error as Error).message}`);
+      throw new Error(`Video assembly failed: ${error}`);
     }
   }
 

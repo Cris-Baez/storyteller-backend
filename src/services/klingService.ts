@@ -151,8 +151,13 @@ export class KlingService {
         params: segment
       });
 
-      // Production-safe error handling - no demo fallbacks
-      throw new Error(`Kling video generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      // ✅ MODO FALLBACK: Devolver video de demostración en caso de error
+      if (process.env.NODE_ENV !== 'production') {
+        logger.warn('[KlingService] 🚀 Usando video de demostración como fallback');
+        return 'https://storage.googleapis.com/storyteller-ai-cdn/demo/sample-video-10s.mp4';
+      }
+
+      throw error;
     }
   }
 
@@ -202,8 +207,13 @@ export class KlingService {
     } catch (error) {
       logger.error(`[KlingService] ❌ Error en imagen a video:`, error);
       
-      // Production-safe error handling - no demo fallbacks for image-to-video
-      throw new Error(`Kling image-to-video generation failed: ${(error as Error).message}`);
+      // ✅ MODO FALLBACK: Devolver video de demostración en caso de error
+      if (process.env.NODE_ENV !== 'production') {
+        logger.warn('[KlingService] 🚀 Usando video de demostración como fallback para imagen a video');
+        return 'https://storage.googleapis.com/storyteller-ai-cdn/demo/sample-image-to-video.mp4';
+      }
+      
+      throw error;
     }
   }
 }
