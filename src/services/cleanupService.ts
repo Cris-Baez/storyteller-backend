@@ -1,4 +1,4 @@
-import { PrismaClient } from '../../generated/prisma/index.js';
+import { PrismaClient } from '@prisma/client';
 import { logger } from '../utils/logger.js';
 import fs from 'fs/promises';
 import path from 'path';

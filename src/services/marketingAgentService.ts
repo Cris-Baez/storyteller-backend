@@ -3,7 +3,7 @@
  * Automatización semanal de Marketing AI - IMPLEMENTACIÓN REAL
  */
 
-import { PrismaClient } from '../../generated/prisma/index.js';
+import { PrismaClient } from '@prisma/client';
 import { logger } from '../utils/logger.js';
 import { MarketingTemplateService } from './marketingTemplateService.js';
 import { MarketingConfigService } from './marketingConfigService.js';
@@ -149,71 +149,29 @@ export class MarketingAgentService {
     try {
       console.log(`🎬 Generando video real con plantilla: ${template.id}`);
       
-      // Crear objeto IMarketingVideo completo para el pipeline
-      const marketingData = {
-        id: Date.now().toString(),
-        userId: userId.toString(),
-        title: `Agente Marketing - ${template.name}`,
-        description: `Video generado automáticamente por el Agente de Marketing`,
-        businessType: personalizedTemplate.businessType || 'other',
-        videoType: personalizedTemplate.videoType || 'promotional',
-        style: personalizedTemplate.style || 'professional',
+      // Crear MarketingVideoRequest correcto para el pipeline
+      const marketingRequest = {
+        businessImages: [], // Array vacío por defecto para agente automático
+        businessDescription: personalizedTemplate.businessType || `Video generado automáticamente para plantilla ${template.name}`,
+        videoType: personalizedTemplate.videoType === 'promotional' ? 'commercial' as const : 
+                   personalizedTemplate.videoType === 'social_media' ? 'social' as const : 
+                   personalizedTemplate.videoType === 'explainer' ? 'explainer' as const :
+                   personalizedTemplate.videoType === 'testimonial' ? 'testimonial' as const : 'commercial' as const,
+        platform: personalizedTemplate.platform === 'instagram' ? 'instagram' as const :
+                  personalizedTemplate.platform === 'facebook' ? 'facebook' as const :
+                  personalizedTemplate.platform === 'linkedin' ? 'linkedin' as const :
+                  personalizedTemplate.platform === 'tiktok' ? 'tiktok' as const :
+                  personalizedTemplate.platform === 'youtube' ? 'youtube' as const : 'instagram' as const,
         duration: personalizedTemplate.duration || 30,
-        
-        // Input del usuario (valores por defecto para agente)
-        userImages: [],
-        userPrompt: `Video generado automáticamente para plantilla ${template.name}`,
-        brandName: personalizedTemplate.brand || 'Brand',
-        callToAction: personalizedTemplate.callToAction || 'Descubre más',
-        
-        // Configuración de video
-        useAIActor: personalizedTemplate.useAIActor || false,
-        actorType: personalizedTemplate.actorType || 'professional',
-        voiceEnabled: true,
-        voiceType: personalizedTemplate.voiceType || 'neutral',
-        musicStyle: personalizedTemplate.musicStyle || 'corporate',
-        
-        // Contenido a generar
-        aiGeneratedScript: '',
-        marketingTomas: [],
-        
-        // URLs a generar
-        voiceAudioUrl: '',
-        musicAudioUrl: '',
-        finalVideoUrl: '',
-        thumbnailUrl: '',
-        
-        // Metadatos
-        metadata: {
-          template: template.id,
-          isAutomated: true,
-          source: 'marketing_agent'
-        },
-        
-        // Estado y timestamps
-        status: 'PROCESSING',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      } as any; // Bypass strict interface checking
-
-      // Input para el pipeline
-      const marketingInput = {
-        videoType: personalizedTemplate.videoType || 'promotional',
-        businessType: personalizedTemplate.businessType || 'other',
-        brand: personalizedTemplate.brand || 'Brand',
-        productName: personalizedTemplate.productName || 'Producto',
-        targetAudience: personalizedTemplate.targetAudience || 'Audiencia General',
-        keyMessage: personalizedTemplate.keyMessage || 'Mensaje clave',
-        style: personalizedTemplate.style || 'professional',
-        duration: personalizedTemplate.duration || 30,
-        useAIActor: personalizedTemplate.useAIActor || false,
-        voiceId: personalizedTemplate.voiceId || 'default',
-        musicStyle: personalizedTemplate.musicStyle || 'corporate',
-        userImages: [] // Requerido por MarketingPromptInput
+        voiceStyle: personalizedTemplate.voiceType === 'neutral' ? 'professional' as const : 
+                   personalizedTemplate.voiceType === 'commercial' ? 'professional' as const : 
+                   personalizedTemplate.voiceType === 'energetic' ? 'energetic' as const :
+                   personalizedTemplate.voiceType === 'casual' ? 'casual' as const : 'conversational' as const,
+        useAIActor: personalizedTemplate.useAIActor || false
       };
 
-      // 🔥 GENERAR VIDEO REAL CON PIPELINE
-      const videoResult = await this.marketingPipeline.generateMarketingVideo(marketingData, marketingInput);
+      // 🔥 GENERAR VIDEO REAL CON PIPELINE (UN SOLO PARÁMETRO)
+      const videoResult = await this.marketingPipeline.generateMarketingVideo(marketingRequest);
 
       if (videoResult.success) {
         // 💾 GUARDAR VIDEO EN BASE DE DATOS CON SCHEMA CORRECTO

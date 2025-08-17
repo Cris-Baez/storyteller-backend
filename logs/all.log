@@ -21796,3 +21796,43 @@ Error opening input files: Invalid argument
 2025-08-12T22:09:54.108Z [info] [AuthService] ✅ Login exitoso: admin@cinemaai.com
 2025-08-12T22:09:54.117Z [info] ::1 - - [12/Aug/2025:22:09:54 +0000] "POST /api/auth/login HTTP/1.1" 200 1184 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
 2025-08-12T22:10:12.647Z [info] ::1 - - [12/Aug/2025:22:10:12 +0000] "GET /api/auth/profile HTTP/1.1" 200 889 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:54:31.983Z [info] 🎤 Voice Interceptor inicializado
+2025-08-12T22:54:32.607Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-12T22:54:34.595Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-12T22:54:34.596Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-12T22:54:34.749Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-12T22:54:34.749Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-12T22:54:34.752Z [info] 🤖 Marketing Agent Service initialized
+2025-08-12T22:57:28.872Z [info] ::1 - - [12/Aug/2025:22:57:28 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:58:11.441Z [info] ::1 - - [12/Aug/2025:22:58:11 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:58:47.131Z [info] ::1 - - [12/Aug/2025:22:58:47 +0000] "POST /api/auth/logout HTTP/1.1" 200 43 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T22:59:27.744Z [info] [AuthService] 🔑 Intento de login: admin@cinemaai.com
+2025-08-12T22:59:30.702Z [info] [AuthService] ✅ Login exitoso: admin@cinemaai.com
+2025-08-12T22:59:30.706Z [info] ::1 - - [12/Aug/2025:22:59:30 +0000] "POST /api/auth/login HTTP/1.1" 200 1184 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T23:00:00.065Z [info] [CleanupService] 📊 Obteniendo estadísticas del sistema...
+2025-08-12T23:00:05.314Z [info] [CleanupService] 💾 Obteniendo información de almacenamiento
+2025-08-12T23:00:05.823Z [info] ::1 - - [12/Aug/2025:23:00:05 +0000] "GET /api/auth/profile HTTP/1.1" 200 889 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T23:00:07.130Z [info] [CleanupService] ✅ Información de almacenamiento obtenida
+2025-08-12T23:00:07.133Z [info] [CleanupService] ✅ Estadísticas del sistema obtenidas exitosamente
+2025-08-12T23:00:08.704Z [info] ::1 - - [12/Aug/2025:23:00:08 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T23:02:19.552Z [info] [AuthService] 🔑 Intento de login: admin@cinemaai.com
+2025-08-12T23:02:22.015Z [info] [AuthService] ✅ Login exitoso: admin@cinemaai.com
+2025-08-12T23:02:22.018Z [info] ::1 - - [12/Aug/2025:23:02:22 +0000] "POST /api/auth/login HTTP/1.1" 200 1184 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T23:03:01.970Z [info] ::1 - - [12/Aug/2025:23:03:01 +0000] "GET /api/auth/profile HTTP/1.1" - - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-12T23:03:04.513Z [info] ::1 - - [12/Aug/2025:23:03:04 +0000] "GET /api/auth/profile HTTP/1.1" 200 889 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-13T00:00:00.143Z [info] [CleanupService] 📊 Obteniendo estadísticas del sistema...
+2025-08-13T00:00:03.323Z [info] [CleanupService] 💾 Obteniendo información de almacenamiento
+2025-08-13T00:00:05.460Z [info] [CleanupService] ✅ Información de almacenamiento obtenida
+2025-08-13T00:00:05.462Z [info] [CleanupService] ✅ Estadísticas del sistema obtenidas exitosamente
+2025-08-13T21:50:15.471Z [info] 🎤 Voice Interceptor inicializado
+2025-08-13T21:50:15.852Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-13T21:50:17.372Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-13T21:50:17.373Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-13T21:50:17.460Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-13T21:50:17.461Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-13T21:50:17.461Z [info] 🤖 Marketing Agent Service initialized
+2025-08-13T21:52:58.733Z [info] ::1 - - [13/Aug/2025:21:52:58 +0000] "GET /api/marketing/templates HTTP/1.1" 401 71 "http://localhost:3001/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-13T21:52:58.798Z [info] ::1 - - [13/Aug/2025:21:52:58 +0000] "GET /api/marketing/templates HTTP/1.1" 401 71 "http://localhost:3001/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-13T21:52:58.820Z [info] ::1 - - [13/Aug/2025:21:52:58 +0000] "GET /api/marketing-config HTTP/1.1" 401 71 "http://localhost:3001/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-13T21:52:58.828Z [info] ::1 - - [13/Aug/2025:21:52:58 +0000] "GET /api/marketing-config HTTP/1.1" 401 71 "http://localhost:3001/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-13T21:53:04.127Z [info] ::1 - - [13/Aug/2025:21:53:04 +0000] "POST /api/auth/logout HTTP/1.1" 401 71 "http://localhost:3001/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"

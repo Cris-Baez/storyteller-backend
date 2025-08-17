@@ -5,6 +5,9 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
+import { marketingAgentRoutes } from './routes/marketingAgentRoutes.js';  // ✨ NUEVO: Agente Conversacional
+import copywriterProRoutes from './routes/copywriterProRoutes.js';  // ✨ NUEVO: Copywriter Pro AI (FASE 2)
+import testingRoutes from './routes/testingRoutes.js';  // 🧪 NUEVO: Sistema de Testing Híbrido
 import { renderRouter } from './routes/render.js';
 import { marketingRoutes } from './routes/marketingRoutes.js';  // ✨ NUEVO: Marketing AI
 import cinemaRouter from './routes/cinemaRoutes.js';  // ✨ NUEVO: Proyectos Cinema AI
@@ -102,6 +105,9 @@ app.use('/api/admin', adminRouter);  // ✨ NUEVO: Panel de administración
 app.use('/api/editor', editorRouter);  // ✨ NUEVO: Editor Visual (Studio Pro)
 app.use('/api/cleanup', cleanupRouter);  // ✨ NUEVO: Servicio de limpieza (Solo Admins)
 app.use('/api/social', socialRouter);  // ✨ NUEVO: Redes Sociales
+app.use('/api/testing', testingRoutes);  // 🧪 NUEVO: Sistema de Testing y Validación Híbrido
+app.use('/api/agent', marketingAgentRoutes);  // 🤖 NUEVO: Agente Conversacional Marketing
+app.use('/api/copywriter', copywriterProRoutes);  // ✍️ NUEVO: Copywriter Pro AI (FASE 2)
 app.use('/api/render', renderRouter);
 app.use('/api/marketing', marketingRoutes);  // ✨ NUEVO: Marketing AI Routes
 app.use('/api/cinema', cinemaRouter);  // ✨ NUEVO: Proyectos Cinema AI

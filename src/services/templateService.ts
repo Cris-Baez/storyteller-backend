@@ -1,4 +1,4 @@
-import { PrismaClient, MarketingTemplate } from '../../generated/prisma/index.js';
+import { PrismaClient, MarketingTemplate } from '@prisma/client';
 import { logger } from '../utils/logger.js';
 
 const prisma = new PrismaClient();

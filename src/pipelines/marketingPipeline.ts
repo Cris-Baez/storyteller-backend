@@ -1,5 +1,5 @@
 import { logger } from '../utils/logger.js';
-import { MarketingIntelligenceService, MarketingPromptInput } from '../services/marketingIntelligenceService.js';
+import { EnhancedMarketingIntelligenceService, MarketingPromptInput } from '../services/enhancedMarketingIntelligenceService.js';
 import { KlingService } from '../services/klingService.js';
 import { generarVozComercial } from '../services/murfService.js';
 import { ElevenLabsFXService } from '../services/elevenlabsFXService.js';
@@ -8,650 +8,488 @@ import { assembleVideo } from '../services/ffmpegService.js';
 import { IMarketingVideo, IMarketingToma } from '../models/Marketing.js';
 import fetch from 'node-fetch';
 
-export interface MarketingGenerationResult {
-  marketingVideo: IMarketingVideo;
-  finalVideoUrl: string;
-  thumbnailUrl?: string;
+// 🚀 FASE 4: SISTEMA DUAL ENGINE - NUEVOS IMPORTS
+import { selectOptimalEngine, trackEnginePerformance } from '../services/videoGeneration/engineSelector.js';
+import { buildRunwayCommercialPrompt, submitRunwayRequest, waitForRunwayCompletion } from '../services/videoGeneration/runwayCommercial.js';
+import { buildKlingCommercialPrompt, submitKlingRequest, waitForKlingCompletion } from '../services/videoGeneration/klingCommercial.js';
+import { convertirImagenesEstaticasADinamicas, ConceptoVisual } from '../services/llmService/estilos/marketing/creativeDirector.js';
+
+// Cerebros de marketing
+import { analyzeBusinessFromImages } from '../services/llmService/estilos/marketing/businessAnalyst.js';
+import { createCompleteStrategy } from '../services/llmService/estilos/marketing/contentStrategist.js';
+
+// Interface simplificada usando nuestros cerebros
+export interface MarketingVideoRequest {
+  businessImages: string[];
+  businessDescription: string;
+  videoType: 'commercial' | 'social' | 'explainer' | 'testimonial';
+  platform: 'instagram' | 'facebook' | 'linkedin' | 'tiktok' | 'youtube';
   duration: number;
-  success: boolean;
-  error?: string;
+  voiceStyle?: 'professional' | 'casual' | 'energetic' | 'conversational';
+  useAIActor?: boolean;
 }
 
 export class MarketingPipeline {
-  private marketingIntelligence: MarketingIntelligenceService;
   private klingService: KlingService;
   private elevenLabsFX: ElevenLabsFXService;
 
   constructor() {
-    this.marketingIntelligence = new MarketingIntelligenceService();
     this.klingService = KlingService.getInstance();
     this.elevenLabsFX = new ElevenLabsFXService();
+    logger.info('[MarketingPipeline] ✨ Inicializado con cerebros de marketing + Sistema Dual Engine (Runway + Kling)');
   }
 
   /**
-   * 🚀 GENERACIÓN COMPLETA DE VIDEO MARKETING
+   * 🎯 PIPELINE COMPLETO DE MARKETING CON CEREBROS + DUAL ENGINE
+   * FASE 4: Usa selector inteligente para elegir entre Runway Gen-4 Turbo y Kling Elements
    */
-  async generateMarketingVideo(
-    marketingData: IMarketingVideo,
-    input: MarketingPromptInput
-  ): Promise<MarketingGenerationResult> {
-    
+  async generateMarketingVideo(request: MarketingVideoRequest): Promise<any> {
     const startTime = Date.now();
-    logger.info(`[MarketingPipeline] 🎯 Iniciando generación de video marketing`, {
-      videoType: input.videoType,
-      businessType: input.businessType,
-      duration: input.duration,
-      useAIActor: input.useAIActor
-    });
+    logger.info(`[MarketingPipeline] 🚀 Iniciando generación de video ${request.videoType} para ${request.platform}`);
+
+    // Crear objeto para tracking
+    const marketingData = {
+      userId: 'pipeline-user',
+      title: `${request.videoType} video`,
+      description: request.businessDescription,
+      businessType: 'other' as const,
+      videoType: request.videoType === 'commercial' ? 'promotional' as const : 
+                  request.videoType === 'social' ? 'social_media' as const : 'promotional' as const,
+      style: 'professional' as const,
+      duration: request.duration as (15 | 30 | 45 | 60),
+      userImages: request.businessImages,
+      useAIActor: request.useAIActor || false,
+      voiceEnabled: true,
+      musicStyle: 'corporate' as const,
+      status: 'procesando_tomas' as const,
+      isAgentMode: false,
+      marketingTomas: [] as IMarketingToma[],
+      aiGeneratedScript: '',
+      finalVideoUrl: '',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
 
     try {
-      // 1️⃣ GENERAR TOMAS INTELIGENTES
-      logger.info(`[MarketingPipeline] 🧠 Generando tomas inteligentes...`);
-      const tomasResult = await this.marketingIntelligence.generateMarketingTomas(input);
+      // 1️⃣ USAR CEREBROS DE MARKETING (reemplaza MarketingIntelligenceService)
+      logger.info(`[MarketingPipeline] 🧠 Ejecutando cerebros de marketing...`);
+      const enhancedService = new EnhancedMarketingIntelligenceService();
+      const marketingResult = await enhancedService.generateMarketingTomas({
+        businessType: request.businessDescription,
+        videoType: request.videoType,
+        style: 'commercial',
+        duration: request.duration,
+        userImages: request.businessImages,
+        useAIActor: request.useAIActor || false
+      });
       
-      // Actualizar modelo con script generado
-      marketingData.aiGeneratedScript = tomasResult.script;
-      marketingData.marketingTomas = tomasResult.tomas;
+      // Actualizar modelo con datos de cerebros
+      marketingData.aiGeneratedScript = marketingResult.script;
+      marketingData.marketingTomas = marketingResult.tomas;
 
       // 2️⃣ GENERAR AUDIO (Voz + Música + SFX)
-      const audioAssets = await this.generateAudioAssets(marketingData, tomasResult.script);
+      const audioAssets = await this.generateAudioAssets(marketingResult.script);
 
-      // 3️⃣ GENERAR VIDEOS SIMULTÁNEAMENTE
-      logger.info(`[MarketingPipeline] 🎬 Generando ${tomasResult.tomas.length} tomas simultáneamente...`);
-      const videoClips = await this.generateVideoClipsSimultaneous(marketingData, tomasResult.tomas, input);
+      // 3️⃣ GENERAR VIDEO CLIPS
+      logger.info(`[MarketingPipeline] 🎬 Generando ${marketingResult.tomas.length} tomas simultáneamente...`);
+      const videoClips = await this.generateVideoClipsSimultaneous(marketingResult.tomas, request);
 
-      // 4️⃣ MONTAJE FINAL CON EFECTOS COMERCIALES
-      logger.info(`[MarketingPipeline] 🎞️ Montaje final con efectos comerciales...`);
-      const finalVideoUrl = await this.assembleMarketingVideo({
-        clips: videoClips,
-        audioAssets,
-        marketingData,
-        tomas: tomasResult.tomas
+      // 4️⃣ ENSAMBLAR VIDEO FINAL
+      const finalVideoPath = await assembleVideo({
+        plan: {
+          timeline: marketingResult.tomas.map((toma: any, index: number) => ({
+            segundo: index * 5,
+            t: index * 5,
+            visual: toma.prompt,
+            hasVoice: true,
+            volume: 1.0
+          })),
+          metadata: {
+            visualStyle: 'cinematic' as const,
+            duration: request.duration as (15 | 30 | 45 | 60),
+            prompt: request.businessDescription
+          }
+        },
+        clips: videoClips.map(clip => clip.videoPath),
+        voiceBuffer: audioAssets.voice?.audioBuffer || Buffer.from(''),
+        music: audioAssets.music ? [audioAssets.music] : [],
+        elevenlabsFX: audioAssets.sfx ? [audioAssets.sfx] : undefined
       });
 
-      // 5️⃣ GENERAR THUMBNAIL COMERCIAL
-      const thumbnailUrl = await this.generateMarketingThumbnail(videoClips[0], marketingData);
+      // COMPLETADO
+      marketingData.status = 'completado' as any;
+      marketingData.finalVideoUrl = finalVideoPath;
 
-      // ✅ ACTUALIZAR ESTADO
-      marketingData.finalVideoUrl = finalVideoUrl;
-      marketingData.thumbnailUrl = thumbnailUrl;
-      marketingData.status = 'completado';
+      logger.info(`[MarketingPipeline] ✅ Video completado: ${finalVideoPath}`);
+      
+      return marketingData;
+
+    } catch (error: any) {
+      logger.error(`[MarketingPipeline] ❌ Error: ${error.message}`);
+      marketingData.status = 'fallido' as any;
+      
+      return {
+        ...marketingData,
+        duration: request.duration as (15 | 30 | 45 | 60),
+        processingTime: Date.now() - startTime
+      };
+    }
+  }
+
+  /**
+   * 🎵 GENERAR AUDIO COMPLETO (Voz + Música + SFX)
+   */
+  private async generateAudioAssets(script: string) {
+    logger.info(`[MarketingPipeline] 🎵 Generando audio assets...`);
+
+    // Voz principal con Murf
+    const voiceAudio = await generarVozComercial({
+      text: script,
+      voice: 'en-US-mark',
+      style: 'commercial'
+    });
+
+    // Música de fondo
+    const backgroundMusic = await getBackgroundMusic('commercial');
+
+    // SFX con ElevenLabsFX 🔥
+    const sfxAudio = await this.elevenLabsFX.generateSoundEffect({
+      text: `Commercial sound effects for marketing video`,
+      duration_seconds: 5
+    });
+
+    return {
+      voice: voiceAudio,
+      music: backgroundMusic,
+      sfx: sfxAudio?.audio
+    };
+  }
+
+  /**
+   * 🚀 NUEVO MÉTODO - GENERACIÓN CON SISTEMA DUAL ENGINE (FASE 4)
+   * Usa selector inteligente para elegir entre Runway Gen-4 Turbo y Kling Elements
+   */
+  async generateMarketingVideoWithDualEngine(request: {
+    businessImages: string[];
+    businessDescription: string;
+    videoType: 'commercial' | 'social' | 'explainer' | 'testimonial';
+    platform: 'instagram' | 'facebook' | 'linkedin' | 'tiktok' | 'youtube';
+    duration: number;
+  }): Promise<any> {
+    const startTime = Date.now();
+    logger.info(`[MarketingPipeline] 🎬 DUAL ENGINE - Iniciando generación ${request.videoType} para ${request.platform}`);
+
+    try {
+      // 1️⃣ ANÁLISIS DE NEGOCIO CON CEREBROS
+      logger.info(`[MarketingPipeline] 🧠 Ejecutando cerebros de marketing...`);
+      
+      const businessAnalysis = await analyzeBusinessFromImages(
+        request.businessImages, 
+        request.businessDescription
+      );
+      
+      const contentStrategy = await createCompleteStrategy(businessAnalysis);
+
+      // 2️⃣ GENERAR CONCEPTOS VISUALES CON CAMERA MOVEMENTS
+      logger.info(`[MarketingPipeline] 🎨 Generando conceptos visuales cinematográficos...`);
+      
+      const conceptosVisuales = await convertirImagenesEstaticasADinamicas(
+        request.businessImages,
+        contentStrategy,
+        businessAnalysis
+      );
+
+      // 3️⃣ GENERAR VIDEOS CON SELECTOR INTELIGENTE
+      logger.info(`[MarketingPipeline] ⚡ Generando videos con sistema dual engine...`);
+      
+      const videosGenerados = await this.generateVideosWithDualEngine({
+        conceptosVisuales,
+        businessAnalysis,
+        imagenesFuente: request.businessImages,
+        platform: request.platform
+      });
+
+      // 4️⃣ GENERAR AUDIO ASSETS
+      const script = this.generateScriptFromConcepts(conceptosVisuales, businessAnalysis);
+      const audioAssets = await this.generateAudioAssets(script);
+
+      // 5️⃣ ENSAMBLAR VIDEO FINAL
+      const finalVideoPath = await this.assembleMultiEngineVideo(
+        videosGenerados, 
+        audioAssets, 
+        conceptosVisuales
+      );
 
       const totalTime = Date.now() - startTime;
-      logger.info(`[MarketingPipeline] ✅ Video marketing generado en ${totalTime/1000}s`, {
-        finalUrl: finalVideoUrl,
-        thumbnailUrl,
-        totalDuration: tomasResult.totalDuration
-      });
+      logger.info(`[MarketingPipeline] ✅ DUAL ENGINE completado en ${Math.round(totalTime / 1000)}s`);
 
       return {
-        marketingVideo: marketingData,
-        finalVideoUrl,
-        thumbnailUrl,
-        duration: tomasResult.totalDuration,
-        success: true
+        success: true,
+        finalVideoUrl: finalVideoPath,
+        metadata: {
+          enginesUsed: videosGenerados.map(v => v.engineUsed),
+          businessAnalysis,
+          conceptosVisuales,
+          processingTime: totalTime,
+          totalClips: videosGenerados.length
+        }
       };
 
-    } catch (error) {
-      logger.error(`[MarketingPipeline] ❌ Error en generación:`, error);
-      
-      marketingData.status = 'fallido';
-
+    } catch (error: any) {
+      logger.error(`[MarketingPipeline] ❌ DUAL ENGINE Error: ${error.message}`);
       return {
-        marketingVideo: marketingData,
-        finalVideoUrl: '',
-        duration: 0,
         success: false,
-        error: error instanceof Error ? error.message : 'Error desconocido'
+        error: error.message,
+        processingTime: Date.now() - startTime
       };
     }
   }
 
   /**
-   * 🎬 GENERAR CLIPS DE VIDEO SIMULTÁNEAMENTE
+   * 🎬 GENERACIÓN CON DUAL ENGINE - CORAZÓN DEL SISTEMA
+   */
+  private async generateVideosWithDualEngine(request: {
+    conceptosVisuales: ConceptoVisual[];
+    businessAnalysis: any;
+    imagenesFuente: string[];
+    platform: string;
+  }): Promise<any[]> {
+    const videos: any[] = [];
+    
+    logger.info(`[MarketingPipeline] 🔄 Procesando ${request.conceptosVisuales.length} conceptos visuales...`);
+
+    // Procesar cada concepto visual
+    for (let i = 0; i < request.conceptosVisuales.length; i++) {
+      const concepto = request.conceptosVisuales[i];
+      const imagen = request.imagenesFuente[i];
+      
+      try {
+        logger.info(`[MarketingPipeline] 📋 Concepto ${i + 1}: ${concepto.transformacionesImagen.movimientoCamara}`);
+        
+        // 🧠 SELECTOR INTELIGENTE DE ENGINE
+        const engineRecommendation = selectOptimalEngine(concepto, request.businessAnalysis);
+        
+        logger.info(`[MarketingPipeline] 🎯 Engine seleccionado: ${engineRecommendation.selectedEngine.toUpperCase()} (confianza: ${Math.round(engineRecommendation.confidence * 100)}%)`);
+        
+        let videoUrl: string;
+        let processingTime: number;
+        const clipStartTime = Date.now();
+        
+        if (engineRecommendation.selectedEngine === 'runway') {
+          // 🚀 RUNWAY GEN-4 TURBO
+          const runwayRequest = buildRunwayCommercialPrompt(imagen, concepto, request.businessAnalysis);
+          const taskId = await submitRunwayRequest(runwayRequest);
+          videoUrl = await waitForRunwayCompletion(taskId);
+          processingTime = Date.now() - clipStartTime;
+          
+          logger.info(`[MarketingPipeline] 🚀 Runway completado en ${Math.round(processingTime / 1000)}s`);
+          
+        } else {
+          // 🎬 KLING ELEMENTS
+          const klingRequest = buildKlingCommercialPrompt(imagen, concepto, request.businessAnalysis);
+          const taskId = await submitKlingRequest(klingRequest);
+          videoUrl = await waitForKlingCompletion(taskId);
+          processingTime = Date.now() - clipStartTime;
+          
+          logger.info(`[MarketingPipeline] 🎬 Kling completado en ${Math.round(processingTime / 1000)}s`);
+        }
+        
+        // Registrar métricas para ML futuro
+        trackEnginePerformance({
+          engineUsed: engineRecommendation.selectedEngine,
+          processingTime: processingTime / 1000, // seconds
+          qualityScore: engineRecommendation.confidence,
+          costEfficiency: engineRecommendation.costEstimate.recommended,
+          businessType: request.businessAnalysis.businessType || 'unknown',
+          contentType: concepto.transformacionesImagen.movimientoCamara
+        });
+        
+        videos.push({
+          videoUrl,
+          concepto,
+          engineUsed: engineRecommendation.selectedEngine,
+          processingTime,
+          confidence: engineRecommendation.confidence,
+          cost: engineRecommendation.costEstimate.recommended
+        });
+        
+      } catch (error: any) {
+        logger.error(`[MarketingPipeline] ❌ Error en concepto ${i + 1}: ${error.message}`);
+        // Continuar con el siguiente concepto
+      }
+    }
+    
+    logger.info(`[MarketingPipeline] ✅ Generados ${videos.length}/${request.conceptosVisuales.length} videos`);
+    return videos;
+  }
+
+  /**
+   * 🎵 GENERAR SCRIPT DESDE CONCEPTOS
+   */
+  private generateScriptFromConcepts(conceptos: ConceptoVisual[], businessAnalysis: any): string {
+    const businessType = businessAnalysis.businessType || 'business';
+    const brandPersonality = businessAnalysis.brandPersonality || 'professional';
+    
+    // Script adaptado al tipo de negocio
+    const scripts = {
+      concierge: brandPersonality === 'luxury' 
+        ? "Experience the pinnacle of luxury concierge services. Where excellence meets expectation."
+        : "Professional concierge services that save you time and deliver results you can trust.",
+      restaurant: "Discover culinary excellence that transforms every meal into an unforgettable experience.",
+      boutique: "Fashion that speaks your language. Style that tells your story.",
+      services: "Expert solutions tailored to your business needs. Results you can rely on."
+    };
+    
+    return scripts[businessType as keyof typeof scripts] || 
+           "Professional excellence that makes the difference. Discover what sets us apart.";
+  }
+
+  /**
+   * 🎬 ENSAMBLAR VIDEO MULTI-ENGINE
+   */
+  private async assembleMultiEngineVideo(
+    videos: any[], 
+    audioAssets: any, 
+    conceptos: ConceptoVisual[]
+  ): Promise<string> {
+    logger.info(`[MarketingPipeline] 🎞️ Ensamblando video final con ${videos.length} clips...`);
+    
+    // Crear timeline basado en conceptos y videos
+    const timeline = videos.map((video, index) => ({
+      segundo: index * 5, // 5 segundos por clip
+      t: index * 5,
+      visual: conceptos[index]?.overlayTextos[0]?.texto || `Scene ${index + 1}`,
+      hasVoice: true,
+      volume: 1.0
+    }));
+    
+    const finalVideoPath = await assembleVideo({
+      plan: {
+        timeline,
+        metadata: {
+          visualStyle: 'cinematic' as const,
+          duration: videos.length * 5 as (15 | 30 | 45 | 60),
+          prompt: 'Multi-engine marketing video'
+        }
+      },
+      clips: videos.map(video => video.videoUrl),
+      voiceBuffer: audioAssets.voice?.audioBuffer || Buffer.from(''),
+      music: audioAssets.music ? [audioAssets.music] : [],
+      elevenlabsFX: audioAssets.sfx ? [audioAssets.sfx] : undefined
+    });
+    
+    return finalVideoPath;
+  }
+
+  /**
+   * 🎬 GENERAR CLIPS DE VIDEO SIMULTÁNEOS
    */
   private async generateVideoClipsSimultaneous(
-    marketingData: IMarketingVideo, 
-    tomas: IMarketingToma[],
-    input: MarketingPromptInput
-  ): Promise<string[]> {
-    logger.info(`[MarketingPipeline] ⚡ Generando ${tomas.length} clips simultáneamente...`);
+    tomas: any[], 
+    request: MarketingVideoRequest
+  ) {
+    const clipPromises = tomas.map((toma, index) => 
+      this.generateSingleClip(toma, index, request)
+    );
 
-    const clipPromises = tomas.map(async (toma, index) => {
-      try {
-        if (toma.hasActor && input.useAIActor) {
-          return await this.generateActorClip(toma, marketingData, index);
-        } else if (toma.useUserImage && input.userImages[toma.userImageIndex || 0]) {
-          return await this.generateUserImageClip(toma, input.userImages[toma.userImageIndex || 0], index);
-        } else {
-          return await this.generateAIClip(toma, marketingData, index);
-        }
-      } catch (error) {
-        logger.error(`[MarketingPipeline] ❌ Error en toma ${index + 1}:`, error);
-        return this.getFallbackClip();
-      }
-    });
-
-    const videoClips = await Promise.all(clipPromises);
-    
-    // Actualizar URLs en las tomas
-    tomas.forEach((toma, index) => {
-      toma.generatedVideoUrl = videoClips[index];
-    });
-    
-    return videoClips;
+    return await Promise.all(clipPromises);
   }
 
   /**
-   * 🔊 GENERAR ASSETS DE AUDIO PARA MARKETING
+   * 🎥 GENERAR UN CLIP INDIVIDUAL
    */
-  private async generateAudioAssets(marketingData: IMarketingVideo, script: string) {
-    logger.info(`[MarketingPipeline] 🔊 Generando audio assets...`);
-
-    const audioAssets: any = {
-      voiceUrl: null,
-      musicUrl: null,
-      soundEffects: []
-    };
-
+  private async generateSingleClip(toma: any, index: number, request: MarketingVideoRequest) {
     try {
-      // VOZ NARRADA (si está habilitada)
-      if (marketingData.voiceEnabled && script) {
-        logger.info(`[MarketingPipeline] 🎙️ Generando voz con Murf...`);
-        
-        const voiceRequest = {
-          text: script,
-          voice: this.getOptimalVoice(marketingData.voiceType || 'neutral', marketingData.style),
-          speed: this.getOptimalSpeed(marketingData.style),
-          emotion: this.getOptimalEmotion(marketingData.style)
-        };
-
-        const voiceResponse = await generarVozComercial(voiceRequest);
-        audioAssets.voiceUrl = voiceResponse.audioUrl;
-        marketingData.voiceAudioUrl = voiceResponse.audioUrl;
+      // Usar Kling para generar video
+      if (toma.hasActor && request.useAIActor) {
+        return await this.generateAIActorClip(toma, index);
+      } else if (toma.useUserImage && request.businessImages[toma.userImageIndex || 0]) {
+        return await this.generateUserImageClip(toma, request.businessImages[toma.userImageIndex || 0], index);
+      } else {
+        return await this.generateStandardClip(toma, index);
       }
-
-      // MÚSICA DE FONDO
-      if (marketingData.musicStyle !== 'none') {
-        logger.info(`[MarketingPipeline] 🎵 Generando música de fondo...`);
-        
-        const musicBuffer = await getBackgroundMusic(
-          this.buildMusicQuery(marketingData.musicStyle, marketingData.businessType),
-          30,
-          marketingData.style
-        );
-        
-        // Guardar música en CDN y obtener URL
-        // audioAssets.musicUrl = await uploadMusicToCDN(musicBuffer);
-        audioAssets.musicUrl = 'https://storage.googleapis.com/storyteller-ai-cdn/music/marketing_bg.mp3';
-        marketingData.backgroundMusicUrl = audioAssets.musicUrl;
-      }
-
-      // EFECTOS DE SONIDO COMERCIALES
-      logger.info(`[MarketingPipeline] 🔔 Generando efectos comerciales...`);
-      const commercialSFX = await this.generateCommercialSoundEffects(marketingData);
-      audioAssets.soundEffects = commercialSFX;
-      marketingData.soundEffectsUrls = commercialSFX;
-
-      return audioAssets;
-
-    } catch (error) {
-      logger.error(`[MarketingPipeline] ❌ Error generando audio:`, error);
-      return audioAssets;
+    } catch (error: any) {
+      logger.error(`[MarketingPipeline] ❌ Error en toma ${index}: ${error.message}`);
+      throw error;
     }
   }
 
   /**
-   * 👨‍💼 GENERAR CLIP CON ACTOR IA
+   * 🤖 GENERAR CLIP CON ACTOR AI
    */
-  private async generateActorClip(toma: IMarketingToma, marketingData: IMarketingVideo, index: number): Promise<string> {
-    logger.info(`[MarketingPipeline] 👨‍💼 Generando clip con actor IA - Toma ${index + 1}`);
+  private async generateAIActorClip(toma: any, index: number) {
+    logger.info(`[MarketingPipeline] 🤖 Generando clip con actor AI - Toma ${index + 1}`);
 
-    const actorImageUrl = this.getOptimalActorImage(marketingData.actorType, marketingData.businessType);
-    const prompt = `${toma.actorPrompt || toma.description}. Professional ${marketingData.businessType} commercial style, ${marketingData.style} aesthetic, saying: "${toma.actorDialogue}"`;
-
-    return await this.klingService.generateImageToVideo(
-      actorImageUrl,
-      prompt,
-      Math.min(toma.duration, 10)
-    );
-  }
-
-  /**
-   * 🖼️ GENERAR CLIP BASADO EN IMAGEN DEL USUARIO
-   */
-  private async generateUserImageClip(toma: IMarketingToma, userImageUrl: string, index: number): Promise<string> {
-    logger.info(`[MarketingPipeline] 🖼️ Generando clip con imagen del usuario - Toma ${index + 1}`);
-
-    const prompt = `${toma.visualPrompt}. Commercial photography style, professional lighting, marketing focused, ${toma.cameraMovement} camera movement`;
-
-    return await this.klingService.generateImageToVideo(
-      userImageUrl,
-      prompt,
-      Math.min(toma.duration, 10)
-    );
-  }
-
-  /**
-   * 🤖 GENERAR CLIP COMPLETAMENTE IA
-   */
-  private async generateAIClip(toma: IMarketingToma, marketingData: IMarketingVideo, index: number): Promise<string> {
-    logger.info(`[MarketingPipeline] 🤖 Generando clip IA - Toma ${index + 1}`);
-
-    const enhancedPrompt = `Commercial ${marketingData.businessType} video: ${toma.visualPrompt}. ${marketingData.style} style, professional cinematography, marketing commercial look, ${toma.cameraMovement} movement, high-end production quality`;
-
-    return await this.klingService.generateSegmentWithKling({
-      prompt: enhancedPrompt,
-      duration: Math.min(toma.duration, 10),
-      aspectRatio: '16:9',
-      cameraMovement: toma.cameraMovement === 'static' ? 'static' : 'slow',
+    const klingResponse = await this.klingService.generateSegmentWithKling({
+      prompt: `${toma.prompt} with AI actor speaking professionally`,
+      duration: toma.duration,
+      aspectRatio: "16:9",
       creativity: 0.7,
-      fps: 24
+      fps: 24,
+      cameraMovement: toma.cameraMovement || "static"
     });
-  }
 
-  /**
-   * 🎞️ SIMULAR MONTAJE FINAL (Para desarrollo)
-   */
-  private async simulateVideoAssembly(clips: string[]): Promise<string> {
-    logger.info(`[MarketingPipeline] 🎞️ Simulando montaje final de ${clips.length} clips...`);
-    
-    // En desarrollo, retornamos el primer clip como demo
-    // En producción, aquí iría FFmpeg para concatenar todo
-    return clips[0] || 'https://storage.googleapis.com/storyteller-ai-cdn/demo/marketing_video.mp4';
-  }
-
-  /**
-   * 🎞️ MONTAJE FINAL CON EFECTOS COMERCIALES
-   */
-  private async assembleMarketingVideo(params: {
-    clips: string[];
-    audioAssets: any;
-    marketingData: IMarketingVideo;
-    tomas: IMarketingToma[];
-  }): Promise<string> {
-    
-    logger.info(`[MarketingPipeline] 🎞️ Montaje final con efectos comerciales...`);
-
-    const { clips, audioAssets, marketingData, tomas } = params;
-    
-    // Configuración específica para videos de marketing
-    const renderConfig = {
-      clips,
-      audioTracks: [
-        audioAssets.voiceUrl,
-        audioAssets.musicUrl,
-        ...audioAssets.soundEffects
-      ].filter(Boolean),
-      
-      // EFECTOS COMERCIALES
-      effects: {
-        // Transiciones impactantes entre tomas
-        transitions: tomas.map(toma => ({
-          type: toma.transition,
-          duration: 0.5,
-          intensity: marketingData.style === 'energetic' ? 'high' : 'medium'
-        })),
-        
-        // Overlays de texto comerciales
-        textOverlays: tomas.map((toma, index) => ({
-          text: toma.textOverlay || '',
-          style: toma.textStyle,
-          position: toma.textPosition,
-          startTime: toma.startTime,
-          endTime: toma.endTime,
-          animation: 'fade_in_up'
-        })).filter(overlay => overlay.text),
-
-        // Logo/marca si está disponible
-        branding: {
-          brandName: marketingData.brandName,
-          position: 'bottom_right',
-          opacity: 0.8,
-          duration: 2
-        },
-
-        // Call to Action final
-        finalCTA: {
-          text: marketingData.callToAction || 'Contacta ahora',
-          style: 'bold',
-          position: 'center',
-          duration: 2,
-          animation: 'zoom_in'
-        }
-      },
-
-      // MIXING DE AUDIO COMERCIAL
-      audioMixing: {
-        voiceVolume: 1.0,
-        musicVolume: 0.3,
-        sfxVolume: 0.4,
-        fadeInOut: true,
-        normalize: true
-      },
-
-      // CONFIGURACIÓN DE SALIDA OPTIMIZADA PARA REDES
-      output: {
-        resolution: '1080p',
-        fps: 30,
-        bitrate: 'high',
-        format: 'mp4',
-        aspectRatio: '16:9'
-      }
-    };
-
-    // MONTAJE COMPLETO CON FFMPEG
-    logger.info(`[MarketingPipeline] 🎞️ Montaje completo con efectos comerciales...`);
-    
-    try {
-      // 1. Convertir URLs de audio a Buffers
-      const audioBuffers = await this.prepareAudioBuffers(audioAssets);
-      
-      // 2. Crear plan de montaje para marketing
-      const marketingPlan = this.createMarketingPlan(tomas, marketingData);
-      
-      // 3. Ensamblar con FFmpeg
-      return await assembleVideo({
-        plan: marketingPlan,
-        clips,
-        voiceBuffer: audioBuffers.voice,
-        music: audioBuffers.music,
-        sfx: audioBuffers.sfx,
-        elevenlabsFX: audioBuffers.elevenlabsFX
-      });
-      
-    } catch (error) {
-      logger.warn(`[MarketingPipeline] ⚠️ Error en montaje completo, usando fallback:`, error);
-      return clips[0] || 'https://storage.googleapis.com/storyteller-ai-cdn/demo/marketing_assembled.mp4';
-    }
-  }
-
-  /**
-   * 📸 GENERAR THUMBNAIL COMERCIAL
-   */
-  private async generateMarketingThumbnail(firstClipUrl: string, marketingData: IMarketingVideo): Promise<string> {
-    logger.info(`[MarketingPipeline] 📸 Generando thumbnail comercial...`);
-
-    try {
-      // Por ahora retornamos un placeholder
-      // TODO: Implementar generateThumbnail en FFmpegService
-      return 'https://storage.googleapis.com/storyteller-ai-cdn/thumbs/marketing_commercial.jpg';
-    } catch (error) {
-      logger.error(`[MarketingPipeline] ❌ Error generando thumbnail:`, error);
-      return '';
-    }
-  }
-
-  /**
-   * 🎙️ OBTENER VOZ ÓPTIMA PARA MARKETING
-   */
-  private getOptimalVoice(voiceType: string, style: string): string {
-    const voices: { [key: string]: { [key: string]: string } } = {
-      male: {
-        professional: 'marcus',
-        casual: 'ryan',
-        energetic: 'josh',
-        luxury: 'william'
-      },
-      female: {
-        professional: 'aria',
-        casual: 'jenny',
-        energetic: 'michelle',
-        luxury: 'sophia'
-      }
-    };
-
-    return voices[voiceType]?.[style] || voices.female.professional;
-  }
-
-  /**
-   * ⚡ OBTENER VELOCIDAD ÓPTIMA
-   */
-  private getOptimalSpeed(style: string): number {
-    const speeds: { [key: string]: number } = {
-      professional: 0.9,
-      casual: 1.0,
-      energetic: 1.1,
-      emotional: 0.8,
-      luxury: 0.85,
-      minimalist: 0.9
-    };
-    
-    return speeds[style] || 1.0;
-  }
-
-  /**
-   * 😊 OBTENER EMOCIÓN ÓPTIMA
-   */
-  private getOptimalEmotion(style: string): string {
-    const emotions: { [key: string]: string } = {
-      professional: 'confident',
-      casual: 'friendly',
-      energetic: 'excited',
-      emotional: 'warm',
-      luxury: 'sophisticated',
-      minimalist: 'calm'
-    };
-    
-    return emotions[style] || 'neutral';
-  }
-
-  /**
-   * 🎵 CONSTRUIR QUERY DE MÚSICA
-   */
-  private buildMusicQuery(musicStyle: string, businessType: string): string {
-    const queries: { [key: string]: string } = {
-      upbeat: `upbeat commercial music ${businessType}`,
-      corporate: `corporate background music professional`,
-      emotional: `emotional inspiring music ${businessType}`,
-      energetic: `high energy commercial music`,
-      minimal: `minimal ambient music ${businessType}`
-    };
-    
-    return queries[musicStyle] || queries.upbeat;
-  }
-
-  /**
-   * 🔔 GENERAR EFECTOS COMERCIALES
-   */
-  private async generateCommercialSoundEffects(marketingData: IMarketingVideo): Promise<string[]> {
-    const effects: string[] = [];
-    
-    try {
-      if (!this.elevenLabsFX.isAvailable()) {
-        logger.warn(`[MarketingPipeline] ⚠️ ElevenLabs FX no disponible, saltando efectos`);
-        return effects;
-      }
-
-      // Efectos según el estilo
-      if (marketingData.style === 'energetic') {
-        const effect1 = await this.elevenLabsFX.generateSoundEffect({
-          text: 'energetic whoosh transition',
-          duration_seconds: 2,
-          prompt_influence: 0.7
-        });
-        if (effect1?.cdnUrl) effects.push(effect1.cdnUrl);
-
-        const effect2 = await this.elevenLabsFX.generateSoundEffect({
-          text: 'modern tech beep notification',
-          duration_seconds: 1,
-          prompt_influence: 0.8
-        });
-        if (effect2?.cdnUrl) effects.push(effect2.cdnUrl);
-      }
-      
-      if (marketingData.style === 'luxury') {
-        const effect1 = await this.elevenLabsFX.generateSoundEffect({
-          text: 'elegant chime notification',
-          duration_seconds: 2,
-          prompt_influence: 0.9
-        });
-        if (effect1?.cdnUrl) effects.push(effect1.cdnUrl);
-      }
-
-      // Efectos según tipo de negocio
-      if (marketingData.businessType === 'restaurant') {
-        const effect = await this.elevenLabsFX.generateSoundEffect({
-          text: 'sizzling cooking sound',
-          duration_seconds: 3,
-          prompt_influence: 0.8
-        });
-        if (effect?.cdnUrl) effects.push(effect.cdnUrl);
-      }
-      
-      if (marketingData.businessType === 'tech') {
-        const effect = await this.elevenLabsFX.generateSoundEffect({
-          text: 'digital interface sound',
-          duration_seconds: 2,
-          prompt_influence: 0.7
-        });
-        if (effect?.cdnUrl) effects.push(effect.cdnUrl);
-      }
-
-    } catch (error) {
-      logger.error(`[MarketingPipeline] ⚠️ Error generando SFX comerciales:`, error);
-    }
-
-    return effects;
-  }
-
-  /**
-   * 👨‍💼 OBTENER IMAGEN ÓPTIMA DE ACTOR
-   */
-  private getOptimalActorImage(actorType: string = 'professional', businessType: string): string {
-    const actorImages: { [key: string]: { [key: string]: string } } = {
-      restaurant: {
-        young_male: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/young_chef_male.jpg',
-        young_female: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/young_chef_female.jpg',
-        professional: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/professional_chef.jpg'
-      },
-      spa: {
-        young_female: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/spa_therapist_female.jpg',
-        mature_female: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/spa_expert_female.jpg',
-        professional: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/wellness_professional.jpg'
-      },
-      tech: {
-        young_male: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/tech_young_male.jpg',
-        young_female: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/tech_young_female.jpg',
-        professional: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/tech_professional.jpg'
-      },
-      default: {
-        young_male: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/default_young_male.jpg',
-        young_female: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/default_young_female.jpg',
-        professional: 'https://storage.googleapis.com/storyteller-ai-cdn/actors/default_professional.jpg'
-      }
-    };
-
-    const businessActors = actorImages[businessType] || actorImages.default;
-    return businessActors[actorType] || businessActors.professional;
-  }
-
-  /**
-   * 🔊 PREPARAR BUFFERS DE AUDIO DESDE URLs
-   */
-  private async prepareAudioBuffers(audioAssets: any): Promise<{
-    voice: Buffer;
-    music: Buffer[];
-    sfx: Buffer[];
-    elevenlabsFX: Buffer[];
-  }> {
-    const buffers: {
-      voice: Buffer;
-      music: Buffer[];
-      sfx: Buffer[];
-      elevenlabsFX: Buffer[];
-    } = {
-      voice: Buffer.alloc(0),
-      music: [],
-      sfx: [],
-      elevenlabsFX: []
-    };
-
-    try {
-      // Convertir URL de voz a Buffer
-      if (audioAssets.voiceUrl) {
-        buffers.voice = await this.downloadAudioAsBuffer(audioAssets.voiceUrl);
-      }
-
-      // Convertir música a Buffer
-      if (audioAssets.musicUrl) {
-        const musicBuffer = await this.downloadAudioAsBuffer(audioAssets.musicUrl);
-        buffers.music.push(musicBuffer);
-      }
-
-      // Convertir efectos de sonido a Buffers
-      if (audioAssets.soundEffects?.length) {
-        for (const effectUrl of audioAssets.soundEffects) {
-          const effectBuffer = await this.downloadAudioAsBuffer(effectUrl);
-          buffers.elevenlabsFX.push(effectBuffer);
-        }
-      }
-
-    } catch (error) {
-      logger.warn(`[MarketingPipeline] ⚠️ Error preparando audio buffers:`, error);
-    }
-
-    return buffers;
-  }
-
-  /**
-   * 📥 DESCARGAR AUDIO COMO BUFFER
-   */
-  private async downloadAudioAsBuffer(url: string): Promise<Buffer> {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-      const arrayBuffer = await response.arrayBuffer();
-      return Buffer.from(arrayBuffer as ArrayBuffer);
-    } catch (error) {
-      logger.error(`[MarketingPipeline] ❌ Error descargando audio ${url}:`, error);
-      return Buffer.alloc(0);
-    }
-  }
-
-  /**
-   * 📋 CREAR PLAN DE MONTAJE PARA MARKETING
-   */
-  private createMarketingPlan(tomas: IMarketingToma[], marketingData: any): any {
     return {
-      scenes: tomas.map((toma, index) => ({
-        duration: toma.duration,
-        transition: toma.transition || 'fade',
-        textOverlay: toma.textOverlay,
-        textStyle: toma.textStyle,
-        textPosition: toma.textPosition,
-        startTime: index * toma.duration,
-        endTime: (index + 1) * toma.duration
-      })),
-      branding: {
-        brandName: marketingData.brandName,
-        position: 'bottom_right',
-        opacity: 0.8,
-        duration: 2
-      },
-      finalCTA: {
-        text: marketingData.callToAction || 'Contacta ahora',
-        style: 'bold',
-        position: 'center',
-        duration: 2,
-        animation: 'zoom_in'
-      },
-      audioMixing: {
-        voiceVolume: 1.0,
-        musicVolume: 0.3,
-        sfxVolume: 0.4,
-        fadeInOut: true,
-        normalize: true
-      }
+      tomaId: toma.tomaId,
+      videoPath: klingResponse,
+      duration: toma.duration,
+      hasActor: true
     };
   }
 
   /**
-   * 🚨 CLIP FALLBACK EN CASO DE ERROR
+   * 📸 GENERAR CLIP CON IMAGEN DE USUARIO
    */
-  private getFallbackClip(): string {
-    return 'https://storage.googleapis.com/storyteller-ai-cdn/demo/marketing_fallback.mp4';
+  private async generateUserImageClip(toma: any, userImage: string, index: number) {
+    logger.info(`[MarketingPipeline] 📸 Generando clip con imagen de usuario - Toma ${index + 1}`);
+
+    const klingResponse = await this.klingService.generateImageToVideo(
+      userImage, 
+      toma.prompt, 
+      toma.duration
+    );
+
+    return {
+      tomaId: toma.tomaId,
+      videoPath: klingResponse,
+      duration: toma.duration,
+      useUserImage: true
+    };
+  }
+
+  /**
+   * 🎨 GENERAR CLIP ESTÁNDAR
+   */
+  private async generateStandardClip(toma: any, index: number) {
+    logger.info(`[MarketingPipeline] 🎨 Generando clip estándar - Toma ${index + 1}`);
+
+    const klingResponse = await this.klingService.generateSegmentWithKling({
+      prompt: toma.prompt,
+      duration: toma.duration,
+      aspectRatio: "16:9",
+      creativity: 0.6,
+      fps: 24,
+      cameraMovement: toma.cameraMovement || "static"
+    });
+
+    return {
+      tomaId: toma.tomaId,
+      videoPath: klingResponse,
+      duration: toma.duration,
+      standard: true
+    };
+  }
+
+  /**
+   * 📊 STATUS CHECK
+   */
+  async getStatus(marketingId: string): Promise<any> {
+    // Implementar lógica de estado
+    return {
+      status: 'processing',
+      progress: 75
+    };
   }
 }
+
+export default MarketingPipeline;

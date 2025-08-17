@@ -161,26 +161,63 @@ export async function renderVideoSimplificado(
 }
 
 /**
- * Marketing AI usando servicio existente
- * TODO: Integrar con nuevo sistema MarketingPipeline
+ * Marketing AI usando pipeline completo
  */
 async function procesarMarketingAI(
   req: any, // MarketingRequest, 
   reportProgress: (message: string, progress: number) => void
 ): Promise<any> {
   
-  reportProgress('Procesando marketing AI', 30);
+  reportProgress('Iniciando Marketing AI', 10);
   
-  // TODO: Integrar con nuevo MarketingPipeline
-  // const resultado: MarketingResponse = await generateMarketingClip(req);
-  
-  reportProgress('Marketing AI temporalmente deshabilitado', 100);
-  
-  return {
-    url: 'https://storage.googleapis.com/storyteller-ai-cdn/demo/marketing_placeholder.mp4',
-    plan: {},
-    metadata: { status: 'placeholder' }
-  };
+  try {
+    // Usar el MarketingPipeline completo en lugar del placeholder
+    const { MarketingPipeline } = await import('./marketingPipeline.js');
+    const marketingPipeline = new MarketingPipeline();
+    
+    reportProgress('Analizando imágenes de negocio', 30);
+    
+    const marketingRequest = {
+      businessImages: req.imagenes || req.productImages || [],
+      businessDescription: req.prompt || req.businessDescription || 'Negocio comercial',
+      videoType: req.videoType || 'commercial',
+      platform: req.platform || 'instagram', 
+      duration: req.duration || 30,
+      voiceStyle: req.voiceStyle || 'professional',
+      useAIActor: req.useAIActor || false
+    };
+    
+    reportProgress('Generando video de marketing', 60);
+    
+    const resultado = await marketingPipeline.generateMarketingVideo(marketingRequest);
+    
+    reportProgress('Marketing AI completado', 100);
+    
+    return {
+      url: resultado.finalVideoUrl,
+      plan: {
+        timeline: resultado.marketingTomas || [],
+        metadata: {
+          duration: resultado.duration,
+          businessType: req.businessType,
+          videoType: req.videoType
+        }
+      },
+      metadata: {
+        status: 'completed',
+        businessType: req.businessType,
+        serviciosUsados: ['MarketingPipeline', 'BusinessAnalyst', 'ContentStrategist'],
+        fechaCreacion: new Date()
+      }
+    };
+    
+  } catch (error) {
+    logger.error('[procesarMarketingAI] Error:', error);
+    reportProgress('Error en Marketing AI', 0);
+    
+    // ❌ NO devolver placeholder demo - lanzar error real
+    throw new Error(`Error en Marketing AI: ${(error as Error).message}`);
+  }
 }
 
 /**

@@ -210,21 +210,19 @@ export class MarketingTemplateController {
       // Guardar en BD antes de procesar
       await marketingVideo.save();
 
-      // Input para el pipeline
-      const pipelineInput = {
-        businessType: userProfile.businessType || 'services',
-        videoType: 'promotional' as const,
-        style: personalizedTemplate.tone,
+      // Crear el objeto MarketingVideoRequest que espera el pipeline
+      const marketingRequest: any = {
+        businessImages: assets?.filter((asset: any) => asset.type === 'image').map((asset: any) => asset.url) || [],
+        businessDescription: personalizedTemplate.name || userProfile.businessType || 'Negocio profesional',
+        videoType: 'commercial' as const,
+        platform: 'instagram' as const, // Valor por defecto, se puede hacer dinámico
         duration: personalizedTemplate.duration,
-        userPrompt: Object.values(personalizedTemplate.script).join(' '),
-        brandName: 'Mi Empresa',
-        callToAction: personalizedTemplate.script.cta,
-        userImages: assets?.filter((asset: any) => asset.type === 'image') || [],
+        voiceStyle: 'professional' as const,
         useAIActor: true
       };
 
       // Ejecutar pipeline de marketing real
-      const result = await this.marketingPipeline.generateMarketingVideo(marketingVideo, pipelineInput);
+      const result = await this.marketingPipeline.generateMarketingVideo(marketingRequest);
       
       // Registrar uso exitoso
       if (result && result.success) {

@@ -14,7 +14,7 @@ export class EditorController {
    */
   static createProject = async (req: Request, res: Response): Promise<void> => {
     try {
-      logger.info('[EditorController] 📁 Creando proyecto');
+      logger.info('[EditorController] 📁 Creando nuevo proyecto');
       
       const { title, description, data } = req.body;
       const userId = req.user?.id;
@@ -528,32 +528,19 @@ export class EditorController {
         return;
       }
 
-      // Usar tu MarketingPipeline existente para generar nueva voz
-      const { MarketingPipeline } = await import('../pipelines/marketingPipeline.js');
-      const pipeline = new MarketingPipeline();
-
-      // Simular datos de marketing para generar solo audio
-      const mockMarketingData = {
-        userId: userId.toString(),
-        title: project.title,
-        description: text,
-        businessType: 'services' as const,
-        videoType: 'promotional' as const,
-        style: 'professional' as const,
-        duration: 30,
-        userImages: [],
-        useAIActor: false,
-        voiceEnabled: true,
-        voiceType: voice as any,
-        musicStyle: 'none' as const,
-        marketingTomas: [],
-        status: 'creado' as const,
-        isAgentMode: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-
-      const audioAssets = await (pipeline as any).generateAudioAssets(mockMarketingData, text);
+      // Usar servicio de voz directamente para regenerar audio
+      const { generarVozComercial } = await import('../services/murfService.js');
+      
+      // Generar nueva voz con el texto actualizado
+      const voiceResponse = await generarVozComercial({
+        text: text,
+        voice: voice as any,
+        style: 'commercial'
+      });
+      
+      if (!voiceResponse.success || !voiceResponse.audioUrl) {
+        throw new Error('Failed to generate voice audio: ' + voiceResponse.error);
+      }
 
       // Actualizar proyecto con nueva voz
       const projectData = (project.data as any) || {};
@@ -561,7 +548,7 @@ export class EditorController {
         data: {
           ...projectData,
           script: text,
-          voiceAudioUrl: audioAssets.voiceUrl,
+          voiceAudioUrl: voiceResponse.audioUrl,
           voiceType: voice
         }
       });
@@ -569,7 +556,7 @@ export class EditorController {
       res.status(200).json({
         message: 'Voz regenerada exitosamente',
         data: {
-          audioUrl: audioAssets.voiceUrl,
+          audioUrl: voiceResponse.audioUrl,
           project: updatedProject
         }
       });

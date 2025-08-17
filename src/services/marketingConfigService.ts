@@ -1,4 +1,4 @@
-import { PrismaClient, MarketingConfig, $Enums } from '../../generated/prisma/index.js';
+import { PrismaClient, MarketingConfig, $Enums } from '@prisma/client';
 import { logger } from '../utils/logger.js';
 
 const prisma = new PrismaClient();

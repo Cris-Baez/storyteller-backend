@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -43,6 +44,9 @@ model User {
   assets         Asset[]
   refreshTokens  RefreshToken[]
   socialAccounts SocialAccount[]
+  
+  // NUEVA: Memoria del Agente Conversacional
+  businessMemory UserBusinessMemory?
   
   @@map("users")
 }
@@ -401,4 +405,67 @@ enum AssetType {
   VIDEO
   AUDIO
   OTHER
+}
+
+// 🤖 MEMORIA DEL AGENTE CONVERSACIONAL - Para el empleado de marketing virtual
+model UserBusinessMemory {
+  id                String   @id @default(cuid())
+  userId            Int      @unique
+  
+  // Perfil del Negocio (en inglés para mejor performance de LLMs)
+  businessType      String?  // "concierge", "restaurant", "boutique", etc.
+  businessName      String?  // "Miami Luxury Concierge"
+  industry          String?  // "hospitality", "food", "fashion"
+  targetAudience    Json?    // Array de demografías ["executives", "wealthy clients"]
+  brandVoice        String?  // "luxury", "professional", "friendly"
+  competitors       Json?    // Array de info de competidores
+  valueProposition  String?  // Propuesta de valor única
+  
+  // Historial de Contenido
+  videosCreated     Json?    // Array de VideoMemory objects
+  successfulCopy    Json?    // Copy que funcionó bien
+  platformMetrics   Json?    // Performance por plataforma
+  engagementData    Json?    // Métricas reales de posts
+  
+  // Preferencias del Usuario
+  preferredStyles   Json?    // Estilos visuales que prefiere
+  optimalTimes      Json?    // Mejores horarios para postear
+  budgetInfo        Json?    // Información de presupuesto
+  painPoints        Json?    // Problemas recurrentes
+  favoriteEngines   Json?    // Engines preferidos ["runway", "kling"]
+  
+  // Timestamps
+  lastInteraction   DateTime @default(now())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relations
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversations     ConversationMemory[]
+  
+  @@map("user_business_memory")
+}
+
+// 💬 MEMORIA DE CONVERSACIONES - Historial completo de chats con el agente
+model ConversationMemory {
+  id               String   @id @default(cuid())
+  businessMemoryId String
+  userMessage      String   @db.Text
+  agentResponse    String   @db.Text
+  
+  // Clasificación del contexto
+  context          String   // "content_creation", "strategy_advice", "troubleshooting", etc.
+  outcome          String   @default("helpful") // "helpful", "neutral", "frustrated"
+  followUpNeeded   Boolean  @default(false)
+  actionsTaken     Json?    // Array de acciones ejecutadas durante la conversación
+  
+  // Metadata
+  confidence       Float?   // Confianza del agente (0-1)
+  needsMoreInfo    Boolean  @default(false)
+  timestamp        DateTime @default(now())
+  
+  // Relations
+  businessMemory   UserBusinessMemory @relation(fields: [businessMemoryId], references: [id], onDelete: Cascade)
+  
+  @@map("conversation_memory")
 }

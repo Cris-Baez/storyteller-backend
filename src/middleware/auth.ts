@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { UserService, UserWithRelations, Plan } from '../models/User.js';
-import { $Enums } from '../../generated/prisma/index.js';
+import { $Enums } from '@prisma/client';
 import { env } from '../config/env.js';
 import { logger } from '../utils/logger.js';
 

@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { MarketingPipeline, MarketingGenerationResult } from '../pipelines/marketingPipeline.js';
+import { MarketingPipeline } from '../pipelines/marketingPipeline.js';
 import { MarketingIntelligenceService, MarketingPromptInput } from '../services/marketingIntelligenceService.js';
 import { IMarketingVideo } from '../models/Marketing.js';
 import { UserService } from '../models/User.js';
 import { PlanLimitService } from '../services/planLimitService.js';
-import { PrismaClient } from '../../generated/prisma/index.js'; // ✅ CRÍTICO: Para guardar videos
+import { PrismaClient } from '@prisma/client'; // ✅ CRÍTICO: Para guardar videos
 import { marketingAgent, AgentConfig } from '../services/marketingAgentService.js'; // ✅ NUEVO: Agente completo
 import { logger } from '../utils/logger.js';
 
@@ -540,9 +540,8 @@ export class MarketingController {
         soundEffectsUrls: []
       } as any; // Usar any temporalmente para evitar problemas de tipos
 
-      const result: MarketingGenerationResult = await this.marketingPipeline.generateMarketingVideo(
-        marketingVideo,
-        pipelineInput
+      const result: any = await this.marketingPipeline.generateMarketingVideo(
+        marketingVideo
       );
 
       if (result.success) {
