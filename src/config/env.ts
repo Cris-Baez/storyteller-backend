@@ -1,30 +1,37 @@
 import * as dotenv from 'dotenv';
 import { z } from 'zod';
 
-// Cargar variables de entorno
-const result = dotenv.config();
-if (result.error) {
-  console.error('Error loading .env file:', result.error);
-  throw new Error('No se pudo cargar el archivo .env');
+// Cargar variables de entorno desde .env si existe, pero no fallar si no está (prod suele inyectar envs)
+try {
+  dotenv.config();
+} catch {
+  // Silencioso: en producción normalmente no hay .env, no es un error bloqueante
 }
 
+// Solo marcamos como requeridas las esenciales para login/registro y funcionamiento básico
 const schema = z.object({
-  FAL_KEY: z.string(), // ✅ AGREGADO: FAL_KEY para acceder a Kling via fal.ai
-  OPENAI_API_KEY: z.string(),
-  REPLICATE_API_TOKEN: z.string(),
-  MURF_API_KEY: z.string(), // Cambiar de opcional a requerido
+  // Básicas de operación del servidor
+  NODE_ENV: z.string().default('development'),
+  PORT: z.string().default('5000'),
+  JWT_SECRET: z.string().min(16).default('fallback_jwt_secret_change_in_production'),
+  FRONTEND_URL: z.string().optional().default('http://localhost:3001'),
+
+  // Base de datos principal (Prisma/Postgres) - opcional aquí, Prisma validará en uso
+  DATABASE_URL: z.string().optional(),
+
+  // Integraciones opcionales: no bloquear arranque
+  FAL_KEY: z.string().optional(),
+  OPENAI_API_KEY: z.string().optional(),
+  REPLICATE_API_TOKEN: z.string().optional(),
+  MURF_API_KEY: z.string().optional(),
   ELEVENLABS_API_KEY: z.string().optional(),
   ARTLIST_TOKEN: z.string().optional(),
-  // RUNWAY_API_TOKEN: z.string().optional(), // Eliminado: ya no se usa RunwayML
   DM_API_TOKEN: z.string().optional(),
-  CDN_BUCKET_URL: z.string(),
-  NODE_ENV: z.string().default('development'),
-  OPENROUTER_API_KEY: z.string(),
-  GCP_PROJECT_ID: z.string(),
-  GCP_CREDENTIALS_JSON: z.string(),
-  GCP_BUCKET_NAME: z.string(),
-  JWT_SECRET: z.string().optional().default('fallback_jwt_secret_change_in_production'),
-  FRONTEND_URL: z.string().optional().default('http://localhost:3001'),
+  CDN_BUCKET_URL: z.string().optional(),
+  OPENROUTER_API_KEY: z.string().optional(),
+  GCP_PROJECT_ID: z.string().optional(),
+  GCP_CREDENTIALS_JSON: z.string().optional(),
+  GCP_BUCKET_NAME: z.string().optional(),
   MONGODB_URI: z.string().optional(),
   GEN2_CONCURRENCY: z.string().optional(),
   GEN2_TIMEOUT_MS: z.string().optional(),
@@ -32,12 +39,11 @@ const schema = z.object({
   OPENROUTER_BASE_URL: z.string().optional(),
   OPENROUTER_HTTP_REFERER: z.string().optional(),
   OPENROUTER_X_TITLE: z.string().optional(),
-
   FREESOUND_API_KEY: z.string().optional(),
   RUNWAYML_API_SECRET: z.string().optional(),
   RUNWAY_API_TOKEN: z.string().optional(),
   
-  // PayPal Configuration
+  // PayPal Configuration (solo requeridas por feature de pagos)
   PAYPAL_CLIENT_ID: z.string().optional(),
   PAYPAL_CLIENT_SECRET: z.string().optional(),
   PAYPAL_WEBHOOK_ID: z.string().optional(),

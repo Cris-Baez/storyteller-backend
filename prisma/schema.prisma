@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -8,183 +7,139 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// 👤 MODELO DE USUARIO COMPLETO
 model User {
-  id          Int      @id @default(autoincrement())
-  email       String   @unique
-  password    String
-  name        String
-  role        Role     @default(USER)
-  plan        Plan     @default(STARTER)
-  
-  // Estado del usuario
-  isActive                Boolean   @default(true)
-  
-  // Estado de verificación
-  emailVerified           Boolean   @default(false)
-  emailVerificationToken  String?   @unique
-  
-  // Reset de contraseña
-  resetPasswordToken      String?   @unique
-  resetPasswordExpires    DateTime?
-  
-  // Timestamps
-  lastLogin  DateTime?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  
-  // Relaciones
-  subscription    Subscription?
-  usage          Usage?
-  profile        Profile?
-  preferences    Preferences?
-  videos         Video[]
-  marketingConfig MarketingConfig?
-  projects       Project[]
-  assets         Asset[]
-  refreshTokens  RefreshToken[]
-  socialAccounts SocialAccount[]
-  
-  // NUEVA: Memoria del Agente Conversacional
-  businessMemory UserBusinessMemory?
-  
+  id                     Int                 @id @default(autoincrement())
+  email                  String              @unique
+  password               String
+  name                   String
+  role                   Role                @default(USER)
+  plan                   Plan                @default(STARTER)
+  isActive               Boolean             @default(true)
+  emailVerified          Boolean             @default(false)
+  emailVerificationToken String?             @unique
+  resetPasswordToken     String?             @unique
+  resetPasswordExpires   DateTime?
+  lastLogin              DateTime?
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+  assets                 Asset[]
+  marketingConfig        MarketingConfig?
+  preferences            Preferences?
+  profile                Profile?
+  projects               Project[]
+  refreshTokens          RefreshToken[]
+  socialAccounts         SocialAccount[]
+  subscription           Subscription?
+  usage                  Usage?
+  businessMemory         UserBusinessMemory?
+  videos                 Video[]
+
   @@map("users")
 }
 
-// 💳 SUSCRIPCIÓN
 model Subscription {
-  id               Int              @id @default(autoincrement())
-  userId           Int              @unique
-  plan             Plan @default(STARTER)
-  status           SubscriptionStatus @default(ACTIVE)
-  currentPeriodStart DateTime?
-  currentPeriodEnd   DateTime?
-  paypalSubscriptionId String?       @unique
-  cancelAtPeriodEnd Boolean          @default(false)
-  canceledAt       DateTime?
-  cancelReason     String?
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  payments Payment[]
-  
+  id                   Int                @id @default(autoincrement())
+  userId               Int                @unique
+  plan                 Plan               @default(STARTER)
+  status               SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  paypalSubscriptionId String?            @unique
+  cancelAtPeriodEnd    Boolean            @default(false)
+  canceledAt           DateTime?
+  cancelReason         String?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  payments             Payment[]
+  user                 User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map("subscriptions")
 }
 
-// 💰 PAGOS
 model Payment {
-  id              Int            @id @default(autoincrement())
+  id              Int           @id @default(autoincrement())
   subscriptionId  Int
   amount          Float
-  currency        String         @default("USD")
-  status          PaymentStatus  @default(PENDING)
-  paypalPaymentId String?        @unique
+  currency        String        @default("USD")
+  status          PaymentStatus @default(PENDING)
+  paypalPaymentId String?       @unique
   paypalOrderId   String?
   failureReason   String?
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
-  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  subscription    Subscription  @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
   @@map("payments")
 }
 
-// 📊 USO GRANULAR POR FEATURES
 model Usage {
-  id              Int      @id @default(autoincrement())
-  userId          Int      @unique
-  
-  // Videos tradicionales (límite semanal)
-  videosThisWeek  Int      @default(0)
-  weekResetDate   DateTime @default(now())
-  
-  // Nuevos campos granulares
-  storageUsedMB      Int      @default(0)    // Almacenamiento usado en MB
-  editorUsage        Int      @default(0)    // Veces que usó el editor
-  agentGenerations   Int      @default(0)    // Generaciones con agente automático
-  
-  // Timestamps de último uso por feature
+  id                 Int       @id @default(autoincrement())
+  userId             Int       @unique
+  videosThisWeek     Int       @default(0)
+  weekResetDate      DateTime  @default(now())
+  storageUsedMB      Int       @default(0)
+  editorUsage        Int       @default(0)
+  agentGenerations   Int       @default(0)
   lastEditorUse      DateTime?
   lastAgentUse       DateTime?
   lastVideoGenerated DateTime?
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map("usage")
 }
 
-// 👤 PERFIL DE USUARIO
 model Profile {
-  id      Int     @id @default(autoincrement())
-  userId  Int     @unique
-  avatar  String?
-  company String?
-  phone   String?
-  
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  avatar    String?
+  company   String?
+  phone     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map("profiles")
 }
 
-// ⚙️ PREFERENCIAS
 model Preferences {
-  id                   Int     @id @default(autoincrement())
-  userId               Int     @unique
-  emailNotifications   Boolean @default(true)
-  marketingEmails      Boolean @default(false)
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id                 Int      @id @default(autoincrement())
+  userId             Int      @unique
+  emailNotifications Boolean  @default(true)
+  marketingEmails    Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map("preferences")
 }
 
-// 🎬 VIDEOS GENERADOS
 model Video {
-  id          Int       @id @default(autoincrement())
-  userId      Int
-  title       String
-  description String?
-  type        VideoType @default(CINEMA)
-  status      VideoStatus @default(PENDING)
-  
-  // URLs y datos generados
-  finalVideoUrl   String?
-  thumbnailUrl    String?
-  duration        Float?
-  
-  // Datos de entrada
-  prompt          String?
-  style           String?
-  businessType    String?
-  
-  // Metadatos
-  metadata        Json?
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  socialPosts SocialPost[]
-  
+  id            Int          @id @default(autoincrement())
+  userId        Int
+  title         String
+  description   String?
+  type          VideoType    @default(CINEMA)
+  status        VideoStatus  @default(PENDING)
+  finalVideoUrl String?
+  thumbnailUrl  String?
+  duration      Float?
+  prompt        String?
+  style         String?
+  businessType  String?
+  metadata      Json?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  socialPosts   SocialPost[]
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map("videos")
 }
 
-// ⚙️ CONFIGURACIÓN DE MARKETING
 model MarketingConfig {
-  id           Int     @id @default(autoincrement())
-  userId       Int     @unique
+  id           Int      @id @default(autoincrement())
+  userId       Int      @unique
   businessType String?
   style        String?
   voiceType    String?
@@ -192,51 +147,38 @@ model MarketingConfig {
   frequency    String?
   tone         String?
   colors       String?
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map("marketing_configs")
 }
 
-// 📄 PLANTILLAS DE MARKETING
 model MarketingTemplate {
-  id                Int      @id @default(autoincrement())
-  title             String
-  description       String?
-  businessType      String   // restaurant, spa, retail, fitness, etc.
-  category          String   // promotional, seasonal, product, service, etc.
-  
-  // ESTRUCTURA NARRATIVA
-  structure         Json     // Array de pasos/secciones del video
-  duration          Int      @default(30) // Duración recomendada en segundos
-  style             String   @default("professional") // professional, casual, energetic, etc.
-  tone              String   @default("friendly") // professional, friendly, authoritative, etc.
-  
-  // ELEMENTOS AUDIOVISUALES
-  musicStyle        String?  // upbeat, corporate, emotional, etc.
-  voiceType         String   @default("neutral") // male, female, neutral
-  effectsEnabled    Boolean  @default(true)
-  
-  // CONFIGURACIÓN
-  isActive          Boolean  @default(true)
-  isPublic          Boolean  @default(true)
-  useCount          Int      @default(0) // Contador de usos
-  
-  // METADATOS
-  tags              String?  // JSON array de tags para filtrado
-  thumbnail         String?  // URL de imagen preview
-  sampleVideo       String?  // URL de video de muestra
-  
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
+  id             Int      @id @default(autoincrement())
+  title          String
+  description    String?
+  businessType   String
+  category       String
+  structure      Json
+  duration       Int      @default(30)
+  style          String   @default("professional")
+  tone           String   @default("friendly")
+  musicStyle     String?
+  voiceType      String   @default("neutral")
+  effectsEnabled Boolean  @default(true)
+  isActive       Boolean  @default(true)
+  isPublic       Boolean  @default(true)
+  useCount       Int      @default(0)
+  tags           String?
+  thumbnail      String?
+  sampleVideo    String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
   @@map("marketing_templates")
 }
 
-// 📁 PROYECTOS (PARA EDITOR VISUAL)
 model Project {
   id          Int           @id @default(autoincrement())
   userId      Int
@@ -244,51 +186,41 @@ model Project {
   description String?
   status      ProjectStatus @default(DRAFT)
   data        Json?
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map("projects")
 }
 
-// 📎 ASSETS SUBIDOS POR USUARIO
 model Asset {
-  id       Int       @id @default(autoincrement())
-  userId   Int
-  filename String
-  url      String
-  type     AssetType
-  size     Int
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  filename  String
+  url       String
+  type      AssetType
+  size      Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map("assets")
 }
 
-// 🔄 TOKENS DE REFRESCO
 model RefreshToken {
   id        Int       @id @default(autoincrement())
   userId    Int
   token     String    @unique
   expiresAt DateTime
   revokedAt DateTime?
-  
-  createdAt DateTime @default(now())
-  
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map("refresh_tokens")
 }
 
-// 🔄 ENUMS
-// 🔗 CUENTAS DE REDES SOCIALES
 model SocialAccount {
-  id             Int      @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   userId         Int
   platform       SocialPlatform
   username       String
@@ -296,21 +228,18 @@ model SocialAccount {
   accessToken    String?
   refreshToken   String?
   tokenExpiry    DateTime?
-  isActive       Boolean  @default(true)
-  autoPublish    Boolean  @default(false)
-  settings       Json?    // Configuraciones específicas por plataforma
-  
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isActive       Boolean        @default(true)
+  autoPublish    Boolean        @default(false)
+  settings       Json?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   posts          SocialPost[]
-  
+
   @@unique([userId, platform])
   @@map("social_accounts")
 }
 
-// 📱 PUBLICACIONES EN REDES SOCIALES
 model SocialPost {
   id              Int           @id @default(autoincrement())
   socialAccountId Int
@@ -323,14 +252,57 @@ model SocialPost {
   publishedAt     DateTime?
   platformPostId  String?
   errorMessage    String?
-  
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
-  
   socialAccount   SocialAccount @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
-  video          Video?        @relation(fields: [videoId], references: [id], onDelete: SetNull)
-  
+  video           Video?        @relation(fields: [videoId], references: [id])
+
   @@map("social_posts")
+}
+
+model UserBusinessMemory {
+  id               String               @id @default(cuid())
+  userId           Int                  @unique
+  businessType     String?
+  businessName     String?
+  industry         String?
+  targetAudience   Json?
+  brandVoice       String?
+  competitors      Json?
+  valueProposition String?
+  videosCreated    Json?
+  successfulCopy   Json?
+  platformMetrics  Json?
+  engagementData   Json?
+  preferredStyles  Json?
+  optimalTimes     Json?
+  budgetInfo       Json?
+  painPoints       Json?
+  favoriteEngines  Json?
+  lastInteraction  DateTime             @default(now())
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  conversations    ConversationMemory[]
+  user             User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_business_memory")
+}
+
+model ConversationMemory {
+  id               String             @id @default(cuid())
+  businessMemoryId String
+  userMessage      String
+  agentResponse    String
+  context          String
+  outcome          String             @default("helpful")
+  followUpNeeded   Boolean            @default(false)
+  actionsTaken     Json?
+  confidence       Float?
+  needsMoreInfo    Boolean            @default(false)
+  timestamp        DateTime           @default(now())
+  businessMemory   UserBusinessMemory @relation(fields: [businessMemoryId], references: [id], onDelete: Cascade)
+
+  @@map("conversation_memory")
 }
 
 enum SocialPlatform {
@@ -405,67 +377,4 @@ enum AssetType {
   VIDEO
   AUDIO
   OTHER
-}
-
-// 🤖 MEMORIA DEL AGENTE CONVERSACIONAL - Para el empleado de marketing virtual
-model UserBusinessMemory {
-  id                String   @id @default(cuid())
-  userId            Int      @unique
-  
-  // Perfil del Negocio (en inglés para mejor performance de LLMs)
-  businessType      String?  // "concierge", "restaurant", "boutique", etc.
-  businessName      String?  // "Miami Luxury Concierge"
-  industry          String?  // "hospitality", "food", "fashion"
-  targetAudience    Json?    // Array de demografías ["executives", "wealthy clients"]
-  brandVoice        String?  // "luxury", "professional", "friendly"
-  competitors       Json?    // Array de info de competidores
-  valueProposition  String?  // Propuesta de valor única
-  
-  // Historial de Contenido
-  videosCreated     Json?    // Array de VideoMemory objects
-  successfulCopy    Json?    // Copy que funcionó bien
-  platformMetrics   Json?    // Performance por plataforma
-  engagementData    Json?    // Métricas reales de posts
-  
-  // Preferencias del Usuario
-  preferredStyles   Json?    // Estilos visuales que prefiere
-  optimalTimes      Json?    // Mejores horarios para postear
-  budgetInfo        Json?    // Información de presupuesto
-  painPoints        Json?    // Problemas recurrentes
-  favoriteEngines   Json?    // Engines preferidos ["runway", "kling"]
-  
-  // Timestamps
-  lastInteraction   DateTime @default(now())
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
-  // Relations
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  conversations     ConversationMemory[]
-  
-  @@map("user_business_memory")
-}
-
-// 💬 MEMORIA DE CONVERSACIONES - Historial completo de chats con el agente
-model ConversationMemory {
-  id               String   @id @default(cuid())
-  businessMemoryId String
-  userMessage      String   @db.Text
-  agentResponse    String   @db.Text
-  
-  // Clasificación del contexto
-  context          String   // "content_creation", "strategy_advice", "troubleshooting", etc.
-  outcome          String   @default("helpful") // "helpful", "neutral", "frustrated"
-  followUpNeeded   Boolean  @default(false)
-  actionsTaken     Json?    // Array de acciones ejecutadas durante la conversación
-  
-  // Metadata
-  confidence       Float?   // Confianza del agente (0-1)
-  needsMoreInfo    Boolean  @default(false)
-  timestamp        DateTime @default(now())
-  
-  // Relations
-  businessMemory   UserBusinessMemory @relation(fields: [businessMemoryId], references: [id], onDelete: Cascade)
-  
-  @@map("conversation_memory")
 }

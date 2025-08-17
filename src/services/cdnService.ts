@@ -6,12 +6,17 @@ import fs from 'fs/promises';
 import { env } from '../config/env.js';
 import { logger } from '../utils/logger.js';
 
+// Validar que las variables de GCP estén definidas antes de crear el cliente
+if (!env.GCP_PROJECT_ID || !env.GCP_BUCKET_NAME) {
+  logger.warn('[CDN] Variables de GCP no configuradas - servicio CDN deshabilitado');
+}
+
 const storage = new Storage({
   projectId: env.GCP_PROJECT_ID,
   keyFilename: env.GCP_CREDENTIALS_JSON,
 });
 
-const bucket = storage.bucket(env.GCP_BUCKET_NAME);
+const bucket = env.GCP_BUCKET_NAME ? storage.bucket(env.GCP_BUCKET_NAME) : null;
 
 /**
  * Sube un archivo local al CDN (Google Cloud Storage) con validación avanzada, logs enriquecidos y soporte opcional para metadatos.
@@ -30,6 +35,12 @@ export async function uploadToCDN(
     [key: string]: any;
   }
 ): Promise<string> {
+  // Verificar que el servicio CDN esté configurado
+  if (!bucket || !env.GCP_BUCKET_NAME) {
+    logger.warn('[CDN] Servicio CDN no configurado - retornando URL simulada');
+    return `https://cdn.cinemaai.com/mock/${cdnPath}`;
+  }
+
   // Validación avanzada de parámetros
   if (typeof localFilePath !== 'string' || !localFilePath) {
     logger.error('uploadToCDN: localFilePath inválido');

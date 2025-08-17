@@ -23,13 +23,7 @@ import socialRouter from './routes/social.js';  // ✨ NUEVO: Redes Sociales
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';  // ✨ NUEVO: Manejo de errores
 import { logger } from './utils/logger.js';
 import { CleanupService } from './services/cleanupService.js';  // ✨ NUEVO: Servicio de limpieza
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-
-// Carga SIEMPRE el .env desde la raíz, sin importar el directorio de ejecución
-const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".." );
-dotenv.config({ path: path.join(projectRoot, ".env") });
+import { env } from './config/env.js';  // ✨ Variables de entorno centralizadas
 
 const app = express();
 
@@ -47,11 +41,12 @@ process.on('unhandledRejection', (reason) => {
 
 // Seguridad HTTP headers
 app.use(helmet());
-// Rutas de administración y monitoreo (solo para admins/desarrollo)
-app.use('/admin', adminRouter);
 
-// CORS (ajusta origin según tu frontend)
-app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+// CORS (permitir lista separada por comas desde env)
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map(o => o.trim())
+  : ['http://localhost:3001'];
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 // Body parser con mayor límite
 app.use(express.json({ limit: '5mb' }));
@@ -112,22 +107,6 @@ app.use('/api/render', renderRouter);
 app.use('/api/marketing', marketingRoutes);  // ✨ NUEVO: Marketing AI Routes
 app.use('/api/cinema', cinemaRouter);  // ✨ NUEVO: Proyectos Cinema AI
 app.use('/api/videos', videoRouter);  // ✨ NUEVO: Historial de videos
-// Nueva ruta para compilar el video final
-app.post('/api/compile', async (req, res) => {
-  try {
-    const { videoSegments, audioSegments, soundEffects } = req.body;
-
-    // Simulación de compilación
-    logger.info('Compilando video final con segmentos proporcionados...');
-    const compiledVideoUrl = 'https://cdn.example.com/final-video.mp4';
-
-    res.json({ url: compiledVideoUrl });
-  } catch (err: unknown) {
-    const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
-    logger.error(`Error en compilación: ${errorMessage}`);
-    res.status(500).json({ error: 'Error al compilar el video final' });
-  }
-});
 
 // Comentado: Ruta antigua que simula respuesta
 // app.post('/api/render', (req, res) => {
@@ -141,7 +120,7 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 // Levanta servidor y gestiona shutdown
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
   logger.info(`🚀  Storyteller AI backend listening on port ${PORT}`);
   

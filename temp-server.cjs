@@ -1,26 +1,17 @@
-// Servidor temporal simple para pruebas de login
-const express = require('express');
-const cors = require('cors');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+// ❌ SERVIDOR TEMPORAL DESHABILITADO
+// Este servidor temporal estaba causando conflictos con el servidor real
+// al capturar las peticiones en el puerto 5000
+//
+// PARA EJECUTAR EL SERVIDOR REAL USA:
+// npm start
+//
+// Este archivo se mantiene solo para referencia pero NO DEBE EJECUTARSE
 
-const app = express();
-const PORT = 5000;
+console.log('❌ temp-server.cjs está deshabilitado');
+console.log('✅ Usa npm start para ejecutar el servidor real');
+process.exit(0);
 
-// Middleware
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
-app.use(express.json());
-
-// Logging middleware
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path}`, req.body ? JSON.stringify(req.body) : '');
-  next();
-});
-
-// Usuario de prueba
+/* CÓDIGO TEMPORAL COMENTADO PARA EVITAR EJECUCIÓN ACCIDENTAL
 const testUser = {
   id: 1,
   email: 'test@cinemaai.com',

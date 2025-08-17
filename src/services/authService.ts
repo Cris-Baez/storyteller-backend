@@ -7,6 +7,7 @@ import { env } from '../config/env.js';
 export interface AuthTokens {
   accessToken: string;
   refreshToken: string;
+  expiresIn: number;
 }
 
 export interface RegisterData {
@@ -22,6 +23,7 @@ export interface LoginData {
 
 export class AuthService {
   private readonly JWT_SECRET = this.validateJWTSecret();
+  private readonly JWT_REFRESH_SECRET = this.validateRefreshSecret();
   private readonly JWT_EXPIRES_IN = '24h';
   private readonly REFRESH_TOKEN_EXPIRES_IN = '7d';
 
@@ -29,6 +31,14 @@ export class AuthService {
     const secret = env.JWT_SECRET;
     if (!secret || secret.length < 32) {
       throw new Error('JWT_SECRET es requerido y debe tener al menos 32 caracteres');
+    }
+    return secret;
+  }
+
+  private validateRefreshSecret(): string {
+    const secret = process.env.JWT_REFRESH_SECRET;
+    if (!secret || secret.length < 32) {
+      throw new Error('JWT_REFRESH_SECRET es requerido y debe tener al menos 32 caracteres');
     }
     return secret;
   }
@@ -42,19 +52,20 @@ export class AuthService {
     try {
       // Crear nuevo usuario usando UserService
       const user = await UserService.createUser(data);
+      const userTyped = user as any; // Type assertion
 
       // Generar tokens
-      const tokens = this.generateTokens(user.id.toString());
+      const tokens = this.generateTokens(userTyped.id.toString());
 
       // Actualizar último login
-      await UserService.updateLastLogin(user.id);
+      await UserService.updateLastLogin(userTyped.id);
 
       logger.info(`[AuthService] ✅ Usuario registrado exitosamente: ${data.email}`);
 
       // Sistema de verificación de email deshabilitado temporalmente
       // En producción, implementar envío real de emails
       if (env.NODE_ENV === 'production' && process.env.EMAIL_SERVICE_ENABLED === 'true') {
-        await this.sendVerificationEmail(user.email, user.emailVerificationToken || '');
+        await this.sendVerificationEmail(userTyped.email, userTyped.emailVerificationToken || '');
       } else {
         logger.info(`[AuthService] ⚠️ Sistema de email deshabilitado - usuario puede usar cuenta inmediatamente`);
       }
@@ -79,18 +90,20 @@ export class AuthService {
       if (!user) {
         throw new Error('Credenciales inválidas');
       }
+      
+      const userTyped = user as any; // Type assertion
 
       // Verificar contraseña
-      const isPasswordValid = await UserService.comparePassword(data.password, user.password);
+      const isPasswordValid = await UserService.comparePassword(data.password, userTyped.password);
       if (!isPasswordValid) {
         throw new Error('Credenciales inválidas');
       }
 
       // Generar tokens
-      const tokens = this.generateTokens(user.id.toString());
+      const tokens = this.generateTokens(userTyped.id.toString());
 
       // Actualizar último login
-      await UserService.updateLastLogin(user.id);
+      await UserService.updateLastLogin(userTyped.id);
 
       logger.info(`[AuthService] ✅ Login exitoso: ${data.email}`);
 
@@ -107,7 +120,7 @@ export class AuthService {
    */
   async refreshToken(refreshToken: string): Promise<AuthTokens> {
     try {
-      const decoded = jwt.verify(refreshToken, this.JWT_SECRET) as any;
+      const decoded = jwt.verify(refreshToken, this.JWT_REFRESH_SECRET) as any;
       
       // Verificar que el usuario existe
       const user = await UserService.findById(parseInt(decoded.userId));
@@ -116,7 +129,7 @@ export class AuthService {
       }
 
       // Generar nuevos tokens
-      return this.generateTokens(user.id.toString());
+      return this.generateTokens((user as any).id.toString());
 
     } catch (error) {
       logger.error(`[AuthService] ❌ Error refrescando token:`, error);
@@ -218,11 +231,15 @@ export class AuthService {
 
     const refreshToken = jwt.sign(
       { userId, type: 'refresh' },
-      this.JWT_SECRET,
+      this.JWT_REFRESH_SECRET,
       { expiresIn: this.REFRESH_TOKEN_EXPIRES_IN }
     );
 
-    return { accessToken, refreshToken };
+    return { 
+      accessToken, 
+      refreshToken,
+      expiresIn: 24 * 60 * 60 // 24 horas en segundos
+    };
   }
 
   /**

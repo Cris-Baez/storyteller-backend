@@ -21,6 +21,31 @@
 
 ---
 
+## 🚀 Despliegue rápido
+
+Variables mínimas necesarias:
+
+- DATABASE_URL (PostgreSQL)
+- JWT_SECRET (>=16 chars)
+- CORS_ORIGIN (ej: https://tu-frontend.com)
+
+Comandos típicos:
+
+```
+npm ci
+npm run prisma:generate
+npm run prisma:migrate
+npm run build
+npm start
+```
+
+Healthcheck: GET /healthz
+
+Las integraciones (OpenAI, FAL, etc.) son opcionales; defínelas solo si usarás esas features.
+
+
+---
+
 ## 🎯 ¿QUÉ ES STORYTELLER AI?
 
 **Storyteller AI** es una plataforma SaaS que convierte texto en videos profesionales usando inteligencia artificial. Ofrece dos modos principales:

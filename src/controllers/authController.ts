@@ -40,18 +40,21 @@ export const register = [
       const { email, password, name } = req.body;
 
       const result = await authService.register({ email, password, name });
+      const user = result.user as any; // Type assertion para resolver errores de tipos
 
       res.status(201).json({
         success: true,
         message: 'Usuario registrado exitosamente',
         data: {
           user: {
-            id: result.user.id,
-            email: result.user.email,
-            name: result.user.name,
-            role: result.user.role,
-            plan: result.user.plan,
-            emailVerified: result.user.emailVerified
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            plan: user.plan,
+            subscription: user.subscription,
+            usage: user.usage,
+            emailVerified: user.emailVerified
           },
           tokens: result.tokens
         }
@@ -100,20 +103,21 @@ export const login = [
       const { email, password } = req.body;
 
       const result = await authService.login({ email, password });
+      const user = result.user as any; // Type assertion para resolver errores de tipos
 
       res.json({
         success: true,
         message: 'Login exitoso',
         data: {
           user: {
-            id: result.user.id,
-            email: result.user.email,
-            name: result.user.name,
-            role: result.user.role,
-            plan: result.user.plan,
-            subscription: result.user.subscription,
-            usage: result.user.usage,
-            emailVerified: result.user.emailVerified
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            plan: user.plan,
+            subscription: user.subscription,
+            usage: user.usage,
+            emailVerified: user.emailVerified
           },
           tokens: result.tokens
         }
@@ -184,20 +188,18 @@ export const getProfile = async (req: Request, res: Response): Promise<void> => 
     res.json({
       success: true,
       data: {
-        user: {
-          id: user.id, // ← ARREGLADO: usar user.id en vez de user._id
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          plan: user.plan, // ← ESTE ES EL CAMPO CLAVE
-          subscription: user.subscription,
-          usage: user.usage,
-          profile: user.profile,
-          preferences: user.preferences,
-          emailVerified: user.emailVerified,
-          lastLogin: user.lastLogin,
-          createdAt: user.createdAt
-        }
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        plan: user.plan,
+        subscription: user.subscription,
+        usage: user.usage,
+        profile: user.profile,
+        preferences: user.preferences,
+        emailVerified: user.emailVerified,
+        lastLogin: user.lastLogin,
+        createdAt: user.createdAt
       }
     });
 
@@ -258,28 +260,58 @@ export const updateProfile = [
 
       const updates = req.body;
 
-      // Actualizar campos permitidos
-      if (updates.name) user.name = updates.name;
-      if (updates.profile) {
-        user.profile = { ...user.profile, ...updates.profile };
-      }
-      if (updates.preferences) {
-        user.preferences = { ...user.preferences, ...updates.preferences };
+      // Validar que al menos hay algo que actualizar
+      if (!updates.name && !updates.profile && !updates.preferences) {
+        res.status(400).json({
+          success: false,
+          error: 'No hay datos para actualizar'
+        });
+        return;
       }
 
-      await user.save();
+      // Preparar datos de actualización para Prisma
+      const updateData: any = {};
+      
+      // Actualizar nombre directamente
+      if (updates.name) {
+        updateData.name = updates.name;
+      }
+
+      // Actualizar perfil con upsert (crear si no existe, actualizar si existe)
+      if (updates.profile) {
+        updateData.profile = {
+          upsert: {
+            where: { userId: user.id },
+            create: { ...updates.profile, userId: user.id },
+            update: updates.profile
+          }
+        };
+      }
+
+      // Actualizar preferencias con upsert
+      if (updates.preferences) {
+        updateData.preferences = {
+          upsert: {
+            where: { userId: user.id },
+            create: { ...updates.preferences, userId: user.id },
+            update: updates.preferences
+          }
+        };
+      }
+
+      // Actualizar usuario usando UserService
+      const updatedUser = await UserService.updateUser(user.id, updateData);
+      const userWithTypes = updatedUser as any; // Type assertion para resolver errores de tipos
 
       res.json({
         success: true,
         message: 'Perfil actualizado exitosamente',
         data: {
-          user: {
-            id: user._id,
-            email: user.email,
-            name: user.name,
-            profile: user.profile,
-            preferences: user.preferences
-          }
+          id: userWithTypes.id,
+          email: userWithTypes.email,
+          name: userWithTypes.name,
+          profile: userWithTypes.profile,
+          preferences: userWithTypes.preferences
         }
       });
 
