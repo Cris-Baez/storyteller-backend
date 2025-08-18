@@ -33,6 +33,10 @@ model User {
   usage                  Usage?
   businessMemory         UserBusinessMemory?
   videos                 Video[]
+  // Marketing Agent relations
+  marketingInsights      MarketingInsight[]
+  contentOptimizations   ContentOptimization[]
+  weeklyReports          WeeklyReport[]
 
   @@map("users")
 }
@@ -235,6 +239,9 @@ model SocialAccount {
   updatedAt      DateTime       @updatedAt
   user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   posts          SocialPost[]
+  // Marketing Agent relations
+  instagramMetrics InstagramMetrics[]
+  postAnalytics    PostAnalytics[]
 
   @@unique([userId, platform])
   @@map("social_accounts")
@@ -303,6 +310,102 @@ model ConversationMemory {
   businessMemory   UserBusinessMemory @relation(fields: [businessMemoryId], references: [id], onDelete: Cascade)
 
   @@map("conversation_memory")
+}
+
+// Marketing Agent Models
+model InstagramMetrics {
+  id           Int      @id @default(autoincrement())
+  accountId    Int
+  date         DateTime @default(now())
+  reach        Int?
+  impressions  Int?
+  engagement   Float?   // Engagement rate %
+  bestHour     Int?     // 0-23 hour with best performance
+  followers    Int?
+  profileViews Int?
+  websiteClicks Int?
+  account      SocialAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([accountId, date], map: "accountId_date")
+  @@map("instagram_metrics")
+}
+
+model PostAnalytics {
+  id              Int      @id @default(autoincrement())
+  postId          String   @unique // Instagram post ID
+  accountId       Int
+  caption         String?
+  mediaType       String?  // IMAGE, VIDEO, CAROUSEL_ALBUM
+  permalink       String?
+  thumbnail       String?
+  likes           Int?
+  comments        Int?
+  saves           Int?
+  reach           Int?
+  impressions     Int?
+  ctr             Float?   // Click-through rate
+  retentionAvg    Float?   // % average retention for videos
+  engagementRate  Float?   // Total engagement / reach
+  postedAt        DateTime
+  analyzedAt      DateTime @default(now())
+  account         SocialAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@map("post_analytics")
+}
+
+model MarketingInsight {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  type      String   // 'daily_brief', 'weekly_report', 'alert', 'recommendation'
+  title     String
+  content   String
+  data      Json     // Flexible JSON for different insight types
+  priority  Int      @default(1) // 1=low, 2=medium, 3=high
+  actionable Boolean @default(true)
+  isRead    Boolean  @default(false)
+  isArchived Boolean @default(false)
+  expiresAt DateTime?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("marketing_insights")
+}
+
+model ContentOptimization {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  originalPostId String?
+  optimizationType String // 'hook', 'thumbnail', 'caption', 'timing'
+  originalContent  String
+  optimizedContent String
+  improvement   String   // Explanation of the improvement
+  status        String   @default("pending") // pending, approved, rejected, scheduled
+  scheduledFor  DateTime?
+  performance   Json?    // Results after posting
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("content_optimizations")
+}
+
+model WeeklyReport {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  weekStart     DateTime
+  weekEnd       DateTime
+  overallScore  Int      // 0-100
+  insights      Json     // Week insights and learnings
+  nextWeekPlan  Json     // 5 content pieces planned
+  topPosts      Json     // Best performing posts
+  improvements  Json     // Recommended improvements
+  generated     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, weekStart])
+  @@map("weekly_reports")
 }
 
 enum SocialPlatform {

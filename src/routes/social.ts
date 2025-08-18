@@ -1,6 +1,8 @@
 import express from 'express';
 import { authenticate } from '../middleware/auth.js';
 import { SocialMediaService } from '../services/socialMediaService.js';
+import { InstagramAnalyticsService } from '../services/InstagramAnalyticsService.js';
+import { MarketingAgentAnalyticsService } from '../services/MarketingAgentAnalyticsService.js';
 import type { AuthenticatedRequest } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -304,6 +306,309 @@ router.get('/status/:postId', authenticate, async (req, res) => {
     console.error('Error verificando estado:', error);
     res.status(500).json({ 
       error: 'Error interno del servidor' 
+    });
+  }
+});
+
+// 📊 INSTAGRAM ANALYTICS - Marketing Agent Endpoints
+
+// 🔗 Conectar cuenta específica de Instagram con Analytics
+router.post('/instagram/connect', authenticate, async (req, res) => {
+  try {
+    const userId = (req as AuthenticatedRequest).user.id;
+    const { accessToken } = req.body;
+
+    if (!accessToken) {
+      return res.status(400).json({ 
+        error: 'Access token de Instagram es requerido' 
+      });
+    }
+
+    const account = await InstagramAnalyticsService.connectInstagramAccount(userId, accessToken);
+
+    res.json({
+      success: true,
+      message: 'Cuenta de Instagram conectada con Analytics',
+      account: {
+        id: account.id,
+        platform: account.platform,
+        username: account.username,
+        isActive: account.isActive,
+        connectedAt: account.createdAt
+      }
+    });
+
+  } catch (error) {
+    console.error('Error conectando Instagram Analytics:', error);
+    res.status(500).json({ 
+      error: error instanceof Error ? error.message : 'Error interno del servidor'
+    });
+  }
+});
+
+// 📈 Obtener scorecard de Instagram (0-100)
+router.get('/instagram/:accountId/scorecard', authenticate, async (req, res) => {
+  try {
+    const { accountId } = req.params;
+    const userId = (req as AuthenticatedRequest).user.id;
+
+    // Verificar que la cuenta pertenece al usuario
+    const account = await (globalThis as any).prisma.socialAccount.findFirst({
+      where: {
+        id: parseInt(accountId),
+        userId,
+        platform: 'INSTAGRAM'
+      }
+    });
+
+    if (!account) {
+      return res.status(404).json({ 
+        error: 'Cuenta de Instagram no encontrada' 
+      });
+    }
+
+    const scorecard = await InstagramAnalyticsService.calculateScorecard(parseInt(accountId));
+
+    res.json({
+      success: true,
+      scorecard
+    });
+
+  } catch (error) {
+    console.error('Error calculando scorecard:', error);
+    res.status(500).json({ 
+      error: error instanceof Error ? error.message : 'Error interno del servidor'
+    });
+  }
+});
+
+// 📰 Generar daily brief de Instagram
+router.get('/instagram/:accountId/daily-brief', authenticate, async (req, res) => {
+  try {
+    const { accountId } = req.params;
+    const userId = (req as AuthenticatedRequest).user.id;
+
+    // Verificar que la cuenta pertenece al usuario
+    const account = await (globalThis as any).prisma.socialAccount.findFirst({
+      where: {
+        id: parseInt(accountId),
+        userId,
+        platform: 'INSTAGRAM'
+      }
+    });
+
+    if (!account) {
+      return res.status(404).json({ 
+        error: 'Cuenta de Instagram no encontrada' 
+      });
+    }
+
+    const dailyBrief = await MarketingAgentAnalyticsService.generateDailyBrief(userId);
+
+    res.json({
+      success: true,
+      dailyBrief
+    });
+
+  } catch (error) {
+    console.error('Error generando daily brief:', error);
+    res.status(500).json({ 
+      error: error instanceof Error ? error.message : 'Error interno del servidor'
+    });
+  }
+});
+
+// ⏰ Obtener mejores horarios para publicar
+router.get('/instagram/:accountId/best-times', authenticate, async (req, res) => {
+  try {
+    const { accountId } = req.params;
+    const userId = (req as AuthenticatedRequest).user.id;
+
+    // Verificar que la cuenta pertenece al usuario
+    const account = await (globalThis as any).prisma.socialAccount.findFirst({
+      where: {
+        id: parseInt(accountId),
+        userId,
+        platform: 'INSTAGRAM'
+      }
+    });
+
+    if (!account) {
+      return res.status(404).json({ 
+        error: 'Cuenta de Instagram no encontrada' 
+      });
+    }
+
+    const bestTimes = await InstagramAnalyticsService.getBestPostingTimes(parseInt(accountId));
+
+    res.json({
+      success: true,
+      bestTimes
+    });
+
+  } catch (error) {
+    console.error('Error obteniendo mejores horarios:', error);
+    res.status(500).json({ 
+      error: error instanceof Error ? error.message : 'Error interno del servidor'
+    });
+  }
+});
+
+// 🎯 Generar variantes de contenido optimizado
+router.post('/instagram/:accountId/optimize-content', authenticate, async (req, res) => {
+  try {
+    const { accountId } = req.params;
+    const userId = (req as AuthenticatedRequest).user.id;
+    const { postId, variantType = 'caption' } = req.body;
+
+    if (!postId) {
+      return res.status(400).json({ 
+        error: 'PostId es requerido para optimización' 
+      });
+    }
+
+    // Verificar que la cuenta pertenece al usuario
+    const account = await (globalThis as any).prisma.socialAccount.findFirst({
+      where: {
+        id: parseInt(accountId),
+        userId,
+        platform: 'INSTAGRAM'
+      }
+    });
+
+    if (!account) {
+      return res.status(404).json({ 
+        error: 'Cuenta de Instagram no encontrada' 
+      });
+    }
+
+    const variants = await MarketingAgentAnalyticsService.generateContentVariants(
+      postId, 
+      variantType
+    );
+
+    res.json({
+      success: true,
+      variants
+    });
+
+  } catch (error) {
+    console.error('Error optimizando contenido:', error);
+    res.status(500).json({ 
+      error: error instanceof Error ? error.message : 'Error interno del servidor'
+    });
+  }
+});
+
+// 📊 Sincronizar métricas de Instagram
+router.post('/instagram/:accountId/sync', authenticate, async (req, res) => {
+  try {
+    const { accountId } = req.params;
+    const userId = (req as AuthenticatedRequest).user.id;
+
+    // Verificar que la cuenta pertenece al usuario
+    const account = await (globalThis as any).prisma.socialAccount.findFirst({
+      where: {
+        id: parseInt(accountId),
+        userId,
+        platform: 'INSTAGRAM'
+      }
+    });
+
+    if (!account) {
+      return res.status(404).json({ 
+        error: 'Cuenta de Instagram no encontrada' 
+      });
+    }
+
+    await InstagramAnalyticsService.syncAccountMetrics(parseInt(accountId));
+
+    res.json({
+      success: true,
+      message: 'Métricas sincronizadas correctamente'
+    });
+
+  } catch (error) {
+    console.error('Error sincronizando métricas:', error);
+    res.status(500).json({ 
+      error: error instanceof Error ? error.message : 'Error interno del servidor'
+    });
+  }
+});
+
+// 📈 Generar reporte semanal
+router.get('/instagram/:accountId/weekly-report', authenticate, async (req, res) => {
+  try {
+    const { accountId } = req.params;
+    const userId = (req as AuthenticatedRequest).user.id;
+
+    // Verificar que la cuenta pertenece al usuario
+    const account = await (globalThis as any).prisma.socialAccount.findFirst({
+      where: {
+        id: parseInt(accountId),
+        userId,
+        platform: 'INSTAGRAM'
+      }
+    });
+
+    if (!account) {
+      return res.status(404).json({ 
+        error: 'Cuenta de Instagram no encontrada' 
+      });
+    }
+
+    const weeklyReport = await MarketingAgentAnalyticsService.generateWeeklyReport(parseInt(accountId));
+
+    res.json({
+      success: true,
+      weeklyReport
+    });
+
+  } catch (error) {
+    console.error('Error generando reporte semanal:', error);
+    res.status(500).json({ 
+      error: error instanceof Error ? error.message : 'Error interno del servidor'
+    });
+  }
+});
+
+// 🔍 Analizar post específico
+router.get('/instagram/post/:postId/analyze', authenticate, async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const userId = (req as AuthenticatedRequest).user.id;
+
+    // Verificar que el post pertenece a una cuenta del usuario
+    const post = await (globalThis as any).prisma.postAnalytics.findFirst({
+      where: {
+        postId,
+        account: {
+          userId,
+          platform: 'INSTAGRAM'
+        }
+      },
+      include: {
+        account: true
+      }
+    });
+
+    if (!post) {
+      return res.status(404).json({ 
+        error: 'Post no encontrado o no pertenece al usuario' 
+      });
+    }
+
+    const analysis = await InstagramAnalyticsService.analyzePost(postId);
+
+    res.json({
+      success: true,
+      analysis
+    });
+
+  } catch (error) {
+    console.error('Error analizando post:', error);
+    res.status(500).json({ 
+      error: error instanceof Error ? error.message : 'Error interno del servidor'
     });
   }
 });

@@ -8,7 +8,47 @@
 
 ---
 
-## 📋 ÍNDICE
+## � Resumen técnico rápido (endpoints y módulos reales)
+
+- Entrypoint: `src/index.ts` (Express, CORS, Helmet, RateLimit, Morgan)
+- Rutas montadas:
+  - `/api/auth` → `src/routes/auth.ts`
+  - `/api/subscriptions` → `src/routes/subscriptionRoutes.ts`
+  - `/api/marketing-config` → `src/routes/marketingConfigRoutes.ts`
+  - `/api/marketing/templates` → `src/routes/marketingTemplateRoutes.ts`
+  - `/api/admin` → `src/routes/admin.ts`
+  - `/api/editor` → `src/routes/editor.ts`
+  - `/api/cleanup` → `src/routes/cleanup.ts`
+  - `/api/social` → `src/routes/social.ts` (Instagram Analytics incluido)
+  - `/api/testing` → `src/routes/testingRoutes.ts`
+  - `/api/agent` → `src/routes/marketingAgentRoutes.ts` (Agente conversacional)
+  - `/api/copywriter` → `src/routes/copywriterProRoutes.ts`
+  - `/api/render` → `src/routes/render.ts`
+  - `/api/marketing` → `src/routes/marketingRoutes.ts`
+  - `/api/cinema` → `src/routes/cinemaRoutes.ts`
+  - `/api/videos` → `src/routes/videoRoutes.ts`
+
+- Servicios clave (selección):
+  - `services/InstagramAnalyticsService.ts` (conectar/sync/scorecard/bestTimes/analyzePost)
+  - `services/MarketingAgentAnalyticsService.ts` (daily-brief/weekly-report/variants)
+  - `services/marketingIntelligenceService.ts` y `services/enhancedMarketingIntelligenceService.ts`
+  - `services/renderPipeline.ts` (pipeline de video)
+  - `services/klingService.ts`, `services/ffmpegService.ts`, `services/cdnService.ts`
+  - `services/authService.ts`, `services/subscriptionService.ts`, `services/paypalService.ts`
+  - `jobs/jobQueue.ts`, `services/cleanupService.ts`
+
+- Prisma (DB): `prisma/schema.prisma` incluye modelos Marketing Agent:
+  `InstagramMetrics`, `PostAnalytics`, `MarketingInsight`, `ContentOptimization`, `WeeklyReport` con relaciones en `User` y `SocialAccount`.
+
+- Healthcheck: `GET /healthz`
+
+> Nota: El frontend usa baseURL `NEXT_PUBLIC_API_URL` (ej. `http://localhost:5000/api`). Evita doble `/api` cuando declares rutas en el cliente.
+
+### Inventario auto-generado
+- Archivo: `AUTO_DOCS_BACKEND.md` (todos los archivos de `src`, exports, endpoints y modelos Prisma)
+- Regenerar: `node scripts/generateDocs.cjs`
+
+## �📋 ÍNDICE
 
 1. [¿Qué es Storyteller AI?](#qué-es-storyteller-ai)
 2. [Arquitectura del Sistema](#arquitectura-del-sistema)
