@@ -10,8 +10,23 @@ import {
   getBusinessContext,
   updateConversationFeedback,
   executeSuggestedAction,
-  crearCampañaCompleta
+  crearCampañaCompleta,
+  // Instagram Analytics endpoints from Marketing Agent roadmap
+  getScorecard,
+  getDailyBrief,
+  getInsights,
+  generateOptimization,
+  connectInstagram,
+  getContentCalendar,
+  scheduleContent
 } from '../controllers/marketingAgentController.js';
+// Instagram-specific controller
+import {
+  syncAccount,
+  getPosts,
+  getPostAnalytics,
+  getAccountInfo
+} from '../controllers/instagramController.js';
 
 const router = Router();
 
@@ -38,5 +53,25 @@ router.post('/execute-action', executeSuggestedAction);
 
 // 🎯 ROADMAP FASE 5: Create complete marketing campaign from business images
 router.post('/create-campaign', crearCampañaCompleta);
+
+// =============================================================================
+// 📊 INSTAGRAM ANALYTICS ROUTES (MARKETING AGENT ROADMAP)
+// =============================================================================
+
+// Marketing Agent Analytics endpoints
+router.get('/scorecard', getScorecard);
+router.get('/daily-brief', getDailyBrief);
+router.get('/insights', getInsights);
+router.get('/calendar', getContentCalendar);
+
+router.post('/optimize', generateOptimization);
+router.post('/connect-instagram', connectInstagram);
+router.post('/schedule', scheduleContent);
+
+// Instagram-specific endpoints
+router.post('/instagram/sync', syncAccount);
+router.get('/instagram/posts', getPosts);
+router.get('/instagram/account', getAccountInfo);
+router.get('/instagram/analytics/:postId', getPostAnalytics);
 
 export { router as marketingAgentRoutes };

@@ -50,6 +50,42 @@ const schema = z.object({
   PAYPAL_STARTER_PLAN_ID: z.string().optional(),
   PAYPAL_CREATOR_PLAN_ID: z.string().optional(),
   PAYPAL_STUDIO_PRO_PLAN_ID: z.string().optional(),
+
+  // Marketing Agent Configuration
+  MARKETING_AGENT_ENABLED: z.string().optional(),
+  MARKETING_AGENT_DEBUG: z.string().optional(),
+  
+  // Instagram API Configuration
+  INSTAGRAM_API_VERSION: z.string().optional(),
+  INSTAGRAM_BASE_URL: z.string().optional(),
+  INSTAGRAM_TIMEOUT: z.string().optional(),
+  INSTAGRAM_RETRY_ATTEMPTS: z.string().optional(),
+  INSTAGRAM_RATE_LIMIT: z.string().optional(),
+  
+  // Marketing Jobs Configuration
+  MARKETING_JOBS_ENABLED: z.string().optional(),
+  TIMEZONE: z.string().optional(),
+  INSTAGRAM_SYNC_SCHEDULE: z.string().optional(),
+  WEEKLY_REPORTS_SCHEDULE: z.string().optional(),
+  CONTENT_MONITOR_SCHEDULE: z.string().optional(),
+  
+  // Marketing Logging Configuration
+  MARKETING_LOGGING_ENABLED: z.string().optional(),
+  MARKETING_LOG_LEVEL: z.string().optional(),
+  MARKETING_DETAILED_LOGGING: z.string().optional(),
+  MARKETING_METRICS_LOGGING: z.string().optional(),
+  
+  // AI Configuration for Marketing Agent
+  AI_PROVIDER: z.string().optional(),
+  AI_MODEL: z.string().optional(),
+  AI_MAX_TOKENS: z.string().optional(),
+  AI_TEMPERATURE: z.string().optional(),
+  AI_TIMEOUT: z.string().optional(),
+  
+  // Cache Configuration
+  MARKETING_CACHE_ENABLED: z.string().optional(),
+  MARKETING_CACHE_TTL: z.string().optional(),
+  MARKETING_CACHE_PREFIX: z.string().optional(),
 });
 
 const env = schema.parse(process.env);
@@ -72,6 +108,12 @@ const opcionales = [
   'PAYPAL_CLIENT_ID',
   'PAYPAL_CLIENT_SECRET',
   'PAYPAL_WEBHOOK_ID',
+  // Marketing Agent variables
+  'MARKETING_AGENT_ENABLED',
+  'INSTAGRAM_API_VERSION',
+  'MARKETING_JOBS_ENABLED',
+  'AI_PROVIDER',
+  'AI_MODEL'
 ];
 for (const key of opcionales) {
   if (!process.env[key]) {

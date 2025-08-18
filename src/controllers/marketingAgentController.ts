@@ -4,13 +4,13 @@
 import { Request, Response } from 'express';
 import { marketingAgent } from '../services/conversationalAgent/marketingAgent.js';
 import { memoryManager } from '../services/agentMemory/memorySystem.js';
-import { MarketingPipeline } from '../pipelines/marketingPipeline.js';
-import { preAnalyzeImages } from '../services/llmService/estilos/marketing/imagePreAnalyzer.js';
-import { analyzeBusinessFromImages } from '../services/llmService/estilos/marketing/businessAnalyst.js';
-import { createCompleteStrategy } from '../services/llmService/estilos/marketing/contentStrategist.js';
-import { convertirImagenesEstaticasADinamicas } from '../services/llmService/estilos/marketing/creativeDirector.js';
 import { procesarSolicitudCompleta } from '../services/llmService/estilos/marketing/agenteMarketing.js';
-import { generarVideoDesdeAgenteMarketing } from '../services/llmService/estilos/marketing/generadorVideoAgente.js';
+// Instagram Analytics imports
+import { InstagramAnalyticsService, BestTimeAnalysis } from '../services/InstagramAnalyticsService.js';
+import { MarketingAgentAnalyticsService } from '../services/MarketingAgentAnalyticsService.js';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 // Main chat endpoint - where users talk to their marketing agent
 export async function chatWithAgent(req: Request, res: Response) {
@@ -556,4 +556,466 @@ export async function crearCampañaCompleta(req: Request, res: Response) {
       details: error instanceof Error ? error.message : 'Unknown error'
     });
   }
+}
+
+// =============================================================================
+// 📊 INSTAGRAM ANALYTICS ENDPOINTS (MARKETING AGENT ROADMAP)
+// =============================================================================
+
+/**
+ * GET /api/marketing-agent/scorecard
+ * Get Instagram account health scorecard (0-100)
+ */
+export async function getScorecard(req: Request, res: Response) {
+  try {
+    const userId = req.user?.id;
+    
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        error: 'User authentication required'
+      });
+    }
+
+    console.log(`[MARKETING AGENT] Getting scorecard for user ${userId}`);
+
+    // Get user's primary Instagram account
+    const account = await prisma.socialAccount.findFirst({
+      where: { 
+        userId, 
+        platform: 'INSTAGRAM',
+        isActive: true 
+      }
+    });
+    
+    if (!account) {
+      return res.status(404).json({ 
+        success: false,
+        error: 'No Instagram account connected' 
+      });
+    }
+
+    const scorecard = await InstagramAnalyticsService.calculateScorecard(account.id);
+    
+    res.json({
+      success: true,
+      data: scorecard
+    });
+
+  } catch (error) {
+    console.error('[MARKETING AGENT] Scorecard error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get scorecard',
+      details: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+    });
+  }
+}
+
+/**
+ * GET /api/marketing-agent/daily-brief
+ * Get daily actionable brief with insights
+ */
+export async function getDailyBrief(req: Request, res: Response) {
+  try {
+    const userId = req.user?.id;
+    
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        error: 'User authentication required'
+      });
+    }
+
+    console.log(`[MARKETING AGENT] Getting daily brief for user ${userId}`);
+
+    const brief = await MarketingAgentAnalyticsService.generateDailyBrief(userId);
+    
+    res.json({
+      success: true,
+      data: brief
+    });
+
+  } catch (error) {
+    console.error('[MARKETING AGENT] Daily brief error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get daily brief',
+      details: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+    });
+  }
+}
+
+/**
+ * GET /api/marketing-agent/insights
+ * Get marketing insights and alerts with pagination
+ */
+export async function getInsights(req: Request, res: Response) {
+  try {
+    const userId = req.user?.id;
+    const { page = 1, limit = 10 } = req.query;
+    
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        error: 'User authentication required'
+      });
+    }
+
+    console.log(`[MARKETING AGENT] Getting insights for user ${userId}, page ${page}`);
+    
+    const insights = await prisma.marketingInsight.findMany({
+      where: { 
+        userId, 
+        isArchived: false 
+      },
+      orderBy: { createdAt: 'desc' },
+      take: Number(limit),
+      skip: (Number(page) - 1) * Number(limit)
+    });
+
+    const total = await prisma.marketingInsight.count({
+      where: { 
+        userId, 
+        isArchived: false 
+      }
+    });
+    
+    res.json({
+      success: true,
+      data: {
+        insights,
+        pagination: {
+          page: Number(page),
+          limit: Number(limit),
+          total,
+          totalPages: Math.ceil(total / Number(limit))
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('[MARKETING AGENT] Get insights error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get insights',
+      details: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+    });
+  }
+}
+
+/**
+ * POST /api/marketing-agent/optimize
+ * Generate content optimization variants
+ */
+export async function generateOptimization(req: Request, res: Response) {
+  try {
+    const userId = req.user?.id;
+    const { postId, type } = req.body; // type: 'hook' | 'thumbnail' | 'caption'
+    
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        error: 'User authentication required'
+      });
+    }
+
+    if (!postId || !type) {
+      return res.status(400).json({
+        success: false,
+        error: 'postId and type are required'
+      });
+    }
+
+    if (!['hook', 'thumbnail', 'caption'].includes(type)) {
+      return res.status(400).json({
+        success: false,
+        error: 'type must be hook, thumbnail, or caption'
+      });
+    }
+
+    console.log(`[MARKETING AGENT] Generating ${type} optimization for post ${postId}, user ${userId}`);
+
+    // Validate user plan has optimization features
+    const user = await prisma.user.findUnique({ 
+      where: { id: userId }, 
+      include: { subscription: true }
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found'
+      });
+    }
+
+    if (user.plan === 'STARTER' && type !== 'hook') {
+      return res.status(403).json({ 
+        success: false,
+        error: 'Upgrade to access thumbnail and caption optimization',
+        upgrade: 'Upgrade to Creator plan to access this feature'
+      });
+    }
+
+    // TODO: Implement content optimization using existing CinemaAI
+    // const variants = await MarketingIntelligenceService.generateContentVariants(postId, type);
+    
+    // For now, return mock data until we implement the service
+    const variants = {
+      original: `Original ${type} content`,
+      variants: [
+        {
+          id: 1,
+          content: `Optimized ${type} variant 1`,
+          improvement: `Improved ${type} for better engagement`,
+          confidence: 0.85
+        },
+        {
+          id: 2,
+          content: `Optimized ${type} variant 2`,
+          improvement: `Alternative ${type} approach`,
+          confidence: 0.78
+        }
+      ],
+      recommendations: [
+        `Use shorter ${type} for better retention`,
+        'Add emotional triggers',
+        'Include call-to-action'
+      ]
+    };
+
+    res.json({
+      success: true,
+      data: variants
+    });
+
+  } catch (error) {
+    console.error('[MARKETING AGENT] Generate optimization error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to generate optimization',
+      details: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+    });
+  }
+}
+
+/**
+ * POST /api/marketing-agent/connect-instagram
+ * Connect Instagram account using access token
+ */
+export async function connectInstagram(req: Request, res: Response) {
+  try {
+    const userId = req.user?.id;
+    const { accessToken } = req.body;
+    
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        error: 'User authentication required'
+      });
+    }
+
+    if (!accessToken) {
+      return res.status(400).json({
+        success: false,
+        error: 'accessToken is required'
+      });
+    }
+
+    console.log(`[MARKETING AGENT] Connecting Instagram account for user ${userId}`);
+    
+    const account = await InstagramAnalyticsService.connectInstagramAccount(userId, accessToken);
+    
+    res.json({ 
+      success: true, 
+      data: {
+        account,
+        message: 'Instagram account connected successfully'
+      }
+    });
+
+  } catch (error) {
+    console.error('[MARKETING AGENT] Connect Instagram error:', error);
+    res.status(400).json({ 
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to connect Instagram account'
+    });
+  }
+}
+
+/**
+ * GET /api/marketing-agent/calendar
+ * Get content calendar with best times and scheduled content
+ */
+export async function getContentCalendar(req: Request, res: Response) {
+  try {
+    const userId = req.user?.id;
+    const { month, year } = req.query;
+    
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        error: 'User authentication required'
+      });
+    }
+
+    console.log(`[MARKETING AGENT] Getting content calendar for user ${userId}, ${month}/${year}`);
+    
+    // Get scheduled content + best times + historical performance
+    const calendar = await buildContentCalendar(userId, month as string, year as string);
+    
+    res.json({
+      success: true,
+      data: calendar
+    });
+
+  } catch (error) {
+    console.error('[MARKETING AGENT] Get content calendar error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get content calendar',
+      details: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+    });
+  }
+}
+
+/**
+ * POST /api/marketing-agent/schedule
+ * Schedule content for auto-posting (Studio Pro only)
+ */
+export async function scheduleContent(req: Request, res: Response) {
+  try {
+    const userId = req.user?.id;
+    const { content, scheduledTime } = req.body;
+    
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        error: 'User authentication required'
+      });
+    }
+
+    if (!content || !scheduledTime) {
+      return res.status(400).json({
+        success: false,
+        error: 'content and scheduledTime are required'
+      });
+    }
+
+    console.log(`[MARKETING AGENT] Scheduling content for user ${userId}`);
+    
+    // Validate user plan (Studio Pro only)
+    const user = await prisma.user.findUnique({ where: { id: userId }});
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found'
+      });
+    }
+
+    if (user.plan !== 'STUDIO_PRO') {
+      return res.status(403).json({ 
+        success: false,
+        error: 'Auto-scheduling requires Studio Pro plan',
+        upgrade: 'Upgrade to Studio Pro to access auto-scheduling'
+      });
+    }
+
+    // TODO: Implement auto-scheduling service
+    // await AlertService.scheduleContent(userId, content, new Date(scheduledTime));
+    
+    // For now, store in ContentOptimization table as scheduled
+    const scheduledContent = await prisma.contentOptimization.create({
+      data: {
+        userId,
+        optimizationType: 'scheduling',
+        originalContent: content.caption || content.text,
+        optimizedContent: content.caption || content.text,
+        improvement: 'Scheduled for optimal posting time',
+        status: 'scheduled',
+        scheduledFor: new Date(scheduledTime)
+      }
+    });
+
+    res.json({ 
+      success: true,
+      data: {
+        scheduledContent,
+        message: 'Content scheduled successfully'
+      }
+    });
+
+  } catch (error) {
+    console.error('[MARKETING AGENT] Schedule content error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to schedule content',
+      details: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+    });
+  }
+}
+
+// =============================================================================
+// 🛠️ HELPER FUNCTIONS
+// =============================================================================
+
+/**
+ * Build content calendar with optimal times and scheduled content
+ */
+async function buildContentCalendar(userId: number, month?: string, year?: string) {
+  const currentDate = new Date();
+  const targetMonth = month ? parseInt(month) - 1 : currentDate.getMonth();
+  const targetYear = year ? parseInt(year) : currentDate.getFullYear();
+  
+  const startDate = new Date(targetYear, targetMonth, 1);
+  const endDate = new Date(targetYear, targetMonth + 1, 0);
+
+  // Get user's Instagram account
+  const account = await prisma.socialAccount.findFirst({
+    where: { 
+      userId, 
+      platform: 'INSTAGRAM',
+      isActive: true 
+    }
+  });
+
+  let bestTimes: BestTimeAnalysis[] = [];
+  if (account) {
+    bestTimes = await InstagramAnalyticsService.getBestPostingTimes(account.id);
+  }
+
+  // Get scheduled content for the month
+  const scheduledContent = await prisma.contentOptimization.findMany({
+    where: {
+      userId,
+      status: 'scheduled',
+      scheduledFor: {
+        gte: startDate,
+        lte: endDate
+      }
+    },
+    orderBy: { scheduledFor: 'asc' }
+  });
+
+  // Build calendar structure
+  const calendar = {
+    month: targetMonth + 1,
+    year: targetYear,
+    bestPostingTimes: bestTimes,
+    scheduledContent: scheduledContent.map(content => ({
+      id: content.id,
+      date: content.scheduledFor,
+      content: content.originalContent,
+      type: content.optimizationType,
+      status: content.status
+    })),
+    recommendations: [
+      'Post consistently 3-4 times per week',
+      'Use video content for higher engagement',
+      'Post during your optimal times for maximum reach'
+    ]
+  };
+
+  return calendar;
 }
