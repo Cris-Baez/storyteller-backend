@@ -21857,3 +21857,13 @@ Error opening input files: Invalid argument
 2025-08-17T02:50:53.454Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
 2025-08-17T02:50:53.455Z [info] 🤖 Marketing Agent Service initialized
 2025-08-17T02:52:46.818Z [info] ::1 - - [17/Aug/2025:02:52:46 +0000] "GET /healthz?id=07767475-219e-400c-a86f-e848da22f498&vscodeBrowserReqId=1755399166771 HTTP/1.1" 200 146 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.103.1 Chrome/138.0.7204.100 Electron/37.2.3 Safari/537.36"
+2025-08-19T07:31:37.845Z [info] 🎤 Voice Interceptor inicializado
+2025-08-19T07:31:38.659Z [info] 🎯 Sistema de Coherencia Automática inicializado
+2025-08-19T07:31:38.806Z [info] [MarketingPipeline] ✨ Inicializado con cerebros de marketing + Sistema Dual Engine (Runway + Kling)
+2025-08-19T07:31:38.812Z [info] [MarketingPipeline] ✨ Inicializado con cerebros de marketing + Sistema Dual Engine (Runway + Kling)
+2025-08-19T07:31:40.976Z [info] [MarketingPipeline] ✨ Inicializado con cerebros de marketing + Sistema Dual Engine (Runway + Kling)
+2025-08-19T07:31:41.286Z [info] 🚀  Storyteller AI backend listening on port 5000
+2025-08-19T07:31:41.288Z [info] [CleanupService] ⏰ Programando limpieza automática con cron jobs
+2025-08-19T07:31:41.470Z [info] [CleanupService] ✅ Limpieza automática programada exitosamente
+2025-08-19T07:31:41.473Z [info] [CleanupService] 📅 Horarios: Ligera cada 4h | Completa diaria 3AM | DB domingos 2AM | Emergencia cada hora
+2025-08-19T07:31:41.478Z [info] 🤖 Marketing Agent Service initialized
