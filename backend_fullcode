@@ -1,0 +1,295 @@
+# BACKEND FULL CODE - STORYTELLER
+# Generado el 21 de agosto de 2025
+# Contiene todo el código fuente de la carpeta src/
+
+===============================================================================
+ÍNDICE:
+===============================================================================
+1. ARCHIVO PRINCIPAL (index.ts)
+2. CONFIGURACIÓN (config/)
+3. CONTROLADORES (controllers/)
+4. MIDDLEWARE
+5. MODELOS (models/)
+6. PIPELINES
+7. RUTAS (routes/)
+8. SERVICIOS (services/)
+9. JOBS/TRABAJOS
+10. TIPOS (types/)
+11. UTILIDADES (utils/)
+12. SCRIPTS
+13. TEMPLATES
+
+===============================================================================
+
+## 1. ARCHIVO PRINCIPAL
+===============================================================================
+
+### src/index.ts
+```typescript
+// src/index.ts
+import 'express-async-errors';
+import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import morgan from 'morgan';
+import { marketingAgentRoutes } from './routes/marketingAgentRoutes.js';  // ✨ NUEVO: Agente Conversacional
+import copywriterProRoutes from './routes/copywriterProRoutes.js';  // ✨ NUEVO: Copywriter Pro AI (FASE 2)
+import testingRoutes from './routes/testingRoutes.js';  // 🧪 NUEVO: Sistema de Testing Híbrido
+import { renderRouter } from './routes/render.js';
+import { marketingRoutes } from './routes/marketingRoutes.js';  // ✨ NUEVO: Marketing AI
+import cinemaRouter from './routes/cinemaRoutes.js';  // ✨ NUEVO: Proyectos Cinema AI
+import videoRouter from './routes/videoRoutes.js';  // ✨ NUEVO: Historial de videos
+import { authRouter } from './routes/auth.js';  // ✨ NUEVO: Autenticación
+import subscriptionRouter from './routes/subscriptionRoutes.js';  // ✨ NUEVO: Suscripciones
+import marketingConfigRouter from './routes/marketingConfigRoutes.js';  // ✨ NUEVO: Configuración Marketing
+import marketingTemplateRouter from './routes/marketingTemplateRoutes.js';  // ✨ NUEVO: Plantillas Marketing
+import adminRouter from './routes/admin.js';  // ✨ NUEVO: Panel de administración
+import editorRouter from './routes/editor.js';  // ✨ NUEVO: Editor Visual
+import cleanupRouter from './routes/cleanup.js';  // ✨ NUEVO: Servicio de limpieza
+import socialRouter from './routes/social.js';  // ✨ NUEVO: Redes Sociales
+import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';  // ✨ NUEVO: Manejo de errores
+import { logger } from './utils/logger.js';
+import { CleanupService } from './services/cleanupService.js';  // ✨ NUEVO: Servicio de limpieza
+import { env } from './config/env.js';  // ✨ Variables de entorno centralizadas
+
+const app = express();
+
+// Manejo global de errores no capturados y promesas no manejadas
+process.on('uncaughtException', (err) => {
+  logger.error(`[FATAL] Excepción no capturada: ${err.message}\n${err.stack}`);
+  // Opcional: salir para que un orquestador reinicie el proceso
+  process.exit(1);
+});
+process.on('unhandledRejection', (reason) => {
+  logger.error(`[FATAL] Promesa no manejada: ${reason}`);
+  // Opcional: salir para que un orquestador reinicie el proceso
+  process.exit(1);
+});
+
+// Seguridad HTTP headers
+app.use(helmet());
+
+// CORS (permitir lista separada por comas desde env)
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map(o => o.trim())
+  : ['http://localhost:3001'];
+app.use(cors({ origin: allowedOrigins, credentials: true }));
+
+// Body parser con mayor límite
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ extended: true }));
+
+// Logging de peticiones
+app.use(
+  morgan('combined', {
+    stream: { write: (msg) => logger.info(msg.trim()) }
+  })
+);
+
+// Rate limiter: max 60 requests/minuto por IP
+const limiter = rateLimit({
+  windowMs: 60_000,
+  max: 60,
+  message: { error: 'Too many requests, please slow down.' }
+});
+app.use(limiter);
+
+// Health check - debe ser lo más simple posible
+app.get('/healthz', (_req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    mode: process.env.NODE_ENV || 'development',
+    apis: {
+      fal: !!process.env.FAL_KEY,
+      openai: !!process.env.OPENAI_API_KEY,
+      replicate: !!process.env.REPLICATE_API_TOKEN
+    }
+  });
+});
+
+// ✅ RUTA DE TEST SIMPLE
+app.get('/api/test', (_req, res) => {
+  res.json({
+    message: 'Storyteller AI Backend funcionando correctamente',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0'
+  });
+});
+
+// Rutas principales
+app.use('/api/auth', authRouter);  // ✨ NUEVO: Rutas de autenticación
+app.use('/api/subscriptions', subscriptionRouter);  // ✨ NUEVO: Rutas de suscripciones
+app.use('/api/marketing-config', marketingConfigRouter);  // ✨ NUEVO: Configuración de marketing
+app.use('/api/marketing/templates', marketingTemplateRouter);  // ✨ NUEVO: Plantillas de marketing
+app.use('/api/admin', adminRouter);  // ✨ NUEVO: Panel de administración
+app.use('/api/editor', editorRouter);  // ✨ NUEVO: Editor Visual (Studio Pro)
+app.use('/api/cleanup', cleanupRouter);  // ✨ NUEVO: Servicio de limpieza (Solo Admins)
+app.use('/api/social', socialRouter);  // ✨ NUEVO: Redes Sociales
+app.use('/api/testing', testingRoutes);  // 🧪 NUEVO: Sistema de Testing y Validación Híbrido
+app.use('/api/agent', marketingAgentRoutes);  // 🤖 NUEVO: Agente Conversacional Marketing
+app.use('/api/copywriter', copywriterProRoutes);  // ✍️ NUEVO: Copywriter Pro AI (FASE 2)
+app.use('/api/render', renderRouter);
+app.use('/api/marketing', marketingRoutes);  // ✨ NUEVO: Marketing AI Routes
+app.use('/api/cinema', cinemaRouter);  // ✨ NUEVO: Proyectos Cinema AI
+app.use('/api/videos', videoRouter);  // ✨ NUEVO: Historial de videos
+
+// Handler de errores
+app.use(notFoundHandler);
+app.use(errorHandler);
+
+// Levanta servidor y gestiona shutdown
+const PORT = process.env.PORT || 5000;
+const server = app.listen(PORT, () => {
+  logger.info(`🚀  Storyteller AI backend listening on port ${PORT}`);
+  
+  // ✨ NUEVO: Inicializar servicios automáticos
+  CleanupService.scheduleAutomaticCleanup();
+  logger.info('🤖 Marketing Agent Service initialized');
+});
+
+process.on('SIGTERM', () => {
+  logger.info('SIGTERM received — closing server');
+  server.close(() => {
+    logger.info('Server closed, exiting process');
+    process.exit(0);
+  });
+});
+```
+
+===============================================================================
+
+## 2. CONFIGURACIÓN
+===============================================================================
+
+### src/config/env.ts
+```typescript
+import * as dotenv from 'dotenv';
+import { z } from 'zod';
+
+// Cargar variables de entorno desde .env si existe, pero no fallar si no está (prod suele inyectar envs)
+try {
+  dotenv.config();
+} catch {
+  // Silencioso: en producción normalmente no hay .env, no es un error bloqueante
+}
+
+// Solo marcamos como requeridas las esenciales para login/registro y funcionamiento básico
+const schema = z.object({
+  // Básicas de operación del servidor
+  NODE_ENV: z.string().default('development'),
+  PORT: z.string().default('5000'),
+  JWT_SECRET: z.string().min(16).default('fallback_jwt_secret_change_in_production'),
+  FRONTEND_URL: z.string().optional().default('http://localhost:3001'),
+
+  // Base de datos principal (Prisma/Postgres) - opcional aquí, Prisma validará en uso
+  DATABASE_URL: z.string().optional(),
+
+  // Integraciones opcionales: no bloquear arranque
+  FAL_KEY: z.string().optional(),
+  OPENAI_API_KEY: z.string().optional(),
+  REPLICATE_API_TOKEN: z.string().optional(),
+  MURF_API_KEY: z.string().optional(),
+  ELEVENLABS_API_KEY: z.string().optional(),
+  ARTLIST_TOKEN: z.string().optional(),
+  DM_API_TOKEN: z.string().optional(),
+  CDN_BUCKET_URL: z.string().optional(),
+  OPENROUTER_API_KEY: z.string().optional(),
+  GCP_PROJECT_ID: z.string().optional(),
+  GCP_CREDENTIALS_JSON: z.string().optional(),
+  GCP_BUCKET_NAME: z.string().optional(),
+  MONGODB_URI: z.string().optional(),
+  GEN2_CONCURRENCY: z.string().optional(),
+  GEN2_TIMEOUT_MS: z.string().optional(),
+  FFMPEG_TIMEOUT_MS: z.string().optional(),
+  OPENROUTER_BASE_URL: z.string().optional(),
+  OPENROUTER_HTTP_REFERER: z.string().optional(),
+  OPENROUTER_X_TITLE: z.string().optional(),
+  FREESOUND_API_KEY: z.string().optional(),
+  RUNWAYML_API_SECRET: z.string().optional(),
+  RUNWAY_API_TOKEN: z.string().optional(),
+  
+  // PayPal Configuration (solo requeridas por feature de pagos)
+  PAYPAL_CLIENT_ID: z.string().optional(),
+  PAYPAL_CLIENT_SECRET: z.string().optional(),
+  PAYPAL_WEBHOOK_ID: z.string().optional(),
+  PAYPAL_STARTER_PLAN_ID: z.string().optional(),
+  PAYPAL_CREATOR_PLAN_ID: z.string().optional(),
+  PAYPAL_STUDIO_PRO_PLAN_ID: z.string().optional(),
+
+  // Marketing Agent Configuration
+  MARKETING_AGENT_ENABLED: z.string().optional(),
+  MARKETING_AGENT_DEBUG: z.string().optional(),
+  
+  // Instagram API Configuration
+  INSTAGRAM_API_VERSION: z.string().optional(),
+  INSTAGRAM_BASE_URL: z.string().optional(),
+  INSTAGRAM_TIMEOUT: z.string().optional(),
+  INSTAGRAM_RETRY_ATTEMPTS: z.string().optional(),
+  INSTAGRAM_RATE_LIMIT: z.string().optional(),
+  
+  // Marketing Jobs Configuration
+  MARKETING_JOBS_ENABLED: z.string().optional(),
+  TIMEZONE: z.string().optional(),
+  INSTAGRAM_SYNC_SCHEDULE: z.string().optional(),
+  WEEKLY_REPORTS_SCHEDULE: z.string().optional(),
+  CONTENT_MONITOR_SCHEDULE: z.string().optional(),
+  
+  // Marketing Logging Configuration
+  MARKETING_LOGGING_ENABLED: z.string().optional(),
+  MARKETING_LOG_LEVEL: z.string().optional(),
+  MARKETING_DETAILED_LOGGING: z.string().optional(),
+  MARKETING_METRICS_LOGGING: z.string().optional(),
+  
+  // AI Configuration for Marketing Agent
+  AI_PROVIDER: z.string().optional(),
+  AI_MODEL: z.string().optional(),
+  AI_MAX_TOKENS: z.string().optional(),
+  AI_TEMPERATURE: z.string().optional(),
+  AI_TIMEOUT: z.string().optional(),
+  
+  // Cache Configuration
+  MARKETING_CACHE_ENABLED: z.string().optional(),
+  MARKETING_CACHE_TTL: z.string().optional(),
+  MARKETING_CACHE_PREFIX: z.string().optional(),
+});
+
+const env = schema.parse(process.env);
+
+// Advertir si faltan variables opcionales importantes
+const opcionales = [
+  'ELEVENLABS_API_KEY',
+  'ARTLIST_TOKEN',
+  'DM_API_TOKEN',
+  'GEN2_CONCURRENCY',
+  'GEN2_TIMEOUT_MS',
+  'FFMPEG_TIMEOUT_MS',
+  'OPENROUTER_BASE_URL',
+  'OPENROUTER_HTTP_REFERER',
+  'OPENROUTER_X_TITLE',
+  'FREESOUND_API_KEY',
+  'RUNWAYML_API_SECRET',
+  'RUNWAY_API_TOKEN',
+  'ADMIN_TOKEN',
+  'PAYPAL_CLIENT_ID',
+  'PAYPAL_CLIENT_SECRET',
+  'PAYPAL_WEBHOOK_ID',
+  // Marketing Agent variables
+  'MARKETING_AGENT_ENABLED',
+  'INSTAGRAM_API_VERSION',
+  'MARKETING_JOBS_ENABLED',
+  'AI_PROVIDER',
+  'AI_MODEL'
+];
+for (const key of opcionales) {
+  if (!process.env[key]) {
+    console.warn(`[AVISO] Variable opcional no definida: ${key}`);
+  }
+}
+
+export { env };
+```
+
+===============================================================================
