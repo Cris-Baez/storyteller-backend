@@ -1,719 +1,222 @@
 import { Request, Response } from 'express';
-import { EditorService, ProjectCreateData, ProjectUpdateData, AssetUploadData } from '../services/editorService.js';
-import { logger } from '../utils/logger.js';
+import EditorService from '../services/editorService.js';
 
-/**
- * 🎬 CONTROLADOR DE EDITOR VISUAL
- * 
- * Maneja las operaciones de proyectos y assets del editor visual
- */
-export class EditorController {
-
-  /**
-   * 📁 CREAR NUEVO PROYECTO
-   */
-  static createProject = async (req: Request, res: Response): Promise<void> => {
+class EditorController {
+  // Crear proyecto manual
+  async createProject(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 📁 Creando nuevo proyecto');
-      
-      const { title, description, data } = req.body;
-      const userId = req.user?.id;
-
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
-      const projectData: ProjectCreateData = {
-        title: title.trim(),
-        description: description?.trim(),
-        data: data || {}
-      };
-
-      const project = await EditorService.createProject(userId, projectData);
-
-      res.status(201).json({
-        message: 'Proyecto creado exitosamente',
-        data: project
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error creando proyecto:', error);
-      
-      if (error.message === 'Se requiere plan Studio Pro para crear proyectos') {
-        res.status(403).json({
-          error: error.message,
-          code: 'PLAN_REQUIRED'
-        });
-        return;
-      }
-
-      res.status(500).json({
-        error: 'Error interno del servidor',
-        code: 'INTERNAL_ERROR'
-      });
+      const userId = (req as any).user?.id as number;
+      const project = await EditorService.createProject(userId, req.body);
+      res.status(201).json(project);
+    } catch (error) {
+      res.status(500).json({ error: 'Error creating project' });
     }
-  };
+  }
 
-  /**
-   * 📋 OBTENER PROYECTOS DEL USUARIO
-   */
-  static getUserProjects = async (req: Request, res: Response): Promise<void> => {
+  // Crear proyecto desde el agente
+  async createProjectFromAgent(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 📋 Obteniendo proyectos del usuario');
-      
-      const userId = req.user?.id;
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 20;
-      const status = req.query.status as string;
-      const createdAfter = req.query.createdAfter ? new Date(req.query.createdAfter as string) : undefined;
-      const createdBefore = req.query.createdBefore ? new Date(req.query.createdBefore as string) : undefined;
+      const userId = (req as any).user?.id as number;
+      const project = await EditorService.createProjectFromAgent(userId, req.body);
+      res.status(201).json(project);
+    } catch (error) {
+      res.status(500).json({ error: 'Error creating project from agent' });
+    }
+  }
 
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
+  // Listar proyectos
+  async listProjects(req: Request, res: Response) {
+    try {
+      const userId = (req as any).user?.id as number;
       const filters = {
-        status,
-        createdAfter,
-        createdBefore
+        createdAfter: req.query.createdAfter
+          ? new Date(req.query.createdAfter as string)
+          : undefined,
+        createdBefore: req.query.createdBefore
+          ? new Date(req.query.createdBefore as string)
+          : undefined,
       };
-
-      const result = await EditorService.getUserProjects(userId, filters, page, limit);
-
-      res.status(200).json({
-        message: 'Proyectos obtenidos exitosamente',
-        data: result
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error obteniendo proyectos:', error);
-      
-      res.status(500).json({
-        error: 'Error interno del servidor',
-        code: 'INTERNAL_ERROR'
-      });
+      const projects = await EditorService.listProjects(userId, filters);
+      res.json(projects);
+    } catch (error) {
+      res.status(500).json({ error: 'Error listing projects' });
     }
-  };
+  }
 
-  /**
-   * 👁️ OBTENER DETALLES DE PROYECTO
-   */
-  static getProjectById = async (req: Request, res: Response): Promise<void> => {
+  // Obtener proyecto
+  async getProjectById(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 👁️ Obteniendo detalles del proyecto');
-      
-      const userId = req.user?.id;
-      const projectId = parseInt(req.params.id);
-
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
-      if (!projectId || isNaN(projectId)) {
-        res.status(400).json({
-          error: 'ID de proyecto inválido',
-          code: 'INVALID_PROJECT_ID'
-        });
-        return;
-      }
-
+      const userId = (req as any).user?.id as number;
+      const projectId = parseInt(req.params.id, 10);
       const project = await EditorService.getProjectById(userId, projectId);
-
-      if (!project) {
-        res.status(404).json({
-          error: 'Proyecto no encontrado',
-          code: 'PROJECT_NOT_FOUND'
-        });
-        return;
-      }
-
-      res.status(200).json({
-        message: 'Proyecto obtenido exitosamente',
-        data: project
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error obteniendo proyecto:', error);
-      
-      res.status(500).json({
-        error: 'Error interno del servidor',
-        code: 'INTERNAL_ERROR'
-      });
+      if (!project) return res.status(404).json({ error: 'Project not found' });
+      res.json(project);
+    } catch (error) {
+      res.status(500).json({ error: 'Error getting project' });
     }
-  };
+  }
 
-  /**
-   * ✏️ ACTUALIZAR PROYECTO
-   */
-  static updateProject = async (req: Request, res: Response): Promise<void> => {
+  // Actualizar proyecto
+  async updateProject(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] ✏️ Actualizando proyecto');
-      
-      const userId = req.user?.id;
-      const projectId = parseInt(req.params.id);
-      const { title, description, data } = req.body;
-
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
-      if (!projectId || isNaN(projectId)) {
-        res.status(400).json({
-          error: 'ID de proyecto inválido',
-          code: 'INVALID_PROJECT_ID'
-        });
-        return;
-      }
-
-      const updateData: ProjectUpdateData = {};
-      if (title !== undefined) updateData.title = title.trim();
-      if (description !== undefined) updateData.description = description?.trim();
-      if (data !== undefined) updateData.data = data;
-
-      const project = await EditorService.updateProject(userId, projectId, updateData);
-
-      res.status(200).json({
-        message: 'Proyecto actualizado exitosamente',
-        data: project
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error actualizando proyecto:', error);
-      
-      if (error.message === 'Proyecto no encontrado o sin permisos') {
-        res.status(404).json({
-          error: error.message,
-          code: 'PROJECT_NOT_FOUND'
-        });
-        return;
-      }
-
-      res.status(500).json({
-        error: 'Error interno del servidor',
-        code: 'INTERNAL_ERROR'
-      });
+      const userId = (req as any).user?.id as number;
+      const projectId = parseInt(req.params.id, 10);
+      const updated = await EditorService.updateProject(userId, projectId, req.body);
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ error: 'Error updating project' });
     }
-  };
+  }
 
-  /**
-   * 🗑️ ELIMINAR PROYECTO
-   */
-  static deleteProject = async (req: Request, res: Response): Promise<void> => {
+  // Borrar proyecto
+  async deleteProject(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 🗑️ Eliminando proyecto');
-      
-      const userId = req.user?.id;
-      const projectId = parseInt(req.params.id);
-
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
-      if (!projectId || isNaN(projectId)) {
-        res.status(400).json({
-          error: 'ID de proyecto inválido',
-          code: 'INVALID_PROJECT_ID'
-        });
-        return;
-      }
-
+      const userId = (req as any).user?.id as number;
+      const projectId = parseInt(req.params.id, 10);
       await EditorService.deleteProject(userId, projectId);
-
-      res.status(200).json({
-        message: 'Proyecto eliminado exitosamente'
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error eliminando proyecto:', error);
-      
-      if (error.message === 'Proyecto no encontrado o sin permisos') {
-        res.status(404).json({
-          error: error.message,
-          code: 'PROJECT_NOT_FOUND'
-        });
-        return;
-      }
-
-      res.status(500).json({
-        error: 'Error interno del servidor',
-        code: 'INTERNAL_ERROR'
-      });
+      res.status(204).end();
+    } catch (error) {
+      res.status(500).json({ error: 'Error deleting project' });
     }
-  };
+  }
 
-  /**
-   * 🔄 DUPLICAR PROYECTO
-   */
-  static duplicateProject = async (req: Request, res: Response): Promise<void> => {
+  // Duplicar proyecto
+  async duplicateProject(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 🔄 Duplicando proyecto');
-      
-      const userId = req.user?.id;
-      const projectId = parseInt(req.params.id);
-      const { newTitle } = req.body;
-
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
-      if (!projectId || isNaN(projectId)) {
-        res.status(400).json({
-          error: 'ID de proyecto inválido',
-          code: 'INVALID_PROJECT_ID'
-        });
-        return;
-      }
-
-      const duplicatedProject = await EditorService.duplicateProject(userId, projectId, newTitle.trim());
-
-      res.status(201).json({
-        message: 'Proyecto duplicado exitosamente',
-        data: duplicatedProject
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error duplicando proyecto:', error);
-      
-      if (error.message === 'Proyecto no encontrado o sin permisos') {
-        res.status(404).json({
-          error: error.message,
-          code: 'PROJECT_NOT_FOUND'
-        });
-        return;
-      }
-
-      res.status(500).json({
-        error: 'Error interno del servidor',
-        code: 'INTERNAL_ERROR'
-      });
+      const userId = (req as any).user?.id as number;
+      const projectId = parseInt(req.params.id, 10);
+      const project = await EditorService.duplicateProject(userId, projectId);
+      res.status(201).json(project);
+    } catch (error) {
+      res.status(500).json({ error: 'Error duplicating project' });
     }
-  };
+  }
 
-  /**
-   * 📎 SUBIR ASSET (Versión simplificada sin multer por ahora)
-   */
-  static addAsset = async (req: Request, res: Response): Promise<void> => {
+  // Timeline: añadir clip
+  async addClip(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 📎 Agregando asset');
-      
-      const userId = req.user?.id;
-      const { filename, type, url, size } = req.body;
-
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
-      if (!filename || !type || !url || !size) {
-        res.status(400).json({
-          error: 'Faltan datos requeridos del asset',
-          code: 'VALIDATION_ERROR'
-        });
-        return;
-      }
-
-      const assetData: AssetUploadData = {
-        filename: filename.trim(),
-        type,
-        url,
-        size: parseInt(size)
-      };
-
-      const asset = await EditorService.addAsset(userId, assetData);
-
-      res.status(201).json({
-        message: 'Asset agregado exitosamente',
-        data: asset
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error agregando asset:', error);
-      
-      if (error.message === 'Se requiere plan Studio Pro para subir assets') {
-        res.status(403).json({
-          error: error.message,
-          code: 'PLAN_REQUIRED'
-        });
-        return;
-      }
-
-      res.status(500).json({
-        error: 'Error interno del servidor',
-        code: 'INTERNAL_ERROR'
-      });
+      const userId = (req as any).user?.id as number;
+      const projectId = parseInt(req.params.id, 10);
+      const { trackId, clip } = req.body;
+      const updated = await EditorService.addClipToTimeline(userId, projectId, trackId, clip);
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ error: 'Error adding clip' });
     }
-  };
+  }
 
-  /**
-   * 🗂️ OBTENER ASSETS DEL USUARIO
-   */
-  static getUserAssets = async (req: Request, res: Response): Promise<void> => {
+  // Timeline: mover clip
+  async moveClip(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 🗂️ Obteniendo assets del usuario');
-      
-      const userId = req.user?.id;
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 50;
-
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
-      const result = await EditorService.getUserAssets(userId, page, limit);
-
-      res.status(200).json({
-        message: 'Assets obtenidos exitosamente',
-        data: result
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error obteniendo assets:', error);
-      
-      res.status(500).json({
-        error: 'Error interno del servidor',
-        code: 'INTERNAL_ERROR'
-      });
+      const userId = (req as any).user?.id as number;
+      const projectId = parseInt(req.params.id, 10);
+      const { clipId, newStart } = req.body;
+      const updated = await EditorService.moveClip(userId, projectId, clipId, newStart);
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ error: 'Error moving clip' });
     }
-  };
+  }
 
-  /**
-   * 🗑️ ELIMINAR ASSET
-   */
-  static deleteAsset = async (req: Request, res: Response): Promise<void> => {
+  // Timeline: remover clip
+  async removeClip(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 🗑️ Eliminando asset');
-      
-      const userId = req.user?.id;
-      const assetId = parseInt(req.params.id);
+      const userId = (req as any).user?.id as number;
+      const projectId = parseInt(req.params.id, 10);
+      const { clipId } = req.body;
+      const updated = await EditorService.removeClip(userId, projectId, clipId);
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ error: 'Error removing clip' });
+    }
+  }
 
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
+  // Listar assets
+  async listAssets(req: Request, res: Response) {
+    try {
+      const userId = (req as any).user?.id as number;
+      const assets = await EditorService.listAssets(userId);
+      res.json(assets);
+    } catch (error) {
+      res.status(500).json({ error: 'Error listing assets' });
+    }
+  }
 
-      if (!assetId || isNaN(assetId)) {
-        res.status(400).json({
-          error: 'ID de asset inválido',
-          code: 'INVALID_ASSET_ID'
-        });
-        return;
-      }
+  // Agregar asset
+  async addAsset(req: Request, res: Response) {
+    try {
+      const userId = (req as any).user?.id as number;
+      const asset = await EditorService.addAsset(userId, req.body);
+      res.status(201).json(asset);
+    } catch (error) {
+      res.status(500).json({ error: 'Error adding asset' });
+    }
+  }
 
+  // Borrar asset
+  async deleteAsset(req: Request, res: Response) {
+    try {
+      const userId = (req as any).user?.id as number;
+      const assetId = parseInt(req.params.id, 10);
       await EditorService.deleteAsset(userId, assetId);
-
-      res.status(200).json({
-        message: 'Asset eliminado exitosamente'
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error eliminando asset:', error);
-      
-      if (error.message === 'Asset no encontrado o sin permisos') {
-        res.status(404).json({
-          error: error.message,
-          code: 'ASSET_NOT_FOUND'
-        });
-        return;
-      }
-
-      res.status(500).json({
-        error: 'Error interno del servidor',
-        code: 'INTERNAL_ERROR'
-      });
+      res.status(204).end();
+    } catch (error) {
+      res.status(500).json({ error: 'Error deleting asset' });
     }
-  };
+  }
 
-  /**
-   * 📊 OBTENER ESTADÍSTICAS DEL EDITOR
-   */
-  static getEditorStats = async (req: Request, res: Response): Promise<void> => {
+  // Stats
+  async getEditorStats(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 📊 Obteniendo estadísticas del editor');
-      
-      const userId = req.user?.id;
-
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
+      const userId = (req as any).user?.id as number;
       const stats = await EditorService.getEditorStats(userId);
-
-      res.status(200).json({
-        message: 'Estadísticas obtenidas exitosamente',
-        data: stats
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error obteniendo estadísticas:', error);
-      
-      res.status(500).json({
-        error: 'Error interno del servidor',
-        code: 'INTERNAL_ERROR'
-      });
+      res.json(stats);
+    } catch (error) {
+      res.status(500).json({ error: 'Error getting stats' });
     }
-  };
+  }
 
-  /**
-   * 🎙️ REGENERAR VOZ/DIÁLOGO
-   */
-  static regenerateVoice = async (req: Request, res: Response): Promise<void> => {
+  // Regenerar voz
+  async regenerateVoice(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 🎙️ Regenerando voz');
-      
-      const { projectId, text, voice = 'neutral' } = req.body;
-      const userId = req.user?.id;
-
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
-      if (!projectId || !text) {
-        res.status(400).json({
-          error: 'projectId y text son requeridos',
-          code: 'MISSING_FIELDS'
-        });
-        return;
-      }
-
-      // Verificar que el proyecto pertenece al usuario
-      const project = await EditorService.getProjectById(projectId, userId);
-      
-      if (!project) {
-        res.status(404).json({
-          error: 'Proyecto no encontrado',
-          code: 'PROJECT_NOT_FOUND'
-        });
-        return;
-      }
-
-      // Usar servicio de voz directamente para regenerar audio
-      const { generarVozComercial } = await import('../services/murfService.js');
-      
-      // Generar nueva voz con el texto actualizado
-      const voiceResponse = await generarVozComercial({
-        text: text,
-        voice: voice as any,
-        style: 'commercial'
-      });
-      
-      if (!voiceResponse.success || !voiceResponse.audioUrl) {
-        throw new Error('Failed to generate voice audio: ' + voiceResponse.error);
-      }
-
-      // Actualizar proyecto con nueva voz
-      const projectData = (project.data as any) || {};
-      const updatedProject = await EditorService.updateProject(projectId, userId, {
-        data: {
-          ...projectData,
-          script: text,
-          voiceAudioUrl: voiceResponse.audioUrl,
-          voiceType: voice
-        }
-      });
-
-      res.status(200).json({
-        message: 'Voz regenerada exitosamente',
-        data: {
-          audioUrl: voiceResponse.audioUrl,
-          project: updatedProject
-        }
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error regenerando voz:', error);
-      
-      res.status(500).json({
-        error: 'Error regenerando voz',
-        code: 'VOICE_ERROR'
-      });
+      const { projectId, text, voice } = req.body;
+      const userId = (req as any).user?.id as number;
+      const updated = await EditorService.regenerateVoice(
+        userId,
+        Number(projectId),
+        text,
+        voice
+      );
+      if (!updated) return res.status(404).json({ error: 'Project not found' });
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ error: 'Error regenerating voice' });
     }
-  };
+  }
 
-  /**
-   * 🎵 ACTUALIZAR CONFIGURACIÓN DE AUDIO
-   */
-  static updateAudio = async (req: Request, res: Response): Promise<void> => {
+  // Actualizar mezcla de audio
+  async updateAudioMix(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 🎵 Actualizando audio');
-      
-      const { projectId, trackId, volume, musicUrl } = req.body;
-      const userId = req.user?.id;
-
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
-      if (!projectId) {
-        res.status(400).json({
-          error: 'projectId es requerido',
-          code: 'MISSING_FIELDS'
-        });
-        return;
-      }
-
-      // Verificar que el proyecto pertenece al usuario
-      const project = await EditorService.getProjectById(projectId, userId);
-      
-      if (!project) {
-        res.status(404).json({
-          error: 'Proyecto no encontrado',
-          code: 'PROJECT_NOT_FOUND'
-        });
-        return;
-      }
-
-      // Actualizar configuración de audio en el proyecto
-      const projectData = (project.data as any) || {};
-      const audioConfig = projectData.audioConfig || {};
-      
-      if (trackId && volume !== undefined) {
-        audioConfig[trackId] = { ...audioConfig[trackId], volume };
-      }
-      
-      if (musicUrl) {
-        audioConfig.backgroundMusicUrl = musicUrl;
-      }
-
-      const updatedProject = await EditorService.updateProject(projectId, userId, {
-        data: {
-          ...projectData,
-          audioConfig
-        }
-      });
-
-      res.status(200).json({
-        message: 'Audio actualizado exitosamente',
-        data: updatedProject
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error actualizando audio:', error);
-      
-      res.status(500).json({
-        error: 'Error actualizando audio',
-        code: 'AUDIO_ERROR'
-      });
+      const userId = (req as any).user?.id as number;
+      const projectId = parseInt(req.params.id, 10);
+      const updated = await EditorService.updateAudioMix(userId, projectId, req.body);
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ error: 'Error updating audio mix' });
     }
-  };
+  }
 
-  /**
-   * 🔊 AGREGAR EFECTO DE SONIDO
-   */
-  static addSoundEffect = async (req: Request, res: Response): Promise<void> => {
+  // Agregar efecto de sonido
+  async addSoundEffect(req: Request, res: Response) {
     try {
-      logger.info('[EditorController] 🔊 Agregando efecto de sonido');
-      
-      const { projectId, effectName, startTime = 0, volume = 0.8 } = req.body;
-      const userId = req.user?.id;
-
-      if (!userId) {
-        res.status(401).json({ 
-          error: 'Usuario no autenticado',
-          code: 'UNAUTHORIZED'
-        });
-        return;
-      }
-
-      if (!projectId || !effectName) {
-        res.status(400).json({
-          error: 'projectId y effectName son requeridos',
-          code: 'MISSING_FIELDS'
-        });
-        return;
-      }
-
-      // Verificar que el proyecto pertenece al usuario
-      const project = await EditorService.getProjectById(projectId, userId);
-      
-      if (!project) {
-        res.status(404).json({
-          error: 'Proyecto no encontrado',
-          code: 'PROJECT_NOT_FOUND'
-        });
-        return;
-      }
-
-      // Crear nuevo efecto
-      const newEffect = {
-        id: `effect_${Date.now()}`,
-        name: effectName,
-        url: `https://storage.googleapis.com/storyteller-ai-cdn/effects/${effectName.toLowerCase().replace(/[^a-z]/g, '')}.mp3`,
-        startTime,
-        volume
-      };
-
-      // Actualizar proyecto con nuevo efecto
-      const projectData = (project.data as any) || {};
-      const currentEffects = projectData.soundEffects || [];
-      
-      const updatedProject = await EditorService.updateProject(projectId, userId, {
-        data: {
-          ...projectData,
-          soundEffects: [...currentEffects, newEffect]
-        }
-      });
-
-      res.status(200).json({
-        message: 'Efecto agregado exitosamente',
-        data: {
-          effect: newEffect,
-          project: updatedProject
-        }
-      });
-
-    } catch (error: any) {
-      logger.error('[EditorController] ❌ Error agregando efecto:', error);
-      
-      res.status(500).json({
-        error: 'Error agregando efecto de sonido',
-        code: 'EFFECT_ERROR'
-      });
+      const userId = (req as any).user?.id as number;
+      const projectId = parseInt(req.params.id, 10);
+      const updated = await EditorService.addSoundEffect(userId, projectId, req.body);
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ error: 'Error adding sound effect' });
     }
-  };
+  }
 }
+
+export default new EditorController();

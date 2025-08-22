@@ -1,39 +1,33 @@
-import { Router } from 'express';
-import { EditorController } from '../controllers/editorController.js';
-import { authenticate } from '../middleware/auth.js';
+import express from 'express';
+import EditorController from '../controllers/editorController.js';
 
-const router = Router();
+const router = express.Router();
 
-// Middleware de autenticación para todas las rutas
-router.use(authenticate);
-
-/**
- * 📁 RUTAS DE PROYECTOS
- */
-router.get('/projects', EditorController.getUserProjects);
+// Proyectos
 router.post('/projects', EditorController.createProject);
+router.post('/projects/agent', EditorController.createProjectFromAgent); // ✅ nuevo
+router.get('/projects', EditorController.listProjects);
 router.get('/projects/:id', EditorController.getProjectById);
 router.put('/projects/:id', EditorController.updateProject);
 router.delete('/projects/:id', EditorController.deleteProject);
 router.post('/projects/:id/duplicate', EditorController.duplicateProject);
 
-/**
- * 📎 RUTAS DE ASSETS
- */
-router.get('/assets', EditorController.getUserAssets);
+// Timeline
+router.post('/projects/:id/timeline/add-clip', EditorController.addClip);     // ✅ nuevo
+router.put('/projects/:id/timeline/move-clip', EditorController.moveClip);    // ✅ nuevo
+router.delete('/projects/:id/timeline/remove-clip', EditorController.removeClip); // ✅ nuevo
+
+// Assets
+router.get('/assets', EditorController.listAssets);
 router.post('/assets', EditorController.addAsset);
 router.delete('/assets/:id', EditorController.deleteAsset);
 
-/**
- * 📊 RUTAS DE ESTADÍSTICAS
- */
+// Estadísticas
 router.get('/stats', EditorController.getEditorStats);
 
-/**
- * 🎛️ RUTAS DE EDICIÓN DE AUDIO
- */
+// Audio
 router.post('/regenerate-voice', EditorController.regenerateVoice);
-router.post('/update-audio', EditorController.updateAudio);
-router.post('/add-sound-effect', EditorController.addSoundEffect);
+router.put('/projects/:id/audio-mix', EditorController.updateAudioMix);
+router.post('/projects/:id/add-sfx', EditorController.addSoundEffect);
 
 export default router;
